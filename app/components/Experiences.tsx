@@ -91,7 +91,7 @@ const RatingBubbles = ({ rating }: { rating: number }) => {
 
 export default function Experiences() {
     return (
-        <section className="w-full max-w-7xl mx-auto px-6 py-10 md:py-16">
+        <section id="experiences-section" className="w-full max-w-7xl mx-auto px-6 py-10 md:py-16">
             <div className="flex justify-between items-end mb-8 md:mb-10">
                 <div className="max-w-xl">
                     <h2 className="text-2xl md:text-[28px] font-black text-black mb-1 md:mb-2 leading-tight">Unforgettable travel experiences in Ourika</h2>
