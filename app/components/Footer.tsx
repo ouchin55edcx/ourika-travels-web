@@ -6,19 +6,48 @@ import { Facebook, Twitter, Instagram, Youtube, ChevronDown, Globe } from "lucid
 const footerLinks = [
     {
         title: "About Ourika Travels",
-        links: ["About Us", "Press", "Resources and Policies", "Careers", "Trust & Safety", "Contact us", "Accessibility Statement"],
+        links: [
+            { name: "About Us", href: "#" },
+            { name: "Press", href: "#" },
+            { name: "Resources and Policies", href: "#" },
+            { name: "Careers", href: "#" },
+            { name: "Trust & Safety", href: "#" },
+            { name: "Contact us", href: "#" },
+            { name: "Accessibility Statement", href: "#" }
+        ],
     },
     {
         title: "Explore",
-        links: ["Write a review", "Add a Place", "Join Ourika Club", "Travelers' Choice", "Help Center", "Travel Stories"],
+        links: [
+            { name: "Write a review", href: "#" },
+            { name: "Add a Place", href: "#" },
+            { name: "Join Ourika Club", href: "#" },
+            { name: "Travelers' Choice", href: "#" },
+            { name: "Help Center", href: "#" },
+            { name: "Travel Stories", href: "#" }
+        ],
     },
     {
         title: "Do Business With Us",
-        links: ["Property Owners", "Business Advantage", "Sponsored Placements", "Advertise with Us", "Access our Content API", "Become an Affiliate"],
+        links: [
+            { name: "Become a Guide", href: "/register/guide" },
+            { name: "Property Owners", href: "#" },
+            { name: "Business Advantage", href: "#" },
+            { name: "Sponsored Placements", href: "#" },
+            { name: "Advertise with Us", href: "#" },
+            { name: "Access our Content API", href: "#" }
+        ],
     },
     {
         title: "Our Network",
-        links: ["Berber Village Tours", "Atlas Mountains Guide", "Local Handicrafts", "Sustainable Travel", "Eco-Tourism", "Private Experiences"],
+        links: [
+            { name: "Berber Village Tours", href: "#" },
+            { name: "Atlas Mountains Guide", href: "#" },
+            { name: "Local Handicrafts", href: "#" },
+            { name: "Sustainable Travel", href: "#" },
+            { name: "Eco-Tourism", href: "#" },
+            { name: "Private Experiences", href: "#" }
+        ],
     },
 ];
 
@@ -33,11 +62,11 @@ export default function Footer() {
                             <h4 className="text-[15px] font-black text-black mb-1">{section.title}</h4>
                             {section.links.map((link) => (
                                 <Link
-                                    key={link}
-                                    href="#"
+                                    key={link.name}
+                                    href={link.href}
                                     className="text-[13px] font-medium text-gray-600 hover:text-black hover:underline transition-all"
                                 >
-                                    {link}
+                                    {link.name}
                                 </Link>
                             ))}
                         </div>

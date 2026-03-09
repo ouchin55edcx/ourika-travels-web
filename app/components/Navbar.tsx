@@ -91,51 +91,52 @@ export default function Navbar() {
     return (
         <>
             <nav className={`flex items-center justify-between px-6 py-2 bg-white border-b border-gray-100 md:px-16 sticky top-0 transition-all duration-300 ${isSearchFocused ? 'z-[1002]' : 'z-50'}`}>
-                {/* Logo Section */}
-                <div className={`flex items-center transition-all duration-500 ease-in-out ${showSearchBar ? 'lg:w-[180px] opacity-100' : 'opacity-100'}`}>
-                    <Link href="/" className="text-[24px] md:text-[28px] font-black text-[#004f32] tracking-[-0.04em] whitespace-nowrap">
-                        Ourika Travels
-                    </Link>
-                </div>
+                {/* Left Section: Logo + Search + Globe */}
+                <div className="flex items-center gap-4 lg:gap-8">
+                    {/* Logo Section */}
+                    <div className="flex items-center transition-all duration-500 ease-in-out">
+                        <Link href="/" className="text-[24px] md:text-[28px] font-black text-[#004f32] tracking-[-0.04em] whitespace-nowrap">
+                            Ourika Travels
+                        </Link>
+                    </div>
 
-                {/* Desktop Search Bar - Hidden by default, appears on scroll to Experiences section */}
-                <div className={`hidden lg:flex flex-1 justify-center px-4 transition-all duration-500 ease-out ${(showSearchBar || isSearchFocused) ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-4 opacity-0 scale-95 pointer-events-none'}`} ref={searchRef}>
-                    {!isSearchFocused ? (
-                        <div className="relative w-full max-w-[380px]">
-                            <div
-                                onClick={() => setIsSearchFocused(true)}
-                                className="flex items-center w-full bg-white border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] rounded-full py-1.5 px-2 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all cursor-pointer border-gray-200/60 group/search"
-                            >
-                                <div className="flex-1 px-4 text-[14px] font-bold text-gray-800 truncate">
-                                    Start your search
-                                </div>
-                                <div className="bg-[#004f32] p-2 rounded-full text-white group-hover/search:scale-105 transition-transform duration-300">
-                                    <Search className="w-3.5 h-3.5 stroke-[4px]" />
+                    {/* Desktop Search Bar */}
+                    <div className={`hidden lg:flex px-4 transition-all duration-500 ease-out ${(showSearchBar || isSearchFocused) ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-4 opacity-0 scale-95 pointer-events-none'}`} ref={searchRef}>
+                        {!isSearchFocused ? (
+                            <div className="relative w-full min-w-[320px] max-w-[380px]">
+                                <div
+                                    onClick={() => setIsSearchFocused(true)}
+                                    className="flex items-center w-full bg-white border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] rounded-full py-1.5 px-2 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all cursor-pointer border-gray-200/60 group/search"
+                                >
+                                    <div className="flex-1 px-4 text-[14px] font-bold text-gray-800 truncate">
+                                        Start your search
+                                    </div>
+                                    <div className="bg-[#004f32] p-2 rounded-full text-white group-hover/search:scale-105 transition-transform duration-300">
+                                        <Search className="w-3.5 h-3.5 stroke-[4px]" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ) : (
-                        <div className="w-full max-w-[380px] h-10" /> /* Placeholder to keep layout stable */
-                    )}
-                </div>
+                        ) : (
+                            <div className="w-full min-w-[320px] max-w-[380px] h-10" />
+                        )}
+                    </div>
 
-
-
-                {/* Desktop Actions Section - Hidden on smaller screens */}
-                <div className={`hidden lg:flex items-center gap-2 transition-all duration-500 ${showSearchBar ? 'lg:w-[320px] justify-end' : ''}`}>
-                    {/* Utilities: Globe/Language, Dark Mode */}
-                    <div className="flex items-center gap-1">
+                    {/* Utilities: Globe/Language (Moved between Search and Actions) */}
+                    <div className="hidden lg:flex items-center">
                         <button className="flex items-center gap-2 text-[15px] font-bold text-[#004f32] hover:bg-gray-50 px-3 py-3 rounded-full transition-colors whitespace-nowrap">
                             <Globe className="w-5.5 h-5.5 stroke-[2.5px]" />
                             <span className={`${showSearchBar ? 'hidden xl:inline' : 'inline'}`}>MAD · EN</span>
                         </button>
                     </div>
+                </div>
 
-                    {/* Vertical Divider */}
-                    <div className="w-[1px] h-12 bg-gray-200" />
+                {/* Desktop Actions Section - Hidden on smaller screens */}
+                <div className={`hidden lg:flex items-center gap-2 transition-all duration-500`}>
+                    {/* Vertical Divider (Now on the right side) */}
+                    <div className="w-[1px] h-8 bg-gray-200 mx-2" />
 
-                    {/* Account Actions: Wishlist, Reservations, Sign In */}
-                    <div className={`flex items-center gap-1 transition-all duration-500 ${showSearchBar ? 'pl-4' : 'pl-6'}`}>
+                    {/* Account Actions: Wishlist, Reservations, Become a Guide, Sign In */}
+                    <div className={`flex items-center gap-1`}>
                         <button className="flex flex-col items-center justify-center gap-1.5 px-4 py-2 hover:bg-gray-50 rounded-2xl transition-all group min-w-[64px]">
                             <Heart className="w-6 h-6 text-[#004f32] stroke-[2.5px] group-hover:fill-[#004f32] transition-all" />
                             {!showSearchBar && <span className="text-[11px] font-bold text-[#004f32]">Wishlist</span>}
@@ -145,6 +146,10 @@ export default function Navbar() {
                             <ClipboardList className="w-6 h-6 text-[#004f32] stroke-[2.5px] group-hover:scale-110 transition-transform" />
                             {!showSearchBar && <span className="text-[11px] font-bold text-[#004f32]">Reservations</span>}
                         </button>
+
+                        <Link href="/register/guide" className="hidden xl:flex items-center gap-2 text-[15px] font-bold text-[#004f32] hover:bg-gray-50 px-4 py-3 rounded-full transition-colors whitespace-nowrap ml-2">
+                            <span>Become a Guide</span>
+                        </Link>
 
                         <button className="bg-[#004f32] text-white px-8 py-3.5 rounded-full font-black text-[15px] hover:bg-[#003d27] transition-all shadow-sm active:scale-95 ml-2 whitespace-nowrap">
                             Sign In
@@ -182,14 +187,14 @@ export default function Navbar() {
                         {/* Primary Links */}
                         <div className="flex flex-col gap-6">
                             <button className="flex items-center gap-4 text-2xl font-bold text-[#004f32]">
-                                <Heart className="w-8 h-8 stroke-[2.5px]" />
-                                Wishlist
-                            </button>
-                            <button className="flex items-center gap-4 text-2xl font-bold text-[#004f32]">
                                 <ClipboardList className="w-8 h-8 stroke-[2.5px]" />
                                 Reservations
                             </button>
-                            <Link href="/register/guide" className="flex items-center gap-4 text-2xl font-bold text-[#004f32]" onClick={() => setIsMenuOpen(false)}>
+                            <button className="flex items-center gap-4 text-2xl font-bold text-[#004f32]">
+                                <Heart className="w-8 h-8 stroke-[2.5px]" />
+                                Wishlist
+                            </button>
+                            <Link href="/register/guide" className="flex items-center gap-4 text-2xl font-bold text-[#004f32] mt-2" onClick={() => setIsMenuOpen(false)}>
                                 <Compass className="w-8 h-8 stroke-[2.5px]" />
                                 Become a Guide
                             </Link>
