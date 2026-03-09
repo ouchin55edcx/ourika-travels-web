@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Heart, ChevronRight, ChevronLeft } from "lucide-react";
 
 const experiences = [
@@ -108,38 +109,43 @@ export default function Experiences() {
             </div>
 
             <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 lg:pb-0 lg:grid lg:grid-cols-4 lg:gap-x-5 lg:gap-y-10 hide-scrollbar">
-                {experiences.map((exp) => (
-                    <div key={exp.id} className="min-w-[85%] md:min-w-[45%] lg:min-w-0 snap-center group cursor-pointer">
-                        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4">
-                            <Image
-                                src={exp.image}
-                                alt={exp.title}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                sizes="(max-width: 768px) 85vw, (max-width: 1200px) 45vw, 25vw"
-                            />
-                            <button className="absolute top-3 right-3 p-2.5 rounded-full bg-white/90 hover:bg-white text-black shadow-sm transition-colors group/heart">
-                                <Heart className="w-5 h-5 group-hover/heart:fill-red-500 group-hover/heart:text-red-500 transition-all" />
-                            </button>
-                        </div>
+                {experiences.map((exp) => {
+                    const slug = exp.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                    return (
+                        <Link key={exp.id} href={`/tour/${slug}`}>
+                            <div className="min-w-[85%] md:min-w-[45%] lg:min-w-0 snap-center group cursor-pointer">
+                                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4">
+                                    <Image
+                                        src={exp.image}
+                                        alt={exp.title}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        sizes="(max-width: 768px) 85vw, (max-width: 1200px) 45vw, 25vw"
+                                    />
+                                    <button className="absolute top-3 right-3 p-2.5 rounded-full bg-white/90 hover:bg-white text-black shadow-sm transition-colors group/heart">
+                                        <Heart className="w-5 h-5 group-hover/heart:fill-red-500 group-hover/heart:text-red-500 transition-all" />
+                                    </button>
+                                </div>
 
-                        <div className="space-y-1.5">
-                            <h3 className="text-base md:text-[17px] font-bold text-[#2c2c2c] leading-snug group-hover:underline line-clamp-2">
-                                {exp.title}
-                            </h3>
+                                <div className="space-y-1.5">
+                                    <h3 className="text-base md:text-[17px] font-bold text-[#2c2c2c] leading-snug group-hover:underline line-clamp-2">
+                                        {exp.title}
+                                    </h3>
 
-                            <div className="flex items-center gap-1.5">
-                                <span className="text-sm font-bold text-[#2c2c2c]">{exp.rating}</span>
-                                <RatingBubbles rating={exp.rating} />
-                                <span className="text-xs md:text-sm text-gray-500 font-medium">({exp.reviews.toLocaleString()})</span>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="text-sm font-bold text-[#2c2c2c]">{exp.rating}</span>
+                                        <RatingBubbles rating={exp.rating} />
+                                        <span className="text-xs md:text-sm text-gray-500 font-medium">({exp.reviews.toLocaleString()})</span>
+                                    </div>
+
+                                    <p className="text-sm md:text-base font-bold text-black pt-1">
+                                        from ${exp.price} per adult
+                                    </p>
+                                </div>
                             </div>
-
-                            <p className="text-sm md:text-base font-bold text-black pt-1">
-                                from ${exp.price} per adult
-                            </p>
-                        </div>
-                    </div>
-                ))}
+                        </Link>
+                    );
+                })}
             </div>
 
             <style jsx>{`
