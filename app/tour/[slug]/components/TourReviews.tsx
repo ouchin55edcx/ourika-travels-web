@@ -136,8 +136,8 @@ export default function TourReviews() {
           <div className="flex flex-col gap-4 border-b border-[#e5e7eb] py-8 sm:flex-row sm:items-center sm:justify-between">
             <p className="flex items-center gap-2 text-[14px] text-[#5f6368]">
               <span>
-                These reviews have been automatically translated from their original
-                language.
+                These reviews have been automatically translated from their
+                original language.
               </span>
               <CircleHelp className="h-4 w-4" />
             </p>

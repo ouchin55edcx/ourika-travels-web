@@ -45,6 +45,7 @@ const itinerarySteps: ItineraryStep[] = [
 
 export default function TourItinerary() {
   const [activeStepId, setActiveStepId] = useState<number>(1);
+
   const toggleStep = (stepId: number) => {
     setActiveStepId((currentStepId) => (currentStepId === stepId ? 0 : stepId));
   };
@@ -88,11 +89,7 @@ export default function TourItinerary() {
                     <button
                       type="button"
                       onClick={() => toggleStep(step.id)}
-                      className={`flex h-10 w-10 items-center justify-center rounded-full text-[18px] font-extrabold transition ${
-                        isActive
-                          ? "bg-[#003b1f] text-white"
-                          : "bg-[#003b1f] text-white opacity-95"
-                      }`}
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-[#003b1f] text-[18px] font-extrabold text-white transition"
                     >
                       {step.id}
                     </button>

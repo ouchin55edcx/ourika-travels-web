@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 type TourStickyHeaderProps = {
   title: string;
-  navigationItems: string[];
+  navigationItems: readonly string[];
 };
 
 export default function TourStickyHeader({
@@ -84,7 +84,9 @@ export default function TourStickyHeader({
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
-            <p className="text-[15px] font-extrabold text-[#12311f]">from $17.60</p>
+            <p className="text-[15px] font-extrabold text-[#12311f]">
+              from $17.60
+            </p>
             <button className="rounded-full bg-[#00e05a] px-5 py-2.5 text-[15px] font-bold text-black">
               Check availability
             </button>
