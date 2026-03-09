@@ -100,77 +100,77 @@ export default function Hero() {
                                 </div>
                             ) : (
                                 /* Expanded Box State - "The Design" */
-                                <div className="fixed inset-0 md:absolute md:-top-4 md:left-0 md:right-0 bg-white md:rounded-[1.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.4)] md:border border-gray-100 overflow-hidden z-[100] flex flex-col md:min-h-[500px] md:max-h-[85vh]">
+                                <div className="fixed inset-0 md:absolute md:-top-2 md:left-0 md:right-0 bg-white md:rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1),0_10px_30px_rgba(0,0,0,0.08)] md:border border-gray-200 overflow-hidden z-[100] flex flex-col md:min-h-[480px] md:max-h-[85vh]">
                                     {/* Input Area */}
-                                    <div className="flex items-center px-6 py-6 md:py-8 shrink-0 bg-white">
-                                        <SearchIcon className="w-5 h-5 md:w-6 md:h-6 text-[#004f32] stroke-[2.5px] mr-3 md:mr-4 shrink-0" />
+                                    <div className="flex items-center px-6 py-5 md:py-3 shrink-0 bg-white">
+                                        <SearchIcon className="w-5 h-5 md:w-5 md:h-5 text-gray-400 mr-3 md:mr-4 shrink-0" />
                                         <input
                                             autoFocus
                                             type="text"
                                             value={query}
                                             onChange={(e) => setQuery(e.target.value)}
-                                            placeholder="Places to go, things to do, hotels..."
-                                            className="flex-1 text-lg md:text-xl outline-none placeholder:text-gray-400 font-medium bg-transparent border-none focus:ring-0"
+                                            placeholder="Search destinations..."
+                                            className="flex-1 text-base md:text-[18px] outline-none placeholder:text-gray-400 font-medium bg-transparent border-none focus:ring-0"
                                         />
                                         <button
                                             onClick={(e) => { e.stopPropagation(); setIsFocused(false); }}
-                                            className="p-3 hover:bg-gray-100 rounded-full transition-colors ml-1 md:ml-3"
+                                            className="p-2.5 hover:bg-gray-50 rounded-md transition-colors ml-1"
                                         >
-                                            <X className="w-6 h-6 text-gray-400" />
+                                            <X className="w-5 h-5 text-gray-400" />
                                         </button>
                                     </div>
 
                                     {/* Divider Line */}
-                                    <div className="w-full h-[1.5px] bg-[#004f32] shrink-0" />
+                                    <div className="w-full h-[1px] bg-gray-100 shrink-0" />
 
                                     {/* Dropdown Content */}
                                     <div className="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar bg-white">
                                         {/* Sponsored Section */}
                                         {!query && (
-                                            <div className="mb-6 md:mb-8">
-                                                <div className="flex items-center gap-4 md:gap-5 p-2 md:p-3 hover:bg-gray-50 rounded-2xl cursor-pointer transition-all group">
-                                                    <div className="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl overflow-hidden shrink-0 shadow-sm">
+                                            <div className="mb-6">
+                                                <div className="flex items-center gap-4 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-all group">
+                                                    <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden shrink-0 border border-gray-100">
                                                         <Image
                                                             src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=200&auto=format&fit=crop"
                                                             alt="Sponsored"
                                                             fill
-                                                            className="object-cover transition-transform group-hover:scale-105"
+                                                            className="object-cover"
                                                         />
                                                     </div>
                                                     <div className="flex-1">
-                                                        <h4 className="font-bold text-[#004f32] text-base md:text-lg leading-tight mb-1">Find your cultural wonder in Ourika</h4>
-                                                        <p className="text-gray-400 md:text-gray-500 text-xs md:text-[15px] font-medium">Sponsored by Ourika Tourism</p>
+                                                        <h4 className="font-semibold text-[#004f32] text-[15px] leading-tight mb-1">Cultural wonder in Ourika</h4>
+                                                        <p className="text-gray-500 text-[13px] font-medium">Sponsored Tourism</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         )}
 
                                         {/* Content Section */}
-                                        <div className="space-y-4 md:space-y-5">
-                                            <h3 className="px-2 md:px-3 text-base md:text-[18px] font-black text-[#004f32] tracking-normal mb-2 md:mb-0">
+                                        <div className="space-y-4">
+                                            <h3 className="px-3 text-[13px] font-semibold text-gray-400 uppercase tracking-wider mb-2">
                                                 {query ? "Search Results" : "Popular Destinations"}
                                             </h3>
 
-                                            <div className="grid gap-1 md:gap-2">
+                                            <div className="grid gap-0.5">
                                                 {results.length > 0 ? (
                                                     results.map((item) => (
                                                         <div
                                                             key={item.id}
-                                                            className="flex items-center gap-4 md:gap-5 px-2 md:px-3 py-2 md:py-3 hover:bg-gray-50 rounded-2xl cursor-pointer transition-all group"
+                                                            className="flex items-center gap-4 px-3 py-2.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-all group border-b border-transparent hover:border-gray-100/50"
                                                         >
-                                                            <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl overflow-hidden shrink-0 border border-gray-100 shadow-sm">
+                                                            <div className="relative w-11 h-11 md:w-12 md:h-12 rounded-lg overflow-hidden shrink-0 border border-gray-100">
                                                                 <Image
                                                                     src={item.image}
                                                                     alt={item.name}
                                                                     fill
-                                                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                                                    className="object-cover"
                                                                 />
                                                             </div>
                                                             <div className="flex-1 min-w-0">
-                                                                <h4 className="font-bold text-[#004f32] text-sm md:text-[18px]">
+                                                                <h4 className="font-semibold text-[#004f32] text-[15px]">
                                                                     {item.name}
                                                                 </h4>
-                                                                <p className="text-xs md:text-[15px] text-gray-500 font-medium truncate mt-0.5">
+                                                                <p className="text-[13px] text-gray-500 font-medium truncate">
                                                                     {item.location}
                                                                 </p>
                                                             </div>
