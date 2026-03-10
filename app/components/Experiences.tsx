@@ -188,11 +188,14 @@ export default function Experiences() {
         }
       `}</style>
 
-      {/* View More Button for mobile */}
-      <div className="mt-8 flex justify-center lg:hidden">
-        <button className="w-full rounded-full bg-black px-8 py-4 text-sm font-bold text-white transition-all hover:bg-[#1f1f1f] active:scale-95 md:w-auto lg:text-[15px]">
-          Show all experiences
-        </button>
+      {/* View More Button */}
+      <div className="mt-8 flex justify-center">
+        <Link
+          href="/experiences"
+          className="w-full rounded-full bg-black px-8 py-4 text-center text-sm font-bold text-white transition-all hover:bg-[#1f1f1f] active:scale-95 md:w-auto lg:text-[15px]"
+        >
+          See all experiences
+        </Link>
       </div>
     </section>
   );
