@@ -49,17 +49,19 @@ const detailedReview = {
 export default function TourReviews() {
   return (
     <section id="reviews" className="border-t border-[#e5e7eb] py-10">
-      <div className="mb-8 flex items-center gap-6 text-[28px] font-extrabold tracking-[-0.03em] text-[#111827]">
+      <div className="mb-1 flex items-center gap-5 text-2xl font-black leading-tight text-[#111827] md:text-[28px]">
         <button className="border-b-2 border-[#123d2f] pb-2 text-[#12311f]">
           Reviews
         </button>
         <button className="pb-2 text-[#12311f]">Q&amp;A</button>
       </div>
 
-      <div className="grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)]">
+      <div className="grid gap-8 pt-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-10">
         <div>
           <div className="mb-5 flex items-center gap-2 text-[#12311f]">
-            <span className="text-[36px] font-extrabold leading-none">4.6</span>
+            <span className="text-[32px] font-extrabold leading-none sm:text-[36px]">
+              4.6
+            </span>
             <div className="flex items-center gap-1">
               {[0, 1, 2, 3, 4].map((index) => (
                 <span
@@ -98,19 +100,19 @@ export default function TourReviews() {
             <input
               type="text"
               placeholder="Search reviews..."
-              className="h-14 w-full rounded-full border border-[#8ba18d] bg-white pl-12 pr-5 text-[16px] outline-none placeholder:text-[#5f6368]"
+              className="h-12 w-full rounded-full border border-[#8ba18d] bg-white pl-12 pr-5 text-[15px] outline-none placeholder:text-[#5f6368] sm:h-14 sm:text-[16px]"
             />
           </div>
 
           <div className="mb-8 flex flex-wrap items-center gap-3">
-            <button className="rounded-full border border-[#8ba18d] px-4 py-2 text-[15px] font-medium text-[#12311f]">
+            <button className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12311f] sm:text-[15px]">
               Filters
             </button>
-            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[15px] font-medium text-[#12311f]">
+            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12311f] sm:text-[15px]">
               <span>English</span>
               <ChevronDown className="h-4 w-4" />
             </button>
-            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[15px] font-medium text-[#12311f]">
+            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12311f] sm:text-[15px]">
               <span>Most Insightful</span>
               <ChevronDown className="h-4 w-4" />
             </button>
@@ -118,14 +120,14 @@ export default function TourReviews() {
           </div>
 
           <div className="border-b border-[#e5e7eb] pb-8">
-            <h3 className="mb-4 text-[18px] font-extrabold text-[#12311f]">
+            <h3 className="mb-4 text-[17px] font-extrabold text-[#12311f] sm:text-[18px]">
               Popular mentions
             </h3>
             <div className="flex flex-wrap gap-3">
               {popularMentions.map((mention) => (
                 <button
                   key={mention}
-                  className="rounded-full border border-[#8ba18d] px-4 py-2 text-[15px] text-[#12311f]"
+                  className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] text-[#12311f] sm:text-[15px]"
                 >
                   {mention}
                 </button>
@@ -141,13 +143,13 @@ export default function TourReviews() {
               </span>
               <CircleHelp className="h-4 w-4" />
             </p>
-            <button className="rounded-full bg-[#003b1f] px-5 py-3 text-[15px] font-bold text-white">
+            <button className="w-full rounded-full bg-[#003b1f] px-5 py-3 text-[15px] font-bold text-white sm:w-auto">
               Show original reviews
             </button>
           </div>
 
           <article className="py-8">
-            <div className="mb-5 flex items-start justify-between gap-4">
+            <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative h-12 w-12 overflow-hidden rounded-full">
                   <Image
@@ -181,14 +183,17 @@ export default function TourReviews() {
 
             <div className="mb-3 flex items-center gap-1">
               {[0, 1, 2, 3, 4].map((index) => (
-                <span key={index} className="h-4 w-4 rounded-full bg-[#00aa6c]" />
+                <span
+                  key={index}
+                  className="h-4 w-4 rounded-full bg-[#00aa6c]"
+                />
               ))}
             </div>
 
-            <h4 className="mb-2 text-[24px] font-extrabold text-[#12311f]">
+            <h4 className="mb-2 text-[22px] font-extrabold text-[#12311f] sm:text-[24px]">
               {detailedReview.title}
             </h4>
-            <p className="max-w-[760px] text-[16px] leading-8 text-[#3f3f46]">
+            <p className="max-w-[760px] text-[15px] leading-7 text-[#3f3f46] sm:text-[16px] sm:leading-8">
               {detailedReview.body}
             </p>
           </article>

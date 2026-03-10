@@ -35,13 +35,15 @@ export default function TourStickyHeader({
       }`}
     >
       <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
-        <div className="flex min-h-[46px] items-center justify-between gap-4 border-b border-[#e5e7eb]">
+        <div className="flex min-h-[42px] items-center justify-between gap-4 border-b border-[#e5e7eb] sm:min-h-[46px]">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#3b3b3b]"
+            className="inline-flex items-center gap-2 text-xs font-medium text-[#3b3b3b] sm:text-sm"
           >
             <span aria-hidden="true">‹</span>
-            <span>See all Things to Do in Marrakech-Safi</span>
+            <span className="truncate">
+              See all Things to Do in Marrakech-Safi
+            </span>
           </Link>
 
           <div className="hidden items-center gap-4 lg:flex">
@@ -66,8 +68,8 @@ export default function TourStickyHeader({
           </div>
         </div>
 
-        <div className="flex min-h-[48px] items-center justify-between gap-4 overflow-x-auto">
-          <nav className="flex items-center gap-6 whitespace-nowrap text-[15px] font-semibold text-[#12311f]">
+        <div className="flex min-h-[44px] items-center justify-between gap-4 overflow-x-auto sm:min-h-[48px]">
+          <nav className="flex min-w-max items-center gap-5 whitespace-nowrap text-[14px] font-semibold text-[#12311f] sm:gap-6 sm:text-[15px]">
             {navigationItems.map((item, index) => (
               <a
                 key={item}

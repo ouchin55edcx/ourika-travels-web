@@ -4,10 +4,10 @@ import { bookingBenefits } from "./tourData";
 export default function TourBookingCard() {
   return (
     <aside className="self-start lg:sticky lg:top-5">
-      <div className="rounded-2xl border border-[#d9d9d9] bg-white p-5 shadow-[0_1px_0_rgba(0,0,0,0.03)]">
-        <div className="mb-1 flex items-baseline gap-1">
+      <div className="rounded-2xl border border-[#d9d9d9] bg-white p-4 shadow-[0_1px_0_rgba(0,0,0,0.03)] sm:p-5">
+        <div className="mb-1 flex flex-wrap items-baseline gap-1">
           <span className="text-[15px] font-semibold text-[#1f1f1f]">From</span>
-          <span className="text-[32px] font-extrabold tracking-[-0.03em] text-[#1f1f1f]">
+          <span className="text-[28px] font-extrabold tracking-[-0.03em] text-[#1f1f1f] sm:text-[32px]">
             $17.60
           </span>
           <span className="text-sm text-[#5f6368]">per adult</span>
@@ -16,7 +16,7 @@ export default function TourBookingCard() {
           Lowest price guarantee
         </button>
 
-        <button className="mb-6 w-full rounded-full bg-[#00e05a] px-5 py-4 text-[17px] font-bold text-black transition hover:bg-[#00cb52]">
+        <button className="mb-6 min-h-12 w-full rounded-full bg-[#00e05a] px-5 py-4 text-[16px] font-bold text-black transition hover:bg-[#00cb52] sm:text-[17px]">
           Check availability
         </button>
 
@@ -35,7 +35,7 @@ export default function TourBookingCard() {
         </div>
       </div>
 
-      <div className="mt-4 rounded-2xl bg-[#f6f6f6] p-5">
+      <div className="mt-4 rounded-2xl bg-[#f6f6f6] p-4 sm:p-5">
         <p className="inline-block bg-[#dedede] px-1 text-[15px] font-semibold text-[#434343]">
           Have booking questions?
         </p>

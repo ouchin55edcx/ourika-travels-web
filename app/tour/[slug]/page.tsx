@@ -8,6 +8,7 @@ import TourGallery from "./components/TourGallery";
 import TourHeader from "./components/TourHeroHeader";
 import TourHighlights from "./components/TourHighlights";
 import TourItinerary from "./components/TourItinerary";
+import TourMobileBookBar from "./components/TourMobileBookBar";
 import TourReviews from "./components/TourReviews";
 import TourSimilarExperiences from "./components/TourSimilarExperiences";
 import TourStickyHeader from "./components/TourStickyHeader";
@@ -29,10 +30,11 @@ export default async function Page({
     <div className="min-h-screen bg-white text-[#1f1f1f] selection:bg-[#34e0a1] selection:text-black">
       <Navbar />
       <TourStickyHeader title={title} navigationItems={navigationItems} />
-      <main className="mx-auto flex w-full max-w-[1180px] flex-col px-4 py-6 sm:px-6 lg:px-8">
+      <TourMobileBookBar />
+      <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-2 px-3 py-4 pb-24 sm:px-6 sm:py-6 sm:pb-24 lg:px-8 lg:pb-6">
         <TourHeader title={title} />
 
-        <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-7">
           <section className="min-w-0">
             <TourGallery />
             <TourTabs />
