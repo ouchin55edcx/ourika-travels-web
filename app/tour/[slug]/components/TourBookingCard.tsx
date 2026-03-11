@@ -1,4 +1,5 @@
 import { MessageSquare } from "lucide-react";
+import Link from "next/link";
 import { bookingBenefits } from "./tourData";
 
 export default function TourBookingCard() {
@@ -16,9 +17,12 @@ export default function TourBookingCard() {
           Lowest price guarantee
         </button>
 
-        <button className="mb-6 min-h-12 w-full rounded-full bg-[#00e05a] px-5 py-4 text-[16px] font-bold text-black transition hover:bg-[#00cb52] sm:text-[17px]">
+        <Link
+          href="/reservation"
+          className="mb-6 block min-h-12 w-full rounded-full bg-[#00e05a] px-5 py-4 text-center text-[16px] font-bold text-black transition hover:bg-[#00cb52] sm:text-[17px]"
+        >
           Check availability
-        </button>
+        </Link>
 
         <div className="space-y-5">
           {bookingBenefits.map(({ icon: Icon, title, description }) => (

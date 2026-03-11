@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function TourMobileBookBar() {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,9 +33,12 @@ export default function TourMobileBookBar() {
           : "pointer-events-none translate-y-full opacity-0"
       }`}
     >
-      <button className="min-h-12 w-full rounded-full bg-[#00e05a] px-5 py-3 text-[16px] font-bold text-black shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+      <Link
+        href="/reservation"
+        className="block min-h-12 w-full rounded-full bg-[#00e05a] px-5 py-3 text-center text-[16px] font-bold text-black shadow-[0_10px_30px_rgba(0,0,0,0.12)]"
+      >
         Check availability
-      </button>
+      </Link>
     </div>
   );
 }

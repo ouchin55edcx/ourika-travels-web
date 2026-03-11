@@ -177,14 +177,17 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
 
           {/* Account Actions: Wishlist, Reservations, Become a Guide, Sign In */}
           <div className={`flex items-center gap-1`}>
-            <button className="flex flex-col items-center justify-center gap-1.5 px-4 py-2 hover:bg-gray-50 rounded-2xl transition-all group min-w-[64px]">
+            <Link
+              href="/wishlist"
+              className="flex flex-col items-center justify-center gap-1.5 px-4 py-2 hover:bg-gray-50 rounded-2xl transition-all group min-w-[64px]"
+            >
               <Heart className="w-6 h-6 text-[#004f32] stroke-[2.5px] group-hover:fill-[#004f32] transition-all" />
               {!showSearchBar && (
                 <span className="text-[11px] font-bold text-[#004f32]">
                   Wishlist
                 </span>
               )}
-            </button>
+            </Link>
 
             <button className="flex flex-col items-center justify-center gap-1.5 px-4 py-2 hover:bg-gray-50 rounded-2xl transition-all group min-w-[64px]">
               <ClipboardList className="w-6 h-6 text-[#004f32] stroke-[2.5px] group-hover:scale-110 transition-transform" />
@@ -247,10 +250,14 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
                 <ClipboardList className="w-8 h-8 stroke-[2.5px]" />
                 Reservations
               </button>
-              <button className="flex items-center gap-4 text-2xl font-bold text-[#004f32]">
+              <Link
+                href="/wishlist"
+                className="flex items-center gap-4 text-2xl font-bold text-[#004f32]"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 <Heart className="w-8 h-8 stroke-[2.5px]" />
                 Wishlist
-              </button>
+              </Link>
               <Link
                 href="/register/guide"
                 className="flex items-center gap-4 text-2xl font-bold text-[#004f32] mt-2"

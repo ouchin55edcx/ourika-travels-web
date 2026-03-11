@@ -1,4 +1,5 @@
 import { CalendarDays, Users } from "lucide-react";
+import Link from "next/link";
 
 export default function TourAvailabilityBar() {
   return (
@@ -17,9 +18,12 @@ export default function TourAvailabilityBar() {
               <Users className="h-4 w-4" />
               <span>Select Travelers</span>
             </button>
-            <button className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#00e05a] px-6 py-3 text-[15px] font-bold text-black">
+            <Link
+              href="/reservation"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#00e05a] px-6 py-3 text-[15px] font-bold text-black"
+            >
               Check availability
-            </button>
+            </Link>
           </div>
         </div>
       </div>
