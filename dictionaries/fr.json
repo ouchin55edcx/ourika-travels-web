@@ -1,0 +1,1041 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "bookNow": "Réserver maintenant",
+    "claimOffer": "Profiter de l'offre",
+    "viewAllTours": "Voir toutes les excursions",
+    "subscribe": "S'abonner",
+    "bookAdventure": "Réserver votre aventure",
+    "searching": "Recherche en cours...",
+    "noResults": "Aucun résultat",
+    "sponsored": "Sponsorisé",
+    "actionsNeeded": "Actions requises",
+    "action": "Action",
+    "actions": "Actions",
+    "menu": "Menu",
+    "nearby": "À proximité",
+    "recentlyViewed": "Récemment consultés",
+    "darkMode": "Mode sombre"
+  },
+  "navbar": {
+    "home": "Accueil",
+    "treks": "Randonnées",
+    "about": "À propos",
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "profile": "Profil",
+    "logout": "Déconnexion",
+    "searchDestinations": "Rechercher des destinations...",
+    "searchDestinationsTreks": "Rechercher des destinations, randonnées...",
+    "wishlist": "Favoris",
+    "reservations": "Réservations",
+    "adminDashboard": "Tableau de bord admin",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "aboutUs": "À propos",
+    "languageCurrency": "Langue et devise",
+    "explore": "Explorer",
+    "account": "Compte",
+    "supportSettings": "Support et paramètres",
+    "categories": "Catégories",
+    "yourGoToGuide": "Votre guide de référence pour les voyages à Ourika",
+    "sponsoredBy": "Sponsorisé par Ourika Travels"
+  },
+  "hero": {
+    "title": "Votre guide de confiance pour les aventures dans la vallée de l'Ourika !",
+    "searchPlaceholder": "Lieux à visiter, activités...",
+    "searchButton": "Rechercher",
+    "searchResults": "Résultats de recherche",
+    "nearby": "À proximité",
+    "recentlyViewed": "Récemment consultés",
+    "noResultsFor": "Aucun résultat trouvé pour"
+  },
+  "preferences": {
+    "title": "Préférences",
+    "language": "Langue",
+    "currency": "Devise",
+    "chooseLanguage": "Choisir une langue",
+    "chooseCurrency": "Choisir une devise",
+    "languageNote": "La sélection de la langue est enregistrée mais pas encore implémentée.",
+    "footerNote": "Toute modification des préférences est facultative et persistera pendant votre session utilisateur."
+  },
+  "treks": {
+    "title": "Randonnées",
+    "noTreks": "Aucune randonnée disponible",
+    "noTreksDescription": "Il n'y a pas encore de randonnées disponibles dans cette catégorie.",
+    "browseOther": "Parcourir d'autres catégories",
+    "perPerson": "par personne",
+    "from": "à partir de",
+    "perAdult": "par adulte",
+    "checkAvailability": "Vérifier la disponibilité",
+    "certified": "Certifié par Ourika Adventures"
+  },
+  "category": {
+    "takeInCulture": "Découvrez la culture",
+    "travelersChoice": "Prix du Choix des Voyageurs",
+    "travelersChoiceDescription": "Parmi le top 1% de nos expériences — décidé par les voyageurs.",
+    "searchPlaceholder": "Rechercher par destination",
+    "adventureTours": "Excursions d'aventure",
+    "culturalTours": "Visites culturelles",
+    "dayTreks": "Randonnées d'une journée",
+    "familyTours": "Tours familiaux",
+    "multiDayTreks": "Randonnées multi-jours",
+    "sectionTitle": "Trouvez des activités par centre d'intérêt",
+    "sectionDescription": "Quel que soit votre intérêt, nous l'avons"
+  },
+  "about": {
+    "hero": {
+      "title": "À Propos d'Ourika Travels - Votre Guide Local de Confiance pour les Aventures dans la Vallée de l'Ourika",
+      "subtitle": "Connecter les voyageurs avec des guides locaux certifiés et des expériences authentiques dans la magnifique vallée de l'Ourika au Maroc depuis 25",
+      "bookButton": "Réservez votre aventure",
+      "freeCancellation": "Annulation gratuite jusqu'à 24 heures avant l'excursion"
+    },
+    "whoWeAre": {
+      "title": "Qui Sommes-Nous - Les Experts du Voyage dans la Vallée de l'Ourika",
+      "description": "Ourika Travels est la plateforme leader dédiée exclusivement au tourisme de la Vallée de l'Ourika, reliant les aventuriers avec des guides locaux certifiés et des expériences marocaines authentiques. Contrairement aux plateformes de voyage générales, nous nous spécialisons uniquement dans la Vallée de l'Ourika, garantissant une expertise locale inégalée et une véritable immersion culturelle.",
+      "description2": "Fondée par des natifs de la Vallée de l'Ourika, notre plateforme rassemble une association de guides touristiques officiels et agréés qui considèrent cette région magnifique comme leur maison. Nous ne sommes pas seulement des opérateurs touristiques – nous sommes vos voisins, vos conteurs, et votre porte d'entrée pour découvrir la vraie Vallée de l'Ourika au-delà des sentiers touristiques typiques."
+    },
+    "mission": {
+      "title": "Notre Mission - Préserver la Beauté de l'Ourika Tout en Partageant Ses Merveilles",
+      "authentic": {
+        "title": "Expériences Locales Authentiques",
+        "description": "Nous présentons la véritable essence de la Vallée de l'Ourika à travers les yeux de ceux qui la connaissent le mieux – nos guides locaux certifiés qui ont grandi en explorant ces montagnes, vallées et villages berbères."
+      },
+      "sustainable": {
+        "title": "Tourisme Durable",
+        "description": "Nous nous engageons pour un voyage responsable qui protège la beauté naturelle de la Vallée de l'Ourika et profite aux communautés locales. Chaque excursion réservée soutient les familles berbères et les petites entreprises de la région."
+      },
+      "safety": {
+        "title": "Normes de Sécurité et Qualité",
+        "description": "Tous nos guides sont officiellement licenciés et certifiés par les autorités touristiques marocaines, garantissant un service professionnel, des protocoles de sécurité et des connaissances d'initiés à chaque aventure."
+      }
+    },
+    "guides": {
+      "title": "Rencontrez Nos Guides Locaux Officiels - Experts Agréés Nés dans la Vallée de l'Ourika",
+      "description": "Ce qui distingue Ourika Travels est notre réseau exclusif de guides touristiques officiels, certifiés par le gouvernement et natifs de la région de l'Ourika. Notre association comprend :",
+      "items": [
+        {
+          "title": "Guides de Montagne Certifiés",
+          "description": "Professionnels agréés formés à la sécurité en haute altitude, aux premiers secours et à la navigation en milieu sauvage"
+        },
+        {
+          "title": "Experts du Patrimoine Culturel",
+          "description": "Guides berbères locaux qui partagent des histoires authentiques, des traditions et la langue de l'Atlas"
+        },
+        {
+          "title": "Leaders d'Activités Spécialisées",
+          "description": "Experts en randonnée, trekking aux cascades, cours de cuisine traditionnelle et visites botaniques"
+        },
+        {
+          "title": "Professionnels Multilingues",
+          "description": "Guides parlant couramment l'arabe, le français, l'anglais, l'espagnol et les dialectes berbères"
+        }
+      ],
+      "certification": "Chaque guide suit une certification rigoureuse par le ministère du tourisme marocain et maintient des licences reconnues par les normes touristiques internationales. Lorsque vous réservez avec Ourika Travels, vous êtes assuré de guides expérimentés et dignes de confiance qui priorisent votre sécurité et satisfaction."
+    },
+    "features": [
+      {
+        "title": "Expertise Hyper-Locale",
+        "description": "Contrairement à TripAdvisor ou aux plateformes de réservation générales, nous nous concentrons exclusivement sur la Vallée de l'Ourika. Nos guides ne visitent pas seulement – ils vivent ici. Ils connaissent les sentiers secrets, les cascades cachées et les meilleurs moments pour visiter chaque attraction sans foule."
+      },
+      {
+        "title": "Connexion Directe avec les Guides Locaux",
+        "description": "Évitez les intermédiaires. Réservez directement avec des guides locaux certifiés et obtenez de meilleurs prix, un service personnalisé et des interactions authentiques. Une plus grande partie de votre argent va directement à la communauté locale."
+      },
+      {
+        "title": "Avis Vérifiés & Contrôle Qualité",
+        "description": "Chaque guide sur notre plateforme est vérifié, certifié et régulièrement évalué. Nous maintenons des normes de qualité strictes pour garantir que chaque expérience dans la Vallée de l'Ourika dépasse les attentes."
+      },
+      {
+        "title": "Excursions Flexibles & Personnalisables",
+        "description": "Des promenades douces aux cascades aux treks difficiles dans l'Atlas, des visites culturelles familiales au VTT aventureux – nous offrons des expériences pour tous les niveaux de forme physique et intérêts."
+      },
+      {
+        "title": "Tarification Transparente & Sécurité",
+        "description": "Pas de frais cachés, pas de surprises. Toutes les excursions incluent une tarification claire, un équipement de sécurité, une couverture d'assurance et des protocoles d'urgence. Votre sécurité est notre priorité."
+      },
+      {
+        "title": "Soutien aux Communautés Locales",
+        "description": "Chaque réservation profite directement aux familles berbères, aux artisans locaux et aux petites entreprises des villages de la Vallée de l'Ourika."
+      }
+    ],
+    "specialOffer": {
+      "badge": "Offre limitée",
+      "title": "10% de réduction sur votre première excursion*",
+      "description": "Réservez votre première aventure dans la vallée de l'Ourika aujourd'hui et bénéficiez de 10% de réduction. Valable pour toutes les excursions privées et en groupe réservées ce mois-ci.",
+      "button": "Profiter de l'offre aujourd'hui"
+    },
+    "howToBook": {
+      "title": "Comment réserver votre excursion",
+      "steps": [
+        {
+          "title": "Choisissez votre aventure",
+          "description": "Parcourez nos excursions et sélectionnez l'expérience parfaite pour votre planning et vos intérêts. Tous les niveaux de difficulté disponibles."
+        },
+        {
+          "title": "Réservez en ligne ou via WhatsApp",
+          "description": "Sécurisez votre place avec une réservation en ligne facile ou contactez-nous directement via WhatsApp pour une planification personnalisée."
+        },
+        {
+          "title": "Rencontrez votre guide et explorez",
+          "description": "Nous viendrons vous chercher à votre hôtel à Marrakech et vous emmènerons dans un voyage inoubliable à travers la vallée de l'Ourika."
+        }
+      ]
+    },
+    "whyChooseUs": {
+      "title": "Pourquoi Ourika Travels est Votre Meilleur Choix pour les Aventures dans la Vallée de l'Ourika",
+      "features": [
+        {
+          "title": "Expertise Hyper-Locale",
+          "description": "Contrairement à TripAdvisor ou aux plateformes de réservation générales, nous nous concentrons exclusivement sur la Vallée de l'Ourika. Nos guides ne visitent pas seulement – ils vivent ici. Ils connaissent les sentiers secrets, les cascades cachées et les meilleurs moments pour visiter chaque attraction sans foule."
+        },
+        {
+          "title": "Connexion Directe avec les Guides Locaux",
+          "description": "Évitez les intermédiaires. Réservez directement avec des guides locaux certifiés et obtenez de meilleurs prix, un service personnalisé et des interactions authentiques. Une plus grande partie de votre argent va directement à la communauté locale."
+        },
+        {
+          "title": "Avis Vérifiés & Contrôle Qualité",
+          "description": "Chaque guide sur notre plateforme est vérifié, certifié et régulièrement évalué. Nous maintenons des normes de qualité strictes pour garantir que chaque expérience dans la Vallée de l'Ourika dépasse les attentes."
+        },
+        {
+          "title": "Excursions Flexibles & Personnalisables",
+          "description": "Des promenades douces aux cascades aux treks difficiles dans l'Atlas, des visites culturelles familiales au VTT aventureux – nous offrons des expériences pour tous les niveaux de forme physique et intérêts."
+        },
+        {
+          "title": "Tarification Transparente & Sécurité",
+          "description": "Pas de frais cachés, pas de surprises. Toutes les excursions incluent une tarification claire, un équipement de sécurité, une couverture d'assurance et des protocoles d'urgence. Votre sécurité est notre priorité."
+        },
+        {
+          "title": "Soutien aux Communautés Locales",
+          "description": "Chaque réservation profite directement aux familles berbères, aux artisans locaux et aux petites entreprises des villages de la Vallée de l'Ourika."
+        }
+      ]
+    },
+    "values": {
+      "title": "Nos Valeurs Fondamentales - Ce Qui Anime Ourika Travels",
+      "items": [
+        {
+          "title": "Authenticité",
+          "description": "Nous présentons la vraie Vallée de l'Ourika – l'hospitalité berbère authentique, les villages de montagne traditionnels et les paysages naturels préservés."
+        },
+        {
+          "title": "Communauté d'Abord",
+          "description": "Nous sommes détenus et exploités localement, garantissant que les bénéfices du tourisme restent dans les communautés d'Ourika."
+        },
+        {
+          "title": "Responsabilité Environnementale",
+          "description": "Principes de ne laisser aucune trace, pratiques écologiques et efforts de conservation protègent notre vallée pour les générations futures."
+        },
+        {
+          "title": "Respect Culturel",
+          "description": "Nous honorons les traditions berbères, soutenons les artisans locaux et promouvons l'échange culturel qui respecte et préserve le patrimoine."
+        },
+        {
+          "title": "Sécurité & Professionnalisme",
+          "description": "Guides certifiés, équipement approprié, assurance complète et procédures d'urgence établies."
+        },
+        {
+          "title": "Transparence",
+          "description": "Avis honnêtes, tarification claire, pas de coûts cachés et communication directe avec votre guide."
+        }
+      ]
+    },
+    "whatWeOffer": {
+      "title": "Découvrez les Expériences de la Vallée de l'Ourika - Excursions & Activités pour Chaque Voyageur",
+      "items": [
+        {
+          "title": "Aventures de Randonnée aux Cascades",
+          "description": "Explorez les célèbres sept cascades de Setti Fatma avec des guides de montagne certifiés. Les itinéraires vont de promenades faciles de 2 heures aux treks difficiles d'une journée complète."
+        },
+        {
+          "title": "Visites Culturelles des Villages Berbères",
+          "description": "Visitez les villages traditionnels de l'Atlas, partagez du thé à la menthe avec des familles locales et découvrez les coutumes et artisanats berbères séculaires."
+        },
+        {
+          "title": "Trekking dans l'Atlas",
+          "description": "Expéditions de trekking de plusieurs jours à travers les sommets du Haut Atlas, les cols de montagne et les vallées reculées avec des guides de montagne expérimentés."
+        },
+        {
+          "title": "Expériences Culinaires",
+          "description": "Cours de cuisine marocaine traditionnelle avec des familles berbères, visites de marchés et préparation authentique de tajine dans les villages de montagne."
+        },
+        {
+          "title": "Visites Nature & Faune",
+          "description": "Promenades botaniques, observation d'oiseaux et exploration de l'écosystème avec des guides naturalistes experts."
+        },
+        {
+          "title": "Aventures Familiales",
+          "description": "Promenades douces au bord de la rivière, expériences culturelles et visites éducatives adaptées aux enfants et aux voyageurs âgés."
+        },
+        {
+          "title": "Excursions Privées Sur Mesure",
+          "description": "Itinéraires personnalisés conçus selon vos intérêts, votre niveau de forme physique et votre emploi du temps."
+        }
+      ]
+    },
+    "howDifferent": {
+      "title": "Ourika Travels vs. Plateformes de Voyage Générales - L'Avantage Local",
+      "description": "Alors que des plateformes comme TripAdvisor agrègent des avis globaux, Ourika Travels offre quelque chose qu'ils ne peuvent pas : une concentration exclusive, une propriété locale et des relations directes avec des guides certifiés de la Vallée de l'Ourika.",
+      "comparison": [
+        {
+          "feature": "Expertise Locale",
+          "ourika": "Guides nés et élevés à Ourika",
+          "general": "Mixte, souvent étrangers"
+        },
+        {
+          "feature": "Certification",
+          "ourika": "100% guides officiellement agréés",
+          "general": "Variable, souvent non vérifié"
+        },
+        {
+          "feature": "Impact Communautaire",
+          "ourika": "Soutien direct aux familles locales",
+          "general": "Commission aux grandes entreprises"
+        },
+        {
+          "feature": "Spécialisation",
+          "ourika": "Exclusif à la Vallée de l'Ourika",
+          "general": "Général, mondial"
+        },
+        {
+          "feature": "Personnalisation",
+          "ourika": "Communication directe avec guide",
+          "general": "Limité, excursions standardisées"
+        },
+        {
+          "feature": "Authenticité Culturelle",
+          "ourika": "Guides berbères natifs",
+          "general": "Expériences orientées touristes"
+        }
+      ]
+    },
+    "joinCommunity": {
+      "title": "Rejoignez la Communauté Ourika Travels",
+      "travelers": {
+        "title": "Pour les Voyageurs",
+        "description": "Créez un compte gratuit pour sauvegarder vos excursions préférées, recevoir des recommandations personnalisées, gagner des récompenses sur les réservations et vous connecter avec d'autres aventuriers de la Vallée de l'Ourika."
+      },
+      "guides": {
+        "title": "Pour les Guides Locaux",
+        "description": "Êtes-vous un guide touristique certifié basé dans la Vallée de l'Ourika ? Rejoignez notre association et atteignez des voyageurs à la recherche d'expériences locales authentiques."
+      },
+      "businesses": {
+        "title": "Pour les Hébergements & Entreprises",
+        "description": "Devenez partenaire d'Ourika Travels pour atteindre des voyageurs axés sur la qualité. Nous travaillons avec des riads, maisons d'hôtes, restaurants et prestataires d'activités engagés dans le tourisme durable."
+      }
+    },
+    "faq": {
+      "title": "Questions fréquemment posées",
+      "questions": [
+        {
+          "question": "Proposez-vous des excursions privées ou uniquement en groupe ?",
+          "answer": "Nous proposons des excursions privées et en petit groupe. Les excursions privées peuvent être personnalisées selon vos préférences et votre planning, tandis que les excursions en groupe sont un excellent moyen de rencontrer d'autres voyageurs à moindre coût."
+        },
+        {
+          "question": "Qu'est-ce qui est inclus dans le prix de l'excursion ?",
+          "answer": "Toutes nos excursions comprennent les services d'un guide local professionnel, le transport aller-retour depuis Marrakech et de l'eau en bouteille. Le déjeuner et les frais d'entrée sont spécifiés pour chaque forfait d'excursion."
+        },
+        {
+          "question": "Quelle est la difficulté des sentiers de randonnée dans la vallée de l'Ourika ?",
+          "answer": "Nous proposons des sentiers pour tous les niveaux de forme physique - des promenades faciles dans la vallée aux randonnées modérées vers les cascades et aux treks de montagne difficiles. Chaque description d'excursion comprend des cotes de difficulté pour vous aider à choisir."
+        },
+        {
+          "question": "Que dois-je apporter lors de l'excursion ?",
+          "answer": "Nous recommandons des chaussures de marche confortables, de la crème solaire, un chapeau, une veste légère et de l'argent liquide pour les achats personnels. Pour les randonnées aux cascades, apportez des vêtements de bain si vous souhaitez vous rafraîchir dans les piscines naturelles."
+        },
+        {
+          "question": "Pouvez-vous accommoder les restrictions alimentaires ?",
+          "answer": "Oui ! Veuillez nous informer de tout besoin alimentaire lors de la réservation. Nous travaillons avec des restaurants locaux pour fournir des options de repas végétariennes, véganes et sans allergènes."
+        },
+        {
+          "question": "Quelle est votre politique d'annulation ?",
+          "answer": "Annulation gratuite jusqu'à 24 heures avant l'heure de début de l'excursion. Les annulations dans les 24 heures sont soumises à un frais de 50%. Les non-présentations ne sont pas remboursables."
+        },
+        {
+          "question": "Vos guides parlent-ils anglais ?",
+          "answer": "Oui, tous nos guides officiels parlent couramment l'anglais, le français et l'arabe. L'espagnol et d'autres langues peuvent être arrangés sur demande avec un préavis."
+        },
+        {
+          "question": "L'excursion est-elle adaptée aux enfants et aux voyageurs âgés ?",
+          "answer": "Oui ! Nous avons des excursions adaptées aux familles avec un terrain facile. Pour les randonnées plus difficiles, nous recommandons que les enfants aient au moins 8 ans. Veuillez nous contacter pour discuter des besoins spécifiques des voyageurs âgés."
+        },
+        {
+          "question": "Vous avez d'autres questions ?",
+          "answer": "Contactez-nous via WhatsApp, e-mail ou téléphone. Notre équipe est disponible quotidiennement de 8h à 20h pour vous aider à planifier votre expérience parfaite dans la vallée de l'Ourika."
+        }
+      ],
+      "disclaimer1": "*10% de réduction valable pour les nouveaux clients sur certaines excursions. Ne peut pas être combiné avec d'autres offres.",
+      "disclaimer2": "**Annulation gratuite disponible jusqu'à 24 heures avant le départ prévu. Voir les conditions générales complètes."
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Rejoignez notre newsletter",
+      "description": "Recevez les dernières mises à jour, offres exclusives et inspiration de voyage dans votre boîte mail.",
+      "placeholder": "Entrez votre email",
+      "button": "S'abonner"
+    },
+    "brand": {
+      "description": "Découvrez des aventures inoubliables au Maroc. Des montagnes de l'Atlas au désert du Sahara, explorez la beauté et la culture de cette destination magique."
+    },
+    "quickLinks": {
+      "title": "Liens rapides",
+      "links": [
+        "Accueil",
+        "À propos",
+        "Devenir guide"
+      ]
+    },
+    "support": {
+      "title": "Support",
+      "links": [
+        "Centre d'aide",
+        "FAQ",
+        "Conditions générales",
+        "Politique de confidentialité"
+      ]
+    },
+    "contact": {
+      "title": "Contactez-nous",
+      "address": "123 Atlas Road, Marrakech, Morocco",
+      "email": "info@ourikatravels.com",
+      "phone": "+212 524 123 456"
+    },
+    "copyright": {
+      "text": "© {year} Ourika Travels. Tous droits réservés.",
+      "privacyPolicy": "Politique de confidentialité",
+      "termsOfService": "Conditions d'utilisation",
+      "cookiePolicy": "Politique des cookies"
+    }
+  },
+  "trekDetails": {
+    "navigation": {
+      "overview": "Aperçu",
+      "details": "Détails",
+      "itinerary": "Itinéraire",
+      "operator": "Opérateur",
+      "reviews": "Avis"
+    },
+    "breadcrumb": {
+      "home": "Accueil",
+      "thingsToDo": "Activités"
+    },
+    "buttons": {
+      "checkAvailability": "Vérifier la disponibilité",
+      "readMore": "Lire la suite",
+      "readLess": "Lire moins",
+      "seeDetails": "Voir les détails et la photo",
+      "seeDepartureDetails": "Voir les détails de départ",
+      "reorderItinerary": "Réorganiser l'itinéraire",
+      "closeGallery": "Fermer la galerie",
+      "previousImage": "Image précédente",
+      "nextImage": "Image suivante"
+    },
+    "sections": {
+      "about": "À propos",
+      "whyTravelersLove": "Pourquoi les voyageurs adorent",
+      "highlights": "Points forts",
+      "whatsIncluded": "Ce qui est inclus",
+      "whatToExpect": "À quoi s'attendre",
+      "meetingAndPickup": "Point de rencontre et prise en charge",
+      "accessibility": "Accessibilité",
+      "additionalInformation": "Informations supplémentaires",
+      "cancellationPolicy": "Politique d'annulation",
+      "help": "Aide",
+      "similarExperiences": "Expériences similaires",
+      "itinerary": "Itinéraire",
+      "reviews": "Avis"
+    },
+    "labels": {
+      "from": "à partir de",
+      "perAdult": "par adulte",
+      "priceVariesByGroup": "par adulte (le prix varie selon la taille du groupe)",
+      "lowestPriceGuarantee": "Garantie du meilleur prix",
+      "freeCancellation": "Annulation gratuite",
+      "freeCancellationDescription": "Remboursement complet si annulé jusqu'à 24 heures avant le début de l'expérience (heure locale).",
+      "reserveNowPayLater": "Réservez maintenant, payez plus tard",
+      "reserveNowPayLaterDescription": "Sécurisez votre place tout en restant flexible.",
+      "bookAhead": "Réservez à l'avance",
+      "bookAheadDescription": "Ceci est réservé en moyenne 11 jours à l'avance.",
+      "new": "Nouveau",
+      "review": "avis",
+      "reviews": "avis",
+      "written": "Écrit",
+      "noReviewsYet": "Aucun avis pour le moment",
+      "noReviewsYetDescription": "Soyez le premier à partager votre expérience !",
+      "noReviewsYetFull": "Aucun avis pour le moment",
+      "noReviewsYetFullDescription": "Soyez le premier à partager votre expérience avec cette randonnée !",
+      "showing": "Affichage",
+      "of": "sur",
+      "reviewsCount": "avis",
+      "ages": "Âges 1-99, maximum de 32 par groupe",
+      "duration": "Durée :",
+      "hour": "heure",
+      "hours": "heures",
+      "startTime": "Heure de début : Vérifier la disponibilité",
+      "mobileTicket": "Billet mobile",
+      "liveGuide": "Guide en direct : Anglais, Français, Espagnol",
+      "highlightsSelectedByAI": "Points forts sélectionnés par IA. Voir les informations produit pour plus de détails.",
+      "noSpecificInclusions": "Aucune inclusion spécifique listée.",
+      "itineraryNotAvailable": "Détails de l'itinéraire non disponibles.",
+      "startPoint": "Point de départ",
+      "endPoint": "Point d'arrivée",
+      "notWheelchairAccessible": "Non accessible en fauteuil roulant",
+      "nearPublicTransportation": "Près des transports en commun",
+      "infantsMustSitOnLaps": "Les bébés doivent s'asseoir sur les genoux",
+      "confirmationReceived": "La confirmation sera reçue au moment de la réservation",
+      "mostTravelersCanParticipate": "La plupart des voyageurs peuvent participer",
+      "maxTravelers": "Cette excursion/activité accueillera un maximum de 32 voyageurs",
+      "cancellationPolicyDescription": "Vous pouvez annuler jusqu'à 24 heures à l'avance de l'expérience pour un remboursement complet.",
+      "cancellationPolicyFullRefund": "Pour un remboursement complet, vous devez annuler au moins 24 heures avant l'heure de début de l'expérience.",
+      "cancellationPolicyNoRefund": "Si vous annulez moins de 24 heures avant l'heure de début de l'expérience, le montant payé ne sera pas remboursé.",
+      "helpDescription": "Si vous avez des questions sur cette excursion ou besoin d'aide pour votre réservation, nous serons heureux de vous aider. Appelez simplement le numéro sur votre billet.",
+      "youllStartAt": "Vous commencerez à",
+      "orGetPickedUp": "Ou, vous pouvez également être pris en charge",
+      "youllReturnTo": "Vous retournerez au point de départ",
+      "start": "Début",
+      "end": "Fin",
+      "stop": "Arrêt :",
+      "minutes": "minutes",
+      "passBy": "Passer par",
+      "routeMap": "Carte de l'itinéraire",
+      "startEnd": "Début / Fin",
+      "noItineraryAvailable": "Aucun itinéraire disponible",
+      "noItineraryAvailableDescription": "Les informations détaillées de l'itinéraire seront ajoutées prochainement.",
+      "previousReviews": "Avis précédents",
+      "nextReviews": "Avis suivants",
+      "goToReviews": "Aller aux avis",
+      "galleryImage": "Image de la galerie"
+    }
+  },
+  "savedTreks": {
+    "title": "Randonnées sauvegardées",
+    "loading": "Chargement des randonnées sauvegardées...",
+    "emptyTitle": "Vous n'avez pas encore sauvegardé de randonnées",
+    "emptyDescription": "Vous n'avez pas encore de randonnées sauvegardées.",
+    "emptyButton": "Parcourir les randonnées",
+    "count": "Vous avez {count} randonnée sauvegardée",
+    "countPlural": "Vous avez {count} randonnées sauvegardées",
+    "removeFromSaved": "Retirer des sauvegardés",
+    "noDescription": "Aucune description disponible",
+    "days": "jours",
+    "day": "jour",
+    "perPerson": "/personne",
+    "viewDetails": "Voir les détails",
+    "review": "avis",
+    "reviews": "avis"
+  },
+  "reservations": {
+    "title": "Mes voyages",
+    "loading": "Chargement des réservations...",
+    "subtitleLoggedIn": "Gérez vos réservations de randonnées",
+    "subtitleNotLoggedIn": "Complétez vos réservations en attente",
+    "incompleteTitle": "Réservations incomplètes",
+    "incompleteBadge": "Incomplet",
+    "pending": "en attente",
+    "continue": "Continuer",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette réservation incomplète ?",
+    "errorLoadingTrek": "Erreur lors du chargement des détails de la randonnée. Veuillez réessayer.",
+    "tabs": {
+      "upcoming": "À venir",
+      "completed": "Terminés",
+      "cancelled": "Annulés"
+    },
+    "emptyStates": {
+      "upcoming": "Vous n'avez aucun voyage à venir.",
+      "completed": "Vous n'avez aucun voyage terminé.",
+      "cancelled": "Vous n'avez aucun voyage annulé.",
+      "noIncomplete": "Vous n'avez aucune réservation incomplète.",
+      "browseButton": "Parcourir les randonnées",
+      "exploreButton": "Explorer les randonnées"
+    },
+    "status": {
+      "CONFIRMED": "CONFIRMÉ",
+      "PENDING": "EN ATTENTE",
+      "CANCELLED": "ANNULÉ",
+      "COMPLETED": "TERMINÉ"
+    },
+    "labels": {
+      "booked": "Réservé",
+      "totalPrice": "Prix total",
+      "tourDate": "Date de la visite",
+      "participants": "Participants",
+      "participant": "participant",
+      "participantsPlural": "participants",
+      "duration": "Durée",
+      "days": "jours",
+      "day": "jour",
+      "payment": "Paiement",
+      "pickupLocation": "Lieu de prise en charge",
+      "yourGuide": "Votre guide"
+    },
+    "paymentMethods": {
+      "PAY_LATER": "Payer plus tard",
+      "CASH": "Espèces",
+      "CARD": "Carte",
+      "TRANSFER": "Virement"
+    },
+    "actions": {
+      "viewTrekDetails": "Voir les détails de la randonnée"
+    },
+    "form": {
+      "personalDetails": "Informations Personnelles",
+      "tripDetails": "Détails du Voyage",
+      "paymentMethod": "Méthode de Paiement",
+      "fullName": "Nom Complet",
+      "phoneNumber": "Numéro de Téléphone",
+      "email": "Email",
+      "numberOfParticipants": "Nombre de Participants",
+      "preferredDate": "Date Préférée",
+      "pickupLocation": "Lieu de Prise en Charge",
+      "pickupPlaceholder": "Nom de l'hôtel ou adresse",
+      "cancel": "Annuler",
+      "back": "Retour",
+      "nextStep": "Étape Suivante",
+      "confirmBooking": "Confirmer la Réservation",
+      "processing": "Traitement en cours...",
+      "bookingSummary": "Résumé de la Réservation",
+      "pricePerPerson": "Prix par personne",
+      "participants": "Participants",
+      "total": "Total",
+      "date": "Date",
+      "pickup": "Prise en charge",
+      "errors": {
+        "fullNameRequired": "Le nom complet est requis",
+        "phoneRequired": "Le numéro de téléphone est requis",
+        "emailRequired": "L'email est requis",
+        "emailInvalid": "Format d'email invalide",
+        "participantsMin": "Au moins 1 participant est requis",
+        "tourDateRequired": "La date de la visite est requise",
+        "tourDatePast": "La date de la visite ne peut pas être dans le passé",
+        "pickupRequired": "Le lieu de prise en charge est requis",
+        "paymentRequired": "La méthode de paiement est requise"
+      },
+      "paymentMethods": {
+        "PAY_LATER": {
+          "label": "Payer Plus Tard",
+          "desc": "Annulation gratuite jusqu'à 24h avant."
+        },
+        "CASH": {
+          "label": "Paiement en Espèces à l'Arrivée",
+          "desc": "Payez à notre bureau avant la visite."
+        },
+        "CARD": {
+          "label": "Paiement par Carte",
+          "desc": "Paiement sécurisé par carte de crédit/débit."
+        },
+        "TRANSFER": {
+          "label": "Virement Bancaire",
+          "desc": "Instructions de virement bancaire direct."
+        }
+      },
+      "messages": {
+        "createdSignInManual": "Réservation créée ! Veuillez vous connecter manuellement.",
+        "createdAutoSignIn": "Réservation créée avec succès ! Vous avez été automatiquement connecté.",
+        "createdCheckEmail": "Réservation créée avec succès ! Vérifiez votre email pour plus de détails.",
+        "failedToCreate": "Échec de la création de la réservation"
+      }
+    }
+  },
+  "helpCenter": {
+    "title": "Centre d'Aide",
+    "subtitle": "Trouvez des réponses aux questions courantes et obtenez le support dont vous avez besoin",
+    "searchPlaceholder": "Rechercher des articles d'aide...",
+    "sections": {
+      "contactSupport": {
+        "title": "Contacter le Support",
+        "description": "Notre équipe de support est là pour vous aider avec toutes vos questions ou préoccupations. Contactez-nous par l'un des moyens suivants :",
+        "methods": [
+          {
+            "name": "WhatsApp",
+            "label": "Support WhatsApp",
+            "value": "+212 524 123 456",
+            "description": "Obtenez une aide instantanée via WhatsApp. Disponible de 8h à 20h tous les jours.",
+            "icon": "whatsapp"
+          },
+          {
+            "name": "Email",
+            "label": "Support Email",
+            "value": "support@ourikatravels.com",
+            "description": "Envoyez-nous un email et nous répondrons dans les 24 heures.",
+            "icon": "email"
+          },
+          {
+            "name": "Téléphone",
+            "label": "Support Téléphonique",
+            "value": "+212 524 123 456",
+            "description": "Appelez-nous directement pour une assistance immédiate. Disponible de 8h à 20h tous les jours.",
+            "icon": "phone"
+          }
+        ]
+      },
+      "bookingHelp": {
+        "title": "Aide à la Réservation",
+        "faqs": [
+          {
+            "question": "Comment faire une réservation ?",
+            "answer": "Faire une réservation est facile ! Parcourez simplement nos excursions, sélectionnez votre date préférée et le nombre de participants, remplissez vos coordonnées et confirmez votre réservation. Vous pouvez réserver en ligne 24h/24 et 7j/7 ou nous contacter via WhatsApp pour une assistance personnalisée."
+          },
+          {
+            "question": "Puis-je modifier ma réservation après confirmation ?",
+            "answer": "Oui, vous pouvez modifier votre réservation jusqu'à 24 heures avant la date de votre excursion. Les modifications de date, nombre de participants ou lieu de prise en charge peuvent être possibles selon la disponibilité. Veuillez contacter notre équipe de support pour demander des modifications."
+          },
+          {
+            "question": "Comment recevrai-je ma confirmation de réservation ?",
+            "answer": "Après avoir complété votre réservation, vous recevrez un email de confirmation avec tous les détails, y compris votre numéro de référence de réservation, les informations sur l'excursion, le point de rendez-vous et les coordonnées de votre guide. Vous pouvez également consulter votre réservation dans la section 'Mes voyages' de votre compte."
+          },
+          {
+            "question": "Que se passe-t-il si je dois annuler ma réservation ?",
+            "answer": "Vous pouvez annuler votre réservation gratuitement jusqu'à 24 heures avant l'heure de début de l'excursion. Les annulations effectuées dans les 24 heures précédant l'excursion sont soumises à des frais d'annulation de 50%. Les non-présentations ne sont pas remboursables. Veuillez nous contacter dès que possible si vous devez annuler."
+          },
+          {
+            "question": "Puis-je réserver pour un groupe ?",
+            "answer": "Absolument ! Nous accueillons les réservations de groupe. Sélectionnez simplement le nombre de participants lors de votre réservation. Pour les groupes de plus de 10 personnes, nous recommandons de nous contacter directement via WhatsApp ou email pour discuter des tarifs spéciaux et des options de personnalisation."
+          },
+          {
+            "question": "Quelles informations dois-je fournir lors de la réservation ?",
+            "answer": "Pour compléter votre réservation, vous devrez fournir votre nom complet, votre adresse email, votre numéro de téléphone, la date d'excursion souhaitée, le nombre de participants et le lieu de prise en charge (nom ou adresse de l'hôtel). Vous pouvez également préciser toute exigence particulière ou restriction alimentaire."
+          },
+          {
+            "question": "Combien de temps à l'avance dois-je réserver ?",
+            "answer": "Nous recommandons de réserver au moins 48 heures à l'avance pour sécuriser votre date préférée et assurer la disponibilité. Cependant, les réservations de dernière minute peuvent être possibles selon la disponibilité des guides. Contactez-nous via WhatsApp pour les réservations du jour même ou du lendemain."
+          }
+        ]
+      },
+      "paymentRefunds": {
+        "title": "Paiement & Remboursements",
+        "faqs": [
+          {
+            "question": "Quels modes de paiement acceptez-vous ?",
+            "answer": "Nous offrons plusieurs options de paiement pour votre commodité : Payer Plus Tard (réservez maintenant, payez plus tard), Paiement en Espèces à l'Arrivée (payez à notre bureau avant l'excursion), Carte de Crédit/Débit (paiement en ligne sécurisé), et Virement Bancaire (instructions de virement direct fournies lors de la réservation)."
+          },
+          {
+            "question": "Quand dois-je payer pour ma réservation ?",
+            "answer": "Si vous choisissez 'Payer Plus Tard', le paiement est dû avant le début de l'excursion à notre bureau. Pour les paiements en espèces, vous paierez le jour de votre excursion. Les paiements par carte et les virements bancaires doivent être complétés au moment de la réservation pour confirmer votre réservation."
+          },
+          {
+            "question": "Qu'est-ce qui est inclus dans le prix de l'excursion ?",
+            "answer": "Nos prix d'excursion incluent les services de guide local professionnel, le transport aller-retour depuis Marrakech (ou votre lieu de prise en charge spécifié) et de l'eau en bouteille. Les coûts supplémentaires tels que le déjeuner, les frais d'entrée ou les activités optionnelles sont clairement spécifiés dans chaque description d'excursion."
+          },
+          {
+            "question": "Y a-t-il des frais cachés ?",
+            "answer": "Non, nous croyons en une tarification transparente. Tous les coûts sont clairement affichés avant que vous ne complétiez votre réservation. Le prix affiché est le prix final que vous paierez, sans frais cachés ni surprises."
+          },
+          {
+            "question": "Comment fonctionnent les remboursements ?",
+            "answer": "Les remboursements sont traités automatiquement pour les annulations effectuées plus de 24 heures à l'avance. Le remboursement sera émis sur le mode de paiement d'origine dans un délai de 5 à 10 jours ouvrables. Pour les annulations dans les 24 heures (soumises à des frais de 50%), le montant du remboursement sera calculé en conséquence."
+          },
+          {
+            "question": "Puis-je obtenir un remboursement si la météo est mauvaise ?",
+            "answer": "En cas de conditions météorologiques sévères qui rendent l'excursion dangereuse, nous pouvons annuler l'excursion et vous offrir un remboursement complet ou la possibilité de reporter à une autre date sans frais supplémentaires. La pluie légère ou les conditions nuageuses n'entraînent généralement pas l'annulation de l'excursion."
+          },
+          {
+            "question": "Offrez-vous des réductions ou tarifs spéciaux ?",
+            "answer": "Oui ! Nous offrons une réduction de 10% pour les nouveaux clients. Nous proposons également des tarifs spéciaux pour les réservations de groupe (10+ participants) et pouvons avoir des promotions saisonnières. Consultez notre site web ou contactez-nous directement pour connaître les offres actuelles."
+          }
+        ]
+      },
+      "accountManagement": {
+        "title": "Gestion de Compte",
+        "faqs": [
+          {
+            "question": "Comment créer un compte ?",
+            "answer": "La création d'un compte est optionnelle mais recommandée. Vous pouvez vous inscrire pendant le processus de réservation ou séparément sur notre site web. Fournissez simplement votre adresse email et créez un mot de passe. Alternativement, vous pouvez continuer en tant qu'invité, mais la création d'un compte vous permet de suivre les réservations, sauvegarder vos excursions favorites et gérer facilement vos réservations."
+          },
+          {
+            "question": "J'ai oublié mon mot de passe. Comment puis-je le réinitialiser ?",
+            "answer": "Si vous avez oublié votre mot de passe, cliquez sur 'Mot de passe oublié' sur la page de connexion. Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe. Assurez-vous de vérifier votre dossier spam si vous ne voyez pas l'email."
+          },
+          {
+            "question": "Comment mettre à jour mes informations de profil ?",
+            "answer": "Connectez-vous à votre compte et allez dans la section 'Profil' du menu. Vous pouvez mettre à jour vos informations personnelles, coordonnées et préférences à tout moment. Les modifications sont enregistrées automatiquement."
+          },
+          {
+            "question": "Puis-je sauvegarder des excursions pour les consulter plus tard ?",
+            "answer": "Oui ! Si vous avez un compte, vous pouvez sauvegarder des excursions dans votre liste de souhaits en cliquant sur l'icône cœur sur toute liste d'excursions. Accédez à vos excursions sauvegardées à tout moment depuis la section 'Favoris' dans le menu de votre compte."
+          },
+          {
+            "question": "Comment voir mon historique de réservations ?",
+            "answer": "Connectez-vous à votre compte et naviguez vers 'Mes voyages' ou 'Réservations' dans le menu. Ici, vous verrez toutes vos réservations organisées par statut : À venir, Terminées et Annulées. Vous pouvez consulter les détails, contacter le support ou apporter des modifications depuis cette section."
+          },
+          {
+            "question": "Puis-je supprimer mon compte ?",
+            "answer": "Oui, vous pouvez demander la suppression de votre compte en contactant notre équipe de support par email à support@ourikatravels.com. Veuillez noter que la suppression de votre compte supprimera vos excursions sauvegardées et préférences, mais votre historique de réservations sera conservé pour nos registres comme requis par la loi."
+          },
+          {
+            "question": "Mes informations personnelles sont-elles sécurisées ?",
+            "answer": "Absolument. Nous prenons la sécurité des données au sérieux et utilisons un cryptage standard de l'industrie pour protéger vos informations personnelles. Vos données sont uniquement utilisées à des fins de réservation et pour améliorer votre expérience. Veuillez consulter notre Politique de Confidentialité pour des informations détaillées sur la façon dont nous gérons vos données."
+          }
+        ]
+      },
+      "safetyGuidelines": {
+        "title": "Consignes de Sécurité",
+        "description": "Votre sécurité est notre priorité absolue. Nous travaillons avec des guides certifiés et suivons des protocoles de sécurité stricts. Veuillez consulter ces consignes avant votre excursion :",
+        "guidelines": [
+          {
+            "title": "Avant Votre Excursion",
+            "items": [
+              "Assurez-vous d'être en bonne forme physique pour le niveau de difficulté de l'excursion choisie",
+              "Portez des vêtements et chaussures appropriés pour la randonnée et les activités de plein air",
+              "Apportez de la crème solaire, un chapeau et une veste légère car le temps peut changer rapidement en montagne",
+              "Informez-nous de toute condition médicale ou allergie lors de la réservation",
+              "Arrivez au point de rendez-vous à l'heure"
+            ]
+          },
+          {
+            "title": "Pendant Votre Excursion",
+            "items": [
+              "Suivez les instructions de votre guide en tout temps",
+              "Restez avec le groupe et ne vous éloignez pas seul",
+              "Restez hydraté et prenez des pauses au besoin",
+              "Respectez l'environnement naturel - ne laissez aucune trace",
+              "Informez immédiatement votre guide si vous vous sentez mal ou avez besoin d'assistance"
+            ]
+          },
+          {
+            "title": "Procédures d'Urgence",
+            "items": [
+              "Tous nos guides sont formés aux premiers secours et à l'intervention d'urgence",
+              "Portez le numéro de contact de votre guide avec vous en tout temps",
+              "En cas d'urgence, votre guide contactera immédiatement les services d'urgence locaux",
+              "Nos excursions incluent une couverture d'assurance pour les accidents pendant l'excursion",
+              "Gardez les informations de contact d'urgence accessibles"
+            ]
+          },
+          {
+            "title": "Informations sur l'Assurance",
+            "items": [
+              "Toutes les excursions incluent une couverture d'assurance accident de base pendant la durée de l'excursion",
+              "Nous recommandons d'acheter une assurance voyage complète pour tout votre séjour au Maroc",
+              "Vérifiez auprès de votre assureur pour vous assurer que les activités d'aventure sont couvertes",
+              "Gardez les détails de votre assurance accessibles pendant votre excursion"
+            ]
+          }
+        ]
+      }
+    },
+    "contactForm": {
+      "name": "Votre Nom",
+      "email": "Votre Email",
+      "subject": "Sujet",
+      "message": "Votre Message",
+      "submit": "Envoyer le Message",
+      "sending": "Envoi en cours...",
+      "success": "Merci ! Votre message a été envoyé. Nous vous répondrons dans les 24 heures.",
+      "error": "Désolé, une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer ou nous contacter directement via WhatsApp ou téléphone."
+    }
+  },
+  "terms": {
+    "title": "Conditions Générales",
+    "lastUpdated": "Dernière mise à jour : Janvier 2024",
+    "tableOfContents": {
+      "introduction": "Introduction",
+      "userAgreement": "Accord Utilisateur",
+      "bookingTerms": "Conditions de Réservation",
+      "paymentTerms": "Conditions de Paiement",
+      "cancellationPolicy": "Politique d'Annulation",
+      "liability": "Responsabilité & Limitations",
+      "disputeResolution": "Résolution des Litiges"
+    },
+    "sections": {
+      "introduction": {
+        "title": "Introduction",
+        "content": [
+          "Bienvenue sur Ourika Travels. Ces Conditions Générales ('Conditions') régissent votre utilisation de notre plateforme et de nos services. En accédant à notre site web, en faisant une réservation ou en utilisant nos services, vous acceptez d'être lié par ces Conditions.",
+          "Ces Conditions constituent un accord juridiquement contraignant entre vous ('Utilisateur', 'Client' ou 'Invité') et Ourika Travels ('nous', 'notre', ou 'Société'). Si vous n'acceptez pas ces Conditions, veuillez ne pas utiliser nos services.",
+          "Nous nous réservons le droit de modifier ces Conditions à tout moment. Toute modification prendra effet immédiatement après publication sur notre site web. Votre utilisation continue de nos services après la publication des modifications constitue une acceptation des Conditions modifiées. Nous recommandons de consulter ces Conditions périodiquement."
+        ]
+      },
+      "userAgreement": {
+        "title": "Accord Utilisateur & Responsabilités",
+        "items": [
+          "Vous devez avoir au moins 18 ans pour faire une réservation. Les réservations faites par des mineurs doivent être accompagnées d'un parent ou tuteur légal.",
+          "Vous acceptez de fournir des informations exactes, actuelles et complètes lors de la création d'un compte ou d'une réservation. Fournir de fausses informations peut entraîner l'annulation de votre réservation sans remboursement.",
+          "Vous êtes responsable du maintien de la confidentialité de vos identifiants de compte et de toutes les activités qui se produisent sous votre compte.",
+          "Vous acceptez de ne pas utiliser notre plateforme à des fins illégales ou d'une manière qui pourrait endommager, désactiver ou altérer nos services.",
+          "Vous ne pouvez pas reproduire, dupliquer, copier, vendre ou exploiter une partie de notre site web, contenu ou services sans autorisation écrite expresse d'Ourika Travels.",
+          "Vous acceptez de respecter les coutumes, traditions et lois locales lors de votre participation à nos excursions. Un comportement perturbateur ou irrespectueux peut entraîner l'exclusion de l'excursion sans remboursement."
+        ]
+      },
+      "bookingTerms": {
+        "title": "Conditions de Réservation",
+        "items": [
+          "Toutes les réservations sont soumises à disponibilité et confirmation par Ourika Travels. Une réservation est considérée comme confirmée seulement après réception d'un email de confirmation avec votre numéro de référence de réservation.",
+          "Les prix des excursions sont affichés en devise locale (Dirham marocain - MAD) et peuvent être modifiés sans préavis jusqu'à la confirmation de la réservation. Une fois confirmé, le prix est verrouillé et ne changera pas.",
+          "Vous devez fournir des informations exactes incluant le nombre de participants, la date d'excursion, le lieu de prise en charge et les coordonnées. Les modifications de réservations peuvent être soumises à disponibilité et peuvent entraîner des frais supplémentaires.",
+          "Les réservations de groupe (généralement 10+ participants) peuvent être éligibles à des tarifs spéciaux. Contactez-nous directement pour discuter des tarifs de groupe et des options de personnalisation.",
+          "Les excursions sont conduites par des guides locaux certifiés agréés par les autorités touristiques marocaines. L'attribution des guides est à notre discrétion, et les guides peuvent être remplacés si nécessaire, mais tous les remplaçants seront également qualifiés et certifiés.",
+          "Les services de prise en charge et de retour sont inclus depuis les lieux désignés (généralement les hôtels de Marrakech). Les retards dus à la circulation ou autres circonstances indépendantes de notre volonté peuvent affecter le timing de l'excursion, mais nous nous efforçons de minimiser tout impact.",
+          "Des tailles de groupe minimales et maximales s'appliquent aux excursions comme spécifié dans chaque description d'excursion. Nous nous réservons le droit d'annuler ou modifier les excursions si les exigences minimales de participants ne sont pas respectées."
+        ]
+      },
+      "paymentTerms": {
+        "title": "Conditions de Paiement",
+        "items": [
+          "Les modes de paiement acceptés incluent : Payer Plus Tard (paiement dû avant le début de l'excursion), Paiement en Espèces à l'Arrivée, Carte de Crédit/Débit, et Virement Bancaire. Les conditions de paiement sont spécifiées pendant le processus de réservation.",
+          "Pour les réservations 'Payer Plus Tard', le paiement doit être complété à notre bureau avant le départ de l'excursion. Le non-paiement peut entraîner l'annulation de l'excursion sans remboursement de tout acompte payé.",
+          "Tous les prix incluent les taxes applicables. Les frais supplémentaires pour les billets d'entrée, repas ou activités optionnelles sont clairement indiqués dans les descriptions d'excursion et sont séparés du prix de base de l'excursion.",
+          "La conversion de devise, si applicable, est basée sur les taux de change actuels. Nous ne sommes pas responsables des fluctuations des taux de change entre les dates de réservation et de paiement.",
+          "Les remboursements, lorsqu'applicables selon notre politique d'annulation, seront traités sur le mode de paiement d'origine dans un délai de 5 à 10 jours ouvrables. Les délais de traitement des remboursements peuvent varier selon le mode de paiement et les institutions financières."
+        ]
+      },
+      "cancellationPolicy": {
+        "title": "Politique d'Annulation",
+        "items": [
+          "Les annulations effectuées plus de 24 heures avant l'heure de début prévue de l'excursion sont éligibles à un remboursement complet, moins les frais de transaction applicables.",
+          "Les annulations effectuées dans les 24 heures précédant l'heure de début de l'excursion sont soumises à des frais d'annulation de 50%. Les 50% restants seront remboursés selon les procédures de remboursement standard.",
+          "Les non-présentations (échec à se présenter au point de rendez-vous désigné à l'heure prévue) ne sont pas remboursables. Le montant total de la réservation sera perdu.",
+          "Pour annuler une réservation, contactez-nous par email, téléphone ou WhatsApp avec votre numéro de référence de réservation. Les demandes d'annulation doivent être reçues dans les délais spécifiés pour être éligibles aux remboursements.",
+          "Dans des circonstances exceptionnelles telles que des conditions météorologiques sévères, catastrophes naturelles ou restrictions imposées par le gouvernement qui rendent l'excursion impossible ou dangereuse, nous pouvons annuler les excursions et offrir un remboursement complet ou une date alternative sans frais supplémentaires.",
+          "Les annulations par Ourika Travels pour des raisons opérationnelles (indisponibilité du guide, défaillance de l'équipement, etc.) entraîneront un remboursement complet ou une offre de report sans frais supplémentaires pour le client.",
+          "Pour les excursions multi-jours ou forfaits spéciaux, des conditions d'annulation différentes peuvent s'appliquer. Veuillez vous référer aux conditions spécifiques fournies au moment de la réservation pour ces excursions spécialisées."
+        ]
+      },
+      "liability": {
+        "title": "Responsabilité & Limitations",
+        "items": [
+          "Ourika Travels agit comme une plateforme intermédiaire reliant les clients avec des guides locaux certifiés. Bien que nous nous assurions que tous les guides sont agréés et certifiés, les services d'excursion réels sont fournis par des guides indépendants qui sont responsables de la prestation de services.",
+          "Nous fournissons une couverture d'assurance accident de base pour la durée de l'excursion. Cependant, il est fortement conseillé aux clients d'acheter une assurance voyage complète couvrant tout leur séjour au Maroc, y compris les frais médicaux, l'annulation de voyage et les effets personnels.",
+          "Ourika Travels n'est pas responsable des blessures, pertes ou dommages survenus pendant les excursions sauf dans la mesure directement causée par notre négligence ou violation de ces Conditions. Cela inclut mais n'est pas limité aux accidents pendant la randonnée, chutes, problèmes liés à l'altitude ou interactions avec la faune.",
+          "Les participants assument la responsabilité de s'assurer qu'ils sont en bonne forme physique et capables de participer à l'excursion choisie. Les clients doivent nous informer de toute condition médicale, allergie ou limitation physique lors de la réservation.",
+          "Nous ne sommes pas responsables de la perte ou des dommages aux effets personnels, équipements ou objets de valeur pendant les excursions. Il est conseillé aux participants de laisser les objets de valeur en sécurité dans leur hébergement et de n'emporter que l'essentiel.",
+          "Les événements de force majeure incluant mais non limités aux catastrophes naturelles, guerre, terrorisme, pandémies, restrictions gouvernementales ou autres circonstances indépendantes de notre contrôle raisonnable peuvent entraîner des annulations ou modifications d'excursions sans responsabilité pour Ourika Travels.",
+          "Notre responsabilité maximale, lorsqu'applicable, est limitée au montant payé pour l'excursion ou le service spécifique en question."
+        ]
+      },
+      "disputeResolution": {
+        "title": "Résolution des Litiges",
+        "items": [
+          "Ces Conditions sont régies par les lois du Royaume du Maroc. Tout litige découlant de ces Conditions ou de nos services sera soumis à la juridiction exclusive des tribunaux de Marrakech, Maroc.",
+          "Nous encourageons les clients à nous contacter directement en premier pour résoudre tout problème ou préoccupation. La plupart des questions peuvent être résolues à l'amiable par notre équipe de support client.",
+          "En cas de litige, les parties conviennent de tenter d'abord de résoudre le problème par une négociation de bonne foi. Si la négociation échoue, une médiation peut être poursuivie avant les procédures légales formelles.",
+          "Si vous avez une plainte concernant une excursion ou un service, veuillez nous contacter dans les 14 jours suivant la date d'achèvement de l'excursion. Les plaintes reçues après cette période peuvent être plus difficiles à enquêter et résoudre.",
+          "Nous nous engageons à fournir des services de qualité et à résoudre les préoccupations des clients équitablement et rapidement. Notre équipe de support client est disponible pour vous aider avec toute question ou problème que vous pourriez avoir."
+        ]
+      }
+    },
+    "contact": {
+      "title": "Demandes Légales",
+      "description": "Pour des questions concernant ces Conditions Générales ou des questions légales, veuillez nous contacter :",
+      "email": "legal@ourikatravels.com",
+      "address": "Ourika Travels, 123 Atlas Road, Marrakech, Morocco",
+      "phone": "+212 524 123 456"
+    }
+  },
+  "privacy": {
+    "title": "Politique de Confidentialité",
+    "lastUpdated": "Dernière mise à jour : Janvier 2024",
+    "tableOfContents": {
+      "introduction": "Introduction",
+      "dataCollection": "Collecte de Données",
+      "dataUsage": "Utilisation des Données",
+      "cookies": "Cookies",
+      "thirdPartyServices": "Services Tiers",
+      "userRights": "Vos Droits",
+      "dataSecurity": "Sécurité des Données"
+    },
+    "sections": {
+      "introduction": {
+        "title": "Introduction",
+        "content": [
+          "Chez Ourika Travels, nous nous engageons à protéger votre vie privée et à assurer la sécurité de vos informations personnelles. Cette Politique de Confidentialité explique comment nous collectons, utilisons, stockons et protégeons vos données lorsque vous utilisez notre site web et nos services.",
+          "En utilisant notre plateforme, vous consentez à la collecte et à l'utilisation d'informations conformément à cette Politique de Confidentialité. Nous respectons vos droits à la vie privée et nous conformons aux lois applicables sur la protection des données, y compris le Règlement Général sur la Protection des Données (RGPD) lorsqu'applicable.",
+          "Cette politique s'applique à toutes les informations collectées via notre site web, applications mobiles, plateforme de réservation et tout autre service que nous fournissons. Veuillez lire attentivement cette politique pour comprendre nos pratiques concernant vos données personnelles."
+        ]
+      },
+      "dataCollection": {
+        "title": "Informations que Nous Collectons",
+        "items": [
+          "Informations d'Identification Personnelle : Nous collectons des informations telles que votre nom complet, adresse email, numéro de téléphone et adresse physique lorsque vous créez un compte ou faites une réservation. Ces informations sont nécessaires pour traiter vos réservations et communiquer avec vous concernant vos réservations.",
+          "Informations de Réservation : Nous collectons les détails de vos réservations incluant les préférences d'excursion, dates, nombre de participants, lieux de prise en charge, modes de paiement et toute demande ou exigence spéciale que vous spécifiez.",
+          "Informations de Compte : Si vous créez un compte, nous stockons vos identifiants de connexion (cryptés), informations de profil, excursions sauvegardées, éléments de liste de souhaits, historique de réservations et préférences que vous avez définies dans votre compte.",
+          "Données de Communication : Nous collectons des informations de vos communications avec nous, incluant emails, messages WhatsApp, appels téléphoniques et tickets de support. Cela nous aide à fournir un meilleur service client et résoudre tout problème.",
+          "Données d'Utilisation : Nous collectons automatiquement des informations sur la façon dont vous interagissez avec notre site web, incluant les pages visitées, temps passé sur les pages, modèles de clics, type de navigateur, informations sur l'appareil, adresse IP et adresses de sites web référents. Cela nous aide à améliorer notre site web et l'expérience utilisateur.",
+          "Cookies et Technologies de Suivi : Nous utilisons des cookies, balises web et technologies de suivi similaires pour collecter des informations sur votre comportement de navigation, préférences et pour mémoriser vos paramètres. Veuillez consulter notre section Cookies pour plus de détails.",
+          "Données de Localisation : Nous pouvons collecter des informations de localisation lorsque vous utilisez nos services, incluant votre lieu de prise en charge pour les excursions et données de localisation générales basées sur votre adresse IP, avec votre consentement."
+        ]
+      },
+      "dataUsage": {
+        "title": "Comment Nous Utilisons Vos Informations",
+        "items": [
+          "Traitement des Réservations : Nous utilisons vos informations personnelles pour traiter et confirmer vos réservations, communiquer les détails de réservation, envoyer confirmations et rappels, et coordonner les excursions avec nos guides.",
+          "Service Client : Vos informations nous permettent de répondre à vos demandes, fournir un support, résoudre les problèmes, gérer les annulations et remboursements, et améliorer la qualité de notre service client.",
+          "Communication : Nous utilisons vos coordonnées pour envoyer confirmations de réservation, rappels d'excursion, mises à jour importantes sur vos réservations, réponses à vos demandes et enquêtes de satisfaction client.",
+          "Amélioration du Service : Nous analysons les données d'utilisation et les commentaires pour comprendre comment notre site web et services sont utilisés, identifier les domaines d'amélioration, développer de nouvelles fonctionnalités et améliorer l'expérience utilisateur.",
+          "Marketing et Promotions : Avec votre consentement, nous pouvons vous envoyer des emails promotionnels sur les offres spéciales, nouvelles excursions, promotions saisonnières et conseils de voyage. Vous pouvez vous désabonner des communications marketing à tout moment via les paramètres de votre compte ou en cliquant sur les liens de désabonnement dans les emails.",
+          "Conformité Légale : Nous utilisons vos informations pour nous conformer aux obligations légales, répondre aux demandes légales, faire respecter nos Conditions Générales, protéger nos droits et propriété, et assurer la sécurité de nos utilisateurs et guides.",
+          "Personnalisation : Nous utilisons vos préférences et historique de navigation pour personnaliser votre expérience, montrer des excursions pertinentes, faire des recommandations et mémoriser vos paramètres et éléments sauvegardés."
+        ]
+      },
+      "cookies": {
+        "title": "Cookies et Technologies de Suivi",
+        "description": "Nous utilisons des cookies et technologies similaires pour améliorer votre expérience de navigation, analyser le trafic du site web et personnaliser le contenu. Les cookies sont de petits fichiers texte stockés sur votre appareil lorsque vous visitez notre site web.",
+        "types": [
+          {
+            "name": "Cookies Essentiels",
+            "description": "Ces cookies sont nécessaires au bon fonctionnement du site web. Ils permettent les fonctionnalités de base telles que la sécurité, la gestion du réseau et l'accessibilité. Vous ne pouvez pas refuser ces cookies car ils sont essentiels au fonctionnement du site web."
+          },
+          {
+            "name": "Cookies d'Analyse",
+            "description": "Nous utilisons des cookies d'analyse pour comprendre comment les visiteurs interagissent avec notre site web. Ces cookies nous aident à mesurer les performances du site web, identifier les pages populaires et améliorer l'expérience utilisateur. Des exemples incluent les cookies Google Analytics."
+          },
+          {
+            "name": "Cookies Fonctionnels",
+            "description": "Les cookies fonctionnels permettent au site web de mémoriser vos choix et préférences, telles que la sélection de langue, préférence de devise et excursions sauvegardées. Ces cookies améliorent votre expérience en fournissant des fonctionnalités personnalisées."
+          },
+          {
+            "name": "Cookies Marketing",
+            "description": "Les cookies marketing sont utilisés pour suivre les visiteurs sur les sites web pour afficher des publicités pertinentes et mesurer l'efficacité des campagnes. Ces cookies peuvent être définis par des partenaires publicitaires tiers. Vous pouvez gérer les préférences de cookies via les paramètres de votre navigateur."
+          }
+        ]
+      },
+      "thirdPartyServices": {
+        "title": "Services Tiers",
+        "items": [
+          "Processeurs de Paiement : Nous utilisons des processeurs de paiement tiers de confiance pour traiter les transactions en toute sécurité. Ces services collectent les informations de paiement (détails de carte de crédit, etc.) selon leurs propres politiques de confidentialité. Nous ne stockons pas les informations complètes de carte de crédit sur nos serveurs.",
+          "Services d'Analyse : Nous utilisons des services d'analyse tels que Google Analytics pour comprendre les modèles d'utilisation du site web, améliorer nos services et analyser le comportement des utilisateurs. Ces services peuvent utiliser des cookies et collecter des données anonymisées sur vos visites.",
+          "Services de Cartes et Localisation : Nous intégrons des services de cartographie (tels que Google Maps) pour fournir des fonctionnalités basées sur la localisation, afficher les itinéraires d'excursion et vous aider à trouver les points de prise en charge. Ces services peuvent collecter des données de localisation selon leurs politiques de confidentialité.",
+          "Plateformes de Médias Sociaux : Notre site web peut inclure des fonctionnalités de médias sociaux (comme des boutons de partage) qui vous permettent de partager du contenu sur les réseaux sociaux. Ces fonctionnalités peuvent collecter des informations sur vos visites et sont régies par les politiques de confidentialité des plateformes de médias sociaux respectives.",
+          "Fournisseurs de Services Email : Nous utilisons des fournisseurs de services email pour envoyer des emails transactionnels, confirmations et communications marketing. Ces fournisseurs traitent la livraison d'emails selon les standards de l'industrie.",
+          "Hébergement et Stockage Cloud : Nous utilisons des services d'hébergement cloud pour stocker et traiter les données en toute sécurité. Ces services sont conformes aux standards de protection des données et aident à assurer la sécurité et disponibilité de vos informations.",
+          "Outils de Support Client : Nous pouvons utiliser des plateformes de support client tierces pour gérer les demandes et fournir une assistance. Ces plateformes traitent les communications conformément à leurs politiques de confidentialité."
+        ]
+      },
+      "userRights": {
+        "title": "Vos Droits à la Vie Privée",
+        "items": [
+          "Droit d'Accès : Vous avez le droit de demander l'accès aux informations personnelles que nous détenons sur vous, incluant des détails sur les données que nous avons, comment nous les utilisons et avec qui nous les partageons. Vous pouvez accéder à la plupart de ces informations via le tableau de bord de votre compte.",
+          "Droit de Rectification : Vous pouvez mettre à jour ou corriger des informations personnelles inexactes ou incomplètes à tout moment via les paramètres de votre compte ou en nous contactant directement. Nous effectuerons les corrections rapidement après vérification.",
+          "Droit à la Suppression : Vous avez le droit de demander la suppression de vos informations personnelles, sous réserve de certaines exceptions légales (telles que les informations que nous sommes tenus de conserver à des fins légales ou comptables). La suppression de compte peut être demandée via les paramètres de votre compte ou en contactant le support.",
+          "Droit d'Opposition : Vous pouvez vous opposer à certains types de traitement, tels que les communications marketing directes. Vous pouvez vous désabonner des emails marketing via les paramètres du compte ou les liens de désabonnement dans les emails.",
+          "Droit de Limiter le Traitement : Vous pouvez demander que nous limitions le traitement de vos informations personnelles dans certaines circonstances, telles que lorsque vous contestez l'exactitude de vos données.",
+          "Droit à la Portabilité des Données : Lorsqu'applicable, vous avez le droit de recevoir vos informations personnelles dans un format structuré et couramment utilisé et de transmettre ces données à un autre fournisseur de services.",
+          "Droit de Retirer le Consentement : Si nous traitons vos données sur la base du consentement, vous avez le droit de retirer ce consentement à tout moment. Le retrait du consentement n'affectera pas la licéité du traitement qui s'est produit avant le retrait."
+        ]
+      },
+      "dataSecurity": {
+        "title": "Sécurité des Données",
+        "content": [
+          "Nous prenons la sécurité de vos informations personnelles au sérieux et mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données contre l'accès non autorisé, l'altération, la divulgation ou la destruction.",
+          "Nos mesures de sécurité incluent : cryptage des données sensibles en transit et au repos, serveurs et bases de données sécurisés, évaluations et mises à jour de sécurité régulières, accès restreint aux informations personnelles sur une base de besoin de savoir, traitement de paiement sécurisé via des passerelles de paiement certifiées, et formation du personnel sur la protection des données et la vie privée.",
+          "Bien que nous nous efforcions de protéger vos informations personnelles, aucune méthode de transmission sur Internet ou stockage électronique n'est sécurisée à 100%. Nous ne pouvons pas garantir une sécurité absolue, mais nous travaillons continuellement pour maintenir les plus hauts standards de protection des données.",
+          "En cas de violation de données susceptible d'affecter vos informations personnelles, nous vous notifierons ainsi que les autorités concernées comme requis par la loi applicable. Nous avons des procédures en place pour détecter, répondre et atténuer l'impact de tout incident de sécurité."
+        ]
+      }
+    },
+    "contact": {
+      "title": "Demandes de Confidentialité",
+      "description": "Si vous avez des questions concernant cette Politique de Confidentialité, souhaitez exercer vos droits à la vie privée, ou avez des préoccupations concernant la façon dont nous gérons vos informations personnelles, veuillez nous contacter :",
+      "email": "privacy@ourikatravels.com",
+      "address": "Ourika Travels, 123 Atlas Road, Marrakech, Morocco",
+      "phone": "+212 524 123 456"
+    }
+  }
+}
+

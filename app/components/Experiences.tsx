@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, ChevronRight, ChevronLeft } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const experiences = [
   {
@@ -85,9 +86,8 @@ const RatingBubbles = ({ rating }: { rating: number }) => {
       {[...Array(5)].map((_, i) => (
         <div
           key={i}
-          className={`h-[13px] w-[13px] rounded-full border border-[#00aa6c] ${
-            i < Math.floor(rating) ? "bg-[#00aa6c]" : "bg-white"
-          } ${i === Math.floor(rating) && rating % 1 !== 0 ? "relative overflow-hidden" : ""}`}
+          className={`h-[13px] w-[13px] rounded-full border border-[#00aa6c] ${i < Math.floor(rating) ? "bg-[#00aa6c]" : "bg-white"
+            } ${i === Math.floor(rating) && rating % 1 !== 0 ? "relative overflow-hidden" : ""}`}
         >
           {/* Partial fill logic for simple bubble representation */}
           {i === Math.floor(rating) && rating % 1 !== 0 && (
@@ -103,10 +103,13 @@ const RatingBubbles = ({ rating }: { rating: number }) => {
 };
 
 export default function Experiences() {
+  const { elementRef, isVisible } = useScrollReveal(0.05);
+
   return (
     <section
       id="experiences-section"
-      className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:py-16"
+      ref={elementRef as any}
+      className={`mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:py-16 reveal ${isVisible ? 'reveal-visible' : ''}`}
     >
       <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
@@ -128,7 +131,7 @@ export default function Experiences() {
       </div>
 
       <div className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-4 pb-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-5 lg:gap-y-10 lg:overflow-visible lg:px-0 lg:pb-0">
-        {experiences.map((exp) => {
+        {experiences.map((exp, index) => {
           const slug = exp.title
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, "-")
@@ -137,7 +140,8 @@ export default function Experiences() {
             <Link
               key={exp.id}
               href={`/tour/${slug}`}
-              className="block min-w-[256px] max-w-[256px] shrink-0 snap-start sm:min-w-[268px] sm:max-w-[268px] lg:min-w-0 lg:max-w-none"
+              className={`block min-w-[256px] max-w-[256px] shrink-0 snap-start sm:min-w-[268px] sm:max-w-[268px] lg:min-w-0 lg:max-w-none reveal ${isVisible ? 'reveal-visible' : ''}`}
+              style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             >
               <div className="group h-full cursor-pointer">
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4">

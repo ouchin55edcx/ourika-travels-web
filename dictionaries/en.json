@@ -1,0 +1,1041 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "search": "Search",
+    "filter": "Filter",
+    "bookNow": "Book Now",
+    "claimOffer": "Claim Offer",
+    "viewAllTours": "View All Tours",
+    "subscribe": "Subscribe",
+    "bookAdventure": "Book Your Adventure",
+    "searching": "Searching...",
+    "noResults": "No Results",
+    "sponsored": "Sponsored",
+    "actionsNeeded": "Actions Needed",
+    "action": "Action",
+    "actions": "Actions",
+    "menu": "Menu",
+    "nearby": "Nearby",
+    "recentlyViewed": "Recently Viewed",
+    "darkMode": "Dark Mode"
+  },
+  "navbar": {
+    "home": "Home",
+    "treks": "Treks",
+    "about": "About",
+    "login": "Sign in",
+    "register": "Register",
+    "profile": "Profile",
+    "logout": "Logout",
+    "searchDestinations": "Search destinations...",
+    "searchDestinationsTreks": "Search destinations, treks...",
+    "wishlist": "Wishlist",
+    "reservations": "Reservations",
+    "adminDashboard": "Admin Dashboard",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "aboutUs": "About Us",
+    "languageCurrency": "Language & Currency",
+    "explore": "Explore",
+    "account": "Account",
+    "supportSettings": "Support & Settings",
+    "categories": "Categories",
+    "yourGoToGuide": "Your go-to guide for Ourika travel",
+    "sponsoredBy": "Sponsored by Ourika Travels"
+  },
+  "hero": {
+    "title": "Explore the Ourika Valley: Trekking Tours from Marrakech to Setti-Fatma Waterfalls & Atlas Mountains",
+    "searchPlaceholder": "Places to go, things to do...",
+    "searchButton": "Search",
+    "searchResults": "Search Results",
+    "nearby": "Nearby",
+    "recentlyViewed": "Recently Viewed",
+    "noResultsFor": "No results found for"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "language": "Language",
+    "currency": "Currency",
+    "chooseLanguage": "Choose a language",
+    "chooseCurrency": "Choose a currency",
+    "languageNote": "Language selection is saved but not yet implemented.",
+    "footerNote": "Any changes to the preferences are optional, and will persist through your user session."
+  },
+  "treks": {
+    "title": "Treks",
+    "noTreks": "No treks available",
+    "noTreksDescription": "There are no treks available in this category yet.",
+    "browseOther": "Browse Other Categories",
+    "perPerson": "per person",
+    "from": "from",
+    "perAdult": "per adult",
+    "checkAvailability": "Check availability",
+    "certified": "Certified by Ourika Adventures"
+  },
+  "category": {
+    "takeInCulture": "Take in the culture",
+    "travelersChoice": "Travelers' Choice Awards",
+    "travelersChoiceDescription": "Among our top 1% of experiences — decided by travelers.",
+    "searchPlaceholder": "Search by destination",
+    "adventureTours": "Adventure Tours",
+    "culturalTours": "Cultural Tours",
+    "dayTreks": "Day Treks",
+    "familyTours": "Family Tours",
+    "multiDayTreks": "Multi-Day Treks",
+    "sectionTitle": "Find things to do by interest",
+    "sectionDescription": "Whatever you're into, we've got it"
+  },
+  "about": {
+    "hero": {
+      "title": "About Ourika Travels - Your Trusted Local Guide to Ourika Valley Adventures",
+      "subtitle": "Connecting travelers with certified local guides and authentic experiences in Morocco's stunning Ourika Valley since 25",
+      "bookButton": "Book Your Adventure",
+      "freeCancellation": "Free cancellation up to 24 hours before tour"
+    },
+    "whoWeAre": {
+      "title": "Who We Are - The Ourika Valley Travel Experts",
+      "description": "Ourika Travels is the leading platform dedicated exclusively to Ourika Valley tourism, connecting adventure-seekers with certified local guides and authentic Moroccan experiences. Unlike general travel platforms, we specialize solely in Ourika Valley, ensuring unmatched local expertise and genuine cultural immersion.",
+      "description2": "Founded by Ourika Valley natives, our platform brings together an association of official, licensed tour guides who call this breathtaking region home. We're not just tour operators – we're your neighbors, your storytellers, and your gateway to discovering the real Ourika Valley beyond typical tourist trails."
+    },
+    "mission": {
+      "title": "Our Mission - Preserving Ourika's Beauty While Sharing Its Wonders",
+      "authentic": {
+        "title": "Authentic Local Experiences",
+        "description": "We showcase the true essence of Ourika Valley through the eyes of those who know it best – our certified local guides who have grown up exploring these mountains, valleys, and Berber villages."
+      },
+      "sustainable": {
+        "title": "Sustainable Tourism",
+        "description": "We're committed to responsible travel that protects Ourika Valley's natural beauty and benefits local communities. Every tour booked supports Berber families and small businesses in the region."
+      },
+      "safety": {
+        "title": "Safety & Quality Standards",
+        "description": "All our guides are officially licensed and certified by Moroccan tourism authorities, ensuring professional service, safety protocols, and insider knowledge on every adventure."
+      }
+    },
+    "guides": {
+      "title": "Meet Our Official Local Guides - Licensed Experts Born in Ourika Valley",
+      "description": "What sets Ourika Travels apart is our exclusive network of official, government-certified tour guides native to the Ourika region. Our association includes:",
+      "items": [
+        {
+          "title": "Certified Mountain Guides",
+          "description": "Licensed professionals trained in high-altitude safety, first aid, and wilderness navigation"
+        },
+        {
+          "title": "Cultural Heritage Experts",
+          "description": "Local Berber guides who share authentic stories, traditions, and language of the Atlas Mountains"
+        },
+        {
+          "title": "Specialized Activity Leaders",
+          "description": "Experts in hiking, waterfall trekking, traditional cooking classes, and botanical tours"
+        },
+        {
+          "title": "Multilingual Professionals",
+          "description": "Guides fluent in Arabic, French, English, Spanish, and Berber dialects"
+        }
+      ],
+      "certification": "Each guide undergoes rigorous certification through Morocco's tourism ministry and maintains licenses recognized by international tourism standards. When you book with Ourika Travels, you're guaranteed experienced, trustworthy guides who prioritize your safety and satisfaction."
+    },
+    "features": [
+      {
+        "title": "Hyper-Local Expertise",
+        "description": "Unlike TripAdvisor or general booking platforms, we focus exclusively on Ourika Valley. Our guides don't just visit – they live here. They know secret trails, hidden waterfalls, and the best times to visit each attraction without crowds."
+      },
+      {
+        "title": "Direct Connection to Local Guides",
+        "description": "Skip the middlemen. Book directly with certified local guides and get better prices, personalized service, and authentic interactions. More of your money goes directly to the local community."
+      },
+      {
+        "title": "Verified Reviews & Quality Control",
+        "description": "Every guide on our platform is vetted, certified, and regularly reviewed. We maintain strict quality standards to ensure every Ourika Valley experience exceeds expectations."
+      },
+      {
+        "title": "Flexible & Customizable Tours",
+        "description": "From gentle waterfall walks to challenging Atlas Mountain treks, family-friendly cultural tours to adventurous mountain biking – we offer experiences for every fitness level and interest."
+      },
+      {
+        "title": "Transparent Pricing & Safety",
+        "description": "No hidden fees, no surprises. All tours include clear pricing, safety equipment, insurance coverage, and emergency protocols. Your safety is our priority."
+      },
+      {
+        "title": "Supporting Local Communities",
+        "description": "Every booking directly benefits Berber families, local artisans, and small businesses in Ourika Valley villages."
+      }
+    ],
+    "specialOffer": {
+      "badge": "Limited-time offer",
+      "title": "10% Off Your First Tour*",
+      "description": "Book your first Ourika Valley adventure today and receive 10% off. Valid for all private and group tours booked this month.",
+      "button": "Claim offer today"
+    },
+    "howToBook": {
+      "title": "How to Book Your Tour",
+      "steps": [
+        {
+          "title": "Choose Your Adventure",
+          "description": "Browse our tours and select the perfect experience for your schedule and interests. All difficulty levels available."
+        },
+        {
+          "title": "Book Online or WhatsApp",
+          "description": "Secure your spot with easy online booking or contact us directly via WhatsApp for personalized planning."
+        },
+        {
+          "title": "Meet Your Guide & Explore",
+          "description": "We'll pick you up from your Marrakech hotel and take you on an unforgettable journey through Ourika Valley."
+        }
+      ]
+    },
+    "whyChooseUs": {
+      "title": "Why Ourika Travels is Your Best Choice for Ourika Valley Adventures",
+      "features": [
+        {
+          "title": "Hyper-Local Expertise",
+          "description": "Unlike TripAdvisor or general booking platforms, we focus exclusively on Ourika Valley. Our guides don't just visit – they live here. They know secret trails, hidden waterfalls, and the best times to visit each attraction without crowds."
+        },
+        {
+          "title": "Direct Connection to Local Guides",
+          "description": "Skip the middlemen. Book directly with certified local guides and get better prices, personalized service, and authentic interactions. More of your money goes directly to the local community."
+        },
+        {
+          "title": "Verified Reviews & Quality Control",
+          "description": "Every guide on our platform is vetted, certified, and regularly reviewed. We maintain strict quality standards to ensure every Ourika Valley experience exceeds expectations."
+        },
+        {
+          "title": "Flexible & Customizable Tours",
+          "description": "From gentle waterfall walks to challenging Atlas Mountain treks, family-friendly cultural tours to adventurous mountain biking – we offer experiences for every fitness level and interest."
+        },
+        {
+          "title": "Transparent Pricing & Safety",
+          "description": "No hidden fees, no surprises. All tours include clear pricing, safety equipment, insurance coverage, and emergency protocols. Your safety is our priority."
+        },
+        {
+          "title": "Supporting Local Communities",
+          "description": "Every booking directly benefits Berber families, local artisans, and small businesses in Ourika Valley villages."
+        }
+      ]
+    },
+    "values": {
+      "title": "Our Core Values - What Drives Ourika Travels",
+      "items": [
+        {
+          "title": "Authenticity",
+          "description": "We showcase real Ourika Valley – genuine Berber hospitality, traditional mountain villages, and untouched natural landscapes."
+        },
+        {
+          "title": "Community First",
+          "description": "We're locally owned and operated, ensuring tourism benefits stay within Ourika communities."
+        },
+        {
+          "title": "Environmental Responsibility",
+          "description": "Leave no trace principles, eco-friendly practices, and conservation efforts protect our valley for future generations."
+        },
+        {
+          "title": "Cultural Respect",
+          "description": "We honor Berber traditions, support local artisans, and promote cultural exchange that respects and preserves heritage."
+        },
+        {
+          "title": "Safety & Professionalism",
+          "description": "Certified guides, proper equipment, comprehensive insurance, and established emergency procedures."
+        },
+        {
+          "title": "Transparency",
+          "description": "Honest reviews, clear pricing, no hidden costs, and direct communication with your guide."
+        }
+      ]
+    },
+    "whatWeOffer": {
+      "title": "Discover Ourika Valley Experiences - Tours & Activities for Every Traveler",
+      "items": [
+        {
+          "title": "Waterfall Hiking Adventures",
+          "description": "Explore the famous Setti Fatma seven waterfalls with certified mountain guides. Routes range from easy 2-hour walks to challenging full-day treks."
+        },
+        {
+          "title": "Berber Village Cultural Tours",
+          "description": "Visit traditional Atlas Mountain villages, share mint tea with local families, and learn about centuries-old Berber customs and crafts."
+        },
+        {
+          "title": "Atlas Mountains Trekking",
+          "description": "Multi-day trekking expeditions through High Atlas peaks, mountain passes, and remote valleys with experienced mountain guides."
+        },
+        {
+          "title": "Culinary Experiences",
+          "description": "Traditional Moroccan cooking classes with Berber families, market tours, and authentic tagine preparation in mountain villages."
+        },
+        {
+          "title": "Nature & Wildlife Tours",
+          "description": "Botanical walks, bird watching, and ecosystem exploration with expert naturalist guides."
+        },
+        {
+          "title": "Family-Friendly Adventures",
+          "description": "Gentle riverside walks, cultural experiences, and educational tours suitable for children and elderly travelers."
+        },
+        {
+          "title": "Custom Private Tours",
+          "description": "Personalized itineraries designed around your interests, fitness level, and schedule."
+        }
+      ]
+    },
+    "howDifferent": {
+      "title": "Ourika Travels vs. General Travel Platforms - The Local Advantage",
+      "description": "While platforms like TripAdvisor aggregate global reviews, Ourika Travels offers something they can't: exclusive focus, local ownership, and direct relationships with certified Ourika Valley guides.",
+      "comparison": [
+        {
+          "feature": "Local Expertise",
+          "ourika": "Guides born & raised in Ourika",
+          "general": "Mixed, often outsiders"
+        },
+        {
+          "feature": "Certification",
+          "ourika": "100% officially licensed guides",
+          "general": "Varies, often unverified"
+        },
+        {
+          "feature": "Community Impact",
+          "ourika": "Direct support to local families",
+          "general": "Commission to large companies"
+        },
+        {
+          "feature": "Specialization",
+          "ourika": "Ourika Valley exclusive",
+          "general": "General, worldwide"
+        },
+        {
+          "feature": "Customization",
+          "ourika": "Direct communication with guide",
+          "general": "Limited, templated tours"
+        },
+        {
+          "feature": "Cultural Authenticity",
+          "ourika": "Native Berber guides",
+          "general": "Tourist-oriented experiences"
+        }
+      ]
+    },
+    "joinCommunity": {
+      "title": "Join the Ourika Travels Community",
+      "travelers": {
+        "title": "For Travelers",
+        "description": "Create a free account to save favorite tours, receive personalized recommendations, earn rewards on bookings, and connect with fellow Ourika Valley adventurers."
+      },
+      "guides": {
+        "title": "For Local Guides",
+        "description": "Are you a certified tour guide based in Ourika Valley? Join our association and reach travelers seeking authentic local experiences."
+      },
+      "businesses": {
+        "title": "For Accommodations & Businesses",
+        "description": "Partner with Ourika Travels to reach quality-focused travelers. We work with riads, guesthouses, restaurants, and activity providers committed to sustainable tourism."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": [
+        {
+          "question": "Do you offer private tours or only group tours?",
+          "answer": "We offer both private and small group tours. Private tours can be customized to your preferences and schedule, while group tours are a great way to meet fellow travelers at a lower cost."
+        },
+        {
+          "question": "What is included in the tour price?",
+          "answer": "All our tours include professional local guide services, round-trip transportation from Marrakech, and bottled water. Lunch and entrance fees are specified for each tour package."
+        },
+        {
+          "question": "How difficult are the hiking trails in Ourika Valley?",
+          "answer": "We offer trails for all fitness levels - from easy valley walks to moderate waterfall hikes and challenging mountain treks. Each tour description includes difficulty ratings to help you choose."
+        },
+        {
+          "question": "What should I bring on the tour?",
+          "answer": "We recommend comfortable walking shoes, sunscreen, a hat, light jacket, and cash for personal purchases. For waterfall hikes, bring swimwear if you wish to cool off in the natural pools."
+        },
+        {
+          "question": "Can you accommodate dietary restrictions?",
+          "answer": "Yes! Please inform us of any dietary requirements when booking. We work with local restaurants to provide vegetarian, vegan, and allergen-free meal options."
+        },
+        {
+          "question": "What is your cancellation policy?",
+          "answer": "Free cancellation up to 24 hours before the tour start time. Cancellations within 24 hours are subject to a 50% charge. No-shows are non-refundable."
+        },
+        {
+          "question": "Do your guides speak English?",
+          "answer": "Yes, all our official guides are fluent in English, French, and Arabic. Spanish and other languages can be arranged upon request with advance notice."
+        },
+        {
+          "question": "Is the tour suitable for children and elderly travelers?",
+          "answer": "Yes! We have family-friendly tours with easy terrain. For more challenging hikes, we recommend children be at least 8 years old. Please contact us to discuss specific needs for elderly travelers."
+        },
+        {
+          "question": "Have more questions?",
+          "answer": "Contact us via WhatsApp, email, or phone. Our team is available daily from 8 AM to 8 PM to help plan your perfect Ourika Valley experience."
+        }
+      ],
+      "disclaimer1": "*10% discount valid for first-time customers on select tours. Cannot be combined with other offers.",
+      "disclaimer2": "**Free cancellation available up to 24 hours before scheduled departure. See full terms and conditions."
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Join our newsletter",
+      "description": "Get the latest updates, exclusive offers, and travel inspiration sent to your inbox.",
+      "placeholder": "Enter your email",
+      "button": "Subscribe"
+    },
+    "brand": {
+      "description": "Discover unforgettable adventures in Morocco. From the Atlas Mountains to the Sahara Desert, explore the beauty and culture of this magical destination."
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "links": [
+        "Home",
+        "About Us",
+        "Become a Guide"
+      ]
+    },
+    "support": {
+      "title": "Support",
+      "links": [
+        "Help Center",
+        "FAQ",
+        "Terms & Conditions",
+        "Privacy Policy"
+      ]
+    },
+    "contact": {
+      "title": "Contact Us",
+      "address": "123 Atlas Road, Marrakech, Morocco",
+      "email": "info@ourikatravels.com",
+      "phone": "+212 524 123 456"
+    },
+    "copyright": {
+      "text": "© {year} Ourika Travels. All rights reserved.",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "cookiePolicy": "Cookie Policy"
+    }
+  },
+  "trekDetails": {
+    "navigation": {
+      "overview": "Overview",
+      "details": "Details",
+      "itinerary": "Itinerary",
+      "operator": "Operator",
+      "reviews": "Reviews"
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "thingsToDo": "Things to Do"
+    },
+    "buttons": {
+      "checkAvailability": "Check availability",
+      "readMore": "Read more",
+      "readLess": "Read less",
+      "seeDetails": "See details & photo",
+      "seeDepartureDetails": "See departure details",
+      "reorderItinerary": "Reorder Itinerary",
+      "closeGallery": "Close gallery",
+      "previousImage": "Previous image",
+      "nextImage": "Next image"
+    },
+    "sections": {
+      "about": "About",
+      "whyTravelersLove": "Why travelers love this",
+      "highlights": "Highlights",
+      "whatsIncluded": "What's included",
+      "whatToExpect": "What to expect",
+      "meetingAndPickup": "Meeting and pickup",
+      "accessibility": "Accessibility",
+      "additionalInformation": "Additional information",
+      "cancellationPolicy": "Cancellation policy",
+      "help": "Help",
+      "similarExperiences": "Similar experiences",
+      "itinerary": "Itinerary",
+      "reviews": "Reviews"
+    },
+    "labels": {
+      "from": "from",
+      "perAdult": "per adult",
+      "priceVariesByGroup": "per adult (price varies by group size)",
+      "lowestPriceGuarantee": "Lowest price guarantee",
+      "freeCancellation": "Free cancellation",
+      "freeCancellationDescription": "Full refund if cancelled up to 24 hours before the experience starts (local time).",
+      "reserveNowPayLater": "Reserve now & pay later",
+      "reserveNowPayLaterDescription": "Secure your spot while staying flexible.",
+      "bookAhead": "Book ahead",
+      "bookAheadDescription": "This is booked 11 days in advance on average.",
+      "new": "New",
+      "review": "review",
+      "reviews": "reviews",
+      "written": "Written",
+      "noReviewsYet": "No reviews yet",
+      "noReviewsYetDescription": "Be the first to share your experience!",
+      "noReviewsYetFull": "No reviews yet",
+      "noReviewsYetFullDescription": "Be the first to share your experience with this trek!",
+      "showing": "Showing",
+      "of": "of",
+      "reviewsCount": "reviews",
+      "ages": "Ages 1-99, max of 32 per group",
+      "duration": "Duration:",
+      "hour": "hour",
+      "hours": "hours",
+      "startTime": "Start time: Check availability",
+      "mobileTicket": "Mobile ticket",
+      "liveGuide": "Live guide: English, French, Spanish",
+      "highlightsSelectedByAI": "Highlights selected by AI. See product info for full details.",
+      "noSpecificInclusions": "No specific inclusions listed.",
+      "itineraryNotAvailable": "Itinerary details not available.",
+      "startPoint": "Start Point",
+      "endPoint": "End Point",
+      "notWheelchairAccessible": "Not wheelchair accessible",
+      "nearPublicTransportation": "Near public transportation",
+      "infantsMustSitOnLaps": "Infants must sit on laps",
+      "confirmationReceived": "Confirmation will be received at time of booking",
+      "mostTravelersCanParticipate": "Most travelers can participate",
+      "maxTravelers": "This tour/activity will have a maximum of 32 travelers",
+      "cancellationPolicyDescription": "You can cancel up to 24 hours in advance of the experience for a full refund.",
+      "cancellationPolicyFullRefund": "For a full refund, you must cancel at least 24 hours before the experience's start time.",
+      "cancellationPolicyNoRefund": "If you cancel less than 24 hours before the experience's start time, the amount you paid will not be refunded.",
+      "helpDescription": "If you have questions about this tour or need help making your booking, we'd be happy to help. Just call the number on your ticket.",
+      "youllStartAt": "You'll start at",
+      "orGetPickedUp": "Or, you can also get picked-up",
+      "youllReturnTo": "You'll return to the starting point",
+      "start": "Start",
+      "end": "End",
+      "stop": "Stop:",
+      "minutes": "minutes",
+      "passBy": "Pass by",
+      "routeMap": "Route Map",
+      "startEnd": "Start / End",
+      "noItineraryAvailable": "No itinerary available",
+      "noItineraryAvailableDescription": "Detailed itinerary information will be added soon.",
+      "previousReviews": "Previous reviews",
+      "nextReviews": "Next reviews",
+      "goToReviews": "Go to reviews",
+      "galleryImage": "Gallery image"
+    }
+  },
+  "savedTreks": {
+    "title": "Saved Treks",
+    "loading": "Loading saved treks...",
+    "emptyTitle": "You haven't saved any treks yet",
+    "emptyDescription": "You don't have any saved treks yet.",
+    "emptyButton": "Browse Treks",
+    "count": "You have {count} saved trek",
+    "countPlural": "You have {count} saved treks",
+    "removeFromSaved": "Remove from saved",
+    "noDescription": "No description available",
+    "days": "days",
+    "day": "day",
+    "perPerson": "/person",
+    "viewDetails": "View Details",
+    "review": "review",
+    "reviews": "reviews"
+  },
+  "reservations": {
+    "title": "My Trips",
+    "loading": "Loading reservations...",
+    "subtitleLoggedIn": "Manage your trek reservations",
+    "subtitleNotLoggedIn": "Complete your pending reservations",
+    "incompleteTitle": "Incomplete Reservations",
+    "incompleteBadge": "Incomplete",
+    "pending": "pending",
+    "continue": "Continue",
+    "deleteConfirm": "Are you sure you want to delete this incomplete reservation?",
+    "errorLoadingTrek": "Error loading trek details. Please try again.",
+    "tabs": {
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "emptyStates": {
+      "upcoming": "You don't have any upcoming trips.",
+      "completed": "You don't have any completed trips.",
+      "cancelled": "You don't have any cancelled trips.",
+      "noIncomplete": "You don't have any incomplete reservations.",
+      "browseButton": "Browse Treks",
+      "exploreButton": "Explore Treks"
+    },
+    "status": {
+      "CONFIRMED": "CONFIRMED",
+      "PENDING": "PENDING",
+      "CANCELLED": "CANCELLED",
+      "COMPLETED": "COMPLETED"
+    },
+    "labels": {
+      "booked": "Booked",
+      "totalPrice": "Total price",
+      "tourDate": "Tour Date",
+      "participants": "Participants",
+      "participant": "participant",
+      "participantsPlural": "participants",
+      "duration": "Duration",
+      "days": "days",
+      "day": "day",
+      "payment": "Payment",
+      "pickupLocation": "Pickup Location",
+      "yourGuide": "Your Guide"
+    },
+    "paymentMethods": {
+      "PAY_LATER": "Pay Later",
+      "CASH": "Cash",
+      "CARD": "Card",
+      "TRANSFER": "Transfer"
+    },
+    "actions": {
+      "viewTrekDetails": "View Trek Details"
+    },
+    "form": {
+      "personalDetails": "Personal Details",
+      "tripDetails": "Trip Details",
+      "paymentMethod": "Payment Method",
+      "fullName": "Full Name",
+      "phoneNumber": "Phone Number",
+      "email": "Email",
+      "numberOfParticipants": "Number of Participants",
+      "preferredDate": "Preferred Date",
+      "pickupLocation": "Pickup Location",
+      "pickupPlaceholder": "Hotel name or address",
+      "cancel": "Cancel",
+      "back": "Back",
+      "nextStep": "Next Step",
+      "confirmBooking": "Confirm Booking",
+      "processing": "Processing...",
+      "bookingSummary": "Booking Summary",
+      "pricePerPerson": "Price per person",
+      "participants": "Participants",
+      "total": "Total",
+      "date": "Date",
+      "pickup": "Pickup",
+      "errors": {
+        "fullNameRequired": "Full name is required",
+        "phoneRequired": "Phone number is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email format",
+        "participantsMin": "At least 1 participant is required",
+        "tourDateRequired": "Tour date is required",
+        "tourDatePast": "Tour date cannot be in the past",
+        "pickupRequired": "Pickup location is required",
+        "paymentRequired": "Payment method is required"
+      },
+      "paymentMethods": {
+        "PAY_LATER": {
+          "label": "Pay Later",
+          "desc": "Free cancellation up to 24h before."
+        },
+        "CASH": {
+          "label": "Cash on Arrival",
+          "desc": "Pay at our office before the tour."
+        },
+        "CARD": {
+          "label": "Card Payment",
+          "desc": "Secure credit/debit card payment."
+        },
+        "TRANSFER": {
+          "label": "Bank Transfer",
+          "desc": "Direct bank transfer instructions."
+        }
+      },
+      "messages": {
+        "createdSignInManual": "Reservation created! Please sign in manually.",
+        "createdAutoSignIn": "Reservation created successfully! You have been automatically signed in.",
+        "createdCheckEmail": "Reservation created successfully! Check your email for details.",
+        "failedToCreate": "Failed to create reservation"
+      }
+    }
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "subtitle": "Find answers to common questions and get the support you need",
+    "searchPlaceholder": "Search for help articles...",
+    "sections": {
+      "contactSupport": {
+        "title": "Contact Support",
+        "description": "Our support team is here to help you with any questions or concerns. Reach out to us through any of the following methods:",
+        "methods": [
+          {
+            "name": "WhatsApp",
+            "label": "WhatsApp Support",
+            "value": "+212 524 123 456",
+            "description": "Get instant help via WhatsApp. Available 8 AM - 8 PM daily.",
+            "icon": "whatsapp"
+          },
+          {
+            "name": "Email",
+            "label": "Email Support",
+            "value": "support@ourikatravels.com",
+            "description": "Send us an email and we'll respond within 24 hours.",
+            "icon": "email"
+          },
+          {
+            "name": "Phone",
+            "label": "Phone Support",
+            "value": "+212 524 123 456",
+            "description": "Call us directly for immediate assistance. Available 8 AM - 8 PM daily.",
+            "icon": "phone"
+          }
+        ]
+      },
+      "bookingHelp": {
+        "title": "Booking Help",
+        "faqs": [
+          {
+            "question": "How do I make a booking?",
+            "answer": "Making a booking is easy! Simply browse our tours, select your preferred date and number of participants, fill in your details, and confirm your reservation. You can book online 24/7 or contact us via WhatsApp for personalized assistance."
+          },
+          {
+            "question": "Can I modify my booking after confirmation?",
+            "answer": "Yes, you can modify your booking up to 24 hours before your tour date. Changes to date, number of participants, or pickup location may be possible depending on availability. Please contact our support team to request modifications."
+          },
+          {
+            "question": "How will I receive my booking confirmation?",
+            "answer": "After completing your booking, you'll receive a confirmation email with all the details including your booking reference number, tour information, meeting point, and contact details for your guide. You can also view your booking in the 'My Trips' section of your account."
+          },
+          {
+            "question": "What happens if I need to cancel my booking?",
+            "answer": "You can cancel your booking free of charge up to 24 hours before the tour start time. Cancellations made within 24 hours of the tour are subject to a 50% cancellation fee. No-shows are non-refundable. Please contact us as soon as possible if you need to cancel."
+          },
+          {
+            "question": "Can I book for a group?",
+            "answer": "Absolutely! We welcome group bookings. Simply select the number of participants when making your reservation. For groups larger than 10 people, we recommend contacting us directly via WhatsApp or email to discuss special rates and customization options."
+          },
+          {
+            "question": "What information do I need to provide when booking?",
+            "answer": "To complete your booking, you'll need to provide your full name, email address, phone number, preferred tour date, number of participants, and pickup location (hotel name or address). You may also specify any special requirements or dietary restrictions."
+          },
+          {
+            "question": "How far in advance should I book?",
+            "answer": "We recommend booking at least 48 hours in advance to secure your preferred date and ensure availability. However, last-minute bookings may be possible depending on guide availability. Contact us via WhatsApp for same-day or next-day bookings."
+          }
+        ]
+      },
+      "paymentRefunds": {
+        "title": "Payment & Refunds",
+        "faqs": [
+          {
+            "question": "What payment methods do you accept?",
+            "answer": "We offer multiple payment options for your convenience: Pay Later (book now, pay later), Cash on Arrival (pay at our office before the tour), Credit/Debit Card (secure online payment), and Bank Transfer (direct transfer instructions provided upon booking)."
+          },
+          {
+            "question": "When do I need to pay for my booking?",
+            "answer": "If you choose 'Pay Later', payment is due before the tour starts at our office. For cash payments, you'll pay on the day of your tour. Card payments and bank transfers should be completed at the time of booking to confirm your reservation."
+          },
+          {
+            "question": "What is included in the tour price?",
+            "answer": "Our tour prices include professional local guide services, round-trip transportation from Marrakech (or your specified pickup location), and bottled water. Additional costs such as lunch, entrance fees, or optional activities are clearly specified in each tour description."
+          },
+          {
+            "question": "Are there any hidden fees?",
+            "answer": "No, we believe in transparent pricing. All costs are clearly displayed before you complete your booking. The price shown is the final price you'll pay, with no hidden charges or surprise fees."
+          },
+          {
+            "question": "How do refunds work?",
+            "answer": "Refunds are processed automatically for cancellations made more than 24 hours in advance. The refund will be issued to the original payment method within 5-10 business days. For cancellations within 24 hours (subject to 50% fee), the refund amount will be calculated accordingly."
+          },
+          {
+            "question": "Can I get a refund if the weather is bad?",
+            "answer": "In case of severe weather conditions that make the tour unsafe, we may cancel the tour and offer you a full refund or the option to reschedule to another date at no additional cost. Light rain or cloudy conditions typically don't result in tour cancellation."
+          },
+          {
+            "question": "Do you offer discounts or special rates?",
+            "answer": "Yes! We offer a 10% discount for first-time customers. We also provide special rates for group bookings (10+ participants) and may have seasonal promotions. Check our website or contact us directly to learn about current offers."
+          }
+        ]
+      },
+      "accountManagement": {
+        "title": "Account Management",
+        "faqs": [
+          {
+            "question": "How do I create an account?",
+            "answer": "Creating an account is optional but recommended. You can sign up during the booking process or separately on our website. Simply provide your email address and create a password. Alternatively, you can continue as a guest, but creating an account allows you to track bookings, save favorite tours, and manage reservations easily."
+          },
+          {
+            "question": "I forgot my password. How can I reset it?",
+            "answer": "If you've forgotten your password, click on 'Forgot Password' on the login page. Enter your email address, and we'll send you a link to reset your password. Make sure to check your spam folder if you don't see the email."
+          },
+          {
+            "question": "How do I update my profile information?",
+            "answer": "Log into your account and go to the 'Profile' section in the menu. You can update your personal information, contact details, and preferences at any time. Changes are saved automatically."
+          },
+          {
+            "question": "Can I save tours to view later?",
+            "answer": "Yes! If you have an account, you can save tours to your wishlist by clicking the heart icon on any tour listing. Access your saved tours anytime from the 'Wishlist' section in your account menu."
+          },
+          {
+            "question": "How do I view my booking history?",
+            "answer": "Log into your account and navigate to 'My Trips' or 'Reservations' in the menu. Here you'll see all your bookings organized by status: Upcoming, Completed, and Cancelled. You can view details, contact support, or make changes from this section."
+          },
+          {
+            "question": "Can I delete my account?",
+            "answer": "Yes, you can request account deletion by contacting our support team via email at support@ourikatravels.com. Please note that deleting your account will remove your saved tours and preferences, but your booking history will be retained for our records as required by law."
+          },
+          {
+            "question": "Is my personal information secure?",
+            "answer": "Absolutely. We take data security seriously and use industry-standard encryption to protect your personal information. Your data is only used for booking purposes and improving your experience. Please review our Privacy Policy for detailed information about how we handle your data."
+          }
+        ]
+      },
+      "safetyGuidelines": {
+        "title": "Safety Guidelines",
+        "description": "Your safety is our top priority. We work with certified guides and follow strict safety protocols. Please review these guidelines before your tour:",
+        "guidelines": [
+          {
+            "title": "Before Your Tour",
+            "items": [
+              "Ensure you're physically fit for the chosen tour difficulty level",
+              "Wear appropriate clothing and footwear for hiking and outdoor activities",
+              "Bring sunscreen, hat, and light jacket as weather can change quickly in the mountains",
+              "Inform us of any medical conditions or allergies when booking",
+              "Arrive at the meeting point on time"
+            ]
+          },
+          {
+            "title": "During Your Tour",
+            "items": [
+              "Follow your guide's instructions at all times",
+              "Stay with the group and don't wander off on your own",
+              "Stay hydrated and take breaks as needed",
+              "Respect the natural environment - leave no trace",
+              "Inform your guide immediately if you feel unwell or need assistance"
+            ]
+          },
+          {
+            "title": "Emergency Procedures",
+            "items": [
+              "All our guides are trained in first aid and emergency response",
+              "Carry your guide's contact number with you at all times",
+              "In case of emergency, your guide will contact local emergency services immediately",
+              "Our tours include insurance coverage for accidents during the tour",
+              "Keep emergency contact information accessible"
+            ]
+          },
+          {
+            "title": "Insurance Information",
+            "items": [
+              "All tours include basic accident insurance coverage during the tour duration",
+              "We recommend purchasing comprehensive travel insurance for your entire trip to Morocco",
+              "Check with your insurance provider to ensure coverage for adventure activities",
+              "Keep your insurance details accessible during your tour"
+            ]
+          }
+        ]
+      }
+    },
+    "contactForm": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "subject": "Subject",
+      "message": "Your Message",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Thank you! Your message has been sent. We'll get back to you within 24 hours.",
+      "error": "Sorry, there was an error sending your message. Please try again or contact us directly via WhatsApp or phone."
+    }
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "lastUpdated": "Last updated: January 2024",
+    "tableOfContents": {
+      "introduction": "Introduction",
+      "userAgreement": "User Agreement",
+      "bookingTerms": "Booking Terms",
+      "paymentTerms": "Payment Terms",
+      "cancellationPolicy": "Cancellation Policy",
+      "liability": "Liability & Limitations",
+      "disputeResolution": "Dispute Resolution"
+    },
+    "sections": {
+      "introduction": {
+        "title": "Introduction",
+        "content": [
+          "Welcome to Ourika Travels. These Terms and Conditions ('Terms') govern your use of our platform and services. By accessing our website, making a booking, or using our services, you agree to be bound by these Terms.",
+          "These Terms constitute a legally binding agreement between you ('User', 'Customer', or 'Guest') and Ourika Travels ('we', 'us', 'our', or 'Company'). If you do not agree to these Terms, please do not use our services.",
+          "We reserve the right to modify these Terms at any time. Any changes will be effective immediately upon posting on our website. Your continued use of our services after changes are posted constitutes acceptance of the modified Terms. We recommend reviewing these Terms periodically."
+        ]
+      },
+      "userAgreement": {
+        "title": "User Agreement & Responsibilities",
+        "items": [
+          "You must be at least 18 years old to make a booking. Bookings made by minors must be accompanied by a parent or legal guardian.",
+          "You agree to provide accurate, current, and complete information when creating an account or making a booking. Providing false information may result in cancellation of your booking without refund.",
+          "You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.",
+          "You agree not to use our platform for any unlawful purpose or in any way that could damage, disable, or impair our services.",
+          "You may not reproduce, duplicate, copy, sell, or exploit any portion of our website, content, or services without express written permission from Ourika Travels.",
+          "You agree to respect local customs, traditions, and laws while participating in our tours. Disruptive or disrespectful behavior may result in removal from the tour without refund."
+        ]
+      },
+      "bookingTerms": {
+        "title": "Booking Terms & Conditions",
+        "items": [
+          "All bookings are subject to availability and confirmation by Ourika Travels. A booking is considered confirmed only after you receive a confirmation email with your booking reference number.",
+          "Tour prices are displayed in the local currency (Moroccan Dirham - MAD) and may be subject to change without notice until the booking is confirmed. Once confirmed, the price is locked in and will not change.",
+          "You must provide accurate information including the number of participants, tour date, pickup location, and contact details. Changes to bookings may be subject to availability and may incur additional fees.",
+          "Group bookings (typically 10+ participants) may be eligible for special rates. Contact us directly to discuss group pricing and customization options.",
+          "Tours are conducted by certified local guides licensed by Moroccan tourism authorities. Guide assignment is at our discretion, and guides may be substituted if necessary, but all substitutes will be equally qualified and certified.",
+          "Pickup and drop-off services are included from designated locations (typically hotels in Marrakech). Delays due to traffic or other circumstances beyond our control may affect tour timing, but we strive to minimize any impact.",
+          "Minimum and maximum group sizes apply to tours as specified in each tour description. We reserve the right to cancel or modify tours if minimum participant requirements are not met."
+        ]
+      },
+      "paymentTerms": {
+        "title": "Payment Terms",
+        "items": [
+          "Payment methods accepted include: Pay Later (payment due before tour start), Cash on Arrival, Credit/Debit Card, and Bank Transfer. Payment terms are specified during the booking process.",
+          "For 'Pay Later' bookings, payment must be completed at our office before the tour departure. Failure to pay may result in tour cancellation without refund of any deposit paid.",
+          "All prices are inclusive of applicable taxes. Additional fees for entrance tickets, meals, or optional activities are clearly indicated in tour descriptions and are separate from the base tour price.",
+          "Currency conversion, if applicable, is based on current exchange rates. We are not responsible for fluctuations in exchange rates between booking and payment dates.",
+          "Refunds, when applicable according to our cancellation policy, will be processed to the original payment method within 5-10 business days. Refund processing times may vary depending on payment method and financial institutions."
+        ]
+      },
+      "cancellationPolicy": {
+        "title": "Cancellation Policy",
+        "items": [
+          "Cancellations made more than 24 hours before the scheduled tour start time are eligible for a full refund, less any applicable transaction fees.",
+          "Cancellations made within 24 hours of the tour start time are subject to a 50% cancellation fee. The remaining 50% will be refunded according to standard refund procedures.",
+          "No-shows (failure to appear at the designated meeting point at the scheduled time) are non-refundable. The full booking amount will be forfeited.",
+          "To cancel a booking, contact us via email, phone, or WhatsApp with your booking reference number. Cancellation requests must be received within the specified timeframes to be eligible for refunds.",
+          "In exceptional circumstances such as severe weather, natural disasters, or government-imposed restrictions that make the tour impossible or unsafe, we may cancel tours and offer a full refund or alternative date at no additional cost.",
+          "Cancellations by Ourika Travels due to operational reasons (guide unavailability, equipment failure, etc.) will result in a full refund or offer to reschedule at no additional cost to the customer.",
+          "For multi-day tours or special packages, different cancellation terms may apply. Please refer to the specific terms provided at the time of booking for these specialized tours."
+        ]
+      },
+      "liability": {
+        "title": "Liability & Limitations",
+        "items": [
+          "Ourika Travels acts as an intermediary platform connecting customers with certified local guides. While we ensure all guides are licensed and certified, the actual tour services are provided by independent guides who are responsible for the delivery of services.",
+          "We provide basic accident insurance coverage for the duration of the tour. However, customers are strongly advised to purchase comprehensive travel insurance covering their entire stay in Morocco, including medical expenses, trip cancellation, and personal belongings.",
+          "Ourika Travels is not liable for any injuries, losses, or damages that occur during tours except to the extent directly caused by our negligence or breach of these Terms. This includes but is not limited to accidents during hiking, falls, altitude-related issues, or interactions with wildlife.",
+          "Participants assume responsibility for ensuring they are physically fit and capable of participating in the chosen tour. Customers must inform us of any medical conditions, allergies, or physical limitations when booking.",
+          "We are not responsible for loss or damage to personal belongings, equipment, or valuables during tours. Participants are advised to leave valuable items securely at their accommodation and carry only essentials.",
+          "Force majeure events including but not limited to natural disasters, war, terrorism, pandemics, government restrictions, or other circumstances beyond our reasonable control may result in tour cancellations or modifications without liability to Ourika Travels.",
+          "Our maximum liability, where applicable, is limited to the amount paid for the specific tour or service in question."
+        ]
+      },
+      "disputeResolution": {
+        "title": "Dispute Resolution",
+        "items": [
+          "These Terms are governed by the laws of the Kingdom of Morocco. Any disputes arising from these Terms or our services shall be subject to the exclusive jurisdiction of the courts of Marrakech, Morocco.",
+          "We encourage customers to contact us directly first to resolve any issues or concerns. Most matters can be resolved amicably through our customer support team.",
+          "In the event of a dispute, parties agree to first attempt to resolve the matter through good faith negotiation. If negotiation fails, mediation may be pursued before formal legal proceedings.",
+          "If you have a complaint about a tour or service, please contact us within 14 days of the tour completion date. Complaints received after this period may be more difficult to investigate and resolve.",
+          "We are committed to providing quality services and resolving customer concerns fairly and promptly. Our customer support team is available to assist with any questions or issues you may have."
+        ]
+      }
+    },
+    "contact": {
+      "title": "Legal Inquiries",
+      "description": "For questions about these Terms & Conditions or legal matters, please contact us:",
+      "email": "legal@ourikatravels.com",
+      "address": "Ourika Travels, 123 Atlas Road, Marrakech, Morocco",
+      "phone": "+212 524 123 456"
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: January 2024",
+    "tableOfContents": {
+      "introduction": "Introduction",
+      "dataCollection": "Data Collection",
+      "dataUsage": "Data Usage",
+      "cookies": "Cookies",
+      "thirdPartyServices": "Third-Party Services",
+      "userRights": "Your Rights",
+      "dataSecurity": "Data Security"
+    },
+    "sections": {
+      "introduction": {
+        "title": "Introduction",
+        "content": [
+          "At Ourika Travels, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, store, and protect your data when you use our website and services.",
+          "By using our platform, you consent to the collection and use of information in accordance with this Privacy Policy. We respect your privacy rights and comply with applicable data protection laws, including the General Data Protection Regulation (GDPR) where applicable.",
+          "This policy applies to all information collected through our website, mobile applications, booking platform, and any other services we provide. Please read this policy carefully to understand our practices regarding your personal data."
+        ]
+      },
+      "dataCollection": {
+        "title": "Information We Collect",
+        "items": [
+          "Personal Identification Information: We collect information such as your full name, email address, phone number, and physical address when you create an account or make a booking. This information is necessary to process your reservations and communicate with you about your bookings.",
+          "Booking Information: We collect details about your bookings including tour preferences, dates, number of participants, pickup locations, payment methods, and any special requests or requirements you specify.",
+          "Account Information: If you create an account, we store your login credentials (encrypted), profile information, saved tours, wishlist items, booking history, and preferences you've set in your account.",
+          "Communication Data: We collect information from your communications with us, including emails, WhatsApp messages, phone calls, and support tickets. This helps us provide better customer service and resolve any issues.",
+          "Usage Data: We automatically collect information about how you interact with our website, including pages visited, time spent on pages, click patterns, browser type, device information, IP address, and referring website addresses. This helps us improve our website and user experience.",
+          "Cookies and Tracking Technologies: We use cookies, web beacons, and similar tracking technologies to collect information about your browsing behavior, preferences, and to remember your settings. Please see our Cookies section for more details.",
+          "Location Data: We may collect location information when you use our services, including your pickup location for tours and general location data based on your IP address, with your consent."
+        ]
+      },
+      "dataUsage": {
+        "title": "How We Use Your Information",
+        "items": [
+          "Booking Processing: We use your personal information to process and confirm your bookings, communicate booking details, send confirmations and reminders, and coordinate tours with our guides.",
+          "Customer Service: Your information enables us to respond to your inquiries, provide support, resolve issues, handle cancellations and refunds, and improve our customer service quality.",
+          "Communication: We use your contact information to send booking confirmations, tour reminders, important updates about your bookings, responses to your inquiries, and customer satisfaction surveys.",
+          "Service Improvement: We analyze usage data and feedback to understand how our website and services are used, identify areas for improvement, develop new features, and enhance user experience.",
+          "Marketing and Promotions: With your consent, we may send you promotional emails about special offers, new tours, seasonal promotions, and travel tips. You can opt-out of marketing communications at any time through your account settings or by clicking unsubscribe links in emails.",
+          "Legal Compliance: We use your information to comply with legal obligations, respond to legal requests, enforce our Terms and Conditions, protect our rights and property, and ensure the safety of our users and guides.",
+          "Personalization: We use your preferences and browsing history to personalize your experience, show relevant tours, make recommendations, and remember your settings and saved items."
+        ]
+      },
+      "cookies": {
+        "title": "Cookies and Tracking Technologies",
+        "description": "We use cookies and similar technologies to enhance your browsing experience, analyze website traffic, and personalize content. Cookies are small text files stored on your device when you visit our website.",
+        "types": [
+          {
+            "name": "Essential Cookies",
+            "description": "These cookies are necessary for the website to function properly. They enable core functionality such as security, network management, and accessibility. You cannot opt-out of these cookies as they are essential for website operation."
+          },
+          {
+            "name": "Analytics Cookies",
+            "description": "We use analytics cookies to understand how visitors interact with our website. These cookies help us measure website performance, identify popular pages, and improve user experience. Examples include Google Analytics cookies."
+          },
+          {
+            "name": "Functional Cookies",
+            "description": "Functional cookies allow the website to remember your choices and preferences, such as language selection, currency preference, and saved tours. These cookies enhance your experience by providing personalized features."
+          },
+          {
+            "name": "Marketing Cookies",
+            "description": "Marketing cookies are used to track visitors across websites to display relevant advertisements and measure campaign effectiveness. These cookies may be set by third-party advertising partners. You can manage cookie preferences through your browser settings."
+          }
+        ]
+      },
+      "thirdPartyServices": {
+        "title": "Third-Party Services",
+        "items": [
+          "Payment Processors: We use trusted third-party payment processors to handle transactions securely. These services collect payment information (credit card details, etc.) according to their own privacy policies. We do not store complete credit card information on our servers.",
+          "Analytics Services: We use analytics services such as Google Analytics to understand website usage patterns, improve our services, and analyze user behavior. These services may use cookies and collect anonymized data about your visits.",
+          "Maps and Location Services: We integrate with mapping services (such as Google Maps) to provide location-based features, display tour routes, and help you find pickup points. These services may collect location data according to their privacy policies.",
+          "Social Media Platforms: Our website may include social media features (like sharing buttons) that allow you to share content on social networks. These features may collect information about your visits and are governed by the privacy policies of the respective social media platforms.",
+          "Email Service Providers: We use email service providers to send transactional emails, confirmations, and marketing communications. These providers process email delivery according to industry standards.",
+          "Cloud Hosting and Storage: We use cloud hosting services to store and process data securely. These services are compliant with data protection standards and help ensure the security and availability of your information.",
+          "Customer Support Tools: We may use third-party customer support platforms to manage inquiries and provide assistance. These platforms process communications in accordance with their privacy policies."
+        ]
+      },
+      "userRights": {
+        "title": "Your Privacy Rights",
+        "items": [
+          "Right to Access: You have the right to request access to the personal information we hold about you, including details about what data we have, how we use it, and who we share it with. You can access much of this information through your account dashboard.",
+          "Right to Correction: You can update or correct inaccurate or incomplete personal information at any time through your account settings or by contacting us directly. We will make corrections promptly upon verification.",
+          "Right to Deletion: You have the right to request deletion of your personal information, subject to certain legal exceptions (such as information we're required to retain for legal or accounting purposes). Account deletion can be requested through your account settings or by contacting support.",
+          "Right to Object: You can object to certain types of processing, such as direct marketing communications. You can opt-out of marketing emails through account settings or unsubscribe links in emails.",
+          "Right to Restrict Processing: You may request that we restrict the processing of your personal information in certain circumstances, such as when you contest the accuracy of your data.",
+          "Right to Data Portability: Where applicable, you have the right to receive your personal information in a structured, commonly used format and to transmit that data to another service provider.",
+          "Right to Withdraw Consent: If we're processing your data based on consent, you have the right to withdraw that consent at any time. Withdrawal of consent will not affect the lawfulness of processing that occurred before withdrawal."
+        ]
+      },
+      "dataSecurity": {
+        "title": "Data Security",
+        "content": [
+          "We take the security of your personal information seriously and implement appropriate technical and organizational measures to protect your data against unauthorized access, alteration, disclosure, or destruction.",
+          "Our security measures include: encryption of sensitive data in transit and at rest, secure servers and databases, regular security assessments and updates, restricted access to personal information on a need-to-know basis, secure payment processing through certified payment gateways, and staff training on data protection and privacy.",
+          "While we strive to protect your personal information, no method of transmission over the internet or electronic storage is 100% secure. We cannot guarantee absolute security, but we work continuously to maintain the highest standards of data protection.",
+          "In the event of a data breach that may affect your personal information, we will notify you and relevant authorities as required by applicable law. We have procedures in place to detect, respond to, and mitigate the impact of any security incidents."
+        ]
+      }
+    },
+    "contact": {
+      "title": "Privacy Inquiries",
+      "description": "If you have questions about this Privacy Policy, wish to exercise your privacy rights, or have concerns about how we handle your personal information, please contact us:",
+      "email": "privacy@ourikatravels.com",
+      "address": "Ourika Travels, 123 Atlas Road, Marrakech, Morocco",
+      "phone": "+212 524 123 456"
+    }
+  }
+}
+

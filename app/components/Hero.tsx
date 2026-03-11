@@ -75,7 +75,7 @@ export default function Hero() {
                 />
             )}
 
-            <div className={`flex flex-col items-center justify-center pt-10 pb-8 px-6 md:pt-20 md:pb-12 relative transition-all duration-300 ${isFocused ? 'z-[90]' : 'z-20'}`}>
+            <div className={`flex flex-col items-center justify-center pt-10 pb-8 px-6 md:pt-20 md:pb-12 relative transition-all duration-300 ${isFocused ? 'z-[90]' : 'z-20'} animate-fade-in-up`}>
                 <h1 className={`text-4xl md:text-6xl font-black text-[#004f32] tracking-tight mb-8 md:mb-12 text-center transition-all duration-300 ${isFocused ? 'opacity-0 -translate-y-4' : 'opacity-100'}`}>
                     Where to?
                 </h1>

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const interests = [
   { title: "Outdoors", image: "/interests/outdoors.png" },
@@ -10,8 +11,13 @@ const interests = [
 ];
 
 export default function Interests() {
+  const { elementRef, isVisible } = useScrollReveal(0.1);
+
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 py-10 sm:px-6 md:py-16">
+    <section
+      ref={elementRef as any}
+      className={`w-full max-w-7xl mx-auto px-4 py-10 sm:px-6 md:py-16 reveal ${isVisible ? 'reveal-visible' : ''}`}
+    >
       <div className="mb-8 text-left md:mb-10">
         <h2 className="mb-1 text-2xl font-black leading-tight text-black md:text-[28px]">
           Find things to do by interest
@@ -22,10 +28,11 @@ export default function Interests() {
       </div>
 
       <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 lg:pb-0 lg:grid lg:grid-cols-4 lg:gap-6 hide-scrollbar">
-        {interests.map((interest) => (
+        {interests.map((interest, index) => (
           <div
             key={interest.title}
-            className="min-w-[85%] md:min-w-[45%] lg:min-w-0 snap-center group relative h-[400px] md:h-[450px] rounded-[2rem] overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+            className={`min-w-[85%] md:min-w-[45%] lg:min-w-0 snap-center group relative h-[400px] md:h-[450px] rounded-[2rem] overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 reveal ${isVisible ? 'reveal-visible' : ''}`}
+            style={{ transitionDelay: `${index * 150}ms` }}
           >
             <Image
               src={interest.image}
