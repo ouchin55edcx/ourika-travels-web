@@ -115,9 +115,8 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
   return (
     <>
       <nav
-        className={`flex items-center justify-between px-6 py-2 bg-white border-b border-gray-100 md:px-16 transition-all duration-300 ${
-          sticky ? "sticky top-0" : ""
-        } ${isSearchFocused ? "z-[1002]" : "z-50"}`}
+        className={`flex items-center justify-between px-6 py-2 bg-white border-b border-gray-100 md:px-16 transition-all duration-300 ${sticky ? "sticky top-0" : ""
+          } ${isSearchFocused ? "z-[1002]" : "z-50"}`}
       >
         {/* Left Section: Logo + Search + Globe */}
         <div className="flex items-center gap-4 lg:gap-8">
@@ -189,14 +188,17 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
               )}
             </Link>
 
-            <button className="flex flex-col items-center justify-center gap-1.5 px-4 py-2 hover:bg-gray-50 rounded-2xl transition-all group min-w-[64px]">
+            <Link
+              href="/reservation-historic"
+              className="flex flex-col items-center justify-center gap-1.5 px-4 py-2 hover:bg-gray-50 rounded-2xl transition-all group min-w-[64px]"
+            >
               <ClipboardList className="w-6 h-6 text-[#004f32] stroke-[2.5px] group-hover:scale-110 transition-transform" />
               {!showSearchBar && (
                 <span className="text-[11px] font-bold text-[#004f32]">
                   Reservations
                 </span>
               )}
-            </button>
+            </Link>
 
             <Link
               href="/register/guide"
@@ -239,17 +241,20 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
 
         {/* Mobile Menu Drawer */}
         <div
-          className={`fixed inset-0 bg-white z-40 lg:hidden transform transition-transform duration-300 ease-in-out ${
-            isMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`fixed inset-0 bg-white z-40 lg:hidden transform transition-transform duration-300 ease-in-out ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           <div className="flex flex-col h-full pt-24 px-6 gap-8">
             {/* Primary Links */}
             <div className="flex flex-col gap-6">
-              <button className="flex items-center gap-4 text-2xl font-bold text-[#004f32]">
+              <Link
+                href="/reservation-historic"
+                className="flex items-center gap-4 text-2xl font-bold text-[#004f32]"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 <ClipboardList className="w-8 h-8 stroke-[2.5px]" />
                 Reservations
-              </button>
+              </Link>
               <Link
                 href="/wishlist"
                 className="flex items-center gap-4 text-2xl font-bold text-[#004f32]"
