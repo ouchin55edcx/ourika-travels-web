@@ -15,13 +15,25 @@ import TourStickyHeader from "./components/TourStickyHeader";
 import TourTabs from "./components/TourTabs";
 import TourTravelersLove from "./components/TourTravelersLove";
 import { formatTitleFromSlug, navigationItems } from "./components/tourData";
+import { experiencesData } from "@/app/experiences/components/experiencesData";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug?: string }>;
-}) {
-  const { slug } = await params;
+export const dynamicParams = true;
+
+function slugify(title: string) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export function generateStaticParams() {
+  return experiencesData.map((experience) => ({
+    slug: slugify(experience.title),
+  }));
+}
+
+export default function Page({ params }: { params: { slug?: string } }) {
+  const { slug } = params;
   const fallbackTitle = formatTitleFromSlug(slug);
   const title =
     fallbackTitle || "Ourika Valley, Atlas mountains Waterfalls & 3 Valleys";
