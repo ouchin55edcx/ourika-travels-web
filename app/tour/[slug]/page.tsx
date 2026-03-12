@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Footer from "@/app/components/Footer";
 import Navbar from "@/app/components/Navbar";
 import TourAbout from "./components/TourAbout";
@@ -17,6 +18,8 @@ import TourTravelersLove from "./components/TourTravelersLove";
 import { formatTitleFromSlug, navigationItems } from "./components/tourData";
 import { experiencesData } from "@/app/experiences/components/experiencesData";
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ourikatreks.com";
+
 export const dynamicParams = true;
 
 function slugify(title: string) {
@@ -32,8 +35,38 @@ export function generateStaticParams() {
   }));
 }
 
-export default function Page({ params }: { params: { slug?: string } }) {
-  const { slug } = params;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug?: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const fallbackTitle = formatTitleFromSlug(slug);
+  const title =
+    fallbackTitle || "Ourika Valley, Atlas Mountains Waterfalls & 3 Valleys";
+
+  return {
+    title,
+    description: `Book the "${title}" experience with certified local guides in Ourika Valley, Morocco. Small groups, authentic encounters, and unforgettable memories.`,
+    openGraph: {
+      type: "website",
+      url: `${baseUrl}/tour/${slug}`,
+      title: `${title} | Ourika Travels`,
+      description: `Join the "${title}" experience in Ourika Valley — guided by local experts.`,
+      images: [{ url: `${baseUrl}/og-image.jpg`, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | Ourika Travels`,
+      description: `Book the "${title}" guided experience in Ourika Valley.`,
+      images: [`${baseUrl}/og-image.jpg`],
+    },
+    alternates: { canonical: `${baseUrl}/tour/${slug}` },
+  };
+}
+
+export default async function Page({ params }: { params: Promise<{ slug?: string }> }) {
+  const { slug } = await params;
   const fallbackTitle = formatTitleFromSlug(slug);
   const title =
     fallbackTitle || "Ourika Valley, Atlas mountains Waterfalls & 3 Valleys";

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ChevronRight, ChevronLeft } from "lucide-react";
+import { Heart, ChevronRight, ChevronLeft, Star } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const experiences = [
@@ -80,24 +80,22 @@ const experiences = [
   },
 ];
 
-const RatingBubbles = ({ rating }: { rating: number }) => {
+const RatingStars = ({ rating }: { rating: number }) => {
   return (
     <div className="flex items-center gap-0.5">
-      {[...Array(5)].map((_, i) => (
-        <div
-          key={i}
-          className={`h-[13px] w-[13px] rounded-full border border-[#00aa6c] ${i < Math.floor(rating) ? "bg-[#00aa6c]" : "bg-white"
-            } ${i === Math.floor(rating) && rating % 1 !== 0 ? "relative overflow-hidden" : ""}`}
-        >
-          {/* Partial fill logic for simple bubble representation */}
-          {i === Math.floor(rating) && rating % 1 !== 0 && (
-            <div
-              className="absolute inset-0 bg-[#00aa6c]"
-              style={{ width: `${(rating % 1) * 100}%` }}
-            />
-          )}
-        </div>
-      ))}
+      {[...Array(5)].map((_, i) => {
+        const isFull = i < Math.floor(rating);
+        const isHalf = i === Math.floor(rating) && rating % 1 >= 0.5;
+        return (
+          <Star
+            key={i}
+            className={`h-[14px] w-[14px] ${isFull || isHalf
+              ? "fill-[#00aa6c] text-[#00aa6c]"
+              : "text-gray-200"
+              }`}
+          />
+        );
+      })}
     </div>
   );
 };
@@ -113,12 +111,12 @@ export default function Experiences() {
     >
       <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
-          <p className="text-[#00ef9d] font-black uppercase tracking-[0.2em] text-[10px] mb-3">Top Rated Adventures</p>
+          <p className="text-[#00ef9d] font-black uppercase tracking-[0.2em] text-[10px] mb-3">Top Rated Ourika Activities</p>
           <h2 className="text-4xl md:text-5xl font-black leading-[0.9] text-[#004f32] tracking-tighter mb-4">
-            Unforgettable moments<br />in the Ourika Valley
+            Unmissable Moments in the Atlas Mountains
           </h2>
           <p className="text-gray-500 text-lg font-medium leading-relaxed">
-            Curated picks for your next legendary adventure.
+            Hand-picked experiences designed to give you an authentic taste of Morocco.
           </p>
         </div>
         <div className="hidden lg:flex gap-3 mb-2">
@@ -145,13 +143,13 @@ export default function Experiences() {
               style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             >
               <div className="h-full flex flex-col">
-                <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 shadow-xl">
+                <div className="relative aspect-square sm:aspect-[4/3] rounded-3xl overflow-hidden mb-4 shadow-lg">
                   <Image
                     src={exp.image}
                     alt={exp.title}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110 saturate-[0.8] group-hover:saturate-100"
-                    sizes="(max-width: 640px) 280px, (max-width: 1024px) 300px, 25vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <button className="absolute top-4 right-4 h-10 w-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md text-[#004f32] shadow-lg transition-transform hover:scale-110 active:scale-95 group/heart">
@@ -159,15 +157,16 @@ export default function Experiences() {
                   </button>
                 </div>
 
-                <div className="space-y-3 px-2 flex-1 flex flex-col">
-                  <h3 className="text-xl font-black text-[#004f32] leading-tight line-clamp-2 min-h-[3rem]">
+                <div className="space-y-2 px-1 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold text-[#1a1a1a] leading-tight line-clamp-2">
                     {exp.title}
                   </h3>
 
-                  <div className="flex items-center gap-2 mt-auto">
-                    <RatingBubbles rating={exp.rating} />
-                    <span className="text-[13px] text-gray-400 font-bold uppercase tracking-wider">
-                      {exp.reviews.toLocaleString()} reviews
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-[#484848]">{exp.rating}</span>
+                    <RatingStars rating={exp.rating} />
+                    <span className="text-[14px] text-gray-500">
+                      ({exp.reviews.toLocaleString()})
                     </span>
                   </div>
 

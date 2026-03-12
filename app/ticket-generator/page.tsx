@@ -80,7 +80,7 @@ export default function LuxuryTicketGenerator() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-slate-900">
+        <div className="min-h-screen bg-slate-50 p-4 md:p-8 text-slate-900">
             <div className="max-w-7xl mx-auto flex flex-col xl:flex-row gap-8">
                 {/* Settings Panel */}
                 <div className="xl:w-1/3 space-y-6">

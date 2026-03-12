@@ -5,7 +5,7 @@
   --foreground: #0f1f18;
   --primary-accent: #00ef9d;
   --primary-dark: #004f32;
-  
+
   /* Spacing Concept Variables */
   --container-px: 1.5rem;
   --section-padding-large: 8rem;
@@ -13,6 +13,22 @@
   --section-padding-small: 3rem;
   --border-radius-premium: 3rem;
   --border-radius-card: 1.5rem;
+
+  /* ─── Global Typography Scale ─── */
+  --h1-size-mobile: 2.25rem;
+  /* 36px */
+  --h1-size-desktop: 3rem;
+  /* 48px */
+  --h2-size-mobile: 1.875rem;
+  /* 30px */
+  --h2-size-desktop: 2.25rem;
+  /* 36px */
+
+  /* ─── Global Spacing Tokens ─── */
+  --title-content-gap: 4px;
+  /* gap between heading and its section content */
+  --section-gap: 8px;
+  /* gap between sections */
 }
 
 @theme inline {
@@ -20,13 +36,18 @@
   --color-foreground: var(--foreground);
   --font-outfit: var(--font-outfit);
   --font-inter: var(--font-inter);
-  
+
   --color-primary: var(--primary-dark);
   --color-mint: var(--primary-accent);
 
   @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 
   @keyframes fade-in-up {
@@ -34,6 +55,7 @@
       opacity: 0;
       transform: translateY(40px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -56,7 +78,9 @@
   }
 }
 
-/* Scroll Reveal Utilities - Improved and smoother */
+/* ─────────────────────────────────────────────
+   SCROLL REVEAL UTILITIES
+───────────────────────────────────────────── */
 .reveal {
   opacity: 0;
   transform: translateY(50px);
@@ -70,10 +94,21 @@
   filter: blur(0px);
 }
 
-.reveal-delayed-1 { transition-delay: 150ms; }
-.reveal-delayed-2 { transition-delay: 300ms; }
-.reveal-delayed-3 { transition-delay: 450ms; }
+.reveal-delayed-1 {
+  transition-delay: 150ms;
+}
 
+.reveal-delayed-2 {
+  transition-delay: 300ms;
+}
+
+.reveal-delayed-3 {
+  transition-delay: 450ms;
+}
+
+/* ─────────────────────────────────────────────
+   DARK MODE
+───────────────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0f1715;
@@ -81,22 +116,95 @@
   }
 }
 
+/* ─────────────────────────────────────────────
+   GLOBAL BASE STYLES  
+   Single font — Outfit — applied everywhere
+───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-outfit), sans-serif;
+  /* ✅ ONE font across the entire site */
+  font-family: var(--font-outfit), system-ui, sans-serif;
   letter-spacing: -0.01em;
   font-feature-settings: 'ss01', 'ss02';
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, .font-heading {
-  font-family: var(--font-outfit), sans-serif;
+/* ─────────────────────────────────────────────
+   GLOBAL HEADING SIZES  
+   Consistent h1 / h2 across every page
+───────────────────────────────────────────── */
+h1,
+.h1 {
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: var(--h1-size-mobile);
+  line-height: 1.15;
+}
+
+h2,
+.h2 {
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: var(--h2-size-mobile);
+  line-height: 1.2;
+}
+
+h3,
+h4,
+h5,
+h6,
+.font-heading {
+  font-family: var(--font-outfit), system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.04em;
 }
 
-p, .font-body {
-  font-family: var(--font-inter), sans-serif;
+/* Desktop overrides */
+@media (min-width: 768px) {
+
+  h1,
+  .h1 {
+    font-size: var(--h1-size-desktop);
+  }
+
+  h2,
+  .h2 {
+    font-size: var(--h2-size-desktop);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   GLOBAL SPACING RULES
+   title → content: 4px
+   section → section: 8px
+───────────────────────────────────────────── */
+
+/* 4px gap between any h1/h2/h3 and what immediately follows it */
+h1+*,
+h2+*,
+h3+* {
+  margin-top: var(--title-content-gap);
+}
+
+/* 8px gap between sibling <section> elements */
+section+section {
+  margin-top: var(--section-gap);
+}
+
+/* ─────────────────────────────────────────────
+   UTILITY CLASSES
+───────────────────────────────────────────── */
+p,
+.font-body {
+  font-family: var(--font-outfit), system-ui, sans-serif;
   line-height: 1.6;
 }

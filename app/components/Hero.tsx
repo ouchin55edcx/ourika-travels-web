@@ -88,9 +88,9 @@ export default function Hero() {
         className={`flex flex-col items-center justify-center pt-10 pb-8 px-6 md:pt-20 md:pb-12 relative transition-all duration-300 ${isFocused ? "z-[90]" : "z-20"} animate-fade-in-up`}
       >
         <h1
-          className={`text-4xl md:text-6xl font-black text-[#004f32] tracking-tight mb-8 md:mb-12 text-center transition-all duration-300 ${isFocused ? "opacity-0 -translate-y-4" : "opacity-100"}`}
+          className={`text-4xl md:text-7xl font-black text-[#004f32] tracking-tight mb-8 md:mb-12 text-center transition-all duration-300 ${isFocused ? "opacity-0 -translate-y-4" : "opacity-100"}`}
         >
-          Where to?
+          Discover the Magic of Ourika Valley
         </h1>
 
         <div className="w-full max-w-4xl mx-auto px-4" ref={searchRef}>
@@ -105,7 +105,7 @@ export default function Hero() {
                 >
                   <SearchIcon className="w-5 h-5 md:w-7 md:h-7 text-gray-400 mr-2 md:mr-5 shrink-0" />
                   <div className="flex-1 text-[13px] sm:text-base md:text-xl text-gray-400 font-medium truncate">
-                    Places to go, things to do, hotels...
+                    Search activities, guided tours, or local experiences...
                   </div>
                   <button className="bg-[#00ef9d] hover:bg-[#00dd8e] text-black font-black h-full px-5 md:px-14 rounded-full transition-all duration-300 text-sm md:text-xl shadow-inner active:scale-95">
                     Search

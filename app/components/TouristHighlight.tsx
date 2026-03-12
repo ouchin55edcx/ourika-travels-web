@@ -11,11 +11,11 @@ export default function TouristHighlight() {
     return (
         <section
             ref={elementRef as any}
-            className="w-full max-w-7xl mx-auto px-6 py-16 md:py-24 xl:py-32"
+            className="w-full pb-0"
         >
-            <div className={`bg-[#004f32] rounded-[3rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+            <div className={`bg-[#004f32] overflow-hidden flex flex-col lg:flex-row shadow-2xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
                 {/* Image Section */}
-                <div className={`w-full lg:w-[45%] relative h-[400px] lg:h-auto overflow-hidden`}>
+                <div className={`w-full lg:w-[40%] relative h-[300px] lg:h-auto overflow-hidden`}>
                     <Image
                         src="https://images.unsplash.com/photo-1531058020387-3be344556be6?q=80&w=1200&auto=format&fit=crop"
                         alt="Happy tourist enjoying Ourika"
@@ -26,24 +26,22 @@ export default function TouristHighlight() {
                 </div>
 
                 {/* Content Section */}
-                <div className={`w-full lg:w-[55%] p-10 sm:p-16 lg:p-24 flex flex-col justify-center text-white`}>
-                    <div className="flex items-center gap-3 mb-8">
+                <div className={`w-full lg:w-[60%] p-8 sm:p-12 lg:p-16 xl:p-20 flex flex-col justify-center text-white`}>
+                    <div className="flex items-center gap-3 mb-6">
                         <div className="w-8 h-8 rounded-full bg-[#00ef9d] flex items-center justify-center p-1.5 shadow-sm shrink-0">
                             <div className="w-full h-full rounded-full border-2 border-[#004f32] flex items-center justify-center">
                                 <div className="w-1.5 h-1.5 rounded-full bg-[#004f32]"></div>
                             </div>
                         </div>
-                        <span className="text-[12px] font-black tracking-[0.2em] uppercase opacity-90">Ourika Travels Insights</span>
+                        <span className="text-[12px] font-black tracking-[0.2em] uppercase opacity-90">Traveler Testimonials</span>
                     </div>
 
-                    <h2 className="text-5xl sm:text-7xl font-black mb-8 leading-[0.9] tracking-tighter">
-                        Happy Guests,<br />
-                        Unforgettable<br />
-                        Stories
+                    <h2 className="text-4xl sm:text-6xl font-black mb-6 leading-[1] tracking-tighter">
+                        Real Guest Ourika Stories
                     </h2>
 
-                    <p className="text-lg sm:text-xl font-medium text-white/70 mb-12 max-w-sm leading-relaxed">
-                        The travel experiences shaping the memories of our adventurers in Ourika.
+                    <p className="text-lg font-medium text-white/70 mb-10 max-w-md leading-relaxed">
+                        See how the stunning landscapes and warm Berber hospitality of the Atlas Mountains leave a lasting impression.
                     </p>
 
                     <Link

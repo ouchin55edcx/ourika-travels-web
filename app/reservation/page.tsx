@@ -136,7 +136,7 @@ export default function ReservationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans selection:bg-[#34e0a1] selection:text-black">
+    <div className="min-h-screen bg-gray-50 selection:bg-[#34e0a1] selection:text-black">
       {showTicket && (
         <BookingTicket
           bookingId="OT-2026-X842"

@@ -33,7 +33,7 @@ export default function OurikaAboutPage() {
   const faqReveal = useScrollReveal(0.1);
 
   return (
-    <div className="min-h-screen bg-white font-sans selection:bg-[#34e0a1] selection:text-black">
+    <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
       <Navbar />
 
       <div className="max-w-7xl mx-auto md:px-5 lg:px-9 flex flex-col gap-2 md:mt-4 pb-12">

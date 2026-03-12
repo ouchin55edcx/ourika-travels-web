@@ -24,7 +24,7 @@ export default function GuideHomePage() {
   const appReveal = useScrollReveal(0.05);
 
   return (
-    <div className="min-h-screen bg-white text-[#0f1f18] selection:bg-[#00ef9d] selection:text-black font-outfit">
+    <div className="min-h-screen bg-white text-[#0f1f18] selection:bg-[#00ef9d] selection:text-black">
       <GuideNavbar />
 
       <main className="flex flex-col gap-2">

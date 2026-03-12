@@ -8,22 +8,26 @@ const interests = [
   {
     title: "Mountain Peaks",
     image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
-    desc: "Scale the heights of the High Atlas"
+    desc: "Scale the heights of the High Atlas",
+    slug: "outdoors"
   },
   {
     title: "Berber Tables",
     image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=1200&auto=format&fit=crop",
-    desc: "Authentic culinary journeys"
+    desc: "Authentic culinary journeys",
+    slug: "food"
   },
   {
     title: "Village Life",
     image: "https://images.unsplash.com/photo-1539650116574-8efeb43e2750?q=80&w=1200&auto=format&fit=crop",
-    desc: "Uncover ancient traditions"
+    desc: "Uncover ancient traditions",
+    slug: "culture"
   },
   {
     title: "Desert Sands",
     image: "https://images.unsplash.com/photo-1489493585363-d69421e0edd3?q=80&w=1200&auto=format&fit=crop",
-    desc: "Silent dunes and starry nights"
+    desc: "Silent dunes and starry nights",
+    slug: "outdoors"
   },
 ];
 
@@ -33,26 +37,25 @@ export default function Interests() {
   return (
     <section
       ref={elementRef as any}
-      className={`w-full max-w-7xl mx-auto px-6 py-16 md:py-24 xl:py-32`}
+      className={`w-full max-w-7xl mx-auto px-6`}
     >
       <div className={`mb-12 md:mb-16 reveal ${isVisible ? 'reveal-visible' : ''}`}>
-        <p className="text-[#00ef9d] font-black uppercase tracking-[0.2em] text-xs mb-4">Discovery by Passion</p>
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[0.9] text-[#004f32] tracking-tighter mb-6">
-          Find Your Next<br />Great Adventure
+        <p className="text-[#00ef9d] font-black uppercase tracking-[0.2em] text-xs mb-4">Explore by Interest</p>
+        <h2 className="text-4xl md:text-4xl lg:text-6xl font-black leading-[0.9] text-[#004f32] tracking-tighter mb-6">
+          Authentic Ourika Experiences Tailored for You
         </h2>
         <p className="text-lg font-medium text-gray-500 max-w-xl leading-relaxed">
-          Whether you crave the adrenaline of a mountain trek or the tranquility of a traditional tea ceremony, we have a curated path for you.
+          From the snow-capped High Atlas peaks to the heart of ancient Berber villages, immerse yourself in the natural beauty and rich culture of the Ourika Valley.
         </p>
       </div>
 
       <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 lg:pb-0 lg:grid lg:grid-cols-4 lg:gap-8 hide-scrollbar">
         {interests.map((interest, index) => {
-          const slug = interest.title.toLowerCase().replace(' ', '-');
           return (
             <Link
               key={interest.title}
-              href={`/category/${slug}`}
-              className={`min-w-[85%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-0 snap-center group relative h-[500px] lg:h-[600px] rounded-[3rem] overflow-hidden cursor-pointer shadow-2xl transition-all duration-700 reveal ${isVisible ? 'reveal-visible' : ''}`}
+              href={`/category/${interest.slug}`}
+              className={`min-w-[85%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-0 snap-center group relative h-[400px] lg:h-[480px] rounded-[3rem] overflow-hidden cursor-pointer shadow-2xl transition-all duration-700 reveal ${isVisible ? 'reveal-visible' : ''}`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <Image
