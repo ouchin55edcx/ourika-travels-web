@@ -50,7 +50,7 @@ export default function GuideCTA() {
                         </div>
 
                         <Link
-                            href="/register/guide/home"
+                            href="/register/guide"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group inline-flex items-center gap-3 bg-[#004f32] text-white px-12 py-5 rounded-full font-black text-lg transition-all hover:scale-105 hover:bg-[#003a25] shadow-xl w-fit"

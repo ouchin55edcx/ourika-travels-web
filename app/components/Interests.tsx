@@ -37,7 +37,7 @@ export default function Interests() {
   return (
     <section
       ref={elementRef as any}
-      className={`w-full max-w-7xl mx-auto px-6`}
+      className={`w-full max-w-7xl mx-auto px-6 mt-16`}
     >
       <div className={`mb-12 md:mb-16 reveal ${isVisible ? 'reveal-visible' : ''}`}>
         <p className="text-[#00ef9d] font-black uppercase tracking-[0.2em] text-xs mb-4">Explore by Interest</p>

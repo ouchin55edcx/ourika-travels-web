@@ -18,7 +18,25 @@ import NextImage from "next/image";
 
 export default function GuideSuccessPage() {
     return (
-        <div className="min-h-screen bg-white relative overflow-x-hidden selection:bg-[#00ef9d] selection:text-[#004f32]">
+        <div className="min-h-screen bg-gray-50 selection:bg-[#34e0a1] selection:text-black">
+            <header className="fixed top-0 left-0 right-0 z-[100] bg-white border-b border-gray-200 shadow-sm">
+                <div className="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-center md:justify-between relative">
+                    <Link href="/" className="hidden md:flex flex-col items-start leading-none group">
+                        <span className="text-[20px] md:text-[22px] font-black text-[#0b3a2c] tracking-tighter">
+                            Ourika Travels
+                        </span>
+                        <span className="text-[9px] font-black text-[#0b3a2c] uppercase tracking-[0.2em] opacity-70 mt-0.5">
+                            Local Partner
+                        </span>
+                    </Link>
+                    <Link
+                        href="/"
+                        className="absolute right-6 md:static p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-900 group"
+                    >
+                        <X className="w-5 h-5 transition-transform group-hover:rotate-90" />
+                    </Link>
+                </div>
+            </header>
             <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-16 pb-20 md:pt-32 text-center flex flex-col items-center justify-center min-h-[90vh]">
                 <div className="text-center mb-12">
                     <div className="inline-flex items-center justify-center w-24 h-24 bg-[#00ef9d] rounded-full mb-8 shadow-[0_20px_40px_rgba(0,239,157,0.3)] animate-in zoom-in duration-700">
@@ -34,9 +52,9 @@ export default function GuideSuccessPage() {
 
                 <div className="bg-white border border-gray-100 rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.05)] overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-700">
                     <div className="p-8 md:p-16 text-center">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#00ef9d]/20 rounded-full mb-8">
-                            <Smartphone className="w-4 h-4 text-[#004f32]" />
-                            <span className="text-[12px] font-black text-[#004f32] tracking-widest uppercase">Guide Application</span>
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 rounded-full mb-8">
+                            <Smartphone className="w-4 h-4 text-[#0b3a2c]" />
+                            <span className="text-[12px] font-black text-[#0b3a2c] tracking-widest uppercase">Guide Application</span>
                         </div>
 
                         <h2 className="text-3xl font-black text-black mb-3">Download the App</h2>
@@ -44,27 +62,35 @@ export default function GuideSuccessPage() {
                             Get ready to manage your bookings and lead your first group in Ourika.
                         </p>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-12">
-                            {/* App Store */}
-                            <button className="flex items-center gap-4 bg-black text-white px-8 py-5 rounded-[1.2rem] hover:scale-[1.05] active:scale-[0.95] transition-all shadow-xl text-left group">
-                                <div className="text-3xl group-hover:scale-110 transition-transform"></div>
-                                <div>
-                                    <div className="text-[10px] uppercase font-black text-white/50 leading-none tracking-widest">Download on the</div>
-                                    <div className="text-xl font-[900] leading-tight mt-1">App Store</div>
-                                </div>
-                            </button>
-
+                        <div className="flex flex-col gap-4 mb-12">
                             {/* Play Store */}
-                            <button className="flex items-center gap-4 bg-black text-white px-8 py-5 rounded-[1.2rem] hover:scale-[1.05] active:scale-[0.95] transition-all shadow-xl text-left group">
-                                <div className="w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <svg viewBox="0 0 24 24" className="w-full h-full fill-white">
-                                        <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L18.77,16.24C19.46,16.63 19.46,17.37 18.77,17.76L16.03,19.34L14.4,12.7L16.81,15.12M14.4,11.3L16.03,4.66L18.77,6.24C19.46,6.63 19.46,7.37 18.77,7.76L16.81,8.88L14.4,11.3M13.69,12L3.84,2.15L13.69,12ZM15.34,12L13.69,12L15.34,12Z" />
-                                    </svg>
+                            <button className="flex items-center gap-4 bg-black text-white px-8 py-5 rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl text-left group w-full">
+                                <div className="w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform relative">
+                                    <NextImage
+                                        src="/image.png"
+                                        alt="Google Play"
+                                        width={32}
+                                        height={32}
+                                        className="object-contain"
+                                    />
                                 </div>
                                 <div>
                                     <div className="text-[10px] uppercase font-black text-white/50 leading-none tracking-widest">Get it on</div>
                                     <div className="text-xl font-[900] leading-tight mt-1">Google Play</div>
                                 </div>
+                                <div className="ml-auto text-white/30"><ChevronRight className="w-5 h-5" /></div>
+                            </button>
+
+                            {/* Direct APK Download */}
+                            <button className="flex items-center gap-4 bg-emerald-50 text-[#0b3a2c] px-8 py-5 rounded-2xl hover:bg-emerald-100 transition-all border-2 border-emerald-100 border-dashed text-left w-full group">
+                                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                                    <Download className="w-5 h-5 text-[#0b3a2c]" />
+                                </div>
+                                <div className="flex-1">
+                                    <div className="text-[10px] uppercase font-black opacity-50 leading-none tracking-widest">Available now</div>
+                                    <div className="text-lg font-[900] leading-tight mt-1 uppercase tracking-tighter">Download Native APK</div>
+                                </div>
+                                <div className="px-3 py-1 bg-emerald-500 text-white text-[10px] font-black rounded-lg uppercase">Android Only</div>
                             </button>
                         </div>
 
@@ -91,7 +117,7 @@ export default function GuideSuccessPage() {
                         </div>
 
                         <div className="mt-12">
-                            <Link href="/" className="inline-flex items-center gap-3 text-[#004f32] font-[900] text-lg hover:text-[#00ef9d] transition-colors underline decoration-4 underline-offset-8">
+                            <Link href="/" className="inline-flex items-center gap-3 text-[#0b3a2c] font-black text-lg hover:text-[#00ef9d] transition-colors underline decoration-4 underline-offset-8">
                                 Back to website <ArrowRight className="w-5 h-5" />
                             </Link>
                         </div>

@@ -37,7 +37,7 @@ const footerLinks = [
   {
     title: "Do Business With Us",
     links: [
-      { name: "Become a Guide", href: "/register/guide/home" },
+      { name: "Become a Guide", href: "/register/guide" },
       { name: "Property Owners", href: "#" },
       { name: "Business Advantage", href: "#" },
       { name: "Sponsored Placements", href: "#" },
