@@ -109,28 +109,29 @@ export default function Experiences() {
     <section
       id="experiences-section"
       ref={elementRef as any}
-      className={`mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:py-16 reveal ${isVisible ? 'reveal-visible' : ''}`}
+      className={`mx-auto w-full max-w-7xl px-6 py-16 md:py-24 xl:py-32 reveal ${isVisible ? 'reveal-visible' : ''}`}
     >
-      <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
+      <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
-          <h2 className="mb-1 text-2xl font-black leading-tight text-black md:text-[28px]">
-            Unforgettable travel experiences in Ourika
+          <p className="text-[#00ef9d] font-black uppercase tracking-[0.2em] text-[10px] mb-3">Top Rated Adventures</p>
+          <h2 className="text-4xl md:text-5xl font-black leading-[0.9] text-[#004f32] tracking-tighter mb-4">
+            Unforgettable moments<br />in the Ourika Valley
           </h2>
-          <p className="text-gray-600 text-sm md:text-[15px] font-medium opacity-80">
-            Can’t-miss picks for your next adventure
+          <p className="text-gray-500 text-lg font-medium leading-relaxed">
+            Curated picks for your next legendary adventure.
           </p>
         </div>
-        <div className="hidden lg:flex gap-2 mb-1">
-          <button className="p-2.5 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors">
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
+        <div className="hidden lg:flex gap-3 mb-2">
+          <button className="h-12 w-12 flex items-center justify-center border border-gray-100 rounded-full bg-white shadow-sm hover:shadow-md hover:border-[#00ef9d] transition-all text-[#004f32]">
+            <ChevronLeft className="w-5 h-5 stroke-[2.5px]" />
           </button>
-          <button className="p-2.5 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors">
-            <ChevronRight className="w-5 h-5 text-gray-600" />
+          <button className="h-12 w-12 flex items-center justify-center border border-gray-100 rounded-full bg-white shadow-sm hover:shadow-md hover:border-[#00ef9d] transition-all text-[#004f32]">
+            <ChevronRight className="w-5 h-5 stroke-[2.5px]" />
           </button>
         </div>
       </div>
 
-      <div className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-4 pb-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-5 lg:gap-y-10 lg:overflow-visible lg:px-0 lg:pb-0">
+      <div className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-pl-6 pb-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16 lg:overflow-visible lg:px-0 lg:pb-0">
         {experiences.map((exp, index) => {
           const slug = exp.title
             .toLowerCase()
@@ -140,41 +141,40 @@ export default function Experiences() {
             <Link
               key={exp.id}
               href={`/tour/${slug}`}
-              className={`block min-w-[256px] max-w-[256px] shrink-0 snap-start sm:min-w-[268px] sm:max-w-[268px] lg:min-w-0 lg:max-w-none reveal ${isVisible ? 'reveal-visible' : ''}`}
+              className={`block min-w-[280px] group transition-all duration-500 reveal ${isVisible ? 'reveal-visible' : ''}`}
               style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             >
-              <div className="group h-full cursor-pointer">
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4">
+              <div className="h-full flex flex-col">
+                <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 shadow-xl">
                   <Image
                     src={exp.image}
                     alt={exp.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 256px, (max-width: 1024px) 268px, 25vw"
+                    className="object-cover transition-transform duration-1000 group-hover:scale-110 saturate-[0.8] group-hover:saturate-100"
+                    sizes="(max-width: 640px) 280px, (max-width: 1024px) 300px, 25vw"
                   />
-                  <button className="absolute top-3 right-3 p-2.5 rounded-full bg-white/90 hover:bg-white text-black shadow-sm transition-colors group/heart">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <button className="absolute top-4 right-4 h-10 w-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md text-[#004f32] shadow-lg transition-transform hover:scale-110 active:scale-95 group/heart">
                     <Heart className="w-5 h-5 group-hover/heart:fill-red-500 group-hover/heart:text-red-500 transition-all" />
                   </button>
                 </div>
 
-                <div className="space-y-1.5">
-                  <h3 className="text-base md:text-[17px] font-bold text-[#2c2c2c] leading-snug group-hover:underline line-clamp-2">
+                <div className="space-y-3 px-2 flex-1 flex flex-col">
+                  <h3 className="text-xl font-black text-[#004f32] leading-tight line-clamp-2 min-h-[3rem]">
                     {exp.title}
                   </h3>
 
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="text-sm font-bold text-[#2c2c2c]">
-                      {exp.rating}
-                    </span>
+                  <div className="flex items-center gap-2 mt-auto">
                     <RatingBubbles rating={exp.rating} />
-                    <span className="text-xs md:text-sm text-gray-500 font-medium">
-                      ({exp.reviews.toLocaleString()})
+                    <span className="text-[13px] text-gray-400 font-bold uppercase tracking-wider">
+                      {exp.reviews.toLocaleString()} reviews
                     </span>
                   </div>
 
-                  <p className="text-sm md:text-base font-bold text-black pt-1">
-                    from ${exp.price} per adult
-                  </p>
+                  <div className="flex items-baseline gap-1 pt-2 border-t border-gray-50">
+                    <span className="text-sm font-bold text-gray-400">from</span>
+                    <span className="text-2xl font-black text-[#004f32]">${exp.price}</span>
+                  </div>
                 </div>
               </div>
             </Link>
@@ -193,12 +193,13 @@ export default function Experiences() {
       `}</style>
 
       {/* View More Button */}
-      <div className="mt-8 flex justify-center">
+      <div className="mt-16 flex justify-center">
         <Link
           href="/experiences"
-          className="w-full rounded-full bg-black px-8 py-4 text-center text-sm font-bold text-white transition-all hover:bg-[#1f1f1f] active:scale-95 md:w-auto lg:text-[15px]"
+          className="group inline-flex items-center gap-3 bg-[#004f32] text-white px-12 py-5 rounded-full font-black text-lg transition-all hover:scale-105 hover:bg-[#003a25] shadow-xl"
         >
           See all experiences
+          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
     </section>

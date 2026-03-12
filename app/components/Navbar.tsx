@@ -201,7 +201,9 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
             </Link>
 
             <Link
-              href="/register/guide"
+              href="/register/guide/home"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hidden xl:flex items-center gap-2 text-[15px] font-bold text-[#004f32] hover:bg-gray-50 px-4 py-3 rounded-full transition-colors whitespace-nowrap ml-2"
             >
               <span>Become a Guide</span>
@@ -264,7 +266,9 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
                 Wishlist
               </Link>
               <Link
-                href="/register/guide"
+                href="/register/guide/home"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-4 text-2xl font-bold text-[#004f32] mt-2"
                 onClick={() => setIsMenuOpen(false)}
               >

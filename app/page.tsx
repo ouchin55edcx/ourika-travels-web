@@ -9,11 +9,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-[#34e0a1] selection:text-black">
       <Navbar />
-      <main className="flex flex-col gap-2">
+      <main className="flex flex-col">
         <Hero />
-        <Interests />
-        <Experiences />
-        <TouristHighlight />
+        <div className="space-y-0 relative">
+          <Interests />
+          <Experiences />
+          <TouristHighlight />
+        </div>
       </main>
       <Footer />
     </div>
