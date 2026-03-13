@@ -1,13 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  ChevronDown,
-  CircleHelp,
-  Ellipsis,
-  Search,
-  ThumbsUp,
-} from "lucide-react";
+import { ChevronDown, CircleHelp, Ellipsis, Search, ThumbsUp } from "lucide-react";
 
 const reviewBreakdown = [
   { label: "Excellent", count: 196, width: "78%" },
@@ -49,19 +43,15 @@ const detailedReview = {
 export default function TourReviews() {
   return (
     <section id="reviews" className="border-t border-[#e5e7eb] py-10">
-      <div className="mb-1 flex items-center gap-5 text-2xl font-black leading-tight text-[#111827] md:text-[28px]">
-        <button className="border-b-2 border-[#123d2f] pb-2 text-[#12311f]">
-          Reviews
-        </button>
+      <div className="mb-1 flex items-center gap-5 text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
+        <button className="border-b-2 border-[#123d2f] pb-2 text-[#12311f]">Reviews</button>
         <button className="pb-2 text-[#12311f]">Q&amp;A</button>
       </div>
 
       <div className="grid gap-8 pt-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-10">
         <div>
           <div className="mb-5 flex items-center gap-2 text-[#12311f]">
-            <span className="text-[32px] font-extrabold leading-none sm:text-[36px]">
-              4.6
-            </span>
+            <span className="text-[32px] leading-none font-extrabold sm:text-[36px]">4.6</span>
             <div className="flex items-center gap-1">
               {[0, 1, 2, 3, 4].map((index) => (
                 <span
@@ -83,10 +73,7 @@ export default function TourReviews() {
               >
                 <span>{item.label}</span>
                 <div className="h-3 rounded-full bg-[#e6e6e6]">
-                  <div
-                    className="h-3 rounded-full bg-[#00873e]"
-                    style={{ width: item.width }}
-                  />
+                  <div className="h-3 rounded-full bg-[#00873e]" style={{ width: item.width }} />
                 </div>
                 <span className="text-right text-[#4b5563]">{item.count}</span>
               </div>
@@ -96,11 +83,11 @@ export default function TourReviews() {
 
         <div>
           <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#5f6368]" />
+            <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-[#5f6368]" />
             <input
               type="text"
               placeholder="Search reviews..."
-              className="h-12 w-full rounded-full border border-[#8ba18d] bg-white pl-12 pr-5 text-[15px] outline-none placeholder:text-[#5f6368] sm:h-14 sm:text-[16px]"
+              className="h-12 w-full rounded-full border border-[#8ba18d] bg-white pr-5 pl-12 text-[15px] outline-none placeholder:text-[#5f6368] sm:h-14 sm:text-[16px]"
             />
           </div>
 
@@ -138,8 +125,7 @@ export default function TourReviews() {
           <div className="flex flex-col gap-4 border-b border-[#e5e7eb] py-8 sm:flex-row sm:items-center sm:justify-between">
             <p className="flex items-center gap-2 text-[14px] text-[#5f6368]">
               <span>
-                These reviews have been automatically translated from their
-                original language.
+                These reviews have been automatically translated from their original language.
               </span>
               <CircleHelp className="h-4 w-4" />
             </p>
@@ -164,9 +150,7 @@ export default function TourReviews() {
                   <p className="text-[18px] font-extrabold text-[#12311f]">
                     {detailedReview.author}
                   </p>
-                  <p className="text-[13px] text-[#6b7280]">
-                    {detailedReview.contributions}
-                  </p>
+                  <p className="text-[13px] text-[#6b7280]">{detailedReview.contributions}</p>
                 </div>
               </div>
 
@@ -183,10 +167,7 @@ export default function TourReviews() {
 
             <div className="mb-3 flex items-center gap-1">
               {[0, 1, 2, 3, 4].map((index) => (
-                <span
-                  key={index}
-                  className="h-4 w-4 rounded-full bg-[#00aa6c]"
-                />
+                <span key={index} className="h-4 w-4 rounded-full bg-[#00aa6c]" />
               ))}
             </div>
 

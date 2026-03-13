@@ -38,9 +38,7 @@ function getRequiredPublicKey(): string {
     if (value) return value;
   }
 
-  throw new Error(
-    `Missing required Supabase key. Set one of: ${PUBLIC_KEY_ENV_NAMES.join(", ")}`,
-  );
+  throw new Error(`Missing required Supabase key. Set one of: ${PUBLIC_KEY_ENV_NAMES.join(", ")}`);
 }
 
 let cachedClient: SupabaseClient | null = null;

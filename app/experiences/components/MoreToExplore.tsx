@@ -65,7 +65,7 @@ export default function MoreToExplore({
   return (
     <section className="w-full">
       <div className="mb-4 flex items-end justify-between gap-4">
-        <h2 className="text-[18px] font-black leading-tight text-[#111827] sm:text-[20px] md:text-[22px]">
+        <h2 className="text-[18px] leading-tight font-black text-[#111827] sm:text-[20px] md:text-[22px]">
           {title}
         </h2>
       </div>
@@ -75,7 +75,7 @@ export default function MoreToExplore({
           ref={scrollerRef}
           onScroll={updateScrollState}
           onPointerEnter={updateScrollState}
-          className="explore-scroll flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 pr-10 [-webkit-overflow-scrolling:touch]"
+          className="explore-scroll flex snap-x snap-mandatory gap-4 overflow-x-auto pr-10 pb-2 [-webkit-overflow-scrolling:touch]"
         >
           {normalizedItems.map((item) => (
             <button
@@ -91,8 +91,8 @@ export default function MoreToExplore({
                 sizes="(max-width: 640px) 240px, (max-width: 1024px) 260px, 280px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/0" />
-              <div className="absolute bottom-4 left-4 right-4">
-                <p className="max-w-[15ch] text-left text-[20px] font-black leading-[1.05] text-white sm:text-[22px]">
+              <div className="absolute right-4 bottom-4 left-4">
+                <p className="max-w-[15ch] text-left text-[20px] leading-[1.05] font-black text-white sm:text-[22px]">
                   {item.title}
                 </p>
               </div>
@@ -104,7 +104,7 @@ export default function MoreToExplore({
           type="button"
           onClick={scrollNext}
           aria-label="Scroll right"
-          className={`absolute right-2 top-1/2 hidden -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e7eb] bg-white/95 p-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white md:flex ${
+          className={`absolute top-1/2 right-2 hidden -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e7eb] bg-white/95 p-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white md:flex ${
             canScrollRight ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >

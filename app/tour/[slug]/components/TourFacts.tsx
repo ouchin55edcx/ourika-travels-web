@@ -1,4 +1,4 @@
-import { experienceFacts } from "./tourData";
+import { experienceFacts } from "@/lib/data/tourData";
 
 export default function TourFacts() {
   return (

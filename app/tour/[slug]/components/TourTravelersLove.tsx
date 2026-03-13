@@ -1,16 +1,13 @@
 import Link from "next/link";
 import { ArrowRight, CircleAlert, Star } from "lucide-react";
-import { ratingDots, reviewCards } from "./tourData";
+import { ratingDots, reviewCards } from "@/lib/data/tourData";
 
 export default function TourTravelersLove() {
   return (
-    <section
-      id="reviews-preview"
-      className="max-w-[760px] border-t border-[#e5e7eb] py-8"
-    >
+    <section id="reviews-preview" className="max-w-[760px] border-t border-[#e5e7eb] py-8">
       <div className="mb-1 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-2">
-          <h2 className="text-2xl font-black leading-tight text-[#111827] md:text-[28px]">
+          <h2 className="text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
             Why travelers love this
           </h2>
           <CircleAlert className="h-4 w-4 text-[#6b7280]" />
@@ -27,10 +24,7 @@ export default function TourTravelersLove() {
               />
             ))}
           </div>
-          <Link
-            href="#reviews"
-            className="font-medium text-[#245b4a] underline"
-          >
+          <Link href="#reviews" className="font-medium text-[#245b4a] underline">
             (253 reviews)
           </Link>
         </div>
@@ -57,9 +51,7 @@ export default function TourTravelersLove() {
             <p className="text-[15px] leading-7 text-[#1f1f1f] sm:leading-8">
               {review.text}
               {review.author === "najav" ? (
-                <button className="font-bold text-[#123d2f] underline">
-                  Read more
-                </button>
+                <button className="font-bold text-[#123d2f] underline">Read more</button>
               ) : null}
             </p>
           </article>

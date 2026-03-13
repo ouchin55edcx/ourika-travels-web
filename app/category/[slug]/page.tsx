@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CategoryPageClient from "./CategoryPageClient";
-
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ourikatreks.com";
+import { BASE_URL, SITE_NAME } from "@/lib/config";
 
 const categorySlugs = ["outdoors", "food", "culture", "water"] as const;
 
@@ -45,12 +44,19 @@ export async function generateMetadata({
     description: meta.description,
     openGraph: {
       type: "website",
-      url: `${baseUrl}/category/${slug}`,
-      title: `${meta.title} | Ourika Travels`,
+      url: `${BASE_URL}/category/${slug}`,
+      title: `${meta.title} | ${SITE_NAME}`,
       description: meta.description,
-      images: [{ url: `${baseUrl}/og-image.jpg`, width: 1200, height: 630, alt: meta.title }],
+      images: [
+        {
+          url: `${BASE_URL}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: meta.title,
+        },
+      ],
     },
-    alternates: { canonical: `${baseUrl}/category/${slug}` },
+    alternates: { canonical: `${BASE_URL}/category/${slug}` },
   };
 }
 
@@ -58,11 +64,7 @@ export function generateStaticParams() {
   return categorySlugs.map((slug) => ({ slug }));
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   if (!categorySlugs.includes(slug as (typeof categorySlugs)[number])) {

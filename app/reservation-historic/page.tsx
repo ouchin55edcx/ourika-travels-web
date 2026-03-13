@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import {
   Ticket,
   Calendar,
@@ -33,13 +33,9 @@ export default function ReservationHistoricPage() {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
   useEffect(() => {
-    const savedBookings = JSON.parse(
-      localStorage.getItem("ourika_bookings") || "[]",
-    );
+    const savedBookings = JSON.parse(localStorage.getItem("ourika_bookings") || "[]");
     // Sort by most recent first
-    setBookings(
-      savedBookings.sort((a: Booking, b: Booking) => b.timestamp - a.timestamp),
-    );
+    setBookings(savedBookings.sort((a: Booking, b: Booking) => b.timestamp - a.timestamp));
   }, []);
 
   const deleteBooking = (id: string) => {
@@ -66,15 +62,15 @@ export default function ReservationHistoricPage() {
       )}
 
       <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6 sm:py-10">
-        <div className="absolute left-1/2 top-0 h-[260px] w-[85%] -translate-x-1/2 rounded-[32px] bg-[radial-gradient(circle_at_top,_#fff8df_0%,_rgba(255,248,223,0)_70%)]" />
+        <div className="absolute top-0 left-1/2 h-[260px] w-[85%] -translate-x-1/2 rounded-[32px] bg-[radial-gradient(circle_at_top,_#fff8df_0%,_rgba(255,248,223,0)_70%)]" />
 
         <div className="relative z-10 flex flex-col gap-6">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div className="space-y-2">
-              <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-[#7d816f]">
+              <p className="text-[13px] font-semibold tracking-[0.2em] text-[#7d816f] uppercase">
                 Reservations
               </p>
-              <h1 className="text-[30px] font-black leading-tight text-[#111827] sm:text-[36px]">
+              <h1 className="text-[30px] leading-tight font-black text-[#111827] sm:text-[36px]">
                 Booking history
               </h1>
               <p className="text-sm font-medium text-[#6b7280]">
@@ -97,13 +93,13 @@ export default function ReservationHistoricPage() {
                       <Ticket className="h-6 w-6" />
                     </div>
                     <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#8a8f7f]">
+                      <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-[#8a8f7f] uppercase">
                         <span className="rounded-full bg-[#f6f2e7] px-2.5 py-1 text-[#8a6a2a]">
                           Pay on start
                         </span>
                         <span className="text-[#c0c9c4]">#{booking.id}</span>
                       </div>
-                      <h3 className="mt-2 text-lg font-black text-[#111827] truncate">
+                      <h3 className="mt-2 truncate text-lg font-black text-[#111827]">
                         {booking.activityTitle}
                       </h3>
                       <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-[#6b7280]">
@@ -124,13 +120,11 @@ export default function ReservationHistoricPage() {
                   </div>
 
                   <div className="flex w-full items-center justify-between gap-3 border-t border-[#eef1e9] pt-4 md:w-auto md:border-t-0 md:pt-0">
-                    <div className="text-xl font-black text-[#111827]">
-                      {booking.totalPrice}
-                    </div>
+                    <div className="text-xl font-black text-[#111827]">{booking.totalPrice}</div>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setSelectedBooking(booking)}
-                        className="rounded-full bg-[#0f3d2b] px-5 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-white transition hover:bg-[#0b2d20] active:scale-95"
+                        className="rounded-full bg-[#0f3d2b] px-5 py-2 text-[11px] font-black tracking-[0.2em] text-white uppercase transition hover:bg-[#0b2d20] active:scale-95"
                       >
                         View ticket
                       </button>
@@ -148,17 +142,14 @@ export default function ReservationHistoricPage() {
             ))
           ) : (
             <div className="rounded-[24px] border border-dashed border-[#d6d7cc] bg-white/70 p-10 text-center">
-              <p className="text-[20px] font-black text-[#1f2937]">
-                Your booking history is empty
-              </p>
+              <p className="text-[20px] font-black text-[#1f2937]">Your booking history is empty</p>
               <p className="mt-2 text-sm text-[#6b7280]">
-                Browse experiences and save the ones that match your travel
-                mood.
+                Browse experiences and save the ones that match your travel mood.
               </p>
               <div className="mt-6">
                 <Link
                   href="/experiences"
-                  className="rounded-full bg-[#0f3d2b] px-6 py-3 text-[11px] font-black uppercase tracking-[0.3em] text-white transition hover:bg-[#0b2d20] active:scale-95"
+                  className="rounded-full bg-[#0f3d2b] px-6 py-3 text-[11px] font-black tracking-[0.3em] text-white uppercase transition hover:bg-[#0b2d20] active:scale-95"
                 >
                   Explore experiences
                 </Link>

@@ -1,4 +1,6 @@
-import type { ExperienceItem } from "@/app/experiences/components/experiencesData";
+// TODO: Replace with API call to backend — see lib/api/ (to be created)
+
+import type { ExperienceItem } from "@/lib/data/experiences";
 
 export const wishlistData: ExperienceItem[] = [
   {

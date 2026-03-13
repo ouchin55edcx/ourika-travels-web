@@ -1,23 +1,23 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
+import { cookies } from "next/headers";
 import "./globals.css";
+import { BASE_URL, SITE_NAME, TWITTER_HANDLE } from "@/lib/config";
 
 /* ─── Single font — Outfit ─── */
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",   // prevents invisible-text flash
+  weight: ["400", "500", "600", "700", "900"],
+  display: "swap", // prevents invisible-text flash
 });
-
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ourikatreks.com";
 
 /* ─── Site-wide default metadata ─── */
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(BASE_URL),
   title: {
-    default: "Ourika Travels | Authentic Local Experiences in Ourika Valley",
-    template: "%s | Ourika Travels",
+    default: `${SITE_NAME} | Authentic Local Experiences in Ourika Valley`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Discover the hidden gems of Ourika Valley with certified local guides. Book unique hikes, cultural tours, and authentic Moroccan experiences in the Atlas Mountains.",
@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     "Setti-Fatma waterfalls",
     "Berber culture",
     "Marrakech day trips",
-    "Ourika Travels",
+    SITE_NAME,
   ],
-  authors: [{ name: "Ourika Travels", url: baseUrl }],
-  creator: "Ourika Travels",
-  publisher: "Ourika Travels",
+  authors: [{ name: SITE_NAME, url: BASE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   robots: {
     index: true,
     follow: true,
@@ -42,14 +42,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: baseUrl,
-    siteName: "Ourika Travels",
-    title: "Ourika Travels | Authentic Local Experiences in Ourika Valley",
+    url: BASE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | Authentic Local Experiences in Ourika Valley`,
     description:
       "Discover the hidden gems of Ourika Valley with certified local guides. Book unique hikes, cultural tours, and Moroccan adventures.",
     images: [
       {
-        url: `${baseUrl}/og-image.jpg`,
+        url: `${BASE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: "Ourika Valley — stunning Atlas Mountains landscape",
@@ -59,15 +59,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ourika Travels | Authentic Local Experiences",
+    title: `${SITE_NAME} | Authentic Local Experiences`,
     description:
       "Book unique hikes, cultural tours, and authentic Moroccan experiences in Ourika Valley.",
-    images: [`${baseUrl}/og-image.jpg`],
-    creator: "@ourikatreks",
-    site: "@ourikatreks",
+    images: [`${BASE_URL}/og-image.jpg`],
+    creator: TWITTER_HANDLE,
+    site: TWITTER_HANDLE,
   },
   alternates: {
-    canonical: baseUrl,
+    canonical: BASE_URL,
   },
   icons: {
     icon: "/favicon.ico",
@@ -81,16 +81,20 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const rawLang = cookieStore.get("preferredLanguage")?.value || "en";
+  const lang = ["en", "fr"].includes(rawLang.toLowerCase()) ? rawLang.toLowerCase() : "en";
+  // TODO: Implement full Next.js i18n routing (/fr/*, /en/*)
+  // with hreflang alternates for production multilingual SEO.
+
   return (
-    <html lang="en">
-      <body className={`${outfit.variable} font-outfit antialiased`}>
-        {children}
-      </body>
+    <html lang={lang}>
+      <body className={`${outfit.variable} font-outfit antialiased`}>{children}</body>
     </html>
   );
 }

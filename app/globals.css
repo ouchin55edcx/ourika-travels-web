@@ -14,6 +14,16 @@
   --border-radius-premium: 3rem;
   --border-radius-card: 1.5rem;
 
+  /* ─── Z-Index Scale ─── */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 30;
+  --z-sticky: 50;
+  --z-overlay: 80;
+  --z-modal-backdrop: 99;
+  --z-modal: 100;
+  --z-toast: 200;
+
   /* ─── Global Typography Scale ─── */
   --h1-size-mobile: 2.25rem;
   /* 36px */
@@ -117,7 +127,7 @@
 }
 
 /* ─────────────────────────────────────────────
-   GLOBAL BASE STYLES  
+   GLOBAL BASE STYLES
    Single font — Outfit — applied everywhere
 ───────────────────────────────────────────── */
 *,
@@ -132,12 +142,12 @@ body {
   /* ✅ ONE font across the entire site */
   font-family: var(--font-outfit), system-ui, sans-serif;
   letter-spacing: -0.01em;
-  font-feature-settings: 'ss01', 'ss02';
+  font-feature-settings: "ss01", "ss02";
   -webkit-font-smoothing: antialiased;
 }
 
 /* ─────────────────────────────────────────────
-   GLOBAL HEADING SIZES  
+   GLOBAL HEADING SIZES
    Consistent h1 / h2 across every page
 ───────────────────────────────────────────── */
 h1,
@@ -170,7 +180,6 @@ h6,
 
 /* Desktop overrides */
 @media (min-width: 768px) {
-
   h1,
   .h1 {
     font-size: var(--h1-size-desktop);
@@ -189,14 +198,14 @@ h6,
 ───────────────────────────────────────────── */
 
 /* 4px gap between any h1/h2/h3 and what immediately follows it */
-h1+*,
-h2+*,
-h3+* {
+h1 + *,
+h2 + *,
+h3 + * {
   margin-top: var(--title-content-gap);
 }
 
 /* 8px gap between sibling <section> elements */
-section+section {
+section + section {
   margin-top: var(--section-gap);
 }
 
@@ -207,4 +216,19 @@ p,
 .font-body {
   font-family: var(--font-outfit), system-ui, sans-serif;
   line-height: 1.6;
+}
+
+/* ─── Custom scrollbar (search dropdowns) ─── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
 }

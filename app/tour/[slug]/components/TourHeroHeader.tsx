@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Heart, MessageSquare } from "lucide-react";
-import { ratingDots } from "./tourData";
+import { ratingDots } from "@/lib/data/tourData";
 
 type TourHeroHeaderProps = {
   title: string;
@@ -15,19 +15,17 @@ export default function TourHeroHeader({ title }: TourHeroHeaderProps) {
           className="inline-flex items-start gap-2 text-xs font-medium text-[#2d2d2d] underline decoration-[#7f7f7f] underline-offset-2 sm:items-center sm:text-sm"
         >
           <span aria-hidden="true">‹</span>
-          <span className="leading-5">
-            See all Things to Do in Marrakech-Safi
-          </span>
+          <span className="leading-5">See all Things to Do in Marrakech-Safi</span>
         </Link>
       </div>
 
       <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-[760px]">
-          <h1 className="text-[26px] font-extrabold leading-[1.15] tracking-[-0.03em] text-[#0f172a] sm:text-[32px] lg:text-[38px]">
+          <h1 className="text-[26px] leading-[1.15] font-extrabold tracking-[-0.03em] text-[#0f172a] sm:text-[32px] lg:text-[38px]">
             {title}
           </h1>
           <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-[#1f1f1f]">
-            <span className="font-extrabold text-[18px] leading-none">4.6</span>
+            <span className="text-[18px] leading-none font-extrabold">4.6</span>
             <div className="flex items-center gap-1">
               {ratingDots.map((_, index) => (
                 <span
@@ -38,10 +36,7 @@ export default function TourHeroHeader({ title }: TourHeroHeaderProps) {
                 />
               ))}
             </div>
-            <Link
-              href="#reviews"
-              className="font-medium text-[#245b4a] underline"
-            >
+            <Link href="#reviews" className="font-medium text-[#245b4a] underline">
               (253 reviews)
             </Link>
           </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Footer from "@/app/components/Footer";
-import Navbar from "@/app/components/Navbar";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 import TourAbout from "./components/TourAbout";
 import TourAvailabilityBar from "./components/TourAvailabilityBar";
 import TourBookingCard from "./components/TourBookingCard";
@@ -15,10 +15,9 @@ import TourSimilarExperiences from "./components/TourSimilarExperiences";
 import TourStickyHeader from "./components/TourStickyHeader";
 import TourTabs from "./components/TourTabs";
 import TourTravelersLove from "./components/TourTravelersLove";
-import { formatTitleFromSlug, navigationItems } from "./components/tourData";
-import { experiencesData } from "@/app/experiences/components/experiencesData";
-
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ourikatreks.com";
+import { formatTitleFromSlug, navigationItems } from "@/lib/data/tourData";
+import { experiencesData } from "@/lib/data/experiences";
+import { BASE_URL, SITE_NAME } from "@/lib/config";
 
 export const dynamicParams = true;
 
@@ -42,34 +41,39 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const fallbackTitle = formatTitleFromSlug(slug);
-  const title =
-    fallbackTitle || "Ourika Valley, Atlas Mountains Waterfalls & 3 Valleys";
+  const title = fallbackTitle || "Ourika Valley, Atlas Mountains Waterfalls & 3 Valleys";
 
   return {
     title,
     description: `Book the "${title}" experience with certified local guides in Ourika Valley, Morocco. Small groups, authentic encounters, and unforgettable memories.`,
     openGraph: {
       type: "website",
-      url: `${baseUrl}/tour/${slug}`,
-      title: `${title} | Ourika Travels`,
+      url: `${BASE_URL}/tour/${slug}`,
+      title: `${title} | ${SITE_NAME}`,
       description: `Join the "${title}" experience in Ourika Valley — guided by local experts.`,
-      images: [{ url: `${baseUrl}/og-image.jpg`, width: 1200, height: 630, alt: title }],
+      images: [
+        {
+          url: `${BASE_URL}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | Ourika Travels`,
+      title: `${title} | ${SITE_NAME}`,
       description: `Book the "${title}" guided experience in Ourika Valley.`,
-      images: [`${baseUrl}/og-image.jpg`],
+      images: [`${BASE_URL}/og-image.jpg`],
     },
-    alternates: { canonical: `${baseUrl}/tour/${slug}` },
+    alternates: { canonical: `${BASE_URL}/tour/${slug}` },
   };
 }
 
 export default async function Page({ params }: { params: Promise<{ slug?: string }> }) {
   const { slug } = await params;
   const fallbackTitle = formatTitleFromSlug(slug);
-  const title =
-    fallbackTitle || "Ourika Valley, Atlas mountains Waterfalls & 3 Valleys";
+  const title = fallbackTitle || "Ourika Valley, Atlas mountains Waterfalls & 3 Valleys";
 
   return (
     <div className="min-h-screen bg-white text-[#1f1f1f] selection:bg-[#34e0a1] selection:text-black">

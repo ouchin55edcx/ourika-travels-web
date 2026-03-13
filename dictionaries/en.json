@@ -386,20 +386,11 @@
     },
     "quickLinks": {
       "title": "Quick Links",
-      "links": [
-        "Home",
-        "About Us",
-        "Become a Guide"
-      ]
+      "links": ["Home", "About Us", "Become a Guide"]
     },
     "support": {
       "title": "Support",
-      "links": [
-        "Help Center",
-        "FAQ",
-        "Terms & Conditions",
-        "Privacy Policy"
-      ]
+      "links": ["Help Center", "FAQ", "Terms & Conditions", "Privacy Policy"]
     },
     "contact": {
       "title": "Contact Us",
@@ -1038,4 +1029,3 @@
     }
   }
 }
-

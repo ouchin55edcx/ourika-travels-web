@@ -13,7 +13,7 @@ function FormField({
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="mb-1 block text-sm font-medium text-gray-700">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {children}
@@ -21,18 +21,13 @@ function FormField({
   );
 }
 
-export default function ContactDetailsForm({
-  showActions = true,
-}: {
-  showActions?: boolean;
-}) {
+export default function ContactDetailsForm({ showActions = true }: { showActions?: boolean }) {
   return (
     <div className="space-y-6">
       <p className="text-gray-700">
-        We'll use this information to send you confirmation and updates about
-        your booking.
+        We'll use this information to send you confirmation and updates about your booking.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <FormField label="First Name" required>
           <input
             type="text"
@@ -55,7 +50,7 @@ export default function ContactDetailsForm({
             placeholder="Email address"
             className="w-full rounded-lg border border-gray-300 px-3 py-2 placeholder-gray-500 focus:border-green-500 focus:ring-green-500"
           />
-          <Info className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Info className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
         </div>
       </FormField>
       <FormField label="Phone Number" required>
@@ -84,7 +79,7 @@ export default function ContactDetailsForm({
       </div>
       {showActions ? (
         <div className="flex justify-end">
-          <button className="w-full rounded-full bg-gray-800 text-white font-bold px-8 py-3 transition hover:bg-gray-900 sm:w-auto">
+          <button className="w-full rounded-full bg-gray-800 px-8 py-3 font-bold text-white transition hover:bg-gray-900 sm:w-auto">
             Next
           </button>
         </div>

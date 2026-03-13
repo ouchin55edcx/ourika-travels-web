@@ -1,9 +1,7 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { Clock3, Heart, Languages, MapPin } from "lucide-react";
-import type { ExperienceItem } from "./experiencesData";
+import type { ExperienceItem } from "@/lib/data/experiences";
 
 function slugify(title: string) {
   return title
@@ -34,11 +32,11 @@ export default function ExperienceCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         </div>
-        <button className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#123d2f] shadow-sm">
+        <button className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#123d2f] shadow-sm">
           <Heart className="h-4 w-4" />
         </button>
         {experience.award ? (
-          <div className="absolute bottom-2 left-2 rounded-[8px] bg-[#f2ef31] px-2 py-1 text-[10px] font-extrabold leading-none text-[#111827]">
+          <div className="absolute bottom-2 left-2 rounded-[8px] bg-[#f2ef31] px-2 py-1 text-[10px] leading-none font-extrabold text-[#111827]">
             {experience.award}
           </div>
         ) : null}
@@ -46,14 +44,12 @@ export default function ExperienceCard({
 
       <div className="space-y-1.5">
         <p className="text-[11px] font-extrabold text-[#4b5563]">{index}.</p>
-        <h3 className="line-clamp-3 text-[15px] font-extrabold leading-6 text-[#12311f]">
+        <h3 className="line-clamp-3 text-[15px] leading-6 font-extrabold text-[#12311f]">
           {experience.title}
         </h3>
 
         <div className="flex flex-wrap items-center gap-1.5 text-[12px]">
-          <span className="font-bold text-[#12311f]">
-            {experience.rating.toFixed(1)}
-          </span>
+          <span className="font-bold text-[#12311f]">{experience.rating.toFixed(1)}</span>
           <div className="flex items-center gap-1">
             {[0, 1, 2, 3, 4].map((starIndex) => (
               <span
@@ -66,9 +62,7 @@ export default function ExperienceCard({
               />
             ))}
           </div>
-          <span className="text-[#6b7280]">
-            ({experience.reviews.toLocaleString()})
-          </span>
+          <span className="text-[#6b7280]">({experience.reviews.toLocaleString()})</span>
         </div>
 
         <p className="text-[12px] text-[#6b7280]">{experience.category}</p>
@@ -92,9 +86,7 @@ export default function ExperienceCard({
           <p className="text-[15px] font-extrabold text-[#12311f]">
             from{" "}
             {experience.previousPrice ? (
-              <span className="mr-1 text-[#9ca3af] line-through">
-                ${experience.previousPrice}
-              </span>
+              <span className="mr-1 text-[#9ca3af] line-through">${experience.previousPrice}</span>
             ) : null}
             ${experience.price}
           </p>

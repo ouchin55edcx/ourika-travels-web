@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Camera } from "lucide-react";
-import { galleryImages } from "./tourData";
+import { galleryImages } from "@/lib/data/tourData";
 
 export default function TourGallery() {
   return (
@@ -33,7 +33,7 @@ export default function TourGallery() {
             className="object-cover"
             sizes="(max-width: 768px) 50vw, 20vw"
           />
-          <button className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-[#123d2f] px-3 py-2 text-xs font-bold text-white shadow-lg sm:bottom-4 sm:right-4 sm:gap-2 sm:text-sm">
+          <button className="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-[#123d2f] px-3 py-2 text-xs font-bold text-white shadow-lg sm:right-4 sm:bottom-4 sm:gap-2 sm:text-sm">
             <Camera className="h-4 w-4" />
             <span>563</span>
           </button>

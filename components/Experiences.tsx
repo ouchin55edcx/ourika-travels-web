@@ -89,10 +89,9 @@ const RatingStars = ({ rating }: { rating: number }) => {
         return (
           <Star
             key={i}
-            className={`h-[14px] w-[14px] ${isFull || isHalf
-              ? "fill-[#00aa6c] text-[#00aa6c]"
-              : "text-gray-200"
-              }`}
+            className={`h-[14px] w-[14px] ${
+              isFull || isHalf ? "fill-[#00aa6c] text-[#00aa6c]" : "text-gray-200"
+            }`}
           />
         );
       })}
@@ -107,29 +106,31 @@ export default function Experiences() {
     <section
       id="experiences-section"
       ref={elementRef as any}
-      className={`mx-auto w-full max-w-7xl px-6 py-16 md:py-24 xl:py-32 reveal ${isVisible ? 'reveal-visible' : ''}`}
+      className={`reveal mx-auto w-full max-w-7xl px-6 py-16 md:py-24 xl:py-32 ${isVisible ? "reveal-visible" : ""}`}
     >
       <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
-          <p className="text-[#00ef9d] font-black uppercase tracking-[0.2em] text-[10px] mb-3">Top Rated Ourika Activities</p>
-          <h2 className="text-4xl md:text-5xl font-black leading-[0.9] text-[#004f32] tracking-tighter mb-4">
+          <p className="mb-3 text-[10px] font-black tracking-[0.2em] text-[#00ef9d] uppercase">
+            Top Rated Ourika Activities
+          </p>
+          <h2 className="mb-4 text-4xl leading-[0.9] font-black tracking-tighter text-[#004f32] md:text-5xl">
             Unmissable Moments in the Atlas Mountains
           </h2>
-          <p className="text-gray-500 text-lg font-medium leading-relaxed">
+          <p className="text-lg leading-relaxed font-medium text-gray-500">
             Hand-picked experiences designed to give you an authentic taste of Morocco.
           </p>
         </div>
-        <div className="hidden lg:flex gap-3 mb-2">
-          <button className="h-12 w-12 flex items-center justify-center border border-gray-100 rounded-full bg-white shadow-sm hover:shadow-md hover:border-[#00ef9d] transition-all text-[#004f32]">
-            <ChevronLeft className="w-5 h-5 stroke-[2.5px]" />
+        <div className="mb-2 hidden gap-3 lg:flex">
+          <button className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#004f32] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md">
+            <ChevronLeft className="h-5 w-5 stroke-[2.5px]" />
           </button>
-          <button className="h-12 w-12 flex items-center justify-center border border-gray-100 rounded-full bg-white shadow-sm hover:shadow-md hover:border-[#00ef9d] transition-all text-[#004f32]">
-            <ChevronRight className="w-5 h-5 stroke-[2.5px]" />
+          <button className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#004f32] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md">
+            <ChevronRight className="h-5 w-5 stroke-[2.5px]" />
           </button>
         </div>
       </div>
 
-      <div className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-pl-6 pb-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16 lg:overflow-visible lg:px-0 lg:pb-0">
+      <div className="hide-scrollbar flex snap-x snap-mandatory scroll-pl-6 gap-6 overflow-x-auto pb-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16 lg:overflow-visible lg:px-0 lg:pb-0">
         {experiences.map((exp, index) => {
           const slug = exp.title
             .toLowerCase()
@@ -139,26 +140,26 @@ export default function Experiences() {
             <Link
               key={exp.id}
               href={`/tour/${slug}`}
-              className={`block min-w-[280px] group transition-all duration-500 reveal ${isVisible ? 'reveal-visible' : ''}`}
+              className={`group reveal block min-w-[280px] transition-all duration-500 ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             >
-              <div className="h-full flex flex-col">
-                <div className="relative aspect-square sm:aspect-[4/3] rounded-3xl overflow-hidden mb-4 shadow-lg">
+              <div className="flex h-full flex-col">
+                <div className="relative mb-4 aspect-square overflow-hidden rounded-3xl shadow-lg sm:aspect-[4/3]">
                   <Image
                     src={exp.image}
                     alt={exp.title}
                     fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-110 saturate-[0.8] group-hover:saturate-100"
+                    className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <button className="absolute top-4 right-4 h-10 w-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md text-[#004f32] shadow-lg transition-transform hover:scale-110 active:scale-95 group/heart">
-                    <Heart className="w-5 h-5 group-hover/heart:fill-red-500 group-hover/heart:text-red-500 transition-all" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <button className="group/heart absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#004f32] shadow-lg backdrop-blur-md transition-transform hover:scale-110 active:scale-95">
+                    <Heart className="h-5 w-5 transition-all group-hover/heart:fill-red-500 group-hover/heart:text-red-500" />
                   </button>
                 </div>
 
-                <div className="space-y-2 px-1 flex-1 flex flex-col">
-                  <h3 className="text-lg font-bold text-[#1a1a1a] leading-tight line-clamp-2">
+                <div className="flex flex-1 flex-col space-y-2 px-1">
+                  <h3 className="line-clamp-2 text-lg leading-tight font-bold text-[#1a1a1a]">
                     {exp.title}
                   </h3>
 
@@ -170,7 +171,7 @@ export default function Experiences() {
                     </span>
                   </div>
 
-                  <div className="flex items-baseline gap-1 pt-2 border-t border-gray-50">
+                  <div className="flex items-baseline gap-1 border-t border-gray-50 pt-2">
                     <span className="text-sm font-bold text-gray-400">from</span>
                     <span className="text-2xl font-black text-[#004f32]">${exp.price}</span>
                   </div>
@@ -195,10 +196,10 @@ export default function Experiences() {
       <div className="mt-16 flex justify-center">
         <Link
           href="/experiences"
-          className="group inline-flex items-center gap-3 bg-[#004f32] text-white px-12 py-5 rounded-full font-black text-lg transition-all hover:scale-105 hover:bg-[#003a25] shadow-xl"
+          className="group inline-flex items-center gap-3 rounded-full bg-[#004f32] px-12 py-5 text-lg font-black text-white shadow-xl transition-all hover:scale-105 hover:bg-[#003a25]"
         >
           See all experiences
-          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </section>

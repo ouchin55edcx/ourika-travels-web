@@ -2,15 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  CalendarDays,
-  CheckCircle2,
-  Languages,
-  MapPin,
-  Star,
-  Trash2,
-} from "lucide-react";
-import type { ExperienceItem } from "@/app/experiences/components/experiencesData";
+import { CalendarDays, CheckCircle2, Languages, MapPin, Star, Trash2 } from "lucide-react";
+import type { ExperienceItem } from "@/lib/data/experiences";
 
 function slugify(title: string) {
   return title
@@ -40,7 +33,7 @@ export default function WishlistCard({
             />
           </div>
           {experience.award ? (
-            <div className="absolute left-3 top-3 rounded-full bg-[#f2ef31] px-3 py-1 text-[11px] font-extrabold text-[#111827] shadow">
+            <div className="absolute top-3 left-3 rounded-full bg-[#f2ef31] px-3 py-1 text-[11px] font-extrabold text-[#111827] shadow">
               Award {experience.award}
             </div>
           ) : null}
@@ -58,24 +51,20 @@ export default function WishlistCard({
 
         <div className="flex flex-1 flex-col gap-2 p-5 md:p-6">
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-[#8b8f86]">
+            <div className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.16em] text-[#8b8f86] uppercase">
               <span>{experience.category}</span>
               <span className="h-1 w-1 rounded-full bg-[#c7cbbd]" />
               <span>{experience.timeOfDay}</span>
             </div>
-            <h3 className="text-[20px] font-black leading-snug text-[#14231a] md:text-[22px]">
+            <h3 className="text-[20px] leading-snug font-black text-[#14231a] md:text-[22px]">
               {experience.title}
             </h3>
 
             <div className="flex flex-wrap items-center gap-3 text-[13px]">
               <div className="flex items-center gap-1 text-[#0f5132]">
                 <Star className="h-4 w-4 fill-[#0f5132]" />
-                <span className="font-semibold">
-                  {experience.rating.toFixed(1)}
-                </span>
-                <span className="text-[#6b7280]">
-                  ({experience.reviews.toLocaleString()})
-                </span>
+                <span className="font-semibold">{experience.rating.toFixed(1)}</span>
+                <span className="text-[#6b7280]">({experience.reviews.toLocaleString()})</span>
               </div>
               <div className="flex items-center gap-2 text-[#6b7280]">
                 <CalendarDays className="h-4 w-4 text-[#0f5132]" />
@@ -94,7 +83,7 @@ export default function WishlistCard({
 
           <div className="flex flex-col gap-3 border-t border-dashed border-[#e3e5db] pt-2 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#9aa091]">
+              <p className="text-[12px] font-semibold tracking-[0.2em] text-[#9aa091] uppercase">
                 Total per person
               </p>
               <p className="text-[22px] font-black text-[#0f2a1a]">
@@ -122,7 +111,7 @@ export default function WishlistCard({
               </button>
               <Link
                 href="/reservation"
-                className="inline-flex items-center justify-center rounded-full bg-[#00aa6c] px-5 py-2 text-[12px] font-bold uppercase tracking-[0.12em] text-white shadow-[0_12px_24px_rgba(0,170,108,0.25)] transition hover:translate-y-[-1px] hover:bg-[#018856]"
+                className="inline-flex items-center justify-center rounded-full bg-[#00aa6c] px-5 py-2 text-[12px] font-bold tracking-[0.12em] text-white uppercase shadow-[0_12px_24px_rgba(0,170,108,0.25)] transition hover:translate-y-[-1px] hover:bg-[#018856]"
               >
                 Complete booking
               </Link>

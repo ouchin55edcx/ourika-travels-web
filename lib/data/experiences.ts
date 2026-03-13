@@ -1,3 +1,5 @@
+// TODO: Replace with API call to backend — see lib/api/ (to be created)
+
 export type ExperienceItem = {
   id: number;
   title: string;

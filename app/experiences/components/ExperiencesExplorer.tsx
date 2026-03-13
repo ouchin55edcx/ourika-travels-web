@@ -3,7 +3,7 @@
 import { CalendarDays, ChevronDown, SlidersHorizontal } from "lucide-react";
 import { useMemo, useState } from "react";
 import ExperienceCard from "./ExperienceCard";
-import { experiencesData, filterGroups } from "./experiencesData";
+import { experiencesData, filterGroups } from "@/lib/data/experiences";
 import MoreToExplore from "./MoreToExplore";
 
 type Filters = {
@@ -57,9 +57,7 @@ function FilterButton({
       <span>{label}</span>
       {value ? (
         <>
-          <span className={isActive ? "text-white/80" : "text-[#6b7280]"}>
-            ·
-          </span>
+          <span className={isActive ? "text-white/80" : "text-[#6b7280]"}>·</span>
           <span>{value}</span>
         </>
       ) : null}
@@ -74,14 +72,10 @@ export default function ExperiencesExplorer() {
 
   const filteredExperiences = useMemo(() => {
     return experiencesData.filter((experience) => {
-      const awardMatch =
-        filters.awards === "All" || experience.badges.includes(filters.awards);
+      const awardMatch = filters.awards === "All" || experience.badges.includes(filters.awards);
       const languageMatch =
-        filters.languages === "All" ||
-        experience.languages.includes(filters.languages);
-      const timeMatch =
-        filters.timeOfDay === "All" ||
-        experience.timeOfDay === filters.timeOfDay;
+        filters.languages === "All" || experience.languages.includes(filters.languages);
+      const timeMatch = filters.timeOfDay === "All" || experience.timeOfDay === filters.timeOfDay;
       const priceMatch = matchesPrice(experience.price, filters.price);
 
       return awardMatch && languageMatch && timeMatch && priceMatch;
@@ -101,7 +95,7 @@ export default function ExperiencesExplorer() {
   };
 
   const filtersBar = (
-    <div className="chip-scroll -mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 pt-1 [-webkit-overflow-scrolling:touch] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+    <div className="chip-scroll -mx-4 flex items-center gap-2 overflow-x-auto px-4 pt-1 pb-1 [-webkit-overflow-scrolling:touch] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
       <button
         type="button"
         className="inline-flex min-h-9 shrink-0 items-center gap-2 rounded-full border border-[#8ba18d] bg-white px-3 py-2 text-[12px] font-medium text-[#12311f] transition hover:bg-[#f6f8f7] sm:text-[13px]"
@@ -151,7 +145,7 @@ export default function ExperiencesExplorer() {
     <>
       <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8">
         <div className="space-y-1">
-          <p className="text-2xl font-black leading-tight text-[#111827] md:text-[28px]">
+          <p className="text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
             Things to do in Marrakech-Safi
           </p>
           <p className="text-sm font-medium text-[#6b7280]">8,411 results</p>
@@ -162,19 +156,14 @@ export default function ExperiencesExplorer() {
             <div className="flex items-center gap-3">
               <div className="min-w-0 flex-1">{filtersBar}</div>
               <p className="hidden shrink-0 text-[12px] font-medium text-[#6b7280] sm:block">
-                Sort:{" "}
-                <span className="font-semibold text-[#12311f]">Featured</span>
+                Sort: <span className="font-semibold text-[#12311f]">Featured</span>
               </p>
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {visibleExperiences.map((experience, index) => (
-              <ExperienceCard
-                key={experience.id}
-                experience={experience}
-                index={index + 1}
-              />
+              <ExperienceCard key={experience.id} experience={experience} index={index + 1} />
             ))}
           </div>
 

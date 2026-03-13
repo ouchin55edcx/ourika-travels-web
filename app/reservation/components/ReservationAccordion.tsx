@@ -20,10 +20,10 @@ export default function ReservationAccordion({
   return (
     <div className="rounded-2xl border border-gray-200">
       <div
-        className="flex items-center gap-4 p-4 cursor-pointer"
+        className="flex cursor-pointer items-center gap-4 p-4"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-800 text-white font-bold">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 font-bold text-white">
           {step}
         </div>
         <h2 className="text-xl font-bold text-gray-800">{title}</h2>

@@ -1,16 +1,13 @@
 import { Metadata } from "next";
 import AboutContent from "./AboutContent";
-
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ourikatreks.com";
+import { BASE_URL, SITE_NAME, TWITTER_HANDLE } from "@/lib/config";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title =
-    "About OurikaTravels - Your Trusted Local Guide to Ourika Valley Adventures";
-  const description =
-    "Learn about OurikaTravels, the leading platform connecting travelers with certified local guides in Morocco's stunning Ourika Valley. Discover authentic Berber culture, Setti-Fatma waterfalls, and Atlas Mountains adventures.";
+  const title = `About ${SITE_NAME} - Your Trusted Local Guide to Ourika Valley Adventures`;
+  const description = `Learn about ${SITE_NAME}, the leading platform connecting travelers with certified local guides in Morocco's stunning Ourika Valley. Discover authentic Berber culture, Setti-Fatma waterfalls, and Atlas Mountains adventures.`;
 
-  const aboutImage = `${baseUrl}/about.png`;
-  const ogImage = `${baseUrl}/og-image.jpg`;
+  const aboutImage = `${BASE_URL}/about.png`;
+  const ogImage = `${BASE_URL}/og-image.jpg`;
 
   return {
     title,
@@ -30,8 +27,8 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       locale: "en_US",
-      url: `${baseUrl}/about`,
-      siteName: "OurikaTravels",
+      url: `${BASE_URL}/about`,
+      siteName: SITE_NAME,
       title,
       description,
       images: [
@@ -46,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: "OurikaTravels - Your Trusted Guide to Ourika Valley Adventures",
+          alt: `${SITE_NAME} - Your Trusted Guide to Ourika Valley Adventures`,
           type: "image/jpeg",
         },
       ],
@@ -57,11 +54,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       images: [aboutImage, ogImage],
-      creator: "@ourikatreks",
+      creator: TWITTER_HANDLE,
     },
 
     alternates: {
-      canonical: `${baseUrl}/about`,
+      canonical: `${BASE_URL}/about`,
     },
   };
 }

@@ -1,9 +1,9 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Interests from "./components/Interests";
-import Experiences from "./components/Experiences";
-import TouristHighlight from "./components/TouristHighlight";
-import Footer from "./components/Footer";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import Interests from "@/components/Interests";
+import Experiences from "@/components/Experiences";
+import TouristHighlight from "@/components/TouristHighlight";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col">
         <Hero />
-        <div className="mt-2 space-y-0 relative">
+        <div className="relative mt-2 space-y-0">
           <Interests />
           <Experiences />
           <TouristHighlight />

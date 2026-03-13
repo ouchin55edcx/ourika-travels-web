@@ -9,10 +9,7 @@ type TourStickyHeaderProps = {
   navigationItems: readonly string[];
 };
 
-export default function TourStickyHeader({
-  title,
-  navigationItems,
-}: TourStickyHeaderProps) {
+export default function TourStickyHeader({ title, navigationItems }: TourStickyHeaderProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -29,9 +26,7 @@ export default function TourStickyHeader({
   return (
     <div
       className={`fixed inset-x-0 top-0 z-[70] border-b border-[#d7d7d7] bg-white/95 backdrop-blur-sm transition-all duration-300 ${
-        isVisible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none -translate-y-full opacity-0"
+        isVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"
       }`}
     >
       <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
@@ -41,16 +36,12 @@ export default function TourStickyHeader({
             className="inline-flex items-center gap-2 text-xs font-medium text-[#3b3b3b] sm:text-sm"
           >
             <span aria-hidden="true">‹</span>
-            <span className="truncate">
-              See all Things to Do in Marrakech-Safi
-            </span>
+            <span className="truncate">See all Things to Do in Marrakech-Safi</span>
           </Link>
 
           <div className="hidden items-center gap-4 lg:flex">
             <div className="flex items-center gap-3 text-sm text-[#1f1f1f]">
-              <span className="max-w-[420px] truncate font-semibold text-[#12311f]">
-                {title}
-              </span>
+              <span className="max-w-[420px] truncate font-semibold text-[#12311f]">{title}</span>
               <div className="flex items-center gap-1">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#00aa6c]" />
                 <span className="font-semibold">4.6</span>
@@ -69,15 +60,13 @@ export default function TourStickyHeader({
         </div>
 
         <div className="flex min-h-[44px] items-center justify-between gap-4 overflow-x-auto sm:min-h-[48px]">
-          <nav className="flex min-w-max items-center gap-5 whitespace-nowrap text-[14px] font-semibold text-[#12311f] sm:gap-6 sm:text-[15px]">
+          <nav className="flex min-w-max items-center gap-5 text-[14px] font-semibold whitespace-nowrap text-[#12311f] sm:gap-6 sm:text-[15px]">
             {navigationItems.map((item, index) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
                 className={`py-3 ${
-                  index === 1
-                    ? "border-b-2 border-[#123d2f]"
-                    : "border-b-2 border-transparent"
+                  index === 1 ? "border-b-2 border-[#123d2f]" : "border-b-2 border-transparent"
                 }`}
               >
                 {item}
@@ -86,9 +75,7 @@ export default function TourStickyHeader({
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
-            <p className="text-[15px] font-extrabold text-[#12311f]">
-              from $17.60
-            </p>
+            <p className="text-[15px] font-extrabold text-[#12311f]">from $17.60</p>
             <button className="rounded-full bg-[#00e05a] px-5 py-2.5 text-[15px] font-bold text-black">
               Check availability
             </button>

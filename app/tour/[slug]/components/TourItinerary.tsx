@@ -52,7 +52,7 @@ export default function TourItinerary() {
 
   return (
     <section id="itinerary" className="border-t border-[#e5e7eb] py-8">
-      <h2 className="mb-1 text-2xl font-black leading-tight text-[#111827] md:text-[28px]">
+      <h2 className="mb-1 text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
         Itinerary
       </h2>
 
@@ -69,9 +69,7 @@ export default function TourItinerary() {
               <p className="text-[18px] font-extrabold text-[#111827] sm:text-[20px]">
                 You&apos;ll start at
               </p>
-              <p className="mt-1 text-[16px] text-[#111827] sm:text-[18px]">
-                Marrakesh-Safi
-              </p>
+              <p className="mt-1 text-[16px] text-[#111827] sm:text-[18px]">Marrakesh-Safi</p>
               <p className="mt-1 text-[14px] text-[#666] sm:text-[15px]">
                 Or, you can also get picked up
               </p>
@@ -129,7 +127,7 @@ export default function TourItinerary() {
                               sizes="(max-width: 1024px) 100vw, 340px"
                             />
                           </div>
-                          <button className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#123d2f] shadow-sm">
+                          <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#123d2f] shadow-sm">
                             <Heart className="h-5 w-5" />
                           </button>
                         </div>
@@ -171,28 +169,28 @@ export default function TourItinerary() {
             className="h-full min-h-[260px] w-full object-cover sm:min-h-[320px] lg:min-h-[400px]"
           />
 
-          <div className="absolute left-[8%] top-[46%] flex items-center gap-1">
+          <div className="absolute top-[46%] left-[8%] flex items-center gap-1">
             <div className="rounded-full border border-[#12311f] bg-[#f2ef31] px-2.5 py-1.5 text-[11px] font-extrabold text-[#111827] shadow-sm sm:px-3 sm:py-2 sm:text-[13px]">
               Start / End
             </div>
             <span className="h-3.5 w-3.5 rounded-full bg-[#003b1f] sm:h-4 sm:w-4" />
           </div>
 
-          <div className="absolute bottom-[38%] right-[9%] flex items-center gap-2">
+          <div className="absolute right-[9%] bottom-[38%] flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#003b1f] text-[15px] font-extrabold text-white shadow-sm sm:h-10 sm:w-10 sm:text-[18px]">
               2
             </span>
-            <div className="text-[11px] font-medium leading-4 text-[#12311f] sm:text-[13px]">
+            <div className="text-[11px] leading-4 font-medium text-[#12311f] sm:text-[13px]">
               <p>Ourika</p>
               <p>Valleys</p>
             </div>
           </div>
 
-          <div className="pointer-events-none absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-[#4b5563] shadow-sm sm:left-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-xs">
+          <div className="pointer-events-none absolute top-3 left-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-[#4b5563] shadow-sm sm:top-4 sm:left-4 sm:px-3 sm:py-1.5 sm:text-xs">
             Mapbox · OpenStreetMap
           </div>
 
-          <div className="absolute bottom-3 right-3 flex flex-col overflow-hidden rounded-[4px] border border-[#d7d7d7] bg-white shadow-sm sm:bottom-4 sm:right-4">
+          <div className="absolute right-3 bottom-3 flex flex-col overflow-hidden rounded-[4px] border border-[#d7d7d7] bg-white shadow-sm sm:right-4 sm:bottom-4">
             <button className="flex h-8 w-8 items-center justify-center text-lg text-[#4b5563] sm:h-10 sm:w-10 sm:text-xl">
               +
             </button>

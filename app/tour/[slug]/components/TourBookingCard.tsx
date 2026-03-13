@@ -1,6 +1,6 @@
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { bookingBenefits } from "./tourData";
+import { bookingBenefits } from "@/lib/data/tourData";
 
 export default function TourBookingCard() {
   return (

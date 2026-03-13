@@ -3,35 +3,35 @@
 import { QrCode, Download, Info } from "lucide-react";
 
 type TicketProps = {
-    bookingId: string;
-    activityTitle: string;
-    activitySubtitle?: string;
-    date: string;
-    time: string;
-    guests: string;
-    totalPrice: string;
-    customerName: string;
-    quadRide?: string;
-    camelRide?: string;
-    onClose: () => void;
+  bookingId: string;
+  activityTitle: string;
+  activitySubtitle?: string;
+  date: string;
+  time: string;
+  guests: string;
+  totalPrice: string;
+  customerName: string;
+  quadRide?: string;
+  camelRide?: string;
+  onClose: () => void;
 };
 
 export default function BookingTicket({
-    bookingId,
-    activityTitle,
-    activitySubtitle,
-    date,
-    time,
-    guests,
-    totalPrice,
-    customerName,
-    quadRide,
-    camelRide,
-    onClose,
+  bookingId,
+  activityTitle,
+  activitySubtitle,
+  date,
+  time,
+  guests,
+  totalPrice,
+  customerName,
+  quadRide,
+  camelRide,
+  onClose,
 }: TicketProps) {
-    return (
-        <>
-            <style>{`
+  return (
+    <>
+      <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
 
                 .ticket-overlay {
@@ -450,119 +450,120 @@ export default function BookingTicket({
                 }
             `}</style>
 
-            <div className="ticket-overlay">
-                <div className="ticket-wrapper">
-
-                    {/* ── MAIN PANEL ── */}
-                    <div className="ticket-main">
-
-                        <div className="ticket-header">
-                            <div className="brand-name">Ourika Travels</div>
-                            <div className="status-badge">Unpaid · Pay on Start</div>
-                        </div>
-
-                        <div className="ornament-rule">
-                            <span />
-                            <i>✦</i>
-                            <span />
-                        </div>
-
-                        <div className="activity-title">{activityTitle}</div>
-                        {activitySubtitle && (
-                            <div className="activity-subtitle">{activitySubtitle}</div>
-                        )}
-
-                        <div className="info-grid">
-                            <div className="info-cell">
-                                <div className="info-label">Booking Ref</div>
-                                <div className="info-value">#{bookingId}</div>
-                            </div>
-                            <div className="info-cell">
-                                <div className="info-label">Departure</div>
-                                <div className="info-value">{time}</div>
-                            </div>
-                            <div className="info-cell">
-                                <div className="info-label">Date</div>
-                                <div className="info-value">{date}</div>
-                            </div>
-                            <div className="info-cell">
-                                <div className="info-label">Guests</div>
-                                <div className="info-value">{guests}</div>
-                            </div>
-                            {quadRide && (
-                                <div className="info-cell">
-                                    <div className="info-label">Quad Ride</div>
-                                    <div className="info-value">{quadRide}</div>
-                                </div>
-                            )}
-                            {camelRide && (
-                                <div className="info-cell">
-                                    <div className="info-label">Camel Ride</div>
-                                    <div className="info-value">{camelRide}</div>
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="price-row">
-                            <div>
-                                <div className="price-label">Price</div>
-                                <div className="price-value">{totalPrice}</div>
-                            </div>
-                            <div className="qr-box">
-                                <QrCode style={{ width: 56, height: 56, color: '#1a1a1a' }} />
-                                <div className="qr-label">Scan for details</div>
-                            </div>
-                        </div>
-
-                        <div className="btn-row">
-                            <button className="btn-primary" onClick={() => window.print()}>
-                                <Download size={12} />
-                                Download Ticket
-                            </button>
-                            <button className="btn-secondary" onClick={onClose}>
-                                Close
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* ── TEAR LINE ── */}
-                    <div className="tear-line" />
-
-                    {/* ── SIDEBAR ── */}
-                    <div className="ticket-sidebar">
-                        <div className="sidebar-logo">
-                            <span>OT</span>
-                        </div>
-
-                        <div className="sidebar-divider">
-                            <span /><i>✦</i><span />
-                        </div>
-
-                        <div className="sidebar-heading">Important<br />Information</div>
-
-                        <ul className="sidebar-list">
-                            <li>
-                                <div className="sidebar-bullet" />
-                                <span>Bring comfortable clothing &amp; closed shoes</span>
-                            </li>
-                            <li>
-                                <div className="sidebar-bullet" />
-                                <span>Safety briefing &amp; helmets provided</span>
-                            </li>
-                            <li>
-                                <div className="sidebar-bullet" />
-                                <span>Dinner &amp; Live Show included</span>
-                            </li>
-                        </ul>
-
-                        <div className="access-btns">
-                            <button className="access-btn boarding">Boarding Pass</button>
-                            <button className="access-btn vip">VIP Access</button>
-                        </div>
-                    </div>
-
-                </div>
+      <div className="ticket-overlay">
+        <div className="ticket-wrapper">
+          {/* ── MAIN PANEL ── */}
+          <div className="ticket-main">
+            <div className="ticket-header">
+              <div className="brand-name">Ourika Travels</div>
+              <div className="status-badge">Unpaid · Pay on Start</div>
             </div>
-        </>
-    );
+
+            <div className="ornament-rule">
+              <span />
+              <i>✦</i>
+              <span />
+            </div>
+
+            <div className="activity-title">{activityTitle}</div>
+            {activitySubtitle && <div className="activity-subtitle">{activitySubtitle}</div>}
+
+            <div className="info-grid">
+              <div className="info-cell">
+                <div className="info-label">Booking Ref</div>
+                <div className="info-value">#{bookingId}</div>
+              </div>
+              <div className="info-cell">
+                <div className="info-label">Departure</div>
+                <div className="info-value">{time}</div>
+              </div>
+              <div className="info-cell">
+                <div className="info-label">Date</div>
+                <div className="info-value">{date}</div>
+              </div>
+              <div className="info-cell">
+                <div className="info-label">Guests</div>
+                <div className="info-value">{guests}</div>
+              </div>
+              {quadRide && (
+                <div className="info-cell">
+                  <div className="info-label">Quad Ride</div>
+                  <div className="info-value">{quadRide}</div>
+                </div>
+              )}
+              {camelRide && (
+                <div className="info-cell">
+                  <div className="info-label">Camel Ride</div>
+                  <div className="info-value">{camelRide}</div>
+                </div>
+              )}
+            </div>
+
+            <div className="price-row">
+              <div>
+                <div className="price-label">Price</div>
+                <div className="price-value">{totalPrice}</div>
+              </div>
+              <div className="qr-box">
+                <QrCode style={{ width: 56, height: 56, color: "#1a1a1a" }} />
+                <div className="qr-label">Scan for details</div>
+              </div>
+            </div>
+
+            <div className="btn-row">
+              <button className="btn-primary" onClick={() => window.print()}>
+                <Download size={12} />
+                Download Ticket
+              </button>
+              <button className="btn-secondary" onClick={onClose}>
+                Close
+              </button>
+            </div>
+          </div>
+
+          {/* ── TEAR LINE ── */}
+          <div className="tear-line" />
+
+          {/* ── SIDEBAR ── */}
+          <div className="ticket-sidebar">
+            <div className="sidebar-logo">
+              <span>OT</span>
+            </div>
+
+            <div className="sidebar-divider">
+              <span />
+              <i>✦</i>
+              <span />
+            </div>
+
+            <div className="sidebar-heading">
+              Important
+              <br />
+              Information
+            </div>
+
+            <ul className="sidebar-list">
+              <li>
+                <div className="sidebar-bullet" />
+                <span>Bring comfortable clothing &amp; closed shoes</span>
+              </li>
+              <li>
+                <div className="sidebar-bullet" />
+                <span>Safety briefing &amp; helmets provided</span>
+              </li>
+              <li>
+                <div className="sidebar-bullet" />
+                <span>Dinner &amp; Live Show included</span>
+              </li>
+            </ul>
+
+            <div className="access-btns">
+              <button className="access-btn boarding">Boarding Pass</button>
+              <button className="access-btn vip">VIP Access</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }

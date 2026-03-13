@@ -1,3 +1,5 @@
+// TODO: Replace with API call to backend — see lib/api/ (to be created)
+
 import type { LucideIcon } from "lucide-react";
 import {
   CalendarDays,
@@ -26,13 +28,7 @@ export const galleryImages = [
   },
 ] as const;
 
-export const navigationItems = [
-  "Overview",
-  "Details",
-  "Itinerary",
-  "Operator",
-  "Reviews",
-] as const;
+export const navigationItems = ["Overview", "Details", "Itinerary", "Operator", "Reviews"] as const;
 
 export const bookingBenefits: Array<{
   icon: LucideIcon;
