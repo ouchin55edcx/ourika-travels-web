@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { CircleUser, Settings, LogOut, Menu, X } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import { useTransition, useState } from "react";
+import { AuthUser } from "@/lib/auth";
 
 const navItems = [
   { label: "Overview", href: "/admin/dashboard/overview" },
@@ -14,7 +15,11 @@ const navItems = [
   { label: "Booking", href: "/admin/dashboard/booking" },
 ];
 
-export default function AdminHeader() {
+interface AdminHeaderProps {
+  user: AuthUser;
+}
+
+export default function AdminHeader({ user }: AdminHeaderProps) {
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,6 +29,13 @@ export default function AdminHeader() {
       await signOut();
     });
   };
+
+  const userInitials = user.full_name
+    ?.split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2) || "AD";
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur-xl">
@@ -53,8 +65,10 @@ export default function AdminHeader() {
             href="/admin/dashboard/profile"
             className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#003d27]"
           >
-            <CircleUser className="h-4 w-4" />
-            Admin
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold">
+              {userInitials}
+            </div>
+            {user.full_name.split(" ")[0]}
           </Link>
           <button
             onClick={handleSignOut}
@@ -106,11 +120,11 @@ export default function AdminHeader() {
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#0b3a2c] font-black text-white">
-                OT
+                {userInitials}
               </div>
               <div>
                 <p className="text-sm font-semibold text-gray-400">Ourika Travels</p>
-                <p className="text-lg font-black text-[#0b3a2c]">Admin</p>
+                <p className="text-lg font-black text-[#0b3a2c]">{user.full_name}</p>
               </div>
             </div>
             <button
@@ -166,3 +180,4 @@ export default function AdminHeader() {
     </header>
   );
 }
+

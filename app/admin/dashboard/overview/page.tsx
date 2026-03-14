@@ -1,4 +1,5 @@
 import { CalendarCheck, Compass, Ticket, TrendingUp, UsersRound } from "lucide-react";
+import { getCurrentUser } from "@/lib/auth";
 
 const stats = [
   { label: "Active treks", value: "32", change: "+4 this week", icon: Compass },
@@ -29,13 +30,17 @@ const recentBookings = [
   { traveler: "Hanna Becker", trek: "Berber Village Walk", date: "Mar 11, 2026", status: "Paid" },
 ];
 
-export default function AdminOverviewPage() {
+export default async function AdminOverviewPage() {
+  const user = await getCurrentUser();
+
   return (
     <div className="space-y-10">
       <section className="flex flex-col gap-6 rounded-[2.5rem] border border-black/5 bg-white p-8 shadow-sm sm:p-10">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-semibold text-gray-500">Overview</p>
-          <h1 className="text-3xl font-black text-[#0b3a2c] sm:text-4xl">Welcome back, Admin</h1>
+          <h1 className="text-3xl font-black text-[#0b3a2c] sm:text-4xl">
+            Welcome back, {user?.full_name?.split(" ")[0] || "Admin"}
+          </h1>
           <p className="max-w-2xl text-base font-medium text-gray-500">
             Everything you need to keep treks, bookings, and travelers moving. Start with the quick
             actions or review today&apos;s updates.
@@ -128,3 +133,4 @@ export default function AdminOverviewPage() {
     </div>
   );
 }
+
