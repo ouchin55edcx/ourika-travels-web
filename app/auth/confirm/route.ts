@@ -14,7 +14,28 @@ export async function GET(request: NextRequest) {
     });
 
     if (!error) {
-      return NextResponse.redirect(`${origin}/auth/login?verified=true`);
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (user) {
+        // Check database profile first, then fall back to metadata
+        const { data: profile } = await supabase
+          .from("users")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+        const role = profile?.role || user.user_metadata?.role;
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || origin;
+
+        if (role === "guide") {
+          return NextResponse.redirect(new URL("/dashboard/guide", baseUrl));
+        }
+        if (role === "admin") {
+          return NextResponse.redirect(new URL("/admin/dashboard/overview", baseUrl));
+        }
+      }
+
+      return NextResponse.redirect(`${origin}/?verified=true`);
     }
   }
 

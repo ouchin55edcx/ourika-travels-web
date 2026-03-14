@@ -10,7 +10,17 @@ import {
   Star,
   UsersRound,
 } from "lucide-react";
+import { Metadata } from "next";
 import { getCurrentUser } from "@/lib/auth";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const user = await getCurrentUser();
+  const name = user?.full_name || "Guide";
+  return {
+    title: `${name} - Professional Guide Profile`,
+    description: "View and manage your professional guide profile on Ourika Travels.",
+  };
+}
 
 const specialties = [
   "Ourika Valley waterfalls",

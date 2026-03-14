@@ -7,11 +7,14 @@ import { signOut } from "@/app/actions/auth";
 import { useTransition, useState } from "react";
 
 const navItems = [
-  { label: "Overview", href: "/dashboard/guide" },
-  { label: "Profile", href: "/dashboard/guide/profile" },
+  { label: "Overview", href: "/admin/dashboard/overview" },
+  { label: "Users", href: "/admin/dashboard/users" },
+  { label: "Treks", href: "/admin/dashboard/treks" },
+  { label: "Category", href: "/admin/dashboard/category" },
+  { label: "Booking", href: "/admin/dashboard/booking" },
 ];
 
-export default function GuideHeader() {
+export default function AdminHeader() {
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,13 +29,13 @@ export default function GuideHeader() {
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard/guide" className="flex items-center gap-4 group">
+          <Link href="/admin/dashboard" className="flex items-center gap-4 group">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#0b3a2c] font-black text-white transition-transform group-hover:scale-105">
               OT
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-400">Ourika Travels</p>
-              <p className="text-lg font-black text-[#0b3a2c]">Guide Dashboard</p>
+              <p className="text-lg font-black text-[#0b3a2c]">Admin Dashboard</p>
             </div>
           </Link>
         </div>
@@ -40,18 +43,18 @@ export default function GuideHeader() {
         {/* Desktop Actions */}
         <div className="hidden items-center gap-3 md:flex">
           <Link
-            href="/profile"
+            href="/admin/dashboard/params"
             className="flex items-center gap-2 rounded-full border border-black/5 bg-white px-4 py-2 text-sm font-semibold text-gray-600 shadow-sm transition hover:bg-gray-50"
           >
             <Settings className="h-4 w-4" />
-            Account
+            Settings
           </Link>
           <Link
-            href="/dashboard/guide/profile"
+            href="/admin/dashboard/profile"
             className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#003d27]"
           >
             <CircleUser className="h-4 w-4" />
-            Guide Profile
+            Admin
           </Link>
           <button
             onClick={handleSignOut}
@@ -75,7 +78,7 @@ export default function GuideHeader() {
 
       {/* Main Nav Items (Scrollable on mobile) */}
       <nav className="border-t border-black/5">
-        <div className="mx-auto flex w-full max-w-6xl items-center gap-2 overflow-x-auto px-6 py-3 scrollbar-hide">
+        <div className="custom-scrollbar mx-auto flex w-full max-w-6xl items-center gap-2 overflow-x-auto px-6 py-3 scrollbar-hide">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -107,7 +110,7 @@ export default function GuideHeader() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-gray-400">Ourika Travels</p>
-                <p className="text-lg font-black text-[#0b3a2c]">Guide</p>
+                <p className="text-lg font-black text-[#0b3a2c]">Admin</p>
               </div>
             </div>
             <button
@@ -134,20 +137,20 @@ export default function GuideHeader() {
 
           <div className="mt-auto space-y-3 pb-8">
             <Link
-              href="/profile"
+              href="/admin/dashboard/params"
               onClick={() => setIsMenuOpen(false)}
               className="flex w-full items-center gap-4 rounded-2xl border border-black/5 bg-white p-4 text-lg font-bold text-gray-600"
             >
               <Settings className="h-6 w-6" />
-              Account Settings
+              Settings
             </Link>
             <Link
-              href="/dashboard/guide/profile"
+              href="/admin/dashboard/profile"
               onClick={() => setIsMenuOpen(false)}
               className="flex w-full items-center gap-4 rounded-2xl border border-black/5 bg-white p-4 text-lg font-bold text-gray-600"
             >
               <CircleUser className="h-6 w-6" />
-              Guide Profile
+              My Profile
             </Link>
             <button
               onClick={handleSignOut}

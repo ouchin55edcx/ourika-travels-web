@@ -31,7 +31,7 @@ export async function middleware(request: NextRequest) {
       .eq("id", user.id)
       .single();
     if (profile?.role === "admin") {
-      return NextResponse.redirect(new URL("/admin/overview", request.url));
+      return NextResponse.redirect(new URL("/admin/dashboard/overview", request.url));
     }
     if (profile?.role === "guide") {
       return NextResponse.redirect(new URL("/dashboard/guide", request.url));

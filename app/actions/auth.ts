@@ -3,6 +3,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 // ─── TOURIST REGISTER ───
 export async function registerTourist(formData: FormData) {
@@ -68,10 +69,14 @@ export async function loginWithEmail(formData: FormData) {
 // ─── GOOGLE OAUTH ───
 export async function loginWithGoogle() {
   const supabase = await createSupabaseServerClient();
+  const host = (await headers()).get("host");
+  const protocol = host?.includes("localhost") ? "http" : "https";
+  const origin = `${protocol}://${host}`;
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      redirectTo: `${origin}/auth/callback`,
       queryParams: { access_type: "offline", prompt: "consent" },
     },
   });
@@ -84,6 +89,7 @@ export async function signOut() {
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
+  revalidatePath("/", "page");
   redirect("/");
 }
 

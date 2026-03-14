@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getSupabaseClient } from "@/lib/supabase";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 type TestApiResponse = {
   ok: boolean;
@@ -10,7 +10,7 @@ type TestApiResponse = {
 
 export async function GET() {
   try {
-    const supabase = getSupabaseClient();
+    const supabase = await createSupabaseServerClient();
 
     // This intentionally queries a non-existent table to validate endpoint reachability.
     // A "relation does not exist" style error confirms the API is reachable.

@@ -12,7 +12,17 @@ import {
   Star,
   UsersRound,
 } from "lucide-react";
+import { Metadata } from "next";
 import { getCurrentUser } from "@/lib/auth";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const user = await getCurrentUser();
+  const name = user?.full_name?.split(" ")[0] || "Guide";
+  return {
+    title: `${name}'s Dashboard | Ourika Travels`,
+    description: "Manage your upcoming treks and traveler bookings.",
+  };
+}
 
 const stats = [
   { label: "Upcoming treks", value: "6", detail: "Next 14 days", icon: CalendarDays },

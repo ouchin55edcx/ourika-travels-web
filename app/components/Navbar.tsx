@@ -18,6 +18,7 @@ import { signOut } from "@/app/actions/auth";
 import { type AuthUser } from "@/lib/auth";
 import { popularDestinations } from "@/lib/data/destinations";
 import { useSearch } from "@/hooks/useSearch";
+import { useAuth } from "@/lib/context/AuthContext";
 import LoginModal from "./LoginModal";
 
 type NavbarProps = {
@@ -26,7 +27,9 @@ type NavbarProps = {
   user: AuthUser | null;
 };
 
-export default function Navbar({ hidden = false, sticky = true, user }: NavbarProps) {
+export default function Navbar({ hidden = false, sticky = true, user: serverUser }: NavbarProps) {
+  const { user } = useAuth();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [query, setQuery] = useState("");
@@ -50,6 +53,9 @@ export default function Navbar({ hidden = false, sticky = true, user }: NavbarPr
   useEffect(() => {
     if (user && isLoginModalOpen) {
       setIsLoginModalOpen(false);
+    }
+    if (!user) {
+      setIsUserMenuOpen(false);
     }
   }, [user, isLoginModalOpen]);
 
@@ -246,6 +252,7 @@ export default function Navbar({ hidden = false, sticky = true, user }: NavbarPr
                       type="button"
                       onClick={() =>
                         startSignOut(async () => {
+                          setIsUserMenuOpen(false);
                           await signOut();
                         })
                       }
@@ -375,6 +382,7 @@ export default function Navbar({ hidden = false, sticky = true, user }: NavbarPr
                     type="button"
                     onClick={() =>
                       startSignOut(async () => {
+                        setIsMenuOpen(false);
                         await signOut();
                       })
                     }
