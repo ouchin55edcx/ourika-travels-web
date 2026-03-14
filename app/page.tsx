@@ -2,9 +2,12 @@ import NavbarWrapper from "@/app/components/NavbarWrapper";
 import Hero from "@/components/Hero";
 import Interests from "@/components/Interests";
 import Experiences from "@/components/Experiences";
+import Reviews from "@/components/Reviews";
+import Gallery from "@/components/Gallery";
 import TouristHighlight from "@/components/TouristHighlight";
 import Footer from "@/components/Footer";
 import { getCategories } from "@/app/actions/categories";
+
 
 export default async function Home() {
   const categories = await getCategories();
@@ -17,7 +20,8 @@ export default async function Home() {
         <div className="relative mt-2 space-y-0">
           <Interests initialCategories={categories} />
           <Experiences />
-
+          <Reviews />
+          <Gallery />
           <TouristHighlight />
         </div>
       </main>
@@ -25,3 +29,4 @@ export default async function Home() {
     </div>
   );
 }
+
