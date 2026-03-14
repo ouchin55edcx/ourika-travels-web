@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useDictionary } from "@/hooks/useDictionary";
 import {
@@ -34,7 +32,6 @@ export default function OurikaAboutPage() {
 
   return (
     <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
-      <Navbar />
 
       <div className="mx-auto flex max-w-7xl flex-col gap-2 pb-12 md:mt-4 md:px-5 lg:px-9">
         {/* Hero Section */}
@@ -263,7 +260,6 @@ export default function OurikaAboutPage() {
         </section>
       </div>
 
-      <Footer />
     </div>
   );
 }

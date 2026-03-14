@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/app/components/NavbarWrapper";
 import WishlistExplorer from "./components/WishlistExplorer";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function WishlistPage() {
   return (
     <div className="min-h-screen bg-[linear-gradient(140deg,_#f9f6ef_0%,_#f1f5f1_45%,_#eef2f7_100%)] selection:bg-[#34e0a1] selection:text-black">
-      <Navbar sticky={false} />
+      <NavbarWrapper sticky={false} />
       <main className="flex flex-col gap-2 pb-8">
         <WishlistExplorer />
       </main>

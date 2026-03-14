@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import AboutContent from "./AboutContent";
 import { BASE_URL, SITE_NAME, TWITTER_HANDLE } from "@/lib/config";
+import NavbarWrapper from "@/app/components/NavbarWrapper";
+import Footer from "@/components/Footer";
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = `About ${SITE_NAME} - Your Trusted Local Guide to Ourika Valley Adventures`;
@@ -64,5 +66,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function AboutPage() {
-  return <AboutContent />;
+  return (
+    <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
+      <NavbarWrapper />
+      <AboutContent />
+      <Footer />
+    </div>
+  );
 }

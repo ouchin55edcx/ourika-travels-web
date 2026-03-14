@@ -1,7 +1,8 @@
 "use client";
 
 import { X, Mail } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { loginWithEmail, loginWithGoogle } from "@/app/actions/auth";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -14,6 +15,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState<EmailStep>("options");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+  const [googlePending, setGooglePending] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -21,6 +26,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       document.body.style.overflow = "hidden";
       setStep("options");
       setEmail("");
+      setPassword("");
+      setError(null);
     } else {
       document.body.style.overflow = "unset";
     }
@@ -60,7 +67,16 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             <div className="space-y-4">
               <button
                 type="button"
-                className="group flex w-full items-center justify-center gap-4 rounded-2xl border-2 border-gray-100 bg-white px-6 py-4 font-bold text-gray-700 transition-all hover:border-gray-200 hover:bg-gray-50 active:scale-[0.98]"
+                onClick={async () => {
+                  setGooglePending(true);
+                  const result = await loginWithGoogle();
+                  if (result?.error) {
+                    setGooglePending(false);
+                    setError(result.error);
+                  }
+                }}
+                disabled={googlePending}
+                className="group flex w-full items-center justify-center gap-4 rounded-2xl border-2 border-gray-100 bg-white px-6 py-4 font-bold text-gray-700 transition-all hover:border-gray-200 hover:bg-gray-50 active:scale-[0.98] disabled:opacity-50"
               >
                 <div className="flex h-6 w-6 items-center justify-center">
                   <svg viewBox="0 0 24 24" className="h-5 w-5">
@@ -138,7 +154,17 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           )}
 
           {step === "password" && (
-            <form className="space-y-6">
+            <form
+              className="space-y-6"
+              action={async (formData) => {
+                setError(null);
+                startTransition(async () => {
+                  const result = await loginWithEmail(formData);
+                  if (result?.error) setError(result.error);
+                });
+              }}
+            >
+              <input type="hidden" name="email" value={email} />
               <div className="space-y-2">
                 <label className="text-sm font-bold text-gray-600" htmlFor="login-password">
                   Password
@@ -148,6 +174,9 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   type="password"
                   autoComplete="current-password"
                   className="w-full rounded-2xl border-2 border-gray-100 px-4 py-3 font-semibold text-gray-800 focus:border-[#0b3a2c] focus:outline-none"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  name="password"
                   required
                 />
               </div>
@@ -162,11 +191,18 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 </button>
                 <button
                   type="submit"
-                  className="rounded-2xl bg-[#0b3a2c] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-black"
+                  disabled={isPending}
+                  className="rounded-2xl bg-[#0b3a2c] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-black disabled:opacity-50"
                 >
-                  Sign In
+                  {isPending ? "Signing In..." : "Sign In"}
                 </button>
               </div>
+
+              {error && (
+                <p className="mt-2 text-center text-sm font-bold text-red-500">
+                  {error}
+                </p>
+              )}
             </form>
           )}
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/app/components/NavbarWrapper";
 import ExperiencesExplorer from "./components/ExperiencesExplorer";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 export default function ExperiencesPage() {
   return (
     <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
-      <Navbar sticky={false} />
+      <NavbarWrapper sticky={false} />
       <main className="flex flex-col gap-2 pb-8">
         <ExperiencesExplorer />
       </main>

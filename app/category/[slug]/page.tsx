@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CategoryPageClient from "./CategoryPageClient";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
+import NavbarWrapper from "@/app/components/NavbarWrapper";
+import Footer from "@/components/Footer";
 
 const categorySlugs = ["outdoors", "food", "culture", "water"] as const;
 
@@ -71,5 +73,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     notFound();
   }
 
-  return <CategoryPageClient slug={slug} />;
+  return (
+    <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
+      <NavbarWrapper sticky={false} />
+      <CategoryPageClient slug={slug} />
+      <Footer />
+    </div>
+  );
 }

@@ -3,6 +3,8 @@ import { Outfit } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BASE_URL, SITE_NAME, TWITTER_HANDLE } from "@/lib/config";
+import { AuthProvider } from "@/lib/context/AuthContext";
+import { getCurrentUser } from "@/lib/auth";
 
 /* ─── Single font — Outfit ─── */
 const outfit = Outfit({
@@ -86,6 +88,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getCurrentUser();
   const cookieStore = await cookies();
   const rawLang = cookieStore.get("preferredLanguage")?.value || "en";
   const lang = ["en", "fr"].includes(rawLang.toLowerCase()) ? rawLang.toLowerCase() : "en";
@@ -94,7 +97,9 @@ export default async function RootLayout({
 
   return (
     <html lang={lang}>
-      <body className={`${outfit.variable} font-outfit antialiased`}>{children}</body>
+      <body className={`${outfit.variable} font-outfit antialiased`}>
+        <AuthProvider initialUser={user}>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

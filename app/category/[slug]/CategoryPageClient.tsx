@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ExperienceCard from "@/app/experiences/components/ExperienceCard";
 import { experiencesData, ExperienceItem } from "@/lib/data/experiences";
 import {
@@ -141,7 +139,6 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
 
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-[#34e0a1] selection:text-black">
-      <Navbar sticky={false} />
 
       {/* Header Info */}
       <div className="border-b border-gray-100 bg-white pt-6">
@@ -292,8 +289,6 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
           </div>
         </div>
       </main>
-
-      <Footer />
 
       <style jsx>{`
         .no-scrollbar::-webkit-scrollbar {

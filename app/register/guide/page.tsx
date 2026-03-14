@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { registerGuide } from "@/app/actions/auth";
 import {
   User,
   Mail,
@@ -30,11 +31,25 @@ import NextImage from "next/image";
 export default function GuideRegisterPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [isPending, startTransition] = useTransition();
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState<{
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+    phone?: string;
+  }>({});
   const [formData, setFormData] = useState({
     // Step 1
     firstName: "",
     lastName: "",
     email: "",
+    password: "",
+    confirmPassword: "",
     phone: "",
     languages: [] as string[],
     // Step 2
@@ -51,6 +66,62 @@ export default function GuideRegisterPage() {
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const calculateProgress = () => (step / 3) * 100;
+  const isValidEmail = (value: string) => /^\S+@\S+\.\S+$/.test(value);
+
+  const updateField = (field: keyof typeof formData, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
+  const validateFinalStep = () => {
+    const nextErrors: typeof errors = {};
+
+    if (!formData.firstName.trim()) nextErrors.firstName = "First name is required";
+    if (!formData.lastName.trim()) nextErrors.lastName = "Last name is required";
+    if (!formData.email.trim()) {
+      nextErrors.email = "Email is required";
+    } else if (!isValidEmail(formData.email)) {
+      nextErrors.email = "Please enter a valid email";
+    }
+    if (!formData.phone.trim()) nextErrors.phone = "Phone is required";
+    if (!formData.password) nextErrors.password = "Password is required";
+    if (formData.password.length < 8) {
+      nextErrors.password = "Password must be at least 8 characters";
+    }
+    if (!formData.confirmPassword) {
+      nextErrors.confirmPassword = "Please confirm your password";
+    }
+    if (formData.password && formData.confirmPassword) {
+      if (formData.password !== formData.confirmPassword) {
+        nextErrors.confirmPassword = "Passwords do not match";
+      }
+    }
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const submitRegistration = () => {
+    if (!validateFinalStep()) return;
+
+    setSubmitError(null);
+    const payload = new FormData();
+    payload.set("email", formData.email.trim());
+    payload.set("password", formData.password);
+    payload.set("full_name", `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim());
+    payload.set("phone", formData.phone.trim());
+    payload.set("bio", formData.bio);
+
+    startTransition(async () => {
+      const result = await registerGuide(payload);
+      if (result?.error) {
+        setSubmitError(result.error);
+        return;
+      }
+      const emailParam = encodeURIComponent(formData.email.trim());
+      router.push(`/register/guide/success?email=${emailParam}`);
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 selection:bg-[#34e0a1] selection:text-black">
@@ -157,20 +228,36 @@ export default function GuideRegisterPage() {
                       First Name <span className="text-red-500">*</span>
                     </label>
                     <input
+                      name="firstName"
                       type="text"
                       placeholder="e.g. Ahmed"
+                      value={formData.firstName}
+                      onChange={(event) => updateField("firstName", event.target.value)}
+                      autoComplete="given-name"
+                      required
                       className="w-full rounded-xl border border-gray-300 px-4 py-2.5 font-medium text-gray-900 placeholder-gray-400 transition-all focus:border-emerald-500 focus:ring-emerald-500"
                     />
+                    {errors.firstName && (
+                      <p className="text-xs font-medium text-red-500">{errors.firstName}</p>
+                    )}
                   </div>
                   <div className="space-y-1.5 focus-within:text-emerald-700">
                     <label className="text-sm font-bold text-gray-700">
                       Last Name <span className="text-red-500">*</span>
                     </label>
                     <input
+                      name="lastName"
                       type="text"
                       placeholder="e.g. Amziane"
+                      value={formData.lastName}
+                      onChange={(event) => updateField("lastName", event.target.value)}
+                      autoComplete="family-name"
+                      required
                       className="w-full rounded-xl border border-gray-300 px-4 py-2.5 font-medium text-gray-900 placeholder-gray-400 transition-all focus:border-emerald-500 focus:ring-emerald-500"
                     />
+                    {errors.lastName && (
+                      <p className="text-xs font-medium text-red-500">{errors.lastName}</p>
+                    )}
                   </div>
                 </div>
 
@@ -179,10 +266,76 @@ export default function GuideRegisterPage() {
                     Email Address <span className="text-red-500">*</span>
                   </label>
                   <input
+                    name="email"
                     type="email"
                     placeholder="name@example.com"
+                    value={formData.email}
+                    onChange={(event) => updateField("email", event.target.value)}
+                    autoComplete="email"
+                    required
                     className="w-full rounded-xl border border-gray-300 px-4 py-2.5 font-medium text-gray-900 placeholder-gray-400 transition-all focus:border-emerald-500 focus:ring-emerald-500"
                   />
+                  {errors.email && (
+                    <p className="text-xs font-medium text-red-500">{errors.email}</p>
+                  )}
+                </div>
+
+                <div className="space-y-1.5 focus-within:text-emerald-700">
+                  <label className="text-sm font-bold text-gray-700">
+                    Password <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-2.5 focus-within:border-emerald-500 focus-within:ring-emerald-500">
+                    <input
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Minimum 8 characters"
+                      value={formData.password}
+                      onChange={(event) => updateField("password", event.target.value)}
+                      autoComplete="new-password"
+                      required
+                      minLength={8}
+                      className="w-full font-medium text-gray-900 placeholder-gray-400 outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((value) => !value)}
+                      className="text-xs font-bold text-[#0b3a2c]"
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                  {errors.password && (
+                    <p className="text-xs font-medium text-red-500">{errors.password}</p>
+                  )}
+                </div>
+
+                <div className="space-y-1.5 focus-within:text-emerald-700">
+                  <label className="text-sm font-bold text-gray-700">
+                    Confirm Password <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-2.5 focus-within:border-emerald-500 focus-within:ring-emerald-500">
+                    <input
+                      name="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Repeat your password"
+                      value={formData.confirmPassword}
+                      onChange={(event) => updateField("confirmPassword", event.target.value)}
+                      autoComplete="new-password"
+                      required
+                      minLength={8}
+                      className="w-full font-medium text-gray-900 placeholder-gray-400 outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword((value) => !value)}
+                      className="text-xs font-bold text-[#0b3a2c]"
+                    >
+                      {showConfirmPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                  {errors.confirmPassword && (
+                    <p className="text-xs font-medium text-red-500">{errors.confirmPassword}</p>
+                  )}
                 </div>
 
                 <div className="space-y-1.5 focus-within:text-emerald-700">
@@ -196,11 +349,19 @@ export default function GuideRegisterPage() {
                       <option>Spain (+34)</option>
                     </select>
                     <input
+                      name="phone"
                       type="tel"
                       placeholder="Phone number"
+                      value={formData.phone}
+                      onChange={(event) => updateField("phone", event.target.value)}
+                      autoComplete="tel"
+                      required
                       className="flex-1 rounded-xl border border-gray-300 px-4 py-2.5 font-medium text-gray-900 placeholder-gray-400 transition-all focus:border-emerald-500 focus:ring-emerald-500 sm:rounded-l-none"
                     />
                   </div>
+                  {errors.phone && (
+                    <p className="text-xs font-medium text-red-500">{errors.phone}</p>
+                  )}
                 </div>
               </div>
             )}
@@ -212,7 +373,12 @@ export default function GuideRegisterPage() {
                   <label className="text-sm font-bold text-gray-700">
                     Primary Location <span className="text-red-500">*</span>
                   </label>
-                  <select className="w-full cursor-pointer appearance-none rounded-xl border border-gray-300 bg-white px-4 py-2.5 font-medium text-gray-900 focus:border-emerald-500 focus:ring-emerald-500">
+                  <select
+                    name="location"
+                    value={formData.location}
+                    onChange={(event) => updateField("location", event.target.value)}
+                    className="w-full cursor-pointer appearance-none rounded-xl border border-gray-300 bg-white px-4 py-2.5 font-medium text-gray-900 focus:border-emerald-500 focus:ring-emerald-500"
+                  >
                     <option>Select location</option>
                     <option>Setti Fatma</option>
                     <option>Tnine Ourika</option>
@@ -247,8 +413,11 @@ export default function GuideRegisterPage() {
                     Your professional bio <span className="text-red-500">*</span>
                   </label>
                   <textarea
+                    name="bio"
                     rows={4}
                     placeholder="Tell travelers why they should explore Ourika with you..."
+                    value={formData.bio}
+                    onChange={(event) => updateField("bio", event.target.value)}
                     className="w-full resize-none rounded-xl border border-gray-300 px-4 py-4 font-medium text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:ring-emerald-500"
                   />
                 </div>
@@ -290,6 +459,12 @@ export default function GuideRegisterPage() {
                     .
                   </label>
                 </div>
+
+                {submitError && (
+                  <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                    {submitError}
+                  </div>
+                )}
               </div>
             )}
 
@@ -303,10 +478,15 @@ export default function GuideRegisterPage() {
 
               <div className="flex flex-1 flex-col items-center gap-3 sm:flex-none sm:items-end">
                 <button
-                  onClick={step === 3 ? () => router.push("/register/guide/success") : nextStep}
-                  className="w-full rounded-full bg-gray-900 px-8 py-3.5 text-lg font-black text-white shadow-xl shadow-gray-200 transition-all hover:bg-black active:scale-95 sm:w-[220px]"
+                  onClick={step === 3 ? submitRegistration : nextStep}
+                  disabled={step === 3 && isPending}
+                  className="w-full rounded-full bg-gray-900 px-8 py-3.5 text-lg font-black text-white shadow-xl shadow-gray-200 transition-all hover:bg-black active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 sm:w-[220px]"
                 >
-                  {step === 3 ? "Complete Registration" : "Next step"}
+                  {step === 3
+                    ? isPending
+                      ? "Submitting..."
+                      : "Complete Registration"
+                    : "Next step"}
                 </button>
                 <div className="flex items-center gap-1.5 opacity-60">
                   <p className="text-[10px] leading-none font-bold tracking-widest text-gray-400 uppercase">

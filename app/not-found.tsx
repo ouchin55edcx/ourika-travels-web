@@ -1,11 +1,11 @@
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/app/components/NavbarWrapper";
 import Footer from "@/components/Footer";
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <Navbar />
+      <NavbarWrapper />
       <main className="flex min-h-[70vh] items-center justify-center px-6 py-20">
         <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
           <div className="text-[96px] leading-none font-black text-[#004f32] md:text-[128px]">
