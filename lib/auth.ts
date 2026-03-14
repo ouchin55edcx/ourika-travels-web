@@ -63,8 +63,10 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
 export async function requireAuth(allowedRoles?: UserRole[]): Promise<AuthUser> {
   const user = await getCurrentUser();
   if (!user) throw new Error("UNAUTHORIZED");
+  if (!user.is_active) throw new Error("DEACTIVATED");
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     throw new Error("FORBIDDEN");
   }
   return user;
 }
+

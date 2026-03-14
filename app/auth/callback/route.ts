@@ -12,23 +12,29 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error && data.user) {
-      // Fetch role and redirect accordingly
+      // Fetch role and activation status
       const { data: profile } = await supabase
         .from("users")
-        .select("role")
+        .select("role, is_active")
         .eq("id", data.user.id)
         .single();
+
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || origin;
+
+      if (profile && profile.is_active === false) {
+        await supabase.auth.signOut();
+        return NextResponse.redirect(new URL("/auth/login?error=deactivated", baseUrl));
+      }
 
       const role =
         profile?.role ||
         (data.user.user_metadata?.role as string | undefined) ||
+
         (data.user.app_metadata?.role as string | undefined) ||
         "tourist"; // Default to tourist
 
       // Essential for Next.js to notice the auth change across all server components
       revalidatePath("/", "layout");
-
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || origin;
 
       if (role === "admin") return NextResponse.redirect(new URL("/admin/dashboard", baseUrl));
       if (role === "guide") return NextResponse.redirect(new URL("/dashboard/guide", baseUrl));
@@ -39,3 +45,4 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.redirect(new URL("/auth/login?error=auth_callback_failed", origin));
 }
+

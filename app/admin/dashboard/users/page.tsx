@@ -1,20 +1,38 @@
-export default function AdminUsersPage() {
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import UsersManagement from "./UsersManagement";
+import { AuthUser } from "@/lib/auth";
+
+export default async function AdminUsersPage() {
+  const admin = await getCurrentUser();
+
+  if (!admin || admin.role !== "admin") {
+    redirect("/auth/login");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { data: users, error } = await supabase
+    .from("users")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching users:", error);
+  }
+
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-sm font-semibold text-gray-500">Users</p>
-        <h1 className="text-3xl font-black text-[#0b3a2c]">Travelers and guides</h1>
-        <p className="max-w-2xl text-base font-medium text-gray-500">
-          Manage accounts, verify guides, and keep traveler profiles organized.
+    <div className="space-y-10">
+      <div className="flex flex-col gap-2">
+        <p className="text-sm font-bold uppercase tracking-wider text-[#0b3a2c]/60">Management</p>
+        <h1 className="text-4xl font-black tracking-tight text-[#0b3a2c]">Travelers and Guides</h1>
+        <p className="max-w-2xl text-lg font-medium text-gray-500">
+          Monitor user activity, verify local expert credentials, and manage community access.
         </p>
       </div>
 
-      <div className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-sm">
-        <p className="text-sm font-semibold text-gray-500">Next steps</p>
-        <p className="text-lg font-semibold text-gray-800">
-          Connect this section to your user database.
-        </p>
-      </div>
+      <UsersManagement initialUsers={(users as AuthUser[]) || []} />
     </div>
   );
 }
+

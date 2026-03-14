@@ -27,9 +27,16 @@ export async function middleware(request: NextRequest) {
   if (user && authPages.some((p) => pathname.startsWith(p))) {
     const { data: profile } = await supabase
       .from("users")
-      .select("role")
+      .select("role, is_active")
       .eq("id", user.id)
       .single();
+
+    if (profile && !profile.is_active) {
+      // If user is blocked, we don't redirect them to dashboard, we let them stay on login page
+      // In a real scenario, we might want to force sign out here too
+      return supabaseResponse;
+    }
+
     if (profile?.role === "admin") {
       return NextResponse.redirect(new URL("/admin/dashboard/overview", request.url));
     }
@@ -41,34 +48,41 @@ export async function middleware(request: NextRequest) {
 
   // Protect private routes — redirect to login if not authenticated
   const isProtected = PROTECTED_ROUTES.some((r) => pathname.startsWith(r));
-  if (isProtected && !user) {
+
+  // Also check if user is active for any protected or role-based route
+  if (user) {
+    const { data: profile } = await supabase
+      .from("users")
+      .select("role, is_active")
+      .eq("id", user.id)
+      .single();
+
+    if (profile && !profile.is_active) {
+      const url = new URL("/auth/login", request.url);
+      url.searchParams.set("error", "deactivated");
+      // Use a different response to ensure we redirect
+      const response = NextResponse.redirect(url);
+      // We should ideally clear the cookies here
+      return response;
+    }
+
+    // Role-based protection check (already has user, now check role and access)
+    for (const [route, roles] of Object.entries(ROLE_ROUTES)) {
+      if (pathname.startsWith(route)) {
+        if (!profile || !roles.includes(profile.role)) {
+          return NextResponse.redirect(new URL("/auth/unauthorized", request.url));
+        }
+      }
+    }
+  } else if (isProtected || Object.keys(ROLE_ROUTES).some(route => pathname.startsWith(route))) {
     const url = new URL("/auth/login", request.url);
     url.searchParams.set("redirectTo", pathname);
     return NextResponse.redirect(url);
   }
 
-  // Role-based protection
-  for (const [route, roles] of Object.entries(ROLE_ROUTES)) {
-    if (pathname.startsWith(route)) {
-      if (!user) {
-        const url = new URL("/auth/login", request.url);
-        url.searchParams.set("redirectTo", pathname);
-        return NextResponse.redirect(url);
-      }
-      // Fetch role from users table
-      const { data: profile } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-      if (!profile || !roles.includes(profile.role)) {
-        return NextResponse.redirect(new URL("/auth/unauthorized", request.url));
-      }
-    }
-  }
-
   return supabaseResponse;
 }
+
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico|public|api/test).*)"],

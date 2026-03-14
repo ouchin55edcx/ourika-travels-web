@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       "default-src 'self'",
       "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc https://lh3.googleusercontent.com https://sobkyklhsbwqxrthrjhr.supabase.co",
+      "img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc https://lh3.googleusercontent.com https://sobkyklhsbwqxrthrjhr.supabase.co https://imgs.search.brave.com",
       "font-src 'self' https://fonts.gstatic.com",
       "connect-src 'self' https://*.supabase.co",
       "media-src 'self'",
@@ -49,8 +49,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "sobkyklhsbwqxrthrjhr.supabase.co",
       },
+      {
+        protocol: "https",
+        hostname: "imgs.search.brave.com",
+      },
     ],
   },
+
 };
 
 export default nextConfig;

@@ -73,10 +73,15 @@ export default function LoginPage() {
     if (verified) return { type: "success", text: "Email verified! You can now sign in." };
     if (resetSuccess)
       return { type: "success", text: "Password reset successfully." };
-    if (errorParam)
+    if (errorParam) {
+      if (errorParam === "deactivated") {
+        return { type: "error", text: "Your account has been deactivated. Please contact support." };
+      }
       return { type: "error", text: decodeURIComponent(errorParam) };
+    }
     return null;
   }, [verified, resetSuccess, errorParam]);
+
 
   async function onSubmit(formData: FormData) {
     setServerError(null);
@@ -112,11 +117,10 @@ export default function LoginPage() {
 
           {statusMessage && (
             <div
-              className={`mt-6 rounded-lg border px-4 py-3 text-sm ${
-                statusMessage.type === "success"
+              className={`mt-6 rounded-lg border px-4 py-3 text-sm ${statusMessage.type === "success"
                   ? "border-emerald-200 bg-emerald-50 text-emerald-800"
                   : "border-red-200 bg-red-50 text-red-700"
-              }`}
+                }`}
             >
               {statusMessage.text}
             </div>

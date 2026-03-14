@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
+import { Category } from "@/app/actions/categories";
+
 const interests = [
   {
     title: "Mountain Peaks",
@@ -35,8 +37,24 @@ const interests = [
   },
 ];
 
-export default function Interests() {
+interface InterestsProps {
+  initialCategories?: Category[];
+}
+
+export default function Interests({ initialCategories = [] }: InterestsProps) {
   const { elementRef, isVisible } = useScrollReveal(0.1);
+
+  // Map dynamic categories to the component's format
+  const dynamicInterests = initialCategories.map((cat) => ({
+    title: cat.name,
+    image: cat.photo || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
+    desc: cat.description || "Explore this category",
+    slug: cat.name.toLowerCase().replace(/\s+/g, "-"),
+  }));
+
+  // Use dynamic categories if they exist, otherwise fallback to static ones
+  const displayedInterests = dynamicInterests.length > 0 ? dynamicInterests : interests;
+
 
   return (
     <section ref={elementRef as any} className={`mx-auto mt-16 w-full max-w-7xl px-6`}>
@@ -54,7 +72,8 @@ export default function Interests() {
       </div>
 
       <div className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-8 lg:grid lg:grid-cols-4 lg:gap-8 lg:pb-0">
-        {interests.map((interest, index) => {
+        {displayedInterests.map((interest, index) => {
+
           return (
             <Link
               key={interest.title}

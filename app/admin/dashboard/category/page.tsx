@@ -1,20 +1,29 @@
-export default function AdminCategoryPage() {
+import { getCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { getCategories } from "@/app/actions/categories";
+import CategoryManagement from "./CategoryManagement";
+
+export default async function AdminCategoryPage() {
+  const admin = await getCurrentUser();
+
+  if (!admin || admin.role !== "admin") {
+    redirect("/auth/login");
+  }
+
+  const categories = await getCategories();
+
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-sm font-semibold text-gray-500">Category</p>
-        <h1 className="text-3xl font-black text-[#0b3a2c]">Organize experiences</h1>
-        <p className="max-w-2xl text-base font-medium text-gray-500">
-          Keep trek categories clear so travelers find the right experience quickly.
+    <div className="space-y-10">
+      <div className="flex flex-col gap-2">
+        <p className="text-sm font-bold uppercase tracking-wider text-[#0b3a2c]/60">Management</p>
+        <h1 className="text-4xl font-black tracking-tight text-[#0b3a2c]">Experience Categories</h1>
+        <p className="max-w-2xl text-lg font-medium text-gray-500">
+          Define and organize the types of journeys you offer, making it easier for travelers to find their perfect match.
         </p>
       </div>
 
-      <div className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-sm">
-        <p className="text-sm font-semibold text-gray-500">Suggestion</p>
-        <p className="text-lg font-semibold text-gray-800">
-          Add a short description to each category.
-        </p>
-      </div>
+      <CategoryManagement initialCategories={categories} />
     </div>
   );
 }
+
