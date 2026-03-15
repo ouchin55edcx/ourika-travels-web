@@ -5,6 +5,11 @@ import { Heart, MapPin } from "lucide-react";
 import { useState } from "react";
 import MapboxRouteMap from "@/components/MapboxRouteMap";
 
+function fixUrl(url?: string): string {
+  if (!url) return "";
+  return url.replace(/([^:])\/\/+/g, "$1/");
+}
+
 export type ItineraryStep = {
   id: number;
   title: string;
@@ -83,8 +88,9 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                     <button
                       type="button"
                       onClick={() => toggleStep(step.id)}
-                      className={`flex h-10 w-10 items-center justify-center rounded-full transition text-[18px] font-extrabold ${isActive ? 'bg-[#00ef9d] text-[#12311f]' : 'bg-[#003b1f] text-white'
-                        }`}
+                      className={`flex h-10 w-10 items-center justify-center rounded-full text-[18px] font-extrabold transition ${
+                        isActive ? "bg-[#00ef9d] text-[#12311f]" : "bg-[#003b1f] text-white"
+                      }`}
                     >
                       {step.id}
                     </button>
@@ -99,8 +105,11 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                       onClick={() => toggleStep(step.id)}
                       className="w-full text-left"
                     >
-                      <p className={`text-[18px] font-extrabold sm:text-[22px] transition-colors ${isActive ? 'text-[#00ef9d]' : 'text-[#12311f]'
-                        }`}>
+                      <p
+                        className={`text-[18px] font-extrabold transition-colors sm:text-[22px] ${
+                          isActive ? "text-[#00ef9d]" : "text-[#12311f]"
+                        }`}
+                      >
                         {step.title}
                       </p>
                       <p className="mt-1 text-[14px] text-[#666] sm:text-[15px]">
@@ -116,7 +125,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                         <div className="relative mb-3 overflow-hidden rounded-[10px]">
                           <div className="relative aspect-[16/9] sm:aspect-[16/7]">
                             <Image
-                              src={step.image}
+                              src={fixUrl(step.image)}
                               alt={step.title}
                               fill
                               className="object-cover"
@@ -164,7 +173,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
             onMarkerClick={(id) => setActiveStepId(id)}
           />
 
-          <div className="pointer-events-none absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-[#0b3a2c] shadow-xl backdrop-blur-md ring-1 ring-black/5">
+          <div className="pointer-events-none absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-black tracking-widest text-[#0b3a2c] uppercase shadow-xl ring-1 ring-black/5 backdrop-blur-md">
             <span className="inline-flex items-center gap-2">
               <MapPin className="h-3.5 w-3.5 text-[#00ef9d]" />
               Live Route View
