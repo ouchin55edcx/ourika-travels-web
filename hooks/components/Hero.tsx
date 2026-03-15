@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchTreks, type TrekResult } from "@/hooks/useSearchTreks";
+import SearchResultCard from "@/components/SearchResultCard";
 
 export default function Hero() {
   const [query, setQuery] = useState("");
@@ -125,50 +126,21 @@ export default function Hero() {
                           <div className="space-y-1">
                             {[...Array(4)].map((_, i) => (
                               <div key={i} className="flex items-center gap-4 px-3 py-2.5">
-                                <div className="h-12 w-12 shrink-0 rounded-lg bg-gray-100 animate-pulse" />
+                                <div className="h-12 w-12 shrink-0 animate-pulse rounded-lg bg-gray-100" />
                                 <div className="flex-1 space-y-2">
-                                  <div className="h-3.5 w-2/3 rounded-full bg-gray-100 animate-pulse" />
-                                  <div className="h-3 w-1/3 rounded-full bg-gray-100 animate-pulse" />
+                                  <div className="h-3.5 w-2/3 animate-pulse rounded-full bg-gray-100" />
+                                  <div className="h-3 w-1/3 animate-pulse rounded-full bg-gray-100" />
                                 </div>
                               </div>
                             ))}
                           </div>
                         ) : results.length > 0 ? (
                           results.map((trek) => (
-                            <Link
+                            <SearchResultCard
                               key={trek.id}
-                              href={`/tour/${trek.slug}`}
-                              onClick={() => setIsFocused(false)}
-                              className="group flex cursor-pointer items-center gap-4 rounded-lg
-                                border-b border-transparent px-3 py-2.5 transition-all
-                                hover:border-gray-100/50 hover:bg-gray-50"
-                            >
-                              <div className="relative h-11 w-11 shrink-0 overflow-hidden
-                                rounded-lg border border-gray-100 md:h-12 md:w-12">
-                                <Image
-                                  src={trek.cover_image}
-                                  alt={trek.title}
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <h4 className="text-[15px] font-semibold text-[#004f32]
-                                  line-clamp-1">
-                                  {trek.title}
-                                </h4>
-                                <p className="text-[13px] font-medium text-gray-500 flex
-                                  items-center gap-2">
-                                  <span>{trek.categories?.name ?? 'Experience'}</span>
-                                  <span className="text-gray-300">·</span>
-                                  <span>{trek.duration}</span>
-                                  <span className="text-gray-300">·</span>
-                                  <span className="font-bold text-[#004f32]">
-                                    ${trek.price_per_adult.toFixed(0)}
-                                  </span>
-                                </p>
-                              </div>
-                            </Link>
+                              trek={trek}
+                              onSelect={() => setIsFocused(false)}
+                            />
                           ))
                         ) : (
                           <div className="py-16 text-center">
@@ -178,7 +150,7 @@ export default function Hero() {
                             <p className="text-lg font-bold text-gray-500">
                               No results for "{query}"
                             </p>
-                            <p className="text-gray-400 text-sm mt-1">
+                            <p className="mt-1 text-sm text-gray-400">
                               Try "waterfall", "Berber" or "hike"
                             </p>
                           </div>

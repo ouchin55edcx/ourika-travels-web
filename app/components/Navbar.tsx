@@ -93,8 +93,9 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
   return (
     <>
       <nav
-        className={`flex items-center justify-between border-b border-gray-100 bg-white px-6 py-2 transition-all duration-300 md:px-16 ${sticky ? "sticky top-0" : ""
-          } ${isSearchFocused ? "z-[var(--z-modal)]" : "z-50"}`}
+        className={`flex items-center justify-between border-b border-gray-100 bg-white px-6 py-2 transition-all duration-300 md:px-16 ${
+          sticky ? "sticky top-0" : ""
+        } ${isSearchFocused ? "z-[150]" : "z-50"}`}
       >
         {/* Left Section: Logo + Search + Globe */}
         <div className="flex items-center gap-4 lg:gap-8">
@@ -298,8 +299,9 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
 
         {/* Mobile Menu Drawer */}
         <div
-          className={`fixed inset-0 z-[var(--z-dropdown)] transform bg-white transition-transform duration-300 ease-in-out lg:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+          className={`fixed inset-0 z-[var(--z-dropdown)] transform bg-white transition-transform duration-300 ease-in-out lg:hidden ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         >
           <div className="flex h-full flex-col gap-8 px-6 pt-24">
             {/* Primary Links */}
@@ -414,138 +416,140 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           />
         )}
       </nav>
-
       {/* Expanded Search Box - Moved Outside Nav for 100% Reliability on Mobile */}
       {isSearchFocused && (
-        <div
-          className="fixed inset-0 z-[var(--z-modal)] flex max-h-screen w-full flex-col overflow-hidden border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1),0_10px_30px_rgba(0,0,0,0.08)] md:fixed md:top-2 md:left-1/2 md:max-h-[85vh] md:w-[500px] md:-translate-x-1/2 md:rounded-xl md:border"
-          ref={searchRef}
-        >
-          {/* Input Area */}
-          <div className="flex shrink-0 items-center bg-white px-5 py-5 md:py-3">
-            <SearchIcon className="mr-3 h-5 w-5 shrink-0 text-gray-400" />
-            <input
-              autoFocus
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Where to?"
-              className="flex-1 border-none bg-transparent text-base font-medium outline-none placeholder:text-gray-400 focus:ring-0 md:text-[15px]"
-            />
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsSearchFocused(false);
-              }}
-              className="ml-1 rounded-md p-2 transition-colors hover:bg-gray-50"
-            >
-              <X className="h-5 w-5 text-gray-400" />
-            </button>
-          </div>
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-[190] hidden bg-black/20 backdrop-blur-sm md:block"
+            onClick={() => setIsSearchFocused(false)}
+          />
+          {/* Dropdown panel */}
+          <div
+            className="fixed inset-0 z-[200] flex max-h-screen w-full flex-col overflow-hidden bg-white shadow-2xl md:fixed md:top-16 md:left-1/2 md:max-h-[520px] md:w-[520px] md:-translate-x-1/2 md:rounded-2xl md:border md:border-gray-100"
+            ref={searchRef}
+          >
+            {/* Input Area */}
+            <div className="flex shrink-0 items-center bg-white px-5 py-5 md:py-3">
+              <SearchIcon className="mr-3 h-5 w-5 shrink-0 text-gray-400" />
+              <input
+                autoFocus
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Where to?"
+                className="flex-1 border-none bg-transparent text-base font-medium outline-none placeholder:text-gray-400 focus:ring-0 md:text-[15px]"
+              />
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsSearchFocused(false);
+                }}
+                className="ml-1 rounded-md p-2 transition-colors hover:bg-gray-50"
+              >
+                <X className="h-5 w-5 text-gray-400" />
+              </button>
+            </div>
 
-          {/* Divider Line */}
-          <div className="h-[1px] w-full shrink-0 bg-gray-100" />
+            {/* Divider Line */}
+            <div className="h-[1px] w-full shrink-0 bg-gray-100" />
 
-          {/* Dropdown Content */}
-          <div className="custom-scrollbar flex-1 overflow-y-auto bg-white p-5 md:p-4">
-            {/* Sponsored Section */}
-            {!query && (
-              <div className="mb-6">
-                <div className="group flex cursor-pointer items-center gap-4 rounded-lg p-2.5 transition-all hover:bg-gray-50">
-                  <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-gray-100 md:h-14 md:w-14">
-                    <Image
-                      src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=200&auto=format&fit=crop"
-                      alt="Sponsored"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="mb-0.5 text-[15px] leading-tight font-semibold text-[#004f32]">
-                      Cultural wonder in Ourika
-                    </h4>
-                    <p className="text-[13px] font-medium text-gray-500">Sponsored Tourism</p>
+            {/* Dropdown Content */}
+            <div className="custom-scrollbar flex-1 overflow-y-auto bg-white p-5 md:p-4">
+              {/* Sponsored Section */}
+              {!query && (
+                <div className="mb-6">
+                  <div className="group flex cursor-pointer items-center gap-4 rounded-lg p-2.5 transition-all hover:bg-gray-50">
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-gray-100 md:h-14 md:w-14">
+                      <Image
+                        src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=200&auto=format&fit=crop"
+                        alt="Sponsored"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="mb-0.5 text-[15px] leading-tight font-semibold text-[#004f32]">
+                        Cultural wonder in Ourika
+                      </h4>
+                      <p className="text-[13px] font-medium text-gray-500">Sponsored Tourism</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Content Section */}
-            <div className="space-y-4">
-              <h3 className="mb-2 px-3 text-[13px] font-semibold tracking-wider text-gray-400 uppercase">
-                {query ? `Results for "${query}"` : "Popular experiences"}
-              </h3>
+              {/* Content Section */}
+              <div className="space-y-4">
+                <h3 className="mb-2 px-3 text-[13px] font-semibold tracking-wider text-gray-400 uppercase">
+                  {query ? `Results for \"${query}\"` : "Popular experiences"}
+                </h3>
 
-              <div className="grid gap-0.5">
-                {loading ? (
-                  // Loading skeleton
-                  <div className="space-y-1">
-                    {[...Array(4)].map((_, i) => (
-                      <div key={i} className="flex items-center gap-4 px-3 py-2.5">
-                        <div className="h-12 w-12 shrink-0 rounded-lg bg-gray-100 animate-pulse" />
-                        <div className="flex-1 space-y-2">
-                          <div className="h-3.5 w-2/3 rounded-full bg-gray-100 animate-pulse" />
-                          <div className="h-3 w-1/3 rounded-full bg-gray-100 animate-pulse" />
+                <div className="grid gap-0.5">
+                  {loading ? (
+                    // Loading skeleton
+                    <div className="space-y-1">
+                      {[...Array(4)].map((_, i) => (
+                        <div key={i} className="flex items-center gap-4 px-3 py-2.5">
+                          <div className="h-12 w-12 shrink-0 animate-pulse rounded-lg bg-gray-100" />
+                          <div className="flex-1 space-y-2">
+                            <div className="h-3.5 w-2/3 animate-pulse rounded-full bg-gray-100" />
+                            <div className="h-3 w-1/3 animate-pulse rounded-full bg-gray-100" />
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : results.length > 0 ? (
-                  results.map((trek) => (
-                    <Link
-                      key={trek.id}
-                      href={`/tour/${trek.slug}`}
-                      onClick={() => setIsSearchFocused(false)}
-                      className="group flex cursor-pointer items-center gap-4 rounded-lg
-                        border-b border-transparent px-3 py-2.5 transition-all
-                        hover:border-gray-100/50 hover:bg-gray-50"
-                    >
-                      <div className="relative h-11 w-11 shrink-0 overflow-hidden
-                        rounded-lg border border-gray-100 md:h-12 md:w-12">
-                        <Image
-                          src={trek.cover_image}
-                          alt={trek.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h4 className="text-[15px] font-semibold text-[#004f32]
-                          line-clamp-1">
-                          {trek.title}
-                        </h4>
-                        <p className="text-[13px] font-medium text-gray-500 flex
-                          items-center gap-2">
-                          <span>{trek.categories?.name ?? 'Experience'}</span>
-                          <span className="text-gray-300">·</span>
-                          <span>{trek.duration}</span>
-                          <span className="text-gray-300">·</span>
-                          <span className="font-bold text-[#004f32]">
-                            ${trek.price_per_adult.toFixed(0)}
-                          </span>
-                        </p>
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  <div className="py-16 text-center md:py-8">
-                    <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-50 md:h-16 md:w-16">
-                      <SearchIcon className="h-10 w-10 text-gray-300 md:h-8 md:w-8" />
+                      ))}
                     </div>
-                    <p className="text-lg font-bold text-gray-500 md:text-sm">
-                      No results for "{query}"
-                    </p>
-                    <p className="text-gray-400 text-sm mt-1">
-                      Try "waterfall", "Berber" or "hike"
-                    </p>
-                  </div>
-                )}
+                  ) : results.length > 0 ? (
+                    results.map((trek) => (
+                      <Link
+                        key={trek.id}
+                        href={`/tour/${trek.slug}`}
+                        onClick={() => setIsSearchFocused(false)}
+                        className="group flex cursor-pointer items-center gap-4 rounded-lg border-b border-transparent px-3 py-2.5 transition-all hover:border-gray-100/50 hover:bg-gray-50"
+                      >
+                        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-gray-100 md:h-12 md:w-12">
+                          <Image
+                            src={trek.cover_image}
+                            alt={trek.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h4 className="line-clamp-1 text-[15px] font-semibold text-[#004f32]">
+                            {trek.title}
+                          </h4>
+                          <p className="flex items-center gap-2 text-[13px] font-medium text-gray-500">
+                            <span>{trek.categories?.name ?? "Experience"}</span>
+                            <span className="text-gray-300">·</span>
+                            <span>{trek.duration}</span>
+                            <span className="text-gray-300">·</span>
+                            <span className="font-bold text-[#004f32]">
+                              ${trek.price_per_adult.toFixed(0)}
+                            </span>
+                          </p>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <div className="py-16 text-center md:py-8">
+                      <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-50 md:h-16 md:w-16">
+                        <SearchIcon className="h-10 w-10 text-gray-300 md:h-8 md:w-8" />
+                      </div>
+                      <p className="text-lg font-bold text-gray-500 md:text-sm">
+                        No results for \"{query}\"
+                      </p>
+                      <p className="mt-1 text-sm text-gray-400">
+                        Try \"waterfall\", \"Berber\" or \"hike\"
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
-
+      ```
       {/* Backdrop for search - Already outside nav */}
       {isSearchFocused && (
         <div
@@ -553,11 +557,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           onClick={() => setIsSearchFocused(false)}
         />
       )}
-
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-      />
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </>
   );
 }
