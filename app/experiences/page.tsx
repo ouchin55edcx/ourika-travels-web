@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import NavbarWrapper from "@/app/components/NavbarWrapper";
 import ExperiencesExplorer from "./components/ExperiencesExplorer";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Explore Experiences — Hikes, Culture & Adventure in Ourika Valley",
@@ -41,12 +42,38 @@ export const metadata: Metadata = {
   alternates: { canonical: `${BASE_URL}/experiences` },
 };
 
-export default function ExperiencesPage() {
+export default async function ExperiencesPage() {
+  const supabase = await createSupabaseServerClient();
+
+  // Fetch treks AND categories in parallel
+  const [{ data: treks }, { data: categories }] = await Promise.all([
+    supabase
+      .from("treks")
+      .select(`
+        id, title, slug, cover_image,
+        rating, review_count,
+        price_per_adult, previous_price,
+        badge, award, duration,
+        time_of_day, live_guide_languages,
+        is_active, categories(name)
+      `)
+      .eq("is_active", true)
+      .order("created_at", { ascending: false }),
+
+    supabase
+      .from("categories")
+      .select("id, name, description, photo")
+      .order("created_at", { ascending: true }),
+  ]);
+
   return (
     <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
       <NavbarWrapper sticky={false} />
       <main className="flex flex-col gap-2 pb-8">
-        <ExperiencesExplorer />
+        <ExperiencesExplorer
+          initialTreks={treks ?? []}
+          initialCategories={categories ?? []}
+        />
       </main>
       <Footer />
     </div>

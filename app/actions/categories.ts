@@ -2,6 +2,8 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { uploadToCloudflare } from "@/lib/cloudflare-images";
+import { getCurrentUser } from "@/lib/auth";
 
 export type Category = {
     id: string;
@@ -66,4 +68,27 @@ export async function deleteCategory(id: string) {
 
     revalidatePath("/admin/dashboard/category");
     return { success: true };
+}
+
+export async function uploadCategoryImage(
+    formData: FormData
+): Promise<{ url: string } | { error: string }> {
+    const user = await getCurrentUser();
+    if (!user || user.role !== "admin") return { error: "Forbidden" };
+
+    const file = formData.get("file") as File;
+    if (!file || file.size === 0) return { error: "No file provided" };
+    if (file.size > 10 * 1024 * 1024) return { error: "File too large (max 10 MB)" };
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+        return { error: "Use JPG, PNG or WebP only" };
+    }
+
+    try {
+        const result = await uploadToCloudflare(file, { folder: "categories" });
+        // Fix any double-slash in the URL
+        const url = result.url.replace(/([^:])\/\/+/g, "$1/");
+        return { url };
+    } catch (err: any) {
+        return { error: err.message || "Upload failed" };
+    }
 }

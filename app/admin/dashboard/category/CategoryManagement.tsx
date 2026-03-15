@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { Category, createCategory, updateCategory, deleteCategory } from "@/app/actions/categories";
+import { useState, useTransition, useEffect } from "react";
+import { Category, createCategory, updateCategory, deleteCategory, uploadCategoryImage } from "@/app/actions/categories";
 import {
     Plus,
     Search,
@@ -11,7 +11,8 @@ import {
     Loader2,
     X,
     CheckCircle2,
-    AlertCircle
+    AlertCircle,
+    UploadCloud
 } from "lucide-react";
 import Image from "next/image";
 
@@ -25,14 +26,39 @@ export default function CategoryManagement({ initialCategories }: CategoryManage
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingCategory, setEditingCategory] = useState<Category | null>(null);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+    const [photoUrl, setPhotoUrl] = useState("");
+    const [uploadingPhoto, setUploadingPhoto] = useState(false);
+    const [photoError, setPhotoError] = useState<string | null>(null);
 
     const filteredCategories = initialCategories.filter((cat) =>
         cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         cat.description?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    useEffect(() => {
+        setPhotoUrl(editingCategory?.photo || "");
+        setPhotoError(null);
+    }, [editingCategory, isModalOpen]);
+
+    async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setUploadingPhoto(true);
+        setPhotoError(null);
+        const fd = new FormData();
+        fd.append("file", file);
+        const result = await uploadCategoryImage(fd);
+        setUploadingPhoto(false);
+        if ("error" in result) {
+            setPhotoError(result.error);
+        } else {
+            setPhotoUrl(result.url);
+        }
+    }
+
     async function handleSubmit(formData: FormData) {
         setMessage(null);
+        formData.set("photo", photoUrl);
         startTransition(async () => {
             let result;
             if (editingCategory) {
@@ -47,6 +73,8 @@ export default function CategoryManagement({ initialCategories }: CategoryManage
                 setMessage({ type: "success", text: `Category ${editingCategory ? "updated" : "created"} successfully` });
                 setIsModalOpen(false);
                 setEditingCategory(null);
+                setPhotoUrl("");
+                setPhotoError(null);
             }
         });
     }
@@ -182,14 +210,74 @@ export default function CategoryManagement({ initialCategories }: CategoryManage
                                         className="mt-2 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-black focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0b3a2c]/5 transition-all"
                                     />
                                 </div>
-                                <div>
-                                    <label className="text-sm font-bold text-gray-700">Photo URL</label>
-                                    <input
-                                        name="photo"
-                                        defaultValue={editingCategory?.photo || ""}
-                                        placeholder="https://images.unsplash.com/..."
-                                        className="mt-2 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-black focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0b3a2c]/5 transition-all"
-                                    />
+                                <div className="space-y-2">
+                                    <label className="text-sm font-bold text-gray-700">Category Photo</label>
+
+                                    <label className={`relative flex flex-col items-center justify-center
+                                        w-full h-44 rounded-2xl border-2 border-dashed cursor-pointer
+                                        overflow-hidden transition-all
+                                        ${photoUrl
+                                            ? 'border-[#0b3a2c]'
+                                            : 'border-gray-200 hover:border-[#0b3a2c] hover:bg-[#f7fdf9]'
+                                        }`}>
+
+                                        {uploadingPhoto && (
+                                            <div className="absolute inset-0 bg-white/90 flex flex-col
+                                                items-center justify-center gap-2 z-10">
+                                                <Loader2 className="w-6 h-6 text-[#0b3a2c] animate-spin" />
+                                                <p className="text-sm font-semibold text-[#0b3a2c]">
+                                                    Uploading to Cloudflare...
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {photoUrl && !uploadingPhoto && (
+                                            <>
+                                                <img src={photoUrl} alt="Preview"
+                                                    className="w-full h-full object-cover" />
+                                                <div className="absolute inset-0 bg-black/0 hover:bg-black/30
+                                                    transition-all flex items-center justify-center
+                                                    opacity-0 hover:opacity-100">
+                                                    <span className="text-white text-sm font-semibold
+                                                        bg-black/50 px-4 py-2 rounded-full">
+                                                        Change photo
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={e => { e.preventDefault(); setPhotoUrl(""); }}
+                                                    className="absolute top-2 right-2 bg-white rounded-full p-1.5
+                                                        shadow-lg hover:bg-red-50 z-10 transition-colors">
+                                                    <X className="w-4 h-4 text-gray-500" />
+                                                </button>
+                                            </>
+                                        )}
+
+                                        {!photoUrl && !uploadingPhoto && (
+                                            <div className="flex flex-col items-center gap-2 p-6 text-center">
+                                                <UploadCloud className="w-8 h-8 text-gray-300" />
+                                                <p className="text-sm font-semibold text-gray-500">
+                                                    Click to upload a photo
+                                                </p>
+                                                <p className="text-xs text-gray-400">
+                                                    JPG, PNG or WebP · Max 10 MB
+                                                </p>
+                                                <span className="mt-1 bg-[#0b3a2c] text-white text-xs
+                                                    font-bold px-4 py-2 rounded-full pointer-events-none">
+                                                    Browse file
+                                                </span>
+                                            </div>
+                                        )}
+
+                                        <input type="file" accept="image/jpeg,image/png,image/webp"
+                                            className="hidden" onChange={handlePhotoUpload} />
+                                    </label>
+
+                                    {photoError && (
+                                        <p className="flex items-center gap-1.5 text-xs text-red-500 font-medium">
+                                            <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {photoError}
+                                        </p>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="text-sm font-bold text-gray-700">Description</label>

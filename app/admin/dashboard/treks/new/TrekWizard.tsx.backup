@@ -511,7 +511,6 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                             onChange={val => update('highlights', val)}
                         />
 
-                        {/* Included & Services Section */}
                         <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5 space-y-10">
                             <div>
                                 <h3 className="text-lg font-black text-[#0b3a2c]">Included & Services</h3>
@@ -610,7 +609,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                 {/* Step 3: Photos */}
                 {step === 3 && (
                     <div className="space-y-8">
-                        <div className="space-y-4">
+                            <div className="space-y-4">
                                 <label className="text-sm font-black uppercase tracking-widest text-[#0b3a2c]/60">Cover Image *</label>
                                 <label className={`relative flex flex-col items-center justify-center
                                     aspect-video w-full rounded-3xl border-2 border-dashed cursor-pointer
@@ -714,16 +713,25 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                                                     </label>
                                                 )
                                             )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-    )}
+                    </div>
+                )}
 
-                {/* Step 4: Logistics */}
-                {step === 4 && (
-                    <div className="space-y-8">
+                {/* Step 3: Details */}
+                {step === 3 && (
+                    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div className="flex items-start gap-4">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-2xl">📋</div>
+                            <div>
+                                <h2 className="text-2xl font-black text-[#0b3a2c]">Logistics & Details</h2>
+                                <p className="text-gray-500 font-medium">Travelers need this info to decide.</p>
+                            </div>
+                        </div>
+
                         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
                             <div className="space-y-8">
                                 <div className="space-y-4">
@@ -891,85 +899,16 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                     </div>
                 )}
 
-                {/* Step 5: Pricing */}
-                {step === 5 && (
-                    <div className="space-y-8">
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                            <div className="space-y-3">
-                                <label className="text-sm font-black uppercase tracking-widest text-[#0b3a2c]/60">Price per adult *</label>
-                                <div className="relative flex items-center">
-                                    <span className="absolute left-6 text-2xl font-black text-[#0b3a2c]">$</span>
-                                    <input
-                                        type="number"
-                                        value={formData.price_per_adult || ''}
-                                        onChange={(e) => update('price_per_adult', +e.target.value)}
-                                        className="h-14 w-full rounded-2xl border border-gray-100 bg-gray-50 pl-12 pr-6 text-2xl font-black text-[#0b3a2c] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0b3a2c]/5 transition-all"
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-3">
-                                <label className="text-sm font-black uppercase tracking-widest text-[#0b3a2c]/60">Previous price (optional)</label>
-                                <div className="relative flex items-center">
-                                    <span className="absolute left-6 text-2xl font-black text-gray-300">$</span>
-                                    <input
-                                        type="number"
-                                        value={formData.previous_price || ''}
-                                        onChange={(e) => update('previous_price', e.target.value ? +e.target.value : null)}
-                                        className="h-14 w-full rounded-2xl border border-gray-100 bg-gray-50 pl-12 pr-6 text-2xl font-black text-gray-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0b3a2c]/5 transition-all"
-                                    />
-                                </div>
-                                {formData.previous_price && formData.previous_price > formData.price_per_adult && (
-                                    <div className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-black text-emerald-600 uppercase tracking-tighter">
-                                        Save ${(formData.previous_price - formData.price_per_adult).toFixed(2)} ({Math.round((1 - formData.price_per_adult / formData.previous_price) * 100)}% off)
-                                    </div>
-                                )}
+                {/* Step 4: Itinerary */}
+                {step === 4 && (
+                    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div className="flex items-start gap-4">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-2xl">🗺</div>
+                            <div>
+                                <h2 className="text-2xl font-black text-[#0b3a2c]">Build the itinerary</h2>
+                                <p className="text-gray-500 font-medium">Add each stop in order. Click 'Pick on map' to drop a pin.</p>
                             </div>
                         </div>
-
-                        <div className="space-y-3">
-                            <label className="text-sm font-black uppercase tracking-widest text-[#0b3a2c]/60">Price note (optional)</label>
-                            <input
-                                type="text"
-                                placeholder="e.g. price varies by group size"
-                                value={formData.price_note || ''}
-                                onChange={(e) => update('price_note', e.target.value)}
-                                className="h-12 w-full rounded-2xl border border-gray-100 bg-gray-50 px-6 text-base font-medium text-[#0b3a2c] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0b3a2c]/5 transition-all"
-                            />
-                        </div>
-
-                        <div className="space-y-3">
-                            <label className="text-sm font-black uppercase tracking-widest text-[#0b3a2c]/60">Typically booked X days in advance</label>
-                            <input
-                                type="number"
-                                placeholder="e.g. 7"
-                                value={formData.avg_booking_lead_days || ''}
-                                onChange={(e) => update('avg_booking_lead_days', e.target.value ? +e.target.value : null)}
-                                className="h-12 w-full rounded-2xl border border-gray-100 bg-gray-50 px-6 text-base font-medium text-[#0b3a2c] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0b3a2c]/5 transition-all"
-                            />
-                            <p className="text-xs text-gray-500">This appears as 'Book ahead' in the booking card</p>
-                        </div>
-
-                        <div className="space-y-3">
-                            <label className="text-sm font-black uppercase tracking-widest text-[#0b3a2c]/60">SEO description override (optional)</label>
-                            <textarea
-                                rows={3}
-                                placeholder="Auto-generated from title if left empty. Max 155 chars."
-                                value={formData.meta_description || ''}
-                                onChange={(e) => update('meta_description', e.target.value)}
-                                className="w-full rounded-2xl border border-gray-100 bg-gray-50 p-4 font-medium text-[#0b3a2c] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0b3a2c]/5 transition-all"
-                            />
-                            <div className="flex justify-end px-2">
-                                <span className={`text-xs font-bold ${(formData.meta_description?.length || 0) > 155 ? 'text-red-500' : 'text-gray-400'}`}>
-                                    {formData.meta_description?.length || 0} / 155
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Step 6: Itinerary */}
-                {step === 6 && (
-                    <div className="space-y-8">
 
                         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                             <div className="space-y-4">
@@ -1193,37 +1132,34 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                         </div>
                     </div>
                 )}
-                    </div>
 
-                    {/* Navigation Controls */}
-                    <div className="flex items-center justify-between pt-2 pb-8">
-                        <button onClick={prevStep} disabled={step === 1}
-                            className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-black transition-all
-                                ${step === 1
-                                    ? 'opacity-0 pointer-events-none'
-                                    : 'text-gray-400 hover:text-[#0b3a2c] hover:bg-white'}`}>
-                            <ChevronLeft className="h-4 w-4" /> Previous
+                {/* Navigation Controls */}
+                <div className="mt-12 flex items-center justify-between border-t border-gray-100 pt-10">
+                    <button
+                        onClick={prevStep}
+                        disabled={step === 1 || saving}
+                        className={`flex items-center gap-2 rounded-full px-8 py-4 text-sm font-black transition-all ${step === 1 ? 'opacity-0' : 'text-gray-400 hover:text-[#0b3a2c]'
+                            }`}
+                    >
+                        <ChevronLeft className="h-5 w-5" />
+                        Previous Step
+                    </button>
+
+                    {step < 5 && (
+                        <button
+                            onClick={nextStep}
+                            disabled={!isStepValid(step) || saving}
+                            className={`group flex items-center gap-3 rounded-full px-10 py-4 text-sm font-black shadow-xl transition-all active:scale-95 ${isStepValid(step)
+                                ? 'bg-[#0b3a2c] text-white hover:bg-[#0d4a38]'
+                                : 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                                }`}
+                        >
+                            Continue
+                            <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                         </button>
-
-                        {step < 7 ? (
-                            <button onClick={nextStep} disabled={!isStepValid(step)}
-                                className={`flex items-center gap-3 px-8 py-3.5 rounded-full text-sm font-black shadow-lg transition-all active:scale-95
-                                    ${isStepValid(step)
-                                        ? 'bg-[#0b3a2c] text-white hover:bg-[#0d4a38] shadow-[#0b3a2c]/20'
-                                        : 'bg-gray-100 text-gray-300 cursor-not-allowed shadow-none'}`}>
-                                Continue <ChevronRight className="h-4 w-4" />
-                            </button>
-                        ) : (
-                            <button onClick={handleSubmit} disabled={saving}
-                                className="flex items-center gap-3 px-8 py-3.5 rounded-full text-sm font-black bg-[#0b3a2c] text-white shadow-lg shadow-[#0b3a2c]/20 hover:bg-[#0d4a38] transition-all active:scale-95 disabled:opacity-60">
-                                {saving
-                                    ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
-                                    : trekId ? '💾 Save Changes' : formData.is_active ? '🚀 Publish Trek' : '💾 Save Draft'}
-                            </button>
-                        )}
-                    </div>
+                    )}
                 </div>
-            </main>
+            </div>
         </div>
     );
 }
