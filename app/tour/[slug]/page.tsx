@@ -15,7 +15,7 @@ import TourSimilarExperiences from "./components/TourSimilarExperiences";
 import TourStickyHeader from "./components/TourStickyHeader";
 import TourTabs from "./components/TourTabs";
 import TourTravelersLove from "./components/TourTravelersLove";
-import { formatTitleFromSlug, navigationItems } from "@/lib/data/tourData";
+import { formatTitleFromSlug, navigationItems, tourData } from "@/lib/data/tourData";
 import { experiencesData } from "@/lib/data/experiences";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 
@@ -90,7 +90,12 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
             <TourAbout />
             <TourTravelersLove />
             <TourFacts />
-            <TourHighlights />
+            <TourHighlights
+              highlights={tourData.highlights}
+              included={tourData.included}
+              not_included={tourData.not_included}
+              services={tourData.services}
+            />
           </section>
 
           <TourBookingCard />

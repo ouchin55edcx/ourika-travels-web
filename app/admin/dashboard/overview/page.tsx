@@ -1,5 +1,14 @@
 import { CalendarCheck, Compass, Ticket, TrendingUp, UsersRound } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
+import Link from "next/link";
+import type { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "Overview",
+  description: "Monitor your platform key metrics, bookings, and user activity in real-time.",
+};
+
 
 const stats = [
   { label: "Active treks", value: "32", change: "+4 this week", icon: Compass },
@@ -48,10 +57,14 @@ export default async function AdminOverviewPage() {
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <button className="rounded-full bg-[#0b3a2c] px-5 py-2.5 text-sm font-semibold text-white shadow-sm">
-            Create new trek
-          </button>
+          <Link
+            href="/admin/dashboard/treks/new"
+            className="rounded-full bg-[#0b3a2c] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-transform hover:scale-105"
+          >
+            + Create new trek
+          </Link>
           <button className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700">
+
             Send update to guides
           </button>
           <button className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700">

@@ -1,6 +1,13 @@
 import { getCurrentUser } from "@/lib/auth";
 import ProfileForm from "./ProfileForm";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin Profile",
+  description: "Manage your administrative account settings and personal information.",
+};
+
 
 export default async function AdminProfilePage() {
   const user = await getCurrentUser();

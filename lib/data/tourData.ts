@@ -35,23 +35,23 @@ export const bookingBenefits: Array<{
   title: string;
   description: string;
 }> = [
-  {
-    icon: ShieldCheck,
-    title: "Free cancellation",
-    description:
-      "Full refund if cancelled up to 24 hours before the experience starts (local time).",
-  },
-  {
-    icon: WalletCards,
-    title: "Reserve now & pay later",
-    description: "Secure your spot while staying flexible.",
-  },
-  {
-    icon: CalendarDays,
-    title: "Book ahead",
-    description: "This is booked 11 days in advance on average.",
-  },
-];
+    {
+      icon: ShieldCheck,
+      title: "Free cancellation",
+      description:
+        "Full refund if cancelled up to 24 hours before the experience starts (local time).",
+    },
+    {
+      icon: WalletCards,
+      title: "Reserve now & pay later",
+      description: "Secure your spot while staying flexible.",
+    },
+    {
+      icon: CalendarDays,
+      title: "Book ahead",
+      description: "This is booked 11 days in advance on average.",
+    },
+  ];
 
 export const aboutText =
   "Take a break from the bustling streets of Marrakech to spend the day visiting the beautiful landscapes of the Atlas Mountains. Hard to navigate alone, this small-group tour takes care of everything for you so you can explore stress-free. After hotel pickup, begin with breathtaking valley views, traditional Berber villages, riverside stops, and time to relax before heading back to the city.";
@@ -140,6 +140,27 @@ export const similarExperiences = [
     highlight: null,
   },
 ] as const;
+
+export const tourData = {
+  highlights: [
+    "Visit Berber villages in the Atlas Mountains",
+    "Taste authentic Moroccan mint tea",
+    "Hike to Setti-Fatma waterfalls",
+    "Panoramic Atlas Mountains view",
+  ],
+  included: [
+    "Professional local guide",
+    "Transport by 4x4",
+    "Traditional Berber lunch",
+    "Hotel pickup",
+  ],
+  not_included: ["Tips / gratuities", "Personal expenses", "Travel insurance"],
+  services: [
+    "Small group guaranteed (max 15)",
+    "Hotel pickup available",
+    "Multilingual guide",
+  ],
+};
 
 export function formatTitleFromSlug(slug?: string) {
   if (!slug) {

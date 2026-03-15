@@ -3,6 +3,13 @@ import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import UsersManagement from "./UsersManagement";
 import { AuthUser } from "@/lib/auth";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "User Management",
+  description: "Manage platform tourists and local guides, verify credentials, and moderate access.",
+};
+
 
 export default async function AdminUsersPage() {
   const admin = await getCurrentUser();

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Heart, MapPin } from "lucide-react";
 import { useState } from "react";
+import MapboxRouteMap from "@/components/MapboxRouteMap";
 
 type ItineraryStep = {
   id: number;
@@ -12,6 +13,7 @@ type ItineraryStep = {
   image?: string;
   description?: string;
   buttonLabel?: string;
+  coordinates?: { lng: number; lat: number };
 };
 
 const itinerarySteps: ItineraryStep[] = [
@@ -19,6 +21,7 @@ const itinerarySteps: ItineraryStep[] = [
     id: 1,
     title: "Marrakech",
     duration: "60 minutes",
+    coordinates: { lng: -7.9811, lat: 31.6295 },
     image:
       "https://images.unsplash.com/photo-1597212618440-806262de4f6b?q=80&w=1200&auto=format&fit=crop",
     description:
@@ -30,16 +33,19 @@ const itinerarySteps: ItineraryStep[] = [
     title: "Ourika Valley",
     duration: "2 hours",
     shortLabel: "Ourika Valleys",
+    coordinates: { lng: -7.7562, lat: 31.3416 },
   },
   {
     id: 3,
     title: "Atlas Mountains View",
     duration: "2 hours",
+    coordinates: { lng: -7.6500, lat: 31.2500 },
   },
   {
     id: 4,
     title: "Marrakech-Safi",
     duration: "60 minutes",
+    coordinates: { lng: -7.9811, lat: 31.6295 },
   },
 ];
 
@@ -89,7 +95,8 @@ export default function TourItinerary() {
                     <button
                       type="button"
                       onClick={() => toggleStep(step.id)}
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-[#003b1f] text-[18px] font-extrabold text-white transition"
+                      className={`flex h-10 w-10 items-center justify-center rounded-full transition text-[18px] font-extrabold ${isActive ? 'bg-[#00ef9d] text-[#12311f]' : 'bg-[#003b1f] text-white'
+                        }`}
                     >
                       {step.id}
                     </button>
@@ -104,7 +111,8 @@ export default function TourItinerary() {
                       onClick={() => toggleStep(step.id)}
                       className="w-full text-left"
                     >
-                      <p className="text-[18px] font-extrabold text-[#12311f] sm:text-[22px]">
+                      <p className={`text-[18px] font-extrabold sm:text-[22px] transition-colors ${isActive ? 'text-[#00ef9d]' : 'text-[#12311f]'
+                        }`}>
                         {step.title}
                       </p>
                       <p className="mt-1 text-[14px] text-[#666] sm:text-[15px]">
@@ -161,48 +169,17 @@ export default function TourItinerary() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-[10px] border border-[#d7d7d7] bg-[#eef3df]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://tile.openstreetmap.org/6/31/26.png"
-            alt="Map showing the itinerary route through Marrakech and Ourika Valley"
-            className="h-full min-h-[260px] w-full object-cover sm:min-h-[320px] lg:min-h-[400px]"
+        <div className="relative h-[400px] w-full overflow-hidden rounded-[20px] border border-black/5 shadow-2xl shadow-black/5 lg:h-[600px]">
+          <MapboxRouteMap
+            steps={itinerarySteps}
+            activeStepId={activeStepId}
+            onMarkerClick={(id) => setActiveStepId(id)}
           />
 
-          <div className="absolute top-[46%] left-[8%] flex items-center gap-1">
-            <div className="rounded-full border border-[#12311f] bg-[#f2ef31] px-2.5 py-1.5 text-[11px] font-extrabold text-[#111827] shadow-sm sm:px-3 sm:py-2 sm:text-[13px]">
-              Start / End
-            </div>
-            <span className="h-3.5 w-3.5 rounded-full bg-[#003b1f] sm:h-4 sm:w-4" />
-          </div>
-
-          <div className="absolute right-[9%] bottom-[38%] flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#003b1f] text-[15px] font-extrabold text-white shadow-sm sm:h-10 sm:w-10 sm:text-[18px]">
-              2
-            </span>
-            <div className="text-[11px] leading-4 font-medium text-[#12311f] sm:text-[13px]">
-              <p>Ourika</p>
-              <p>Valleys</p>
-            </div>
-          </div>
-
-          <div className="pointer-events-none absolute top-3 left-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-[#4b5563] shadow-sm sm:top-4 sm:left-4 sm:px-3 sm:py-1.5 sm:text-xs">
-            Mapbox · OpenStreetMap
-          </div>
-
-          <div className="absolute right-3 bottom-3 flex flex-col overflow-hidden rounded-[4px] border border-[#d7d7d7] bg-white shadow-sm sm:right-4 sm:bottom-4">
-            <button className="flex h-8 w-8 items-center justify-center text-lg text-[#4b5563] sm:h-10 sm:w-10 sm:text-xl">
-              +
-            </button>
-            <button className="flex h-8 w-8 items-center justify-center text-lg text-[#4b5563] sm:h-10 sm:w-10 sm:text-xl">
-              −
-            </button>
-          </div>
-
-          <div className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-[#6b7280] shadow-sm sm:bottom-4 sm:left-4 sm:px-3 sm:py-1.5 sm:text-xs">
-            <span className="inline-flex items-center gap-1">
-              <MapPin className="h-3 w-3" />
-              Morocco route
+          <div className="pointer-events-none absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-[#0b3a2c] shadow-xl backdrop-blur-md ring-1 ring-black/5">
+            <span className="inline-flex items-center gap-2">
+              <MapPin className="h-3.5 w-3.5 text-[#00ef9d]" />
+              Live Route View
             </span>
           </div>
         </div>
@@ -210,3 +187,4 @@ export default function TourItinerary() {
     </section>
   );
 }
+

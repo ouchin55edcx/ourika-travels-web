@@ -4,14 +4,16 @@ const nextConfig: NextConfig = {
   async headers() {
     const contentSecurityPolicy = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+      "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob:",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc https://lh3.googleusercontent.com https://sobkyklhsbwqxrthrjhr.supabase.co https://imgs.search.brave.com",
+      "img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc https://lh3.googleusercontent.com https://sobkyklhsbwqxrthrjhr.supabase.co https://imgs.search.brave.com https://*.mapbox.com https://imagedelivery.net",
       "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://*.supabase.co",
+      "connect-src 'self' https://*.supabase.co https://api.mapbox.com https://events.mapbox.com",
+      "worker-src 'self' blob:",
       "media-src 'self'",
       "frame-ancestors 'none'",
     ].join("; ");
+
 
     return [
       {
@@ -32,6 +34,7 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -53,9 +56,12 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "imgs.search.brave.com",
       },
+      {
+        protocol: "https",
+        hostname: "imagedelivery.net",
+      },
     ],
   },
-
 };
 
 export default nextConfig;

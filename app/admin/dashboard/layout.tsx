@@ -1,7 +1,20 @@
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import AdminHeader from "./components/AdminHeader";
 import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Ourika Admin",
+    default: "Admin Dashboard | Ourika Admin",
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const user = await getCurrentUser();
