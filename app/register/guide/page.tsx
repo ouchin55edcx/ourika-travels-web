@@ -1,509 +1,597 @@
-"use client";
+'use client';
 
-import { useState, useTransition } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { registerGuide } from "@/app/actions/auth";
+import { useState, useTransition } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { registerGuide, uploadGuideBadgeImage } from '@/app/actions/auth';
 import {
-  User,
-  Mail,
-  Phone,
-  Languages,
-  Compass,
-  Star,
-  MapPin,
-  ShieldCheck,
-  FileText,
-  CheckCircle,
-  ArrowRight,
-  ArrowLeft,
-  Upload,
-  Camera,
-  ChevronRight,
-  X,
-  MessageSquare,
-  Globe,
-  Award,
-  Info,
-} from "lucide-react";
-import NextImage from "next/image";
+  Mail, Phone, Eye, EyeOff, X, Shield, Loader2,
+  CheckCircle2, AlertCircle, ArrowLeft, ArrowRight
+} from 'lucide-react';
+
+const INPUT_CLASS = `
+  w-full rounded-xl border border-gray-200 bg-white px-4 py-3
+  text-sm font-medium text-gray-900 placeholder-gray-400
+  focus:border-[#0b3a2c] focus:outline-none focus:ring-2
+  focus:ring-[#0b3a2c]/10 transition-all
+`;
+
+function Field({ label, required, error, children }: {
+  label: string; required?: boolean; error?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <label className="text-xs font-black uppercase tracking-widest
+        text-gray-500">
+        {label}{required && <span className="text-red-400 ml-1">*</span>}
+      </label>
+      {children}
+      {error && (
+        <p className="flex items-center gap-1 text-xs text-red-500
+          font-medium">
+          <AlertCircle className="h-3 w-3 shrink-0" /> {error}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export default function GuideRegisterPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [isPending, startTransition] = useTransition();
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errors, setErrors] = useState<{
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
-    phone?: string;
-  }>({});
-  const [formData, setFormData] = useState({
-    // Step 1
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    phone: "",
-    languages: [] as string[],
-    // Step 2
-    experience: "",
-    specialties: [] as string[],
-    location: "",
-    bio: "",
-    // Step 3
-    idType: "passport",
-    hasCertification: false,
+  const [badgeUrl, setBadgeUrl] = useState('');
+  const [uploadingBadge, setUploadingBadge] = useState(false);
+  const [badgeError, setBadgeError] = useState<string | null>(null);
+
+  const [form, setForm] = useState({
+    firstName: '', lastName: '', email: '',
+    password: '', confirmPassword: '', phone: '',
   });
 
-  const nextStep = () => setStep((prev) => Math.min(prev + 1, 3));
-  const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
+  async function handleBadgeUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingBadge(true);
+    setBadgeError(null);
+    const fd = new FormData();
+    fd.append('file', file);
+    const result = await uploadGuideBadgeImage(fd);
+    setUploadingBadge(false);
+    if ('error' in result) setBadgeError(result.error);
+    else setBadgeUrl(result.url);
+  }
 
-  const calculateProgress = () => (step / 3) * 100;
-  const isValidEmail = (value: string) => /^\S+@\S+\.\S+$/.test(value);
+  function validate() {
+    const e: Record<string, string> = {};
+    if (!form.firstName.trim()) e.firstName = 'Required';
+    if (!form.lastName.trim())  e.lastName  = 'Required';
+    if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email))
+      e.email = 'Valid email required';
+    if (form.password.length < 8) e.password = 'Min 8 characters';
+    if (form.password !== form.confirmPassword) e.confirmPassword = 'Passwords don\'t match';
+    if (!form.phone.trim()) e.phone = 'Required';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  }
 
-  const updateField = (field: keyof typeof formData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => ({ ...prev, [field]: undefined }));
-  };
-
-  const validateFinalStep = () => {
-    const nextErrors: typeof errors = {};
-
-    if (!formData.firstName.trim()) nextErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) nextErrors.lastName = "Last name is required";
-    if (!formData.email.trim()) {
-      nextErrors.email = "Email is required";
-    } else if (!isValidEmail(formData.email)) {
-      nextErrors.email = "Please enter a valid email";
-    }
-    if (!formData.phone.trim()) nextErrors.phone = "Phone is required";
-    if (!formData.password) nextErrors.password = "Password is required";
-    if (formData.password.length < 8) {
-      nextErrors.password = "Password must be at least 8 characters";
-    }
-    if (!formData.confirmPassword) {
-      nextErrors.confirmPassword = "Please confirm your password";
-    }
-    if (formData.password && formData.confirmPassword) {
-      if (formData.password !== formData.confirmPassword) {
-        nextErrors.confirmPassword = "Passwords do not match";
-      }
-    }
-
-    setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
-  };
-
-  const submitRegistration = () => {
-    if (!validateFinalStep()) return;
-
+  function submitRegistration() {
     setSubmitError(null);
     const payload = new FormData();
-    payload.set("email", formData.email.trim());
-    payload.set("password", formData.password);
-    payload.set("full_name", `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim());
-    payload.set("phone", formData.phone.trim());
-    payload.set("bio", formData.bio);
-
+    payload.set('email', form.email.trim());
+    payload.set('password', form.password);
+    payload.set('full_name', `${form.firstName.trim()} ${form.lastName.trim()}`);
+    payload.set('phone', form.phone.trim());
+    if (badgeUrl) payload.set('badge_image_url', badgeUrl);
     startTransition(async () => {
       const result = await registerGuide(payload);
-      if (result?.error) {
-        setSubmitError(result.error);
-        return;
-      }
-      const emailParam = encodeURIComponent(formData.email.trim());
-      router.push(`/register/guide/success?email=${emailParam}`);
+      if (result?.error) { setSubmitError(result.error); return; }
+      router.push(`/register/guide/success?email=${encodeURIComponent(form.email)}`);
     });
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 selection:bg-[#34e0a1] selection:text-black">
-      <header className="fixed top-0 right-0 left-0 z-[100] border-b border-gray-200 bg-white shadow-sm">
-        <div className="relative mx-auto flex h-16 max-w-[1280px] items-center justify-center px-6 md:justify-between">
-          <Link href="/" className="group hidden flex-col items-start leading-none md:flex">
-            <span className="text-[20px] font-black tracking-tighter text-[#0b3a2c] md:text-[22px]">
-              Ourika Travels
-            </span>
-            <span className="mt-0.5 text-[9px] font-black tracking-[0.2em] text-[#0b3a2c] uppercase opacity-70">
-              Local Partner
-            </span>
+    <div className="min-h-screen flex">
+      {/* LEFT PANEL — desktop only, fixed */}
+      <div className="hidden lg:flex lg:w-[420px] xl:w-[480px] shrink-0
+        bg-[#0b3a2c] flex-col justify-between px-12 py-16 fixed left-0 top-0
+        h-screen">
+
+        {/* Top: logo + close */}
+        <div className="flex items-center justify-between">
+          <Link href="/" className="text-white text-xl font-black tracking-tight">
+            Ourika Travels
           </Link>
-
-          <div className="flex items-center gap-3 md:gap-4">
-            {/* Step 1 */}
-            <div className="flex items-center gap-2">
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold transition-all duration-300 ${step >= 1 ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-400"}`}
-              >
-                1
-              </div>
-              <span
-                className={`hidden text-sm font-bold md:inline ${step >= 1 ? "text-gray-900" : "text-gray-400"}`}
-              >
-                Profile
-              </span>
-            </div>
-
-            <div className={`h-[1px] w-6 md:w-4 ${step >= 2 ? "bg-gray-800" : "bg-gray-200"}`} />
-
-            {/* Step 2 */}
-            <div className="flex items-center gap-2">
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold transition-all duration-300 ${step >= 2 ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-400"}`}
-              >
-                2
-              </div>
-              <span
-                className={`hidden text-sm font-bold md:inline ${step >= 2 ? "text-gray-900" : "text-gray-400"}`}
-              >
-                Expérience
-              </span>
-            </div>
-
-            <div className={`h-[1px] w-6 md:w-4 ${step >= 3 ? "bg-gray-800" : "bg-gray-200"}`} />
-
-            {/* Step 3 */}
-            <div className="flex items-center gap-2">
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold transition-all duration-300 ${step >= 3 ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-400"}`}
-              >
-                3
-              </div>
-              <span
-                className={`hidden text-sm font-bold md:inline ${step >= 3 ? "text-gray-900" : "text-gray-400"}`}
-              >
-                Vérification
-              </span>
-            </div>
-          </div>
-
-          <Link
-            href="/"
-            className="group absolute right-6 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 md:static"
-          >
-            <X className="h-5 w-5 transition-transform group-hover:rotate-90" />
+          <Link href="/"
+            className="text-white/40 hover:text-white transition-colors">
+            <X className="w-5 h-5" />
           </Link>
         </div>
-        <div
-          className="absolute bottom-0 left-0 h-[3px] bg-emerald-500 transition-all duration-500 ease-out"
-          style={{ width: `${calculateProgress()}%` }}
-        />
-      </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 pt-24 pb-20">
-        <div className="animate-in fade-in slide-in-from-bottom-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm duration-500">
-          <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-6 py-4">
-            <div className="flex items-center gap-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 font-bold text-white">
-                {step}
-              </div>
-              <h2 className="text-xl font-bold text-gray-900">
-                {step === 1 && "Personal details"}
-                {step === 2 && "Activity details"}
-                {step === 3 && "Verification"}
-              </h2>
-            </div>
-            {step === 1 && <User className="h-5 w-5 text-gray-400" />}
-            {step === 2 && <Compass className="h-5 w-5 text-gray-400" />}
-            {step === 3 && <ShieldCheck className="h-5 w-5 text-gray-400" />}
+        {/* Middle: headline + step progress */}
+        <div className="space-y-12">
+          <div>
+            <p className="text-[#00ef9d] text-xs font-black uppercase
+              tracking-[0.2em] mb-4">
+              Join our guide network
+            </p>
+            <h1 className="text-white text-4xl xl:text-5xl font-black
+              leading-[1.05] tracking-tight">
+              Share the magic<br />of Ourika Valley
+            </h1>
+            <p className="text-white/50 text-base font-medium mt-4 leading-relaxed">
+              Certified guides. Real travelers.<br />
+              Authentic experiences.
+            </p>
           </div>
 
-          <div className="p-6 md:p-8">
-            {/* Step 1: Personal Profile */}
+          {/* Vertical step indicator */}
+          <div className="space-y-0">
+            {[
+              { n: 1, label: 'Account',      hint: 'Name, email & password' },
+              { n: 2, label: 'Your profile', hint: 'Phone & guide badge'     },
+              { n: 3, label: 'Verification', hint: 'Confirm & submit'        },
+            ].map((s, i) => {
+              const isCompleted = step > s.n;
+              const isActive    = step === s.n;
+              return (
+                <div key={s.n} className="flex gap-4">
+                  {/* Line + circle column */}
+                  <div className="flex flex-col items-center">
+                    <div className={`flex h-9 w-9 shrink-0 items-center
+                      justify-center rounded-full border-2 transition-all
+                      duration-300 text-sm font-black
+                      ${isCompleted
+                        ? 'border-[#00ef9d] bg-[#00ef9d] text-[#0b3a2c]'
+                        : isActive
+                        ? 'border-[#00ef9d] bg-transparent text-[#00ef9d]'
+                        : 'border-white/20 bg-transparent text-white/30'
+                      }`}>
+                      {isCompleted
+                        ? <CheckCircle2 className="w-4 h-4" />
+                        : s.n}
+                    </div>
+                    {i < 2 && (
+                      <div className={`w-px h-10 mt-1 transition-colors
+                        duration-500
+                        ${step > s.n ? 'bg-[#00ef9d]' : 'bg-white/10'}`} />
+                    )}
+                  </div>
+                  {/* Labels */}
+                  <div className="pt-1.5 pb-10">
+                    <p className={`text-sm font-black transition-colors
+                      ${isActive ? 'text-white' : isCompleted
+                        ? 'text-white/50' : 'text-white/25'}`}>
+                      {s.label}
+                    </p>
+                    <p className={`text-xs mt-0.5 transition-colors
+                      ${isActive ? 'text-white/60' : 'text-white/20'}`}>
+                      {s.hint}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Bottom: testimonial */}
+        <div className="border-t border-white/10 pt-8">
+          <p className="text-white/60 text-sm leading-relaxed italic">
+            "Joining Ourika Travels changed everything. I now guide
+             travelers from around the world through my valley."
+          </p>
+          <p className="text-[#00ef9d] text-xs font-black mt-3 uppercase
+            tracking-wider">
+            — Ahmed, Guide since 2022
+          </p>
+        </div>
+      </div>
+
+      {/* RIGHT PANEL — scrollable form */}
+      <div className="flex-1 lg:ml-[420px] xl:ml-[480px] min-h-screen
+        bg-[#f8faf8] flex flex-col">
+
+        {/* Mobile header only */}
+        <div className="lg:hidden flex items-center justify-between
+          px-6 py-4 bg-white border-b border-gray-100 sticky top-0 z-40">
+          <Link href="/" className="text-[#0b3a2c] text-lg font-black">
+            Ourika Travels
+          </Link>
+          <Link href="/" className="p-2 rounded-full hover:bg-gray-100">
+            <X className="w-5 h-5 text-gray-400" />
+          </Link>
+        </div>
+
+        {/* Mobile step bar */}
+        <div className="lg:hidden px-6 pt-4 pb-2 bg-white border-b
+          border-gray-100">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-black uppercase tracking-widest
+              text-gray-400">
+              Step {step} of 3
+            </span>
+            <span className="text-xs font-black text-[#0b3a2c]">
+              {step === 1 ? 'Account' : step === 2 ? 'Profile' : 'Verify'}
+            </span>
+          </div>
+          <div className="h-1 w-full rounded-full bg-gray-100 overflow-hidden">
+            <div className="h-full bg-[#00ef9d] rounded-full
+              transition-all duration-500"
+              style={{ width: `${(step / 3) * 100}%` }} />
+          </div>
+        </div>
+
+        {/* Form content */}
+        <div className="flex-1 flex items-start justify-center
+          px-6 py-10 lg:py-16 lg:px-16">
+          <div className="w-full max-w-md">
+
+            {/* Step header */}
+            <div className="mb-8">
+              <p className="text-xs font-black uppercase tracking-[0.2em]
+                text-[#00ef9d] mb-2">
+                Step {step} of 3
+              </p>
+              <h2 className="text-3xl font-black text-[#0b3a2c] leading-tight">
+                {step === 1 && 'Create your account'}
+                {step === 2 && 'Complete your profile'}
+                {step === 3 && 'Almost there'}
+              </h2>
+              <p className="text-gray-500 font-medium mt-2">
+                {step === 1 && 'Enter your basic details to get started.'}
+                {step === 2 && 'Add your contact info and guide badge.'}
+                {step === 3 && 'Review and submit your registration.'}
+              </p>
+            </div>
+
+            {/* ─── STEP 1 ─────────────────────────────────── */}
             {step === 1 && (
-              <div className="space-y-6">
-                <p className="text-gray-600">
-                  Enter your official information as it appears on your identity document.
-                </p>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div className="space-y-1.5 focus-within:text-emerald-700">
-                    <label className="text-sm font-bold text-gray-700">
-                      First Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      name="firstName"
-                      type="text"
-                      placeholder="e.g. Ahmed"
-                      value={formData.firstName}
-                      onChange={(event) => updateField("firstName", event.target.value)}
-                      autoComplete="given-name"
-                      required
-                      className="w-full rounded-xl border border-gray-300 px-4 py-2.5 font-medium text-gray-900 placeholder-gray-400 transition-all focus:border-emerald-500 focus:ring-emerald-500"
-                    />
-                    {errors.firstName && (
-                      <p className="text-xs font-medium text-red-500">{errors.firstName}</p>
-                    )}
-                  </div>
-                  <div className="space-y-1.5 focus-within:text-emerald-700">
-                    <label className="text-sm font-bold text-gray-700">
-                      Last Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      name="lastName"
-                      type="text"
-                      placeholder="e.g. Amziane"
-                      value={formData.lastName}
-                      onChange={(event) => updateField("lastName", event.target.value)}
-                      autoComplete="family-name"
-                      required
-                      className="w-full rounded-xl border border-gray-300 px-4 py-2.5 font-medium text-gray-900 placeholder-gray-400 transition-all focus:border-emerald-500 focus:ring-emerald-500"
-                    />
-                    {errors.lastName && (
-                      <p className="text-xs font-medium text-red-500">{errors.lastName}</p>
-                    )}
-                  </div>
+              <div className="space-y-5 animate-in fade-in slide-in-from-right-4
+                duration-300">
+
+                {/* Name row */}
+                <div className="grid grid-cols-2 gap-4">
+                  <Field label="First name" required error={errors.firstName}>
+                    <input type="text" placeholder="Ahmed"
+                      value={form.firstName}
+                      onChange={e => setForm(p => ({...p, firstName: e.target.value}))}
+                      className={INPUT_CLASS} />
+                  </Field>
+                  <Field label="Last name" required error={errors.lastName}>
+                    <input type="text" placeholder="Amziane"
+                      value={form.lastName}
+                      onChange={e => setForm(p => ({...p, lastName: e.target.value}))}
+                      className={INPUT_CLASS} />
+                  </Field>
                 </div>
 
-                <div className="space-y-1.5 focus-within:text-emerald-700">
-                  <label className="text-sm font-bold text-gray-700">
-                    Email Address <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={formData.email}
-                    onChange={(event) => updateField("email", event.target.value)}
-                    autoComplete="email"
-                    required
-                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 font-medium text-gray-900 placeholder-gray-400 transition-all focus:border-emerald-500 focus:ring-emerald-500"
-                  />
-                  {errors.email && (
-                    <p className="text-xs font-medium text-red-500">{errors.email}</p>
-                  )}
-                </div>
+                <Field label="Email address" required error={errors.email}>
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2
+                      h-4 w-4 text-gray-300 pointer-events-none" />
+                    <input type="email" placeholder="you@example.com"
+                      value={form.email}
+                      onChange={e => setForm(p => ({...p, email: e.target.value}))}
+                      className={`${INPUT_CLASS} pl-11`} />
+                  </div>
+                </Field>
 
-                <div className="space-y-1.5 focus-within:text-emerald-700">
-                  <label className="text-sm font-bold text-gray-700">
-                    Password <span className="text-red-500">*</span>
-                  </label>
-                  <div className="flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-2.5 focus-within:border-emerald-500 focus-within:ring-emerald-500">
-                    <input
-                      name="password"
-                      type={showPassword ? "text" : "password"}
+                <Field label="Password" required error={errors.password}>
+                  <div className="relative">
+                    <input type={showPass ? 'text' : 'password'}
                       placeholder="Minimum 8 characters"
-                      value={formData.password}
-                      onChange={(event) => updateField("password", event.target.value)}
-                      autoComplete="new-password"
-                      required
-                      minLength={8}
-                      className="w-full font-medium text-gray-900 placeholder-gray-400 outline-none"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((value) => !value)}
-                      className="text-xs font-bold text-[#0b3a2c]"
-                    >
-                      {showPassword ? "Hide" : "Show"}
+                      value={form.password}
+                      onChange={e => setForm(p => ({...p, password: e.target.value}))}
+                      className={`${INPUT_CLASS} pr-14`} />
+                    <button type="button" onClick={() => setShowPass(v => !v)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2
+                        text-gray-400 hover:text-gray-600 transition-colors">
+                      {showPass
+                        ? <EyeOff className="h-4 w-4" />
+                        : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
-                  {errors.password && (
-                    <p className="text-xs font-medium text-red-500">{errors.password}</p>
+                  {/* Password strength bar */}
+                  {form.password.length > 0 && (
+                    <div className="mt-2">
+                      <div className="h-1 w-full rounded-full bg-gray-100 overflow-hidden">
+                        <div className={`h-full rounded-full transition-all duration-300
+                          ${form.password.length < 8
+                            ? 'w-1/4 bg-red-400'
+                            : form.password.length < 12
+                            ? 'w-2/4 bg-amber-400'
+                            : 'w-full bg-[#00ef9d]'}`} />
+                      </div>
+                      <p className={`text-[11px] font-bold mt-1
+                        ${form.password.length < 8 ? 'text-red-400'
+                        : form.password.length < 12 ? 'text-amber-500'
+                        : 'text-emerald-600'}`}>
+                        {form.password.length < 8 ? 'Too short'
+                        : form.password.length < 12 ? 'Good'
+                        : 'Strong'}
+                      </p>
+                    </div>
                   )}
-                </div>
+                </Field>
 
-                <div className="space-y-1.5 focus-within:text-emerald-700">
-                  <label className="text-sm font-bold text-gray-700">
-                    Confirm Password <span className="text-red-500">*</span>
-                  </label>
-                  <div className="flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-2.5 focus-within:border-emerald-500 focus-within:ring-emerald-500">
-                    <input
-                      name="confirmPassword"
-                      type={showConfirmPassword ? "text" : "password"}
+                <Field label="Confirm password" required error={errors.confirmPassword}>
+                  <div className="relative">
+                    <input type={showConfirm ? 'text' : 'password'}
                       placeholder="Repeat your password"
-                      value={formData.confirmPassword}
-                      onChange={(event) => updateField("confirmPassword", event.target.value)}
-                      autoComplete="new-password"
-                      required
-                      minLength={8}
-                      className="w-full font-medium text-gray-900 placeholder-gray-400 outline-none"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword((value) => !value)}
-                      className="text-xs font-bold text-[#0b3a2c]"
-                    >
-                      {showConfirmPassword ? "Hide" : "Show"}
+                      value={form.confirmPassword}
+                      onChange={e => setForm(p => ({...p, confirmPassword: e.target.value}))}
+                      className={`${INPUT_CLASS} pr-14`} />
+                    <button type="button" onClick={() => setShowConfirm(v => !v)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2
+                        text-gray-400 hover:text-gray-600 transition-colors">
+                      {showConfirm
+                        ? <EyeOff className="h-4 w-4" />
+                        : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
-                  {errors.confirmPassword && (
-                    <p className="text-xs font-medium text-red-500">{errors.confirmPassword}</p>
-                  )}
-                </div>
-
-                <div className="space-y-1.5 focus-within:text-emerald-700">
-                  <label className="text-sm font-bold text-gray-700">
-                    Phone Number <span className="text-red-500">*</span>
-                  </label>
-                  <div className="flex flex-col gap-2 sm:flex-row sm:gap-0">
-                    <select className="rounded-xl border border-gray-300 bg-gray-50 px-4 py-2.5 font-medium text-gray-700 focus:border-emerald-500 focus:ring-emerald-500 sm:rounded-r-none sm:border-r-0">
-                      <option>Morocco (+212)</option>
-                      <option>France (+33)</option>
-                      <option>Spain (+34)</option>
-                    </select>
-                    <input
-                      name="phone"
-                      type="tel"
-                      placeholder="Phone number"
-                      value={formData.phone}
-                      onChange={(event) => updateField("phone", event.target.value)}
-                      autoComplete="tel"
-                      required
-                      className="flex-1 rounded-xl border border-gray-300 px-4 py-2.5 font-medium text-gray-900 placeholder-gray-400 transition-all focus:border-emerald-500 focus:ring-emerald-500 sm:rounded-l-none"
-                    />
-                  </div>
-                  {errors.phone && (
-                    <p className="text-xs font-medium text-red-500">{errors.phone}</p>
-                  )}
-                </div>
+                </Field>
               </div>
             )}
 
-            {/* Step 2: Experience */}
+            {/* ─── STEP 2 ─────────────────────────────────── */}
             {step === 2 && (
-              <div className="space-y-6">
-                <div className="space-y-1.5">
-                  <label className="text-sm font-bold text-gray-700">
-                    Primary Location <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    name="location"
-                    value={formData.location}
-                    onChange={(event) => updateField("location", event.target.value)}
-                    className="w-full cursor-pointer appearance-none rounded-xl border border-gray-300 bg-white px-4 py-2.5 font-medium text-gray-900 focus:border-emerald-500 focus:ring-emerald-500"
-                  >
-                    <option>Select location</option>
-                    <option>Setti Fatma</option>
-                    <option>Tnine Ourika</option>
-                    <option>Oukaimeden</option>
-                  </select>
-                </div>
+              <div className="space-y-6 animate-in fade-in slide-in-from-right-4
+                duration-300">
 
-                <div className="space-y-4">
-                  <p className="font-medium text-gray-700">Select your primary specialties:</p>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    {["Hiking", "Culture", "Cooking", "Photography"].map((spec) => (
-                      <button
-                        key={spec}
-                        className="flex flex-col items-start rounded-2xl border-2 border-gray-200 bg-white p-5 text-left transition-all hover:border-gray-300"
-                      >
-                        <div className="mb-3 flex w-full items-center justify-between">
-                          <div className="rounded-xl bg-emerald-50 p-2">
-                            <Compass className="h-6 w-6 text-[#0b3a2c]" />
-                          </div>
-                        </div>
-                        <h4 className="font-bold text-gray-900">{spec}</h4>
-                        <p className="mt-1 text-xs leading-relaxed text-gray-500">
-                          Share your expertise in {spec.toLowerCase()} with our travelers.
-                        </p>
-                      </button>
-                    ))}
+                <Field label="Phone number" required error={errors.phone}>
+                  <div className="relative">
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2
+                      h-4 w-4 text-gray-300 pointer-events-none" />
+                    <input type="tel" placeholder="+212 6XX XXX XXX"
+                      value={form.phone}
+                      onChange={e => setForm(p => ({...p, phone: e.target.value}))}
+                      className={`${INPUT_CLASS} pl-11`} />
                   </div>
-                </div>
+                </Field>
 
-                <div className="space-y-1.5">
-                  <label className="text-sm font-bold text-gray-700">
-                    Your professional bio <span className="text-red-500">*</span>
+                {/* Badge upload */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-black text-gray-700">
+                      Official guide badge
+                    </p>
+                    <span className="text-xs text-gray-400 font-medium">
+                      Optional
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-400 -mt-1">
+                    Upload your official certificate from the Moroccan Ministry
+                    of Tourism. You can add this later from your profile.
+                  </p>
+
+                  <label className={`relative flex flex-col items-center
+                    justify-center w-full rounded-2xl border-2 border-dashed
+                    cursor-pointer transition-all overflow-hidden
+                    ${badgeUrl
+                      ? 'border-[#0b3a2c] h-40'
+                      : 'border-gray-200 h-40 hover:border-[#0b3a2c] hover:bg-[#f0faf5]'
+                    }`}>
+
+                    {uploadingBadge && (
+                      <div className="absolute inset-0 bg-white/90 flex
+                        flex-col items-center justify-center gap-2 z-10">
+                        <Loader2 className="h-6 w-6 animate-spin text-[#0b3a2c]" />
+                        <p className="text-sm font-semibold text-[#0b3a2c]">
+                          Uploading...
+                        </p>
+                      </div>
+                    )}
+
+                    {badgeUrl && !uploadingBadge && (
+                      <>
+                        <img src={badgeUrl} alt="Badge"
+                          className="h-full w-full object-contain p-4" />
+                        <button type="button"
+                          onClick={e => { e.preventDefault(); setBadgeUrl(''); }}
+                          className="absolute top-3 right-3 bg-white rounded-full
+                            p-1.5 shadow-lg hover:bg-red-50 z-10 transition-colors">
+                          <X className="h-3.5 w-3.5 text-gray-500" />
+                        </button>
+                        <div className="absolute bottom-3 left-1/2
+                          -translate-x-1/2 flex items-center gap-1.5
+                          bg-[#0b3a2c] text-white text-[11px] font-bold
+                          px-3 py-1 rounded-full">
+                          <CheckCircle2 className="h-3 w-3" /> Uploaded
+                        </div>
+                      </>
+                    )}
+
+                    {!badgeUrl && !uploadingBadge && (
+                      <div className="flex flex-col items-center gap-2
+                        text-center px-6">
+                        <div className="w-12 h-12 rounded-full bg-gray-100
+                          flex items-center justify-center">
+                          <Shield className="h-6 w-6 text-gray-300" />
+                        </div>
+                        <p className="text-sm font-semibold text-gray-500">
+                          Click to upload badge
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          JPG, PNG or WebP · Max 10 MB
+                        </p>
+                      </div>
+                    )}
+
+                    <input type="file" accept="image/jpeg,image/png,image/webp"
+                      className="hidden" onChange={handleBadgeUpload} />
                   </label>
-                  <textarea
-                    name="bio"
-                    rows={4}
-                    placeholder="Tell travelers why they should explore Ourika with you..."
-                    value={formData.bio}
-                    onChange={(event) => updateField("bio", event.target.value)}
-                    className="w-full resize-none rounded-xl border border-gray-300 px-4 py-4 font-medium text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:ring-emerald-500"
-                  />
+
+                  {badgeError && (
+                    <p className="flex items-center gap-1.5 text-xs text-red-500
+                      font-medium">
+                      <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                      {badgeError}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
 
-            {/* Step 3: Verification */}
+            {/* ─── STEP 3 ─────────────────────────────────── */}
             {step === 3 && (
-              <div className="space-y-6">
-                <div className="group cursor-pointer rounded-2xl border-2 border-dashed border-gray-200 p-8 text-center transition-all hover:border-emerald-200 hover:bg-emerald-50/30">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 transition-transform group-hover:scale-110">
-                    <Upload className="h-7 w-7 text-[#0b3a2c]" />
-                  </div>
-                  <h4 className="font-bold text-gray-900">Upload ID Document</h4>
-                  <p className="mt-2 text-xs text-gray-500">
-                    Take a photo of your official ID card or passport.
+              <div className="space-y-6 animate-in fade-in slide-in-from-right-4
+                duration-300">
+
+                {/* Summary card */}
+                <div className="rounded-2xl border border-gray-100 bg-white p-5
+                  space-y-3 shadow-sm">
+                  <p className="text-xs font-black uppercase tracking-widest
+                    text-gray-400 mb-4">
+                    Registration summary
                   </p>
+                  {[
+                    { label: 'Name',  value: `${form.firstName} ${form.lastName}` },
+                    { label: 'Email', value: form.email },
+                    { label: 'Phone', value: form.phone },
+                    { label: 'Badge', value: badgeUrl
+                        ? '✓ Uploaded'
+                        : 'Not uploaded (add later)' },
+                  ].map(row => (
+                    <div key={row.label}
+                      className="flex items-center justify-between
+                        border-b border-gray-50 pb-3 last:border-0 last:pb-0">
+                      <span className="text-xs font-bold text-gray-400 uppercase
+                        tracking-wider">
+                        {row.label}
+                      </span>
+                      <span className={`text-sm font-semibold
+                        ${row.value.startsWith('✓')
+                          ? 'text-emerald-600'
+                          : 'text-gray-800'}`}>
+                        {row.value}
+                      </span>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="flex gap-3 rounded-xl border border-amber-100 bg-amber-50 p-4">
-                  <Info className="h-5 w-5 shrink-0 text-amber-600" />
-                  <p className="text-xs leading-relaxed text-amber-800">
-                    <strong>Trust & Safety:</strong> We use this to verify your identity and ensure
-                    the safety of our community. Your data is encrypted and never shared.
+                {/* What happens next */}
+                <div className="rounded-2xl bg-[#f0faf5] border border-emerald-100
+                  p-5 space-y-3">
+                  <p className="text-sm font-black text-[#0b3a2c]">
+                    What happens next
                   </p>
+                  {[
+                    'You\'ll receive a verification email',
+                    'Click the link to activate your account',
+                    'Complete your guide profile to start accepting bookings',
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="flex h-5 w-5 shrink-0 items-center
+                        justify-center rounded-full bg-[#00ef9d] text-[10px]
+                        font-black text-[#0b3a2c] mt-0.5">
+                        {i + 1}
+                      </div>
+                      <p className="text-sm text-gray-600 font-medium">{item}</p>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="group flex cursor-pointer items-start gap-4 p-2">
-                  <input
-                    type="checkbox"
-                    id="terms-guide"
-                    className="mt-1 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                  />
-                  <label htmlFor="terms-guide" className="text-xs leading-relaxed text-gray-500">
-                    By registering, I agree to the{" "}
-                    <span className="font-medium text-gray-700 underline">Terms of Service</span>{" "}
-                    and{" "}
-                    <span className="font-medium text-gray-700 underline">Community Standards</span>
-                    .
-                  </label>
-                </div>
+                {/* Terms checkbox */}
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" required
+                    className="mt-1 h-4 w-4 rounded border-gray-300
+                      text-[#0b3a2c] focus:ring-[#0b3a2c]" />
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    By registering I agree to Ourika Travels'{' '}
+                    <Link href="/terms"
+                      className="underline font-semibold text-gray-700">
+                      Terms of Service
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/privacy"
+                      className="underline font-semibold text-gray-700">
+                      Privacy Policy
+                    </Link>
+                  </p>
+                </label>
 
                 {submitError && (
-                  <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                  <div className="flex items-center gap-2 rounded-xl
+                    border border-red-100 bg-red-50 px-4 py-3
+                    text-sm font-medium text-red-700">
+                    <AlertCircle className="h-4 w-4 shrink-0" />
                     {submitError}
                   </div>
                 )}
               </div>
             )}
 
-            <div className="mt-10 flex items-center justify-between gap-4 border-t border-gray-100 pt-8">
-              <button
-                onClick={prevStep}
-                className={`flex items-center gap-2 text-sm font-bold text-gray-500 transition-all hover:text-gray-900 ${step === 1 ? "pointer-events-none opacity-0" : ""}`}
-              >
-                <ArrowLeft className="h-4 w-4" /> Back to details
-              </button>
-
-              <div className="flex flex-1 flex-col items-center gap-3 sm:flex-none sm:items-end">
-                <button
-                  onClick={step === 3 ? submitRegistration : nextStep}
-                  disabled={step === 3 && isPending}
-                  className="w-full rounded-full bg-gray-900 px-8 py-3.5 text-lg font-black text-white shadow-xl shadow-gray-200 transition-all hover:bg-black active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 sm:w-[220px]"
-                >
-                  {step === 3
-                    ? isPending
-                      ? "Submitting..."
-                      : "Complete Registration"
-                    : "Next step"}
+            {/* ─── NAVIGATION ──────────────────────────────── */}
+            <div className="mt-8 flex items-center justify-between gap-4">
+              {step > 1 ? (
+                <button type="button" onClick={() => setStep(s => s - 1)}
+                  className="flex items-center gap-2 text-sm font-bold
+                    text-gray-500 hover:text-[#0b3a2c] transition-colors">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back
                 </button>
-                <div className="flex items-center gap-1.5 opacity-60">
-                  <p className="text-[10px] leading-none font-bold tracking-widest text-gray-400 uppercase">
-                    Need help?
-                  </p>
-                  <Link
-                    href="/contact"
-                    className="text-[10px] leading-none font-bold tracking-widest text-[#0b3a2c] uppercase hover:underline"
-                  >
-                    Support
-                  </Link>
-                </div>
-              </div>
+              ) : (
+                <div />
+              )}
+
+              <button
+                type="button"
+                onClick={step === 3 ? submitRegistration : () => {
+                  // Validate step 1 before moving to step 2
+                  if (step === 1) {
+                    const e: Record<string, string> = {};
+                    if (!form.firstName.trim()) e.firstName = 'Required';
+                    if (!form.lastName.trim())  e.lastName  = 'Required';
+                    if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email))
+                      e.email = 'Valid email required';
+                    if (form.password.length < 8)
+                      e.password = 'Min 8 characters';
+                    if (form.password !== form.confirmPassword)
+                      e.confirmPassword = "Passwords don't match";
+                    setErrors(e);
+                    if (Object.keys(e).length > 0) return;
+                  }
+                  // Validate step 2 before moving to step 3
+                  if (step === 2) {
+                    const e: Record<string, string> = {};
+                    if (!form.phone.trim()) e.phone = 'Required';
+                    setErrors(e);
+                    if (Object.keys(e).length > 0) return;
+                  }
+                  setStep(s => s + 1);
+                }}
+                disabled={step === 3 && isPending}
+                className="flex items-center gap-2 rounded-full bg-[#0b3a2c]
+                  px-8 py-3.5 text-sm font-black text-white shadow-lg
+                  shadow-[#0b3a2c]/20 transition-all hover:bg-[#0d4a38]
+                  active:scale-95 disabled:opacity-60">
+                {step === 3
+                  ? isPending
+                    ? <><Loader2 className="h-4 w-4 animate-spin" /> Submitting...</>
+                    : 'Complete registration'
+                  : <>Continue <ArrowRight className="h-4 w-4" /></>
+                }
+              </button>
             </div>
+
+            {/* Sign in link */}
+            <p className="mt-8 text-center text-sm text-gray-400">
+              Already have an account?{' '}
+              <Link href="/auth/login"
+                className="font-bold text-[#0b3a2c] hover:underline">
+                Sign in
+              </Link>
+            </p>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
+

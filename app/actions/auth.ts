@@ -125,14 +125,14 @@ export async function resetPassword(formData: FormData) {
   redirect("/auth/login?reset=success");
 }
 
-// ─── GUIDE REGISTER (multi-step, called at final step) ───
+// ─── GUIDE REGISTER (simplified single-step) ───
 export async function registerGuide(formData: FormData) {
   const supabase = await createSupabaseServerClient();
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const full_name = formData.get("full_name") as string;
   const phone = formData.get("phone") as string;
-  const bio = formData.get("bio") as string;
+  const badge_image_url = formData.get("badge_image_url") as string | null;
 
   if (!email || !password || !full_name || !phone) {
     return { error: "All required fields must be filled" };
@@ -150,14 +150,36 @@ export async function registerGuide(formData: FormData) {
 
   if (error) return { error: error.message };
 
-  // Update additional guide fields (phone, bio) after registration
+  // Update additional guide fields (phone, badge_image_url) after registration
   if (data.user) {
-    await supabase.from("users").update({ phone, bio, role: "guide" }).eq("id", data.user.id);
+    const updates: Record<string, any> = { phone, role: "guide" };
+    if (badge_image_url) updates.badge_image_url = badge_image_url;
+    await supabase.from("users").update(updates).eq("id", data.user.id);
   }
 
   return {
     success: "Account created! Please verify your email to activate your guide profile.",
   };
+}
+
+// ─── UPLOAD GUIDE BADGE IMAGE ───
+export async function uploadGuideBadgeImage(
+  formData: FormData
+): Promise<{ url: string } | { error: string }> {
+  const file = formData.get('file') as File;
+  if (!file || file.size === 0) return { error: 'No file provided' };
+  if (file.size > 10 * 1024 * 1024) return { error: 'File too large (max 10 MB)' };
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+    return { error: 'Use JPG, PNG or WebP' };
+  }
+  try {
+    const { uploadToCloudflare } = await import('@/lib/cloudflare-images');
+    const result = await uploadToCloudflare(file, { folder: 'guide-badges' });
+    const url = result.url.replace(/([^:])\/ \/+/g, '$1/');
+    return { url };
+  } catch (err: any) {
+    return { error: err.message || 'Upload failed' };
+  }
 }
 
 // ─── RESEND VERIFICATION ───

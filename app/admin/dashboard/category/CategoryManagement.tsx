@@ -124,57 +124,147 @@ export default function CategoryManagement({ initialCategories }: CategoryManage
                 </div>
             )}
 
-            {/* Categories Grid */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {/* Stats row */}
+            <div className="flex items-center gap-6 text-sm font-medium text-gray-500">
+                <span>
+                    <span className="font-black text-[#0b3a2c] text-lg">
+                        {filteredCategories.length}
+                    </span>{' '}
+                    {filteredCategories.length === 1 ? 'category' : 'categories'}
+                </span>
+                {searchQuery && (
+                    <span className="text-gray-400">
+                        — filtered from {initialCategories.length} total
+                    </span>
+                )}
+            </div>
+
+            {/* Table */}
+            <div className="overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-sm">
                 {filteredCategories.length > 0 ? (
-                    filteredCategories.map((category) => (
-                        <div key={category.id} className="group relative overflow-hidden rounded-[2.5rem] border border-black/5 bg-white p-2 shadow-2xl shadow-black/[0.03] transition-all hover:shadow-black/[0.06]">
-                            <div className="relative h-48 w-full overflow-hidden rounded-[2rem]">
-                                {category.photo ? (
-                                    <img
-                                        src={category.photo}
-                                        alt={category.name}
-                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                    />
-                                ) : (
-                                    <div className="flex h-full w-full items-center justify-center bg-gray-50 text-gray-300">
-                                        <ImageIcon className="h-12 w-12" />
-                                    </div>
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                                <div className="absolute bottom-4 right-4 flex gap-2 translate-y-4 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-                                    <button
-                                        onClick={() => {
-                                            setEditingCategory(category);
-                                            setIsModalOpen(true);
-                                        }}
-                                        className="rounded-full bg-white p-2.5 text-gray-700 shadow-xl transition-transform hover:scale-110 active:scale-95"
-                                    >
-                                        <Edit2 className="h-4 w-4" />
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(category.id)}
-                                        className="rounded-full bg-red-500 p-2.5 text-white shadow-xl transition-transform hover:scale-110 active:scale-95"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="p-6">
-                                <h3 className="text-xl font-bold text-[#0b3a2c]">{category.name}</h3>
-                                <p className="mt-2 text-sm font-medium text-gray-500 line-clamp-2">
-                                    {category.description || "No description provided."}
-                                </p>
-                            </div>
-                        </div>
-                    ))
+                    <table className="w-full">
+                        <thead>
+                            <tr className="border-b border-gray-100 bg-gray-50/60">
+                                <th className="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-gray-400 w-16">
+                                    Photo
+                                </th>
+                                <th className="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">
+                                    Name
+                                </th>
+                                <th className="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-gray-400 hidden md:table-cell">
+                                    Description
+                                </th>
+                                <th className="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-gray-400 hidden lg:table-cell">
+                                    Created
+                                </th>
+                                <th className="px-6 py-4 text-right text-[11px] font-black uppercase tracking-widest text-gray-400">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                            {filteredCategories.map((category, index) => (
+                                <tr
+                                    key={category.id}
+                                    className="group transition-colors hover:bg-[#f7fdf9]"
+                                >
+                                    {/* Photo thumbnail */}
+                                    <td className="px-6 py-4">
+                                        <div className="h-12 w-12 overflow-hidden rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                            {category.photo ? (
+                                                <img
+                                                    src={category.photo}
+                                                    alt={category.name}
+                                                    className="h-full w-full object-cover"
+                                                />
+                                            ) : (
+                                                <ImageIcon className="h-5 w-5 text-gray-300" />
+                                            )}
+                                        </div>
+                                    </td>
+
+                                    {/* Name */}
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0b3a2c]/8 text-[10px] font-black text-[#0b3a2c]">
+                                                {index + 1}
+                                            </div>
+                                            <span className="font-bold text-[#0b3a2c] text-[15px]">
+                                                {category.name}
+                                            </span>
+                                        </div>
+                                    </td>
+
+                                    {/* Description */}
+                                    <td className="px-6 py-4 hidden md:table-cell">
+                                        <span className="text-sm text-gray-500 line-clamp-1 max-w-xs">
+                                            {category.description || (
+                                                <span className="italic text-gray-300">No description</span>
+                                            )}
+                                        </span>
+                                    </td>
+
+                                    {/* Created date */}
+                                    <td className="px-6 py-4 hidden lg:table-cell">
+                                        <span className="text-sm text-gray-400">
+                                            {category.created_at
+                                                ? new Date(category.created_at).toLocaleDateString('en-US', {
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                    year: 'numeric',
+                                                })
+                                                : '—'}
+                                        </span>
+                                    </td>
+
+                                    {/* Actions */}
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <button
+                                                onClick={() => {
+                                                    setEditingCategory(category);
+                                                    setIsModalOpen(true);
+                                                }}
+                                                className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-[12px] font-bold text-gray-600 shadow-sm transition-all hover:border-[#0b3a2c] hover:text-[#0b3a2c] opacity-0 group-hover:opacity-100"
+                                            >
+                                                <Edit2 className="h-3 w-3" />
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(category.id)}
+                                                disabled={isPending}
+                                                className="flex items-center gap-1.5 rounded-full border border-red-100 bg-white px-3 py-1.5 text-[12px] font-bold text-red-400 shadow-sm transition-all hover:border-red-300 hover:bg-red-50 hover:text-red-600 opacity-0 group-hover:opacity-100 disabled:opacity-30"
+                                            >
+                                                <Trash2 className="h-3 w-3" />
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 ) : (
-                    <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
+                    <div className="flex flex-col items-center justify-center py-20 text-center">
                         <div className="mb-4 rounded-full bg-gray-50 p-6">
-                            <ImageIcon className="h-12 w-12 text-gray-300" />
+                            <ImageIcon className="h-10 w-10 text-gray-200" />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-900">No categories found</h3>
-                        <p className="text-gray-500">Try adjusting your search or add a new category.</p>
+                        <h3 className="text-base font-bold text-gray-900">
+                            {searchQuery ? 'No categories match your search' : 'No categories yet'}
+                        </h3>
+                        <p className="mt-1 text-sm text-gray-400">
+                            {searchQuery
+                                ? 'Try a different search term'
+                                : 'Add your first category to get started'}
+                        </p>
+                        {!searchQuery && (
+                            <button
+                                onClick={() => { setEditingCategory(null); setIsModalOpen(true); }}
+                                className="mt-6 flex items-center gap-2 rounded-full bg-[#0b3a2c] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#0d4a38] transition-all"
+                            >
+                                <Plus className="h-4 w-4" /> Add category
+                            </button>
+                        )}
                     </div>
                 )}
             </div>

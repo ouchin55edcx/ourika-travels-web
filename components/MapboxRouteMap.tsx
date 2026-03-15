@@ -141,14 +141,16 @@ export default function MapboxRouteMap({ steps, activeStepId, onMarkerClick }: P
           className: "trek-popup",
         }).setText(s.shortLabel || s.title);
 
-        el.addEventListener("mouseenter", () => popup.addTo(map));
+        el.addEventListener("mouseenter", () => map && popup.addTo(map));
         el.addEventListener("mouseleave", () => popup.remove());
 
-        const marker = new mapboxgl.Marker({ element: el })
-          .setLngLat([s.coordinates!.lng, s.coordinates!.lat])
-          .addTo(map);
+        if (map) {
+          const marker = new mapboxgl.Marker({ element: el })
+            .setLngLat([s.coordinates!.lng, s.coordinates!.lat])
+            .addTo(map);
 
-        markersRef.current.set(s.id, marker);
+          markersRef.current.set(s.id, marker);
+        }
       });
 
       // Fetch REAL road route from Mapbox Directions API
@@ -158,33 +160,35 @@ export default function MapboxRouteMap({ steps, activeStepId, onMarkerClick }: P
       );
 
       // Update route source
-      const source = map.getSource("route") as mapboxgl.GeoJSONSource;
-      if (source) {
-        source.setData({
-          type: "FeatureCollection",
-          features: routeGeometry
-            ? [
-                {
-                  type: "Feature",
-                  geometry: routeGeometry,
-                  properties: {},
-                },
-              ]
-            : [],
-        });
-      }
+      if (map) {
+        const source = map.getSource("route") as mapboxgl.GeoJSONSource;
+        if (source) {
+          source.setData({
+            type: "FeatureCollection",
+            features: routeGeometry
+              ? [
+                  {
+                    type: "Feature",
+                    geometry: routeGeometry,
+                    properties: {},
+                  },
+                ]
+              : [],
+          });
+        }
 
-      // Fit all markers in view
-      if (pinned.length >= 2) {
-        const bounds = new mapboxgl.LngLatBounds();
-        pinned.forEach((s) => bounds.extend([s.coordinates!.lng, s.coordinates!.lat]));
-        map.fitBounds(bounds, { padding: 80, duration: 1000, maxZoom: 13 });
-      } else if (pinned.length === 1) {
-        map.flyTo({
-          center: [pinned[0].coordinates!.lng, pinned[0].coordinates!.lat],
-          zoom: 12,
-          duration: 1000,
-        });
+        // Fit all markers in view
+        if (pinned.length >= 2) {
+          const bounds = new mapboxgl.LngLatBounds();
+          pinned.forEach((s) => bounds.extend([s.coordinates!.lng, s.coordinates!.lat]));
+          map.fitBounds(bounds, { padding: 80, duration: 1000, maxZoom: 13 });
+        } else if (pinned.length === 1) {
+          map.flyTo({
+            center: [pinned[0].coordinates!.lng, pinned[0].coordinates!.lat],
+            zoom: 12,
+            duration: 1000,
+          });
+        }
       }
     }
 

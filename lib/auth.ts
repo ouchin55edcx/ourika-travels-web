@@ -12,8 +12,14 @@ export type AuthUser = {
   phone: string | null;
   bio: string | null;
   guide_badge_code: string | null;
+  badge_image_url: string | null;
   email_verified: boolean;
   is_active: boolean;
+  specialties: string[];
+  languages: string[];
+  location: string | null;
+  years_experience: number | null;
+  certifications: string[];
 };
 
 export async function getCurrentUser(): Promise<AuthUser | null> {
@@ -55,8 +61,14 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     phone: user.user_metadata?.phone || null,
     bio: null,
     guide_badge_code: null,
+    badge_image_url: null,
     email_verified: !!user.email_confirmed_at,
     is_active: true,
+    specialties: [],
+    languages: [],
+    location: null,
+    years_experience: null,
+    certifications: [],
   } as AuthUser;
 }
 
