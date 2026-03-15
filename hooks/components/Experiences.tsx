@@ -4,81 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart, ChevronRight, ChevronLeft, Star } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-
-const experiences = [
-  {
-    id: 1,
-    title: "Day Trip To Ourika Valley from Marrakech",
-    image:
-      "https://images.unsplash.com/photo-1540324155974-7523202daa3f?q=80&w=800&auto=format&fit=crop",
-    rating: 4.7,
-    reviews: 1086,
-    price: 31,
-  },
-  {
-    id: 2,
-    title: "Setti Fatma Waterfalls Guided Hike",
-    image:
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800&auto=format&fit=crop",
-    rating: 4.8,
-    reviews: 352,
-    price: 16,
-  },
-  {
-    id: 3,
-    title: "Traditional Berber Cooking Class & Lunch",
-    image:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop",
-    rating: 4.8,
-    reviews: 64,
-    price: 45,
-  },
-  {
-    id: 4,
-    title: "Private Ourika Valley Tour with Luxury Car",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop",
-    rating: 4.9,
-    reviews: 23,
-    price: 148,
-  },
-  {
-    id: 5,
-    title: "Quad Bike Adventure in Atlas Mountains",
-    image:
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop",
-    rating: 4.6,
-    reviews: 120,
-    price: 55,
-  },
-  {
-    id: 6,
-    title: "Sunrise Hot Air Balloon over Ourika",
-    image:
-      "https://images.unsplash.com/photo-1507502707541-f369a3b18502?q=80&w=800&auto=format&fit=crop",
-    rating: 4.9,
-    reviews: 89,
-    price: 199,
-  },
-  {
-    id: 7,
-    title: "Botanical Garden Bio-Aromatique Visit",
-    image:
-      "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=800&auto=format&fit=crop",
-    rating: 4.7,
-    reviews: 45,
-    price: 12,
-  },
-  {
-    id: 8,
-    title: "Sunset Camel Ride in the Heart of Ourika",
-    image:
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop",
-    rating: 4.5,
-    reviews: 210,
-    price: 25,
-  },
-];
+import { useEffect, useState, useRef } from "react";
 
 const RatingStars = ({ rating }: { rating: number }) => {
   return (
@@ -89,9 +15,8 @@ const RatingStars = ({ rating }: { rating: number }) => {
         return (
           <Star
             key={i}
-            className={`h-[14px] w-[14px] ${
-              isFull || isHalf ? "fill-[#00aa6c] text-[#00aa6c]" : "text-gray-200"
-            }`}
+            className={`h-[14px] w-[14px] ${isFull || isHalf ? "fill-[#00aa6c] text-[#00aa6c]" : "text-gray-200"
+              }`}
           />
         );
       })}
@@ -101,6 +26,31 @@ const RatingStars = ({ rating }: { rating: number }) => {
 
 export default function Experiences() {
   const { elementRef, isVisible } = useScrollReveal(0.05);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [experiences, setExperiences] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch("/api/treks/similar?limit=8");
+        const data = await res.json();
+        setExperiences(data);
+      } catch (error) {
+        console.error("Failed to load experiences:", error);
+      }
+    }
+    load();
+  }, []);
+
+  const scrollByAmount = (direction: "left" | "right") => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const amount = Math.min(container.clientWidth * 0.9, 420);
+    container.scrollBy({
+      left: direction === "right" ? amount : -amount,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section
@@ -121,39 +71,49 @@ export default function Experiences() {
           </p>
         </div>
         <div className="mb-2 hidden gap-3 lg:flex">
-          <button className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#004f32] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md">
+          <button
+            onClick={() => scrollByAmount("left")}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#004f32] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md"
+          >
             <ChevronLeft className="h-5 w-5 stroke-[2.5px]" />
           </button>
-          <button className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#004f32] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md">
+          <button
+            onClick={() => scrollByAmount("right")}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#004f32] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md"
+          >
             <ChevronRight className="h-5 w-5 stroke-[2.5px]" />
           </button>
         </div>
       </div>
 
-      <div className="hide-scrollbar flex snap-x snap-mandatory scroll-pl-6 gap-6 overflow-x-auto pb-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16 lg:overflow-visible lg:px-0 lg:pb-0">
+      <div
+        ref={scrollRef}
+        className="hide-scrollbar flex snap-x snap-mandatory scroll-pl-6 gap-6 overflow-x-auto pb-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16 lg:overflow-visible lg:px-0 lg:pb-0"
+      >
         {experiences.map((exp, index) => {
-          const slug = exp.title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-|-$/g, "");
           return (
             <Link
               key={exp.id}
-              href={`/tour/${slug}`}
+              href={`/tour/${exp.slug}`}
               className={`group reveal block min-w-[280px] transition-all duration-500 ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             >
               <div className="flex h-full flex-col">
                 <div className="relative mb-4 aspect-square overflow-hidden rounded-3xl shadow-lg sm:aspect-[4/3]">
                   <Image
-                    src={exp.image}
+                    src={exp.cover_image}
                     alt={exp.title}
                     fill
                     className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
+                  {exp.badge && (
+                    <div className="absolute top-4 left-4 z-10 rounded-[6px] bg-[#f2ef31] px-2 py-1 text-[11px] font-extrabold text-[#111827]">
+                      {exp.badge}
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <button className="group/heart absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#004f32] shadow-lg backdrop-blur-md transition-transform hover:scale-110 active:scale-95">
+                  <button className="group/heart absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#004f32] shadow-lg backdrop-blur-md transition-transform hover:scale-110 active:scale-95">
                     <Heart className="h-5 w-5 transition-all group-hover/heart:fill-red-500 group-hover/heart:text-red-500" />
                   </button>
                 </div>
@@ -164,16 +124,23 @@ export default function Experiences() {
                   </h3>
 
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-[#484848]">{exp.rating}</span>
+                    <span className="text-sm font-bold text-[#484848]">{exp.rating.toFixed(1)}</span>
                     <RatingStars rating={exp.rating} />
                     <span className="text-[14px] text-gray-500">
-                      ({exp.reviews.toLocaleString()})
+                      ({exp.review_count.toLocaleString()})
                     </span>
                   </div>
 
                   <div className="flex items-baseline gap-1 border-t border-gray-50 pt-2">
                     <span className="text-sm font-bold text-gray-400">from</span>
-                    <span className="text-2xl font-black text-[#004f32]">${exp.price}</span>
+                    {exp.previous_price && (
+                      <span className="mr-1 text-sm text-gray-400 line-through">
+                        ${exp.previous_price.toFixed(2)}
+                      </span>
+                    )}
+                    <span className={`text-2xl font-black ${exp.previous_price ? "text-[#cc184e]" : "text-[#004f32]"}`}>
+                      ${exp.price_per_adult.toFixed(2)}
+                    </span>
                   </div>
                 </div>
               </div>

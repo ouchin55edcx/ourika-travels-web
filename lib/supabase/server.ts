@@ -15,8 +15,21 @@ export async function createSupabaseServerClient() {
           cookiesToSet.forEach(({ name, value, options }) =>
             cookieStore.set(name, value, options),
           );
-        } catch {}
+        } catch { }
       },
     },
   });
 }
+
+// Public client for static generation without request context
+export function createSupabasePublicClient() {
+  return createServerClient(getSupabaseUrl(), getSupabaseKey(), {
+    cookies: {
+      getAll() {
+        return [];
+      },
+      setAll() { },
+    },
+  });
+}
+

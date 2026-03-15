@@ -1,6 +1,6 @@
 "use server";
 
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { createSupabaseServerClient, createSupabasePublicClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { getCurrentUser } from '@/lib/auth';
 import { uploadToCloudflare, deleteFromCloudflare } from '@/lib/cloudflare-images';
@@ -63,6 +63,7 @@ export type Trek = {
     included: string[];
     not_included: string[];
     services: string[];
+    reviews?: any[];
     is_active: boolean;
     created_at: string;
     updated_at: string;
@@ -132,15 +133,31 @@ export async function getTrekById(id: string): Promise<Trek | null> {
 
 export async function getTrekBySlug(slug: string): Promise<Trek | null> {
     const supabase = await createSupabaseServerClient();
-    const { data, error } = await supabase
+    const user = await getCurrentUser();
+
+    let query = supabase
         .from('treks')
-        .select('*')
-        .eq('slug', slug)
-        .eq('is_active', true)
-        .single();
+        .select('*, categories(name)')
+        .eq('slug', slug);
+
+    if (!user || user.role !== 'admin') {
+        query = query.eq('is_active', true);
+    }
+
+    const { data, error } = await query.single();
 
     if (error || !data) return null;
     return data as Trek;
+}
+
+export async function getPublicTreks(): Promise<{ slug: string }[]> {
+    const supabase = createSupabasePublicClient();
+    const { data, error } = await supabase
+        .from('treks')
+        .select('slug')
+        .eq('is_active', true);
+    if (error) return [];
+    return data || [];
 }
 
 export async function createTrek(data: TrekFormData): Promise<{ success: true; slug: string } | { error: string }> {

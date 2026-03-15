@@ -1,16 +1,52 @@
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, ShieldCheck, WalletCards, CalendarDays } from "lucide-react";
 import Link from "next/link";
-import { bookingBenefits } from "@/lib/data/tourData";
 
-export default function TourBookingCard() {
+type Props = {
+  price: number;
+  previousPrice: number | null;
+  freeCancellationHours: number;
+  reserveNowPayLater: boolean;
+  avgBookingLeadDays: number | null;
+};
+
+export default function TourBookingCard({
+  price,
+  previousPrice,
+  freeCancellationHours,
+  reserveNowPayLater,
+  avgBookingLeadDays,
+}: Props) {
+  const benefits = [
+    {
+      icon: ShieldCheck,
+      title: 'Free cancellation',
+      description: `Full refund if cancelled up to ${freeCancellationHours}h before the start.`,
+    },
+    ...(reserveNowPayLater ? [{
+      icon: WalletCards,
+      title: 'Reserve now & pay later',
+      description: 'Secure your spot while staying flexible.',
+    }] : []),
+    ...(avgBookingLeadDays ? [{
+      icon: CalendarDays,
+      title: 'Book ahead',
+      description: `This is booked ${avgBookingLeadDays} days in advance on average.`,
+    }] : []),
+  ];
+
   return (
     <aside className="self-start lg:sticky lg:top-5">
       <div className="rounded-2xl border border-[#d9d9d9] bg-white p-4 shadow-[0_1px_0_rgba(0,0,0,0.03)] sm:p-5">
         <div className="mb-1 flex flex-wrap items-baseline gap-1">
           <span className="text-[15px] font-semibold text-[#1f1f1f]">From</span>
-          <span className="text-[28px] font-extrabold tracking-[-0.03em] text-[#1f1f1f] sm:text-[32px]">
-            $17.60
-          </span>
+          <div className="flex flex-col">
+            {previousPrice && (
+              <span className="text-sm text-gray-400 line-through">${previousPrice.toFixed(2)}</span>
+            )}
+            <span className="text-[28px] font-extrabold tracking-[-0.03em] text-[#1f1f1f] sm:text-[32px]">
+              ${price.toFixed(2)}
+            </span>
+          </div>
           <span className="text-sm text-[#5f6368]">per adult</span>
         </div>
         <button className="mb-5 text-sm font-semibold text-[#333] underline underline-offset-2">
@@ -25,7 +61,7 @@ export default function TourBookingCard() {
         </Link>
 
         <div className="space-y-5">
-          {bookingBenefits.map(({ icon: Icon, title, description }) => (
+          {benefits.map(({ icon: Icon, title, description }) => (
             <div key={title} className="flex items-start gap-3">
               <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#f1f32b] text-[#123d2f]">
                 <Icon className="h-3.5 w-3.5" />

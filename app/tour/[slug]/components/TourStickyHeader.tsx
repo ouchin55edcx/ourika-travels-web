@@ -4,16 +4,20 @@ import Link from "next/link";
 import { Heart, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 
-type TourStickyHeaderProps = {
+type Props = {
   title: string;
   navigationItems: readonly string[];
+  rating: number;
+  price: number;
 };
 
-export default function TourStickyHeader({ title, navigationItems }: TourStickyHeaderProps) {
+export default function TourStickyHeader({ title, navigationItems, rating, price }: Props) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
+      isVisible ? setIsVisible(window.scrollY > 220) : setIsVisible(window.scrollY > 220);
+      // Simpler check
       setIsVisible(window.scrollY > 220);
     };
 
@@ -25,9 +29,8 @@ export default function TourStickyHeader({ title, navigationItems }: TourStickyH
 
   return (
     <div
-      className={`fixed inset-x-0 top-0 z-[70] border-b border-[#d7d7d7] bg-white/95 backdrop-blur-sm transition-all duration-300 ${
-        isVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"
-      }`}
+      className={`fixed inset-x-0 top-0 z-[70] border-b border-[#d7d7d7] bg-white/95 backdrop-blur-sm transition-all duration-300 ${isVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"
+        }`}
     >
       <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
         <div className="flex min-h-[42px] items-center justify-between gap-4 border-b border-[#e5e7eb] sm:min-h-[46px]">
@@ -44,7 +47,7 @@ export default function TourStickyHeader({ title, navigationItems }: TourStickyH
               <span className="max-w-[420px] truncate font-semibold text-[#12311f]">{title}</span>
               <div className="flex items-center gap-1">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#00aa6c]" />
-                <span className="font-semibold">4.6</span>
+                <span className="font-semibold">{rating.toFixed(1)}</span>
               </div>
             </div>
 
@@ -65,9 +68,8 @@ export default function TourStickyHeader({ title, navigationItems }: TourStickyH
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className={`py-3 ${
-                  index === 1 ? "border-b-2 border-[#123d2f]" : "border-b-2 border-transparent"
-                }`}
+                className={`py-3 ${index === 1 ? "border-b-2 border-[#123d2f]" : "border-b-2 border-transparent"
+                  }`}
               >
                 {item}
               </a>
@@ -75,7 +77,7 @@ export default function TourStickyHeader({ title, navigationItems }: TourStickyH
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
-            <p className="text-[15px] font-extrabold text-[#12311f]">from $17.60</p>
+            <p className="text-[15px] font-extrabold text-[#12311f]">from ${price.toFixed(2)}</p>
             <button className="rounded-full bg-[#00e05a] px-5 py-2.5 text-[15px] font-bold text-black">
               Check availability
             </button>

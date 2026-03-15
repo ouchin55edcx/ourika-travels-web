@@ -4,10 +4,9 @@ const DELIVERY_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL || ''
 const API_BASE = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1`;
 
 export function buildImageUrl(imageId: string, variant = 'public'): string {
-    // If DELIVERY_URL already ends with '/', we don't add another one
-    const base = DELIVERY_URL.endsWith('/') ? DELIVERY_URL : `${DELIVERY_URL}/`;
-    const cleanId = imageId.replace(/^\/+/, '');
-    return `${base}${cleanId}/${variant}`;
+    const base = DELIVERY_URL.replace(/\/+$/, '');   // strip ALL trailing slashes
+    const id = imageId.replace(/^\/+/, '');        // strip ALL leading slashes
+    return `${base}/${id}/${variant}`;
 }
 
 export async function uploadToCloudflare(

@@ -5,7 +5,7 @@ import { Heart, MapPin } from "lucide-react";
 import { useState } from "react";
 import MapboxRouteMap from "@/components/MapboxRouteMap";
 
-type ItineraryStep = {
+export type ItineraryStep = {
   id: number;
   title: string;
   duration: string;
@@ -16,45 +16,31 @@ type ItineraryStep = {
   coordinates?: { lng: number; lat: number };
 };
 
-const itinerarySteps: ItineraryStep[] = [
-  {
-    id: 1,
-    title: "Marrakech",
-    duration: "60 minutes",
-    coordinates: { lng: -7.9811, lat: 31.6295 },
-    image:
-      "https://images.unsplash.com/photo-1597212618440-806262de4f6b?q=80&w=1200&auto=format&fit=crop",
-    description:
-      "Leave behind the vibrant energy of Marrakech and immerse yourself in the serene beauty of the Atlas Mountains on this unforgettable guided tour. Begin your journey by observing skilled Berber women as they craft argan oil, then savor a traditional breakfast featuring mint tea, fresh bread, argan oil, and honey.",
-    buttonLabel: "More about Marrakech",
-  },
-  {
-    id: 2,
-    title: "Ourika Valley",
-    duration: "2 hours",
-    shortLabel: "Ourika Valleys",
-    coordinates: { lng: -7.7562, lat: 31.3416 },
-  },
-  {
-    id: 3,
-    title: "Atlas Mountains View",
-    duration: "2 hours",
-    coordinates: { lng: -7.6500, lat: 31.2500 },
-  },
-  {
-    id: 4,
-    title: "Marrakech-Safi",
-    duration: "60 minutes",
-    coordinates: { lng: -7.9811, lat: 31.6295 },
-  },
-];
+type Props = {
+  startLocation: string;
+  pickupAvailable: boolean;
+  steps: ItineraryStep[];
+};
 
-export default function TourItinerary() {
-  const [activeStepId, setActiveStepId] = useState<number>(1);
+export default function TourItinerary({ startLocation, pickupAvailable, steps }: Props) {
+  const [activeStepId, setActiveStepId] = useState<number>(steps[0]?.id || 1);
 
   const toggleStep = (stepId: number) => {
     setActiveStepId((currentStepId) => (currentStepId === stepId ? 0 : stepId));
   };
+
+  if (steps.length === 0) {
+    return (
+      <section id="itinerary" className="border-t border-[#e5e7eb] py-8">
+        <h2 className="mb-1 text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
+          Itinerary
+        </h2>
+        <div className="rounded-2xl bg-gray-50 p-8 text-center text-gray-500">
+          Itinerary details coming soon
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="itinerary" className="border-t border-[#e5e7eb] py-8">
@@ -75,10 +61,12 @@ export default function TourItinerary() {
               <p className="text-[18px] font-extrabold text-[#111827] sm:text-[20px]">
                 You&apos;ll start at
               </p>
-              <p className="mt-1 text-[16px] text-[#111827] sm:text-[18px]">Marrakesh-Safi</p>
-              <p className="mt-1 text-[14px] text-[#666] sm:text-[15px]">
-                Or, you can also get picked up
-              </p>
+              <p className="mt-1 text-[16px] text-[#111827] sm:text-[18px]">{startLocation}</p>
+              {pickupAvailable && (
+                <p className="mt-1 text-[14px] text-[#666] sm:text-[15px]">
+                  Or, you can also get picked up
+                </p>
+              )}
               <button className="mt-1 text-[14px] font-bold text-[#123d2f] underline sm:text-[15px]">
                 See departure details
               </button>
@@ -86,7 +74,7 @@ export default function TourItinerary() {
           </div>
 
           <div className="mt-2">
-            {itinerarySteps.map((step, index) => {
+            {steps.map((step, index) => {
               const isActive = step.id === activeStepId;
 
               return (
@@ -100,7 +88,7 @@ export default function TourItinerary() {
                     >
                       {step.id}
                     </button>
-                    {index !== itinerarySteps.length - 1 ? (
+                    {index !== steps.length - 1 ? (
                       <div className="h-full min-h-8 w-px border-l border-dashed border-[#bdbdbd]" />
                     ) : null}
                   </div>
@@ -145,7 +133,7 @@ export default function TourItinerary() {
                         </p>
 
                         <button className="mt-4 min-h-11 w-full rounded-full border border-[#123d2f] px-5 py-3 text-[15px] font-bold text-[#12311f] transition hover:bg-[#f6f8f7]">
-                          {step.buttonLabel}
+                          {step.buttonLabel || `More about ${step.title}`}
                         </button>
                       </div>
                     ) : null}
@@ -171,7 +159,7 @@ export default function TourItinerary() {
 
         <div className="relative h-[400px] w-full overflow-hidden rounded-[20px] border border-black/5 shadow-2xl shadow-black/5 lg:h-[600px]">
           <MapboxRouteMap
-            steps={itinerarySteps}
+            steps={steps}
             activeStepId={activeStepId}
             onMarkerClick={(id) => setActiveStepId(id)}
           />
@@ -187,4 +175,3 @@ export default function TourItinerary() {
     </section>
   );
 }
-
