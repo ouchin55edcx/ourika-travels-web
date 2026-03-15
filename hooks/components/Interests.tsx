@@ -71,14 +71,14 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
         </p>
       </div>
 
-      <div className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-8 lg:grid lg:grid-cols-4 lg:gap-8 lg:pb-0">
+      <div className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-8">
         {displayedInterests.map((interest, index) => {
 
           return (
             <Link
               key={interest.title}
               href={`/category/${interest.slug}`}
-              className={`group reveal relative h-[400px] min-w-[85%] cursor-pointer snap-center overflow-hidden rounded-[3rem] shadow-2xl transition-all duration-700 sm:min-w-[60%] md:min-w-[45%] lg:h-[480px] lg:min-w-0 ${isVisible ? "reveal-visible" : ""}`}
+              className={`group reveal relative h-[400px] min-w-[85%] flex-shrink-0 cursor-pointer snap-center overflow-hidden rounded-[3rem] shadow-2xl transition-all duration-700 sm:min-w-[60%] md:min-w-[45%] lg:min-w-[calc(25%-18px)] lg:h-[480px] ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <Image
