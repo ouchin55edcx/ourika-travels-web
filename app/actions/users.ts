@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 /**
@@ -73,23 +74,100 @@ export async function archiveUser(userId: string) {
 
 /**
  * Permanently deletes a user from the public.users table.
- * Note: This does NOT delete the user from Supabase Auth automatically 
+ * Note: This does NOT delete the user from Supabase Auth automatically
  * unless there is a database trigger configured for 'on delete cascade'.
  */
 export async function deleteUser(userId: string) {
   const supabase = await createSupabaseServerClient();
-  
+
   const { error } = await supabase
     .from("users")
     .delete()
     .eq("id", userId);
 
   if (error) return { error: error.message };
-  
+
   revalidatePath("/admin/dashboard/users");
-  
-  return { 
-    success: true, 
-    message: "User record removed successfully" 
+
+  return {
+    success: true,
+    message: "User record removed successfully"
   };
+}
+
+/**
+ * Guide requests verification.
+ * Sets verification_status to 'pending' for admin review.
+ */
+export async function requestVerification() {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user || user.role !== 'guide') return { error: 'Unauthorized' };
+
+  // Only allow if not already verified or pending
+  if (user.verification_status === 'verified') {
+    return { error: 'Already verified' };
+  }
+
+  const { error } = await supabase
+    .from('users')
+    .update({ verification_status: 'pending' })
+    .eq('id', user.id);
+
+  if (error) return { error: error.message };
+
+  revalidatePath('/dashboard/guide');
+  revalidatePath('/dashboard/guide/profile');
+  revalidatePath('/admin/dashboard/users');
+  return { success: true };
+}
+
+/**
+ * Admin verifies a guide.
+ * Sets is_verified to true and verification_status to 'verified'.
+ */
+export async function verifyGuide(guideId: string, note?: string) {
+  const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== 'admin') return { error: 'Forbidden' };
+
+  const { error } = await supabase
+    .from('users')
+    .update({
+      is_verified:         true,
+      verification_status: 'verified',
+      verification_note:   note || null,
+      verified_at:         new Date().toISOString(),
+    })
+    .eq('id', guideId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath('/admin/dashboard/users');
+  return { success: true };
+}
+
+/**
+ * Admin rejects a guide's verification request.
+ * Sets verification_status to 'rejected' with a note.
+ */
+export async function rejectGuide(guideId: string, note: string) {
+  const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== 'admin') return { error: 'Forbidden' };
+
+  const { error } = await supabase
+    .from('users')
+    .update({
+      is_verified:         false,
+      verification_status: 'rejected',
+      verification_note:   note,
+      verified_at:         null,
+    })
+    .eq('id', guideId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath('/admin/dashboard/users');
+  return { success: true };
 }

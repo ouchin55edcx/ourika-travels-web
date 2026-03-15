@@ -15,25 +15,38 @@ import {
     CheckCircle2,
     UsersRound,
     MoreVertical,
-    Filter
+    Filter,
+    X,
+    MapPin,
+    Briefcase,
+    Loader2,
+    Clock,
+    ShieldX
 } from "lucide-react";
-import { toggleUserStatus, toggleGuideVerification, archiveUser } from "@/app/actions/users";
+import { toggleUserStatus, toggleGuideVerification, archiveUser, verifyGuide, rejectGuide } from "@/app/actions/users";
 
 interface UsersManagementProps {
     initialUsers: AuthUser[];
 }
 
 export default function UsersManagement({ initialUsers }: UsersManagementProps) {
-    const [activeTab, setActiveTab] = useState<"tourist" | "guide">("tourist");
+    type Tab = 'tourist' | 'guide' | 'pending';
+    const [activeTab, setActiveTab] = useState<Tab>("tourist");
     const [searchQuery, setSearchQuery] = useState("");
     const [isPending, startTransition] = useTransition();
+    const [selectedGuide, setSelectedGuide] = useState<AuthUser | null>(null);
+    const [rejectNote, setRejectNote] = useState('');
+    const [showRejectInput, setShowRejectInput] = useState(false);
 
     const tourists = initialUsers.filter(u => u.role === "tourist");
     const guides = initialUsers.filter(u => u.role === "guide");
     const blockedUsers = initialUsers.filter(u => !u.is_active).length;
-    const pendingGuides = guides.filter(u => !u.email_verified).length;
+    const pendingGuides = guides.filter(g => g.verification_status === 'pending').length;
 
     const filteredUsers = initialUsers.filter((user) => {
+        if (activeTab === 'pending') {
+            return user.role === 'guide' && user.verification_status === 'pending';
+        }
         const matchesTab = user.role === activeTab;
         const matchesSearch =
             user.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -111,6 +124,22 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
                         >
                             Guides
                         </button>
+                        <button
+                            onClick={() => setActiveTab("pending")}
+                            className={`px-6 py-2 rounded-xl text-sm font-bold transition-all relative ${activeTab === "pending"
+                                ? "bg-white text-amber-600 shadow-sm"
+                                : "text-gray-500 hover:text-gray-700"
+                                }`}
+                        >
+                            Pending Verification
+                            {pendingGuides > 0 && (
+                                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center
+                                    justify-center rounded-full bg-amber-500 text-[10px] font-black
+                                    text-white">
+                                    {pendingGuides}
+                                </span>
+                            )}
+                        </button>
                     </div>
 
                     <div className="relative flex-1 max-w-md">
@@ -178,33 +207,38 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
                                                     {user.is_active ? "Active" : "Blocked"}
                                                 </span>
                                             </td>
-                                            {activeTab === "guide" && (
+                                            {(activeTab === "guide" || activeTab === "pending") && (
                                                 <td className="px-6 py-5">
-                                                    <button
-                                                        onClick={() => handleToggleVerification(user.id, user.email_verified)}
-                                                        disabled={isPending}
-                                                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold transition-all shadow-sm ${user.email_verified
-                                                            ? "bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100"
-                                                            : "bg-amber-50 text-amber-700 border border-amber-100 hover:bg-amber-100"
-                                                            }`}
-                                                    >
-                                                        {user.email_verified ? (
-                                                            <CheckCircle2 className="h-3.5 w-3.5" />
-                                                        ) : (
-                                                            <ShieldAlert className="h-3.5 w-3.5" />
-                                                        )}
-                                                        {user.email_verified ? "Verified" : "Verify Guide"}
-                                                    </button>
+                                                    {user.verification_status === 'pending' && (
+                                                        <span className="rounded-full bg-amber-100 px-2 py-0.5
+                                                            text-[10px] font-black text-amber-700">Pending</span>
+                                                    )}
+                                                    {user.verification_status === 'verified' && (
+                                                        <span className="rounded-full bg-emerald-100 px-2 py-0.5
+                                                            text-[10px] font-black text-emerald-700 flex items-center gap-1 w-fit">
+                                                            <ShieldCheck className="h-2.5 w-2.5" /> Verified
+                                                        </span>
+                                                    )}
+                                                    {user.verification_status === 'rejected' && (
+                                                        <span className="rounded-full bg-red-100 px-2 py-0.5
+                                                            text-[10px] font-black text-red-600">Rejected</span>
+                                                    )}
+                                                    {user.verification_status === 'unsubmitted' && (
+                                                        <span className="text-xs text-gray-400">Not requested</span>
+                                                    )}
                                                 </td>
                                             )}
                                             <td className="px-8 py-5 text-right">
                                                 <div className="flex items-center justify-end gap-2">
-                                                    {activeTab === "guide" && (
+                                                    {(activeTab === "guide" || activeTab === "pending") && (
                                                         <button
-                                                            title="View Profile"
-                                                            className="p-2.5 text-gray-400 hover:text-[#0b3a2c] hover:bg-[#0b3a2c]/5 rounded-xl transition-all"
+                                                            onClick={() => setSelectedGuide(user)}
+                                                            className="flex items-center gap-1.5 rounded-full border border-gray-200
+                                                                px-3 py-1.5 text-[12px] font-bold text-gray-600 hover:border-[#0b3a2c]
+                                                                hover:text-[#0b3a2c] transition-all"
                                                         >
-                                                            <ExternalLink className="h-5 w-5" />
+                                                            <ExternalLink className="h-3 w-3" />
+                                                            View
                                                         </button>
                                                     )}
                                                     <button
@@ -233,7 +267,7 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={activeTab === "guide" ? 5 : 4} className="px-8 py-20 text-center">
+                                        <td colSpan={(activeTab === "guide" || activeTab === "pending") ? 5 : 4} className="px-8 py-20 text-center">
                                             <div className="flex flex-col items-center gap-3">
                                                 <div className="p-4 bg-gray-50 rounded-full">
                                                     <ShieldAlert className="h-10 w-10 text-gray-300" />
@@ -248,6 +282,303 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
                     </div>
                 </div>
             </div>
+
+            {/* Guide Detail Panel */}
+            {selectedGuide && (
+                <div className="fixed inset-0 z-[200] flex">
+                    {/* Backdrop */}
+                    <div
+                        className="flex-1 bg-black/40 backdrop-blur-sm"
+                        onClick={() => { setSelectedGuide(null); setShowRejectInput(false); setRejectNote(''); }}
+                    />
+
+                    {/* Panel */}
+                    <div className="w-full max-w-lg bg-white h-full overflow-y-auto
+                        shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+
+                        {/* Panel header */}
+                        <div className="flex items-center justify-between border-b
+                            border-gray-100 px-6 py-5 sticky top-0 bg-white z-10">
+                            <div>
+                                <p className="text-xs font-black uppercase tracking-widest
+                                    text-gray-400">
+                                    Guide Profile
+                                </p>
+                                <h2 className="text-xl font-black text-[#0b3a2c]">
+                                    {selectedGuide.full_name}
+                                </h2>
+                            </div>
+                            <button
+                                onClick={() => { setSelectedGuide(null); setShowRejectInput(false); }}
+                                className="rounded-full p-2 hover:bg-gray-100 transition-colors">
+                                <X className="h-5 w-5 text-gray-400" />
+                            </button>
+                        </div>
+
+                        {/* Panel body */}
+                        <div className="flex-1 px-6 py-6 space-y-6">
+
+                            {/* Avatar + basic info */}
+                            <div className="flex items-center gap-4">
+                                <div className="h-20 w-20 rounded-2xl overflow-hidden
+                                    bg-[#0b3a2c] flex items-center justify-center flex-shrink-0">
+                                    {selectedGuide.avatar_url ? (
+                                        <img src={selectedGuide.avatar_url} alt=""
+                                            className="h-full w-full object-cover" />
+                                    ) : (
+                                        <span className="text-2xl font-black text-white">
+                                            {selectedGuide.full_name?.charAt(0)}
+                                        </span>
+                                    )}
+                                </div>
+                                <div>
+                                    <p className="font-black text-[#0b3a2c] text-lg">
+                                        {selectedGuide.full_name}
+                                    </p>
+                                    <p className="text-sm text-gray-500">{selectedGuide.email}</p>
+                                    {selectedGuide.phone && (
+                                        <p className="text-sm text-gray-500">{selectedGuide.phone}</p>
+                                    )}
+                                    {selectedGuide.location && (
+                                        <p className="text-sm text-gray-500 flex items-center gap-1">
+                                            <MapPin className="h-3 w-3" /> {selectedGuide.location}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Current verification status */}
+                            <div className={`rounded-2xl px-4 py-3 flex items-center gap-3
+                                ${selectedGuide.verification_status === 'verified'
+                                    ? 'bg-emerald-50 border border-emerald-100'
+                                    : selectedGuide.verification_status === 'pending'
+                                    ? 'bg-amber-50 border border-amber-100'
+                                    : selectedGuide.verification_status === 'rejected'
+                                    ? 'bg-red-50 border border-red-100'
+                                    : 'bg-gray-50 border border-gray-100'
+                                }`}>
+                                <ShieldCheck className={`h-5 w-5
+                                    ${selectedGuide.verification_status === 'verified'
+                                        ? 'text-emerald-600'
+                                        : selectedGuide.verification_status === 'pending'
+                                        ? 'text-amber-600'
+                                        : 'text-gray-400'}`} />
+                                <div>
+                                    <p className="text-sm font-bold capitalize text-gray-800">
+                                        {selectedGuide.verification_status === 'unsubmitted'
+                                            ? 'Not requested'
+                                            : selectedGuide.verification_status}
+                                    </p>
+                                    {selectedGuide.verification_note && (
+                                        <p className="text-xs text-gray-500 mt-0.5">
+                                            Note: {selectedGuide.verification_note}
+                                        </p>
+                                    )}
+                                    {selectedGuide.verified_at && (
+                                        <p className="text-xs text-gray-500 mt-0.5">
+                                            Verified: {new Date(selectedGuide.verified_at)
+                                                .toLocaleDateString('en-US', {
+                                                    month: 'long', day: 'numeric', year: 'numeric'
+                                                })}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Bio */}
+                            {selectedGuide.bio && (
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest
+                                        text-gray-400 mb-2">About</p>
+                                    <p className="text-sm text-gray-600 leading-relaxed">
+                                        {selectedGuide.bio}
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Years experience */}
+                            {selectedGuide.years_experience && (
+                                <div className="flex items-center gap-3 rounded-2xl
+                                    bg-gray-50 px-4 py-3">
+                                    <Briefcase className="h-4 w-4 text-gray-400" />
+                                    <span className="text-sm font-semibold text-gray-700">
+                                        {selectedGuide.years_experience} years of experience
+                                    </span>
+                                </div>
+                            )}
+
+                            {/* Languages */}
+                            {selectedGuide.languages?.length > 0 && (
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest
+                                        text-gray-400 mb-2">Languages</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedGuide.languages.map(l => (
+                                            <span key={l} className="rounded-full bg-gray-100
+                                                px-3 py-1 text-xs font-semibold text-gray-700">
+                                                {l}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Specialties */}
+                            {selectedGuide.specialties?.length > 0 && (
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest
+                                        text-gray-400 mb-2">Specialties</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedGuide.specialties.map(s => (
+                                            <span key={s} className="rounded-full
+                                                bg-[#f0faf5] border border-emerald-100
+                                                px-3 py-1 text-xs font-semibold text-[#0b3a2c]">
+                                                {s}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Certifications */}
+                            {selectedGuide.certifications?.length > 0 && (
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest
+                                        text-gray-400 mb-2">Certifications</p>
+                                    <div className="space-y-2">
+                                        {selectedGuide.certifications.map(c => (
+                                            <div key={c} className="flex items-center gap-2
+                                                rounded-xl bg-gray-50 px-4 py-2.5">
+                                                <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0" />
+                                                <span className="text-sm font-medium text-gray-700">{c}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Guide badge image */}
+                            {selectedGuide.badge_image_url && (
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest
+                                        text-gray-400 mb-2">Official Guide Badge</p>
+                                    <div className="rounded-2xl overflow-hidden border
+                                        border-gray-100 bg-gray-50 p-4">
+                                        <img src={selectedGuide.badge_image_url}
+                                            alt="Guide badge"
+                                            className="max-h-48 w-full object-contain" />
+                                    </div>
+                                    {selectedGuide.guide_badge_code && (
+                                        <p className="mt-2 text-xs text-gray-500">
+                                            Code: <span className="font-mono font-semibold">
+                                                {selectedGuide.guide_badge_code}
+                                            </span>
+                                        </p>
+                                    )}
+                                </div>
+                            )}
+
+                        </div>
+
+                        {/* Panel footer — action buttons */}
+                        {selectedGuide.verification_status !== 'verified' && (
+                            <div className="border-t border-gray-100 px-6 py-5 space-y-3
+                                sticky bottom-0 bg-white">
+
+                                {/* Reject with note */}
+                                {showRejectInput && (
+                                    <div className="space-y-2">
+                                        <textarea
+                                            value={rejectNote}
+                                            onChange={e => setRejectNote(e.target.value)}
+                                            placeholder="Reason for rejection (shown to guide)..."
+                                            rows={3}
+                                            className="w-full rounded-2xl border border-gray-200
+                                                bg-gray-50 px-4 py-3 text-sm focus:outline-none
+                                                focus:border-red-300 resize-none"
+                                        />
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={() => {
+                                                    setShowRejectInput(false);
+                                                    setRejectNote('');
+                                                }}
+                                                className="flex-1 rounded-full border border-gray-200
+                                                    py-2.5 text-sm font-bold text-gray-500
+                                                    hover:bg-gray-50 transition-all">
+                                                Cancel
+                                            </button>
+                                            <button
+                                                disabled={!rejectNote.trim() || isPending}
+                                                onClick={() => {
+                                                    startTransition(async () => {
+                                                        const result = await rejectGuide(
+                                                            selectedGuide.id, rejectNote
+                                                        );
+                                                        if (!result.error) {
+                                                            setSelectedGuide(null);
+                                                            setShowRejectInput(false);
+                                                            setRejectNote('');
+                                                        }
+                                                    });
+                                                }}
+                                                className="flex-1 rounded-full bg-red-600 py-2.5
+                                                    text-sm font-bold text-white hover:bg-red-700
+                                                    transition-all disabled:opacity-50 flex items-center
+                                                    justify-center gap-2">
+                                                {isPending
+                                                    ? <Loader2 className="h-4 w-4 animate-spin" />
+                                                    : 'Confirm rejection'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {!showRejectInput && (
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={() => setShowRejectInput(true)}
+                                            className="flex-1 rounded-full border-2 border-red-200
+                                                bg-white py-3.5 text-sm font-black text-red-500
+                                                hover:bg-red-50 transition-all">
+                                            Reject
+                                        </button>
+                                        <button
+                                            disabled={isPending}
+                                            onClick={() => {
+                                                startTransition(async () => {
+                                                    const result = await verifyGuide(selectedGuide.id);
+                                                    if (!result.error) setSelectedGuide(null);
+                                                });
+                                            }}
+                                            className="flex-1 rounded-full bg-[#0b3a2c] py-3.5
+                                                text-sm font-black text-[#00ef9d] shadow-lg
+                                                hover:bg-[#0d4a38] transition-all active:scale-95
+                                                disabled:opacity-60 flex items-center justify-center gap-2">
+                                            {isPending
+                                                ? <Loader2 className="h-5 w-5 animate-spin" />
+                                                : <><ShieldCheck className="h-4 w-4" />
+                                                    Verify & Badge</>
+                                            }
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {selectedGuide.verification_status === 'verified' && (
+                            <div className="border-t border-emerald-100 bg-emerald-50
+                                px-6 py-4 text-center sticky bottom-0">
+                                <p className="text-sm font-black text-emerald-700 flex
+                                    items-center justify-center gap-2">
+                                    <ShieldCheck className="h-4 w-4" />
+                                    This guide is Ourika Travels Verified
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

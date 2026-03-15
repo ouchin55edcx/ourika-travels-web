@@ -38,38 +38,48 @@ export function AuthProvider({
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "USER_UPDATED") {
-          // Fetch full profile from users table
-          const { data } = await supabase
-            .from("users")
-            .select("*")
-            .eq("id", session.user.id)
-            .single();
-
-          if (data) {
-            setUser(data as AuthUser);
-          } else {
-            // Fallback construction for race conditions (e.g. database trigger delay)
-            setUser({
-              id: session.user.id,
-              email: session.user.email || "",
-              full_name:
-                session.user.user_metadata?.full_name ||
-                session.user.email?.split("@")[0] ||
-                "User",
-              role: (session.user.user_metadata?.role as any) || "tourist",
-              avatar_url: session.user.user_metadata?.avatar_url || null,
-              phone: session.user.user_metadata?.phone || null,
-              bio: null,
-              guide_badge_code: null,
-              email_verified: !!session.user.email_confirmed_at,
-              is_active: true,
-            } as AuthUser);
-          }
-        }
-      } else {
+      // Always clear user on sign out — handle this FIRST
+      if (event === 'SIGNED_OUT' || !session) {
         setUser(null);
+        return;
+      }
+
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+        const { data } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+
+        if (data) {
+          setUser(data as AuthUser);
+        } else {
+          setUser({
+            id: session.user.id,
+            email: session.user.email || '',
+            full_name:
+              session.user.user_metadata?.full_name ||
+              session.user.email?.split('@')[0] ||
+              'User',
+            role: (session.user.user_metadata?.role as any) || 'tourist',
+            avatar_url: session.user.user_metadata?.avatar_url || null,
+            phone: session.user.user_metadata?.phone || null,
+            bio: null,
+            guide_badge_code: null,
+            badge_image_url: null,
+            email_verified: !!session.user.email_confirmed_at,
+            is_active: true,
+            specialties: [],
+            languages: [],
+            location: null,
+            years_experience: null,
+            certifications: [],
+            is_verified: false,
+            verification_status: 'unsubmitted',
+            verification_note: null,
+            verified_at: null,
+          } as AuthUser);
+        }
       }
     });
     return () => subscription.unsubscribe();

@@ -20,6 +20,10 @@ export type AuthUser = {
   location: string | null;
   years_experience: number | null;
   certifications: string[];
+  is_verified: boolean;
+  verification_status: 'unsubmitted' | 'pending' | 'verified' | 'rejected';
+  verification_note: string | null;
+  verified_at: string | null;
 };
 
 export async function getCurrentUser(): Promise<AuthUser | null> {
@@ -69,6 +73,10 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     location: null,
     years_experience: null,
     certifications: [],
+    is_verified: false,
+    verification_status: 'unsubmitted',
+    verification_note: null,
+    verified_at: null,
   } as AuthUser;
 }
 

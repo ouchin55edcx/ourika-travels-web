@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect, useRef, useTransition } from "react";
 import Image from "next/image";
-import { signOut } from "@/app/actions/auth";
+// signOut is now from useAuth context instead of server action
 import { type AuthUser } from "@/lib/auth";
 import { popularDestinations } from "@/lib/data/destinations";
 import { useSearch } from "@/hooks/useSearch";
@@ -28,7 +28,7 @@ type NavbarProps = {
 };
 
 export default function Navbar({ hidden = false, sticky = true, user: serverUser }: NavbarProps) {
-  const { user } = useAuth();
+  const { user, signOut: contextSignOut } = useAuth();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -253,7 +253,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                       onClick={() =>
                         startSignOut(async () => {
                           setIsUserMenuOpen(false);
-                          await signOut();
+                          await contextSignOut();
                         })
                       }
                       className="flex w-full items-center justify-center rounded-lg px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
@@ -383,7 +383,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     onClick={() =>
                       startSignOut(async () => {
                         setIsMenuOpen(false);
-                        await signOut();
+                        await contextSignOut();
                       })
                     }
                     className="w-full rounded-full bg-[#004f32] py-5 text-xl font-black text-white shadow-lg transition-all active:scale-95"

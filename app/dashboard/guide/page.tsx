@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Metadata } from "next";
 import { getCurrentUser } from "@/lib/auth";
+import VerificationBanner from "./components/VerificationBanner";
 
 export async function generateMetadata(): Promise<Metadata> {
   const user = await getCurrentUser();
@@ -181,6 +182,20 @@ export default async function GuideDashboardPage() {
           </div>
         </div>
       </section>
+
+      {/* Verification Banner */}
+      {user.verification_status === 'unsubmitted' && (
+        <VerificationBanner status="unsubmitted" />
+      )}
+      {user.verification_status === 'pending' && (
+        <VerificationBanner status="pending" />
+      )}
+      {user.verification_status === 'verified' && (
+        <VerificationBanner status="verified" verifiedAt={user.verified_at} />
+      )}
+      {user.verification_status === 'rejected' && (
+        <VerificationBanner status="rejected" note={user.verification_note} />
+      )}
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (

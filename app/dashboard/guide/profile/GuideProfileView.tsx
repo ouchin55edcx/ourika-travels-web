@@ -1,7 +1,7 @@
 import { AuthUser } from '@/lib/auth';
 import {
   MapPin, Mail, Phone, Star, Award, Shield, CheckCircle2,
-  AlertTriangle, Languages, Briefcase, Calendar
+  AlertTriangle, Languages, Briefcase, Calendar, Clock, ShieldCheck
 } from 'lucide-react';
 
 interface GuideProfileViewProps {
@@ -61,9 +61,26 @@ export default function GuideProfileView({ user, completeness }: GuideProfileVie
           {/* Info */}
           <div className="flex-1 space-y-4">
             <div>
-              <h1 className="text-3xl font-black text-[#0b3a2c]">
-                {user.full_name}
-              </h1>
+              <div className="flex flex-wrap items-center gap-3">
+                <h1 className="text-3xl font-black text-[#0b3a2c]">
+                  {user.full_name}
+                </h1>
+                {user.is_verified && (
+                  <div className="inline-flex items-center gap-2 rounded-full
+                    bg-[#0b3a2c] px-3 py-1.5 text-xs font-black text-[#00ef9d]">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    Ourika Travels Verified
+                  </div>
+                )}
+                {user.verification_status === 'pending' && (
+                  <div className="inline-flex items-center gap-2 rounded-full
+                    bg-amber-50 border border-amber-200 px-3 py-1.5
+                    text-xs font-bold text-amber-700">
+                    <Clock className="h-3.5 w-3.5" />
+                    Verification pending
+                  </div>
+                )}
+              </div>
               {user.location && (
                 <p className="mt-1 flex items-center gap-2 text-gray-500">
                   <MapPin className="h-4 w-4" />
