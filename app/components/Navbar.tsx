@@ -96,7 +96,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
       <nav
         className={`flex items-center justify-between border-b border-gray-100 bg-white px-6 py-2 transition-all duration-300 md:px-16 ${
           sticky ? "sticky top-0" : ""
-        } ${isSearchFocused ? "z-[150]" : "z-50"}`}
+        } ${isSearchFocused ? "z-[150]" : "z-[100]"}`}
       >
         {/* Left Section: Logo + Search + Globe */}
         <div className="flex items-center gap-4 lg:gap-8">
@@ -300,7 +300,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
 
         {/* Mobile Menu Drawer */}
         <div
-          className={`fixed inset-0 z-[var(--z-dropdown)] transform bg-white transition-transform duration-300 ease-in-out lg:hidden ${
+          className={`fixed inset-0 z-[300] transform bg-white transition-transform duration-300 ease-in-out lg:hidden ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -412,7 +412,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
         {/* Backdrop for mobile menu */}
         {isMenuOpen && (
           <div
-            className="fixed inset-0 z-[var(--z-dropdown)] bg-black/20 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[299] bg-black/20 backdrop-blur-sm lg:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
         )}
