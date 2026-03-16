@@ -17,15 +17,17 @@ import TourStickyHeader from './components/TourStickyHeader';
 import TourTabs from './components/TourTabs';
 import TourTravelersLove from './components/TourTravelersLove';
 import { getTrekBySlug, getPublicTreks } from '@/app/actions/treks';
+import { isWishlisted as checkWishlisted } from '@/app/actions/wishlist';
 import { BASE_URL, SITE_NAME } from '@/lib/config';
 import { navigationItems } from '@/lib/data/tourData';
 
 // Build static params from real Supabase data
 export async function generateStaticParams() {
   const treks = await getPublicTreks();
-  return treks
-    .filter(t => t.slug)
-    .map(t => ({ slug: t.slug }));
+  const list = Array.isArray(treks) ? treks : [];
+  return list
+    .filter((t: { slug?: string }) => t.slug)
+    .map((t: { slug: string }) => ({ slug: t.slug }));
 }
 
 export const dynamicParams = true;
@@ -82,6 +84,8 @@ export default async function Page({
 
   if (!trek) notFound();
 
+  const wishlisted = await checkWishlisted(trek.id);
+
   return (
     <div className="min-h-screen bg-white text-[#1f1f1f] selection:bg-[#34e0a1] selection:text-black">
       <NavbarWrapper />
@@ -92,6 +96,8 @@ export default async function Page({
           title={trek.title}
           rating={trek.rating}
           reviewCount={trek.review_count}
+          trekId={trek.id}
+          isWishlisted={wishlisted}
         />
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-7">
@@ -129,6 +135,7 @@ export default async function Page({
           </section>
 
           <TourBookingCard
+            trekSlug={trek.slug}
             price={trek.price_per_adult}
             previousPrice={trek.previous_price}
             freeCancellationHours={trek.free_cancellation_hours}

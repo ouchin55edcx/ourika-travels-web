@@ -1,14 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Clock3, Heart, Languages, MapPin } from 'lucide-react';
+import { Clock3, Languages, MapPin } from 'lucide-react';
+import WishlistButton from '@/app/components/WishlistButton';
 import type { TrekItem } from './ExperiencesExplorer';
 
 export default function ExperienceCard({
   trek,
   index,
+  isWishlisted = false,
 }: {
   trek: TrekItem;
   index: number;
+  isWishlisted?: boolean;
 }) {
   return (
     <Link
@@ -27,10 +30,13 @@ export default function ExperienceCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         </div>
-        <button className="absolute top-2 right-2 flex h-8 w-8 items-center
-          justify-center rounded-full bg-white/95 text-[#123d2f] shadow-sm">
-          <Heart className="h-4 w-4" />
-        </button>
+        <div
+          className="absolute top-2 right-2 z-10"
+          onClick={(e) => e.preventDefault()}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          <WishlistButton trekId={trek.id} initialState={isWishlisted} iconOnly />
+        </div>
         {trek.award && (
           <div className="absolute bottom-2 left-2 rounded-[8px] bg-[#f2ef31]
             px-2 py-1 text-[10px] leading-none font-extrabold text-[#111827]">

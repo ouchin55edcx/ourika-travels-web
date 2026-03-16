@@ -51,10 +51,13 @@ function matchesPrice(price: number, filter: string) {
 export default function ExperiencesExplorer({
   initialTreks,
   initialCategories = [],
+  wishlistedTrekIds = [],
 }: {
   initialTreks: TrekItem[];
   initialCategories?: Category[];
+  wishlistedTrekIds?: string[];
 }) {
+  const wishlistedSet = useMemo(() => new Set(wishlistedTrekIds), [wishlistedTrekIds]);
   const [filters,      setFilters]      = useState<Filters>(initialFilters);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [search,       setSearch]       = useState('');
@@ -278,7 +281,12 @@ export default function ExperiencesExplorer({
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {visibleTreks.map((trek, index) => (
-              <ExperienceCard key={trek.id} trek={trek} index={index + 1} />
+              <ExperienceCard
+                key={trek.id}
+                trek={trek}
+                index={index + 1}
+                isWishlisted={wishlistedSet.has(trek.id)}
+              />
             ))}
           </div>
         )}

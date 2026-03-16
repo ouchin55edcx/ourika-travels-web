@@ -2,6 +2,7 @@ import { MessageSquare, ShieldCheck, WalletCards, CalendarDays } from "lucide-re
 import Link from "next/link";
 
 type Props = {
+  trekSlug: string;
   price: number;
   previousPrice: number | null;
   freeCancellationHours: number;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export default function TourBookingCard({
+  trekSlug,
   price,
   previousPrice,
   freeCancellationHours,
@@ -49,12 +51,27 @@ export default function TourBookingCard({
           </div>
           <span className="text-sm text-[#5f6368]">per adult</span>
         </div>
-        <button className="mb-5 text-sm font-semibold text-[#333] underline underline-offset-2">
+        <button className="mb-4 text-sm font-semibold text-[#333] underline underline-offset-2">
           Lowest price guarantee
         </button>
 
+        <div className="mb-4 grid grid-cols-2 gap-2">
+          <Link
+            href={`/reservation?trek=${trekSlug}&type=group`}
+            className="rounded-full border-2 border-[#0b3a2c] px-4 py-2.5 text-center text-sm font-bold text-[#0b3a2c] transition-all hover:bg-[#f0faf5]"
+          >
+            Join group
+          </Link>
+          <Link
+            href={`/reservation?trek=${trekSlug}&type=private`}
+            className="rounded-full bg-[#0b3a2c] px-4 py-2.5 text-center text-sm font-bold text-white transition-all hover:bg-[#0d4a38]"
+          >
+            Book private
+          </Link>
+        </div>
+
         <Link
-          href="/reservation"
+          href={`/reservation?trek=${trekSlug}`}
           className="mb-6 block min-h-12 w-full rounded-full bg-[#00e05a] px-5 py-4 text-center text-[16px] font-bold text-black transition hover:bg-[#00cb52] sm:text-[17px]"
         >
           Check availability

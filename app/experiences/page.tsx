@@ -4,6 +4,7 @@ import NavbarWrapper from "@/app/components/NavbarWrapper";
 import ExperiencesExplorer from "./components/ExperiencesExplorer";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getWishlist } from "@/app/actions/wishlist";
 
 export const metadata: Metadata = {
   title: "Explore Experiences — Hikes, Culture & Adventure in Ourika Valley",
@@ -45,8 +46,8 @@ export const metadata: Metadata = {
 export default async function ExperiencesPage() {
   const supabase = await createSupabaseServerClient();
 
-  // Fetch treks AND categories in parallel
-  const [{ data: treks }, { data: categories }] = await Promise.all([
+  // Fetch treks, categories, and wishlist in parallel
+  const [{ data: treks }, { data: categories }, wishlistItems] = await Promise.all([
     supabase
       .from("treks")
       .select(`
@@ -64,7 +65,12 @@ export default async function ExperiencesPage() {
       .from("categories")
       .select("id, name, description, photo")
       .order("created_at", { ascending: true }),
+
+    getWishlist(),
   ]);
+
+  const wishlistArray = Array.isArray(wishlistItems) ? wishlistItems : [];
+  const wishlistedTrekIds = new Set(wishlistArray.map((w: { trek_id: string }) => w.trek_id));
 
   return (
     <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
@@ -73,6 +79,7 @@ export default async function ExperiencesPage() {
         <ExperiencesExplorer
           initialTreks={treks ?? []}
           initialCategories={categories ?? []}
+          wishlistedTrekIds={Array.from(wishlistedTrekIds)}
         />
       </main>
       <Footer />

@@ -1,9 +1,16 @@
 import Link from "next/link";
-import { Heart, MessageSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
+import WishlistButton from "@/app/components/WishlistButton";
 
-type Props = { title: string; rating: number; reviewCount: number };
+type Props = {
+  title: string;
+  rating: number;
+  reviewCount: number;
+  trekId: string;
+  isWishlisted: boolean;
+};
 
-export default function TourHeroHeader({ title, rating, reviewCount }: Props) {
+export default function TourHeroHeader({ title, rating, reviewCount, trekId, isWishlisted }: Props) {
   return (
     <>
       <div className="mb-3">
@@ -39,10 +46,7 @@ export default function TourHeroHeader({ title, rating, reviewCount }: Props) {
         </div>
 
         <div className="flex w-full flex-wrap items-center gap-3 self-start sm:w-auto">
-          <button className="inline-flex items-center gap-2 rounded-full px-2 py-2 text-sm font-semibold text-[#123d2f] transition hover:bg-[#f5f5f5]">
-            <Heart className="h-4 w-4" />
-            <span>Save</span>
-          </button>
+          <WishlistButton trekId={trekId} initialState={isWishlisted} />
           <button className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-[#123d2f] px-4 py-2 text-sm font-semibold text-[#123d2f] transition hover:bg-[#f7faf9] sm:min-h-0 sm:flex-none">
             <MessageSquare className="h-4 w-4" />
             <span>Write a review</span>
