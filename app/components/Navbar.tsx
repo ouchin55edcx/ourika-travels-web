@@ -19,6 +19,7 @@ import { type AuthUser } from "@/lib/auth";
 import { useSearchTreks, type TrekResult } from "@/hooks/useSearchTreks";
 import { useAuth } from "@/lib/context/AuthContext";
 import LoginModal from "./LoginModal";
+import SearchResultCard from "@/components/SearchResultCard";
 
 type NavbarProps = {
   hidden?: boolean;
@@ -500,35 +501,11 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     </div>
                   ) : results.length > 0 ? (
                     results.map((trek) => (
-                      <Link
+                      <SearchResultCard
                         key={trek.id}
-                        href={`/tour/${trek.slug}`}
-                        onClick={() => setIsSearchFocused(false)}
-                        className="group flex cursor-pointer items-center gap-4 rounded-lg border-b border-transparent px-3 py-2.5 transition-all hover:border-gray-100/50 hover:bg-gray-50"
-                      >
-                        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-gray-100 md:h-12 md:w-12">
-                          <Image
-                            src={trek.cover_image}
-                            alt={trek.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="line-clamp-1 text-[15px] font-semibold text-[#004f32]">
-                            {trek.title}
-                          </h4>
-                          <p className="flex items-center gap-2 text-[13px] font-medium text-gray-500">
-                            <span>{trek.categories?.name ?? "Experience"}</span>
-                            <span className="text-gray-300">·</span>
-                            <span>{trek.duration}</span>
-                            <span className="text-gray-300">·</span>
-                            <span className="font-bold text-[#004f32]">
-                              ${trek.price_per_adult.toFixed(0)}
-                            </span>
-                          </p>
-                        </div>
-                      </Link>
+                        trek={trek}
+                        onSelect={() => setIsSearchFocused(false)}
+                      />
                     ))
                   ) : (
                     <div className="py-16 text-center md:py-8">
@@ -549,14 +526,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           </div>
         </>
       )}
-      ```
-      {/* Backdrop for search - Already outside nav */}
-      {isSearchFocused && (
-        <div
-          className="animate-in fade-in fixed inset-0 z-[1001] hidden bg-black/40 backdrop-blur-[2px] duration-300 lg:block"
-          onClick={() => setIsSearchFocused(false)}
-        />
-      )}
+
       <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </>
   );
