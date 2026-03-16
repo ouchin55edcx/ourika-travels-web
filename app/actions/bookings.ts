@@ -1,6 +1,7 @@
 'use server';
 
 import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 
 export type BookingFormData = {
@@ -121,4 +122,58 @@ export async function getBookingByRef(ref: string): Promise<any | null> {
     .eq('booking_ref', ref)
     .single();
   return data ?? null;
+}
+
+// ── Get ALL bookings for admin ────────────────────────────────────
+export async function getAllBookings(): Promise<any[]> {
+  const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== 'admin') return [];
+
+  const { data } = await supabase
+    .from('bookings')
+    .select(`
+      *,
+      treks(id, title, slug, cover_image, duration, start_location)
+    `)
+    .order('created_at', { ascending: false });
+
+  return data ?? [];
+}
+
+// ── Update booking status ─────────────────────────────────────────
+export async function updateBookingStatus(
+  bookingId: string,
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed'
+): Promise<{ success: true } | { error: string }> {
+  const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== 'admin') return { error: 'Forbidden' };
+
+  const { error } = await supabase
+    .from('bookings')
+    .update({ status })
+    .eq('id', bookingId);
+
+  if (error) return { error: error.message };
+  revalidatePath('/admin/dashboard/booking');
+  return { success: true };
+}
+
+// ── Mark payment as paid ──────────────────────────────────────────
+export async function markBookingPaid(
+  bookingId: string
+): Promise<{ success: true } | { error: string }> {
+  const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== 'admin') return { error: 'Forbidden' };
+
+  const { error } = await supabase
+    .from('bookings')
+    .update({ payment_status: 'paid', status: 'confirmed' })
+    .eq('id', bookingId);
+
+  if (error) return { error: error.message };
+  revalidatePath('/admin/dashboard/booking');
+  return { success: true };
 }
