@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import Image from 'next/image';
 import {
   Search, Calendar, Clock, Users, Phone, Mail,
@@ -8,7 +8,8 @@ import {
   DollarSign, Eye
 } from 'lucide-react';
 import {
-  updateBookingStatus, markBookingPaid
+  updateBookingStatus, markBookingPaid,
+  assignGuide, autoAssignGuide, getActiveGuides
 } from '@/app/actions/bookings';
 
 type Booking = any;
@@ -26,6 +27,11 @@ export default function BookingsManagement({
   const [selected, setSelected]         = useState<Booking | null>(null);
   const [toast, setToast]               = useState<{type:'success'|'error';text:string}|null>(null);
   const [isPending, startTransition]    = useTransition();
+  const [guides, setGuides]             = useState<any[]>([]);
+
+  useEffect(() => {
+    getActiveGuides().then(setGuides);
+  }, []);
 
   function showToast(type: 'success'|'error', text: string) {
     setToast({ type, text });
@@ -184,7 +190,7 @@ export default function BookingsManagement({
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50/60">
                 {['Trek', 'Tourist', 'Date & Time', 'Guests', 'Total',
-                  'Status', 'Payment', 'Actions'].map(h => (
+                  'Status', 'Payment', 'Guide', 'Actions'].map(h => (
                   <th key={h} className="px-5 py-4 text-left text-[11px]
                     font-black uppercase tracking-widest text-gray-400">
                     {h}
@@ -274,6 +280,22 @@ export default function BookingsManagement({
                   {/* Payment */}
                   <td className="px-5 py-4">
                     <PayBadge status={booking.payment_status} />
+                  </td>
+
+                  {/* Guide */}
+                  <td className="px-5 py-4">
+                    {booking.guide_id ? (
+                      <div className="flex items-center gap-2">
+                        <div className="h-7 w-7 rounded-full bg-[#0b3a2c] flex items-center justify-center text-white text-[10px] font-black shrink-0">
+                          {guides.find(g => g.id === booking.guide_id)?.full_name?.charAt(0) ?? '?'}
+                        </div>
+                        <span className="text-xs font-semibold text-gray-700 max-w-[80px] truncate">
+                          {guides.find(g => g.id === booking.guide_id)?.full_name ?? 'Assigned'}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-[11px] text-gray-400 italic">Unassigned</span>
+                    )}
                   </td>
 
                   {/* Actions */}
@@ -479,6 +501,124 @@ export default function BookingsManagement({
             {/* Panel footer — actions */}
             <div className="border-t border-gray-100 px-6 py-5 space-y-3
               sticky bottom-0 bg-white">
+
+              {/* Guide assignment */}
+              <div className="space-y-3 border-b border-gray-100 pb-5 mb-2">
+                <p className="text-xs font-black uppercase tracking-widest text-gray-400">
+                  Guide assignment
+                </p>
+
+                {selected.guide_id ? (
+                  <div className="flex items-center justify-between rounded-2xl bg-[#f0faf5] border border-emerald-100 p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-[#0b3a2c] flex items-center justify-center text-[#00ef9d] font-black text-sm">
+                        {guides.find(g => g.id === selected.guide_id)?.full_name?.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="text-sm font-black text-[#0b3a2c]">
+                          {guides.find(g => g.id === selected.guide_id)?.full_name}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Assigned {selected.guide_assigned_at
+                            ? new Date(selected.guide_assigned_at).toLocaleDateString()
+                            : ''}
+                        </p>
+                      </div>
+                    </div>
+                    {guides.find(g => g.id === selected.guide_id)?.phone && (
+                      <a
+                        href={`https://wa.me/${guides.find(g => g.id === selected.guide_id)?.phone?.replace(/\D/g, '')}?text=${encodeURIComponent(
+                          `Hi! You've been assigned to booking ${selected.booking_ref} — ` +
+                          `${selected.treks?.title} on ${new Date(selected.trek_date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} at ${selected.trek_time} — ` +
+                          `Tourist: ${selected.tourist_name} (${selected.tourist_phone})`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-xs font-black text-white hover:bg-[#20bd5a] transition-all"
+                      >
+                        <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                        </svg>
+                        WhatsApp guide
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <button
+                      onClick={async () => {
+                        startTransition(async () => {
+                          const result = await autoAssignGuide(selected.id);
+                          if ('success' in result) {
+                            const updatedGuides = await getActiveGuides();
+                            setGuides(updatedGuides);
+                            const nextGuide = updatedGuides.find(g => result.guideName === g.full_name);
+                            setBookings(prev => prev.map(b =>
+                              b.id === selected.id
+                                ? { ...b, guide_id: nextGuide?.id, guide_assigned_at: new Date().toISOString() }
+                                : b
+                            ));
+                            setSelected((prev: any) => prev
+                              ? { ...prev, guide_id: nextGuide?.id, guide_assigned_at: new Date().toISOString() }
+                              : null
+                            );
+                            showToast('success', `Auto-assigned to ${result.guideName}`);
+                          } else {
+                            showToast('error', result.error);
+                          }
+                        });
+                      }}
+                      disabled={isPending || guides.length === 0}
+                      className="w-full flex items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3 text-sm font-black text-[#00ef9d] hover:bg-[#0d4a38] transition-all disabled:opacity-50"
+                    >
+                      {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : '⚡'}
+                      Auto-assign next guide
+                    </button>
+
+                    <div className="flex gap-2">
+                      <select
+                        id={`guide-select-${selected.id}`}
+                        className="flex-1 rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0b3a2c]/10"
+                      >
+                        <option value="">Select guide manually...</option>
+                        {guides.map(g => (
+                          <option key={g.id} value={g.id}>
+                            {g.guide_order ? `#${g.guide_order} ` : ''}{g.full_name}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={async () => {
+                          const sel = document.getElementById(`guide-select-${selected.id}`) as HTMLSelectElement;
+                          if (!sel?.value) return;
+                          startTransition(async () => {
+                            const result = await assignGuide(selected.id, sel.value);
+                            if ('success' in result) {
+                              const guide = guides.find(g => g.id === sel.value);
+                              setBookings(prev => prev.map(b =>
+                                b.id === selected.id
+                                  ? { ...b, guide_id: sel.value, guide_assigned_at: new Date().toISOString() }
+                                  : b
+                              ));
+                              setSelected((prev: any) => prev
+                                ? { ...prev, guide_id: sel.value, guide_assigned_at: new Date().toISOString() }
+                                : null
+                              );
+                              showToast('success', `Assigned to ${guide?.full_name ?? 'guide'}`);
+                            } else {
+                              showToast('error', result.error);
+                            }
+                          });
+                        }}
+                        disabled={isPending}
+                        className="rounded-2xl bg-[#0b3a2c] px-4 py-2.5 text-sm font-black text-white hover:bg-[#0d4a38] transition-all disabled:opacity-50"
+                      >
+                        Assign
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Mark as paid */}
               {selected.payment_status === 'unpaid' &&

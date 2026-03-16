@@ -3,6 +3,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import BookingsManagement from './BookingsManagement';
 import type { Metadata } from 'next';
+import QRCode from 'qrcode';
 
 export const metadata: Metadata = { title: 'Bookings | Admin Dashboard' };
 
@@ -11,6 +12,14 @@ export default async function AdminBookingPage() {
   if (!admin || admin.role !== 'admin') redirect('/auth/login');
 
   const bookings = await getAllBookings();
+
+  const qrUrl =
+    `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/quick-book`;
+  const qrDataUrl = await QRCode.toDataURL(qrUrl, {
+    width: 200,
+    margin: 2,
+    color: { dark: '#0b3a2c', light: '#ffffff' },
+  });
 
   const pending   = bookings.filter(b => b.status === 'pending').length;
   const unpaid    = bookings.filter(b => b.payment_status === 'unpaid'
@@ -55,6 +64,33 @@ export default async function AdminBookingPage() {
             </p>
           </div>
         ))}
+      </div>
+
+      {/* Walk-in QR */}
+      <div className="rounded-3xl border border-[#d0ede0] bg-[#f0faf5] p-6 flex items-center gap-6">
+        <img
+          src={qrDataUrl}
+          alt="Walk-in QR code"
+          className="h-24 w-24 rounded-xl shadow-sm shrink-0"
+        />
+        <div>
+          <p className="text-xs font-black uppercase tracking-widest text-gray-400 mb-1">
+            Walk-in fast booking
+          </p>
+          <p className="font-black text-[#0b3a2c] text-lg">Bureau QR Code</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Print this and place it at the bureau. Tourists scan → book in 60
+            seconds → guide auto-assigned immediately.
+          </p>
+          <a
+            href="/quick-book"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-block text-xs font-bold text-[#0b3a2c] hover:underline"
+          >
+            {qrUrl} ↗
+          </a>
+        </div>
       </div>
 
       <BookingsManagement initialBookings={bookings} />

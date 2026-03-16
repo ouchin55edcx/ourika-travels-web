@@ -106,7 +106,8 @@ export async function getTouristBookings(): Promise<any[]> {
     .from('bookings')
     .select(`
       *,
-      treks(title, slug, cover_image, duration)
+      treks(title, slug, cover_image, duration, start_location),
+      guide:guide_id(full_name, phone, avatar_url, bio, specialties)
     `)
     .eq('tourist_id', user.id)
     .order('created_at', { ascending: false });
@@ -176,4 +177,166 @@ export async function markBookingPaid(
   if (error) return { error: error.message };
   revalidatePath('/admin/dashboard/booking');
   return { success: true };
+}
+
+// ── Assign guide manually ─────────────────────────────────────────
+export async function assignGuide(
+  bookingId: string,
+  guideId: string
+): Promise<{ success: true } | { error: string }> {
+  const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== 'admin') return { error: 'Forbidden' };
+
+  const { error } = await supabase
+    .from('bookings')
+    .update({
+      guide_id: guideId,
+      guide_assigned_at: new Date().toISOString(),
+    })
+    .eq('id', bookingId);
+
+  if (error) return { error: error.message };
+  revalidatePath('/admin/dashboard/booking');
+  return { success: true };
+}
+
+// ── Auto-assign next guide in round-robin ─────────────────────────
+export async function autoAssignGuide(
+  bookingId: string
+): Promise<{ success: true; guideName: string } | { error: string }> {
+  const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== 'admin') return { error: 'Forbidden' };
+
+  const { data: guideId } = await supabase.rpc('get_next_guide');
+  if (!guideId) return { error: 'No active guides available' };
+
+  const { data: guide } = await supabase
+    .from('users')
+    .select('id, full_name')
+    .eq('id', guideId)
+    .single();
+
+  if (!guide) return { error: 'Guide not found' };
+
+  const { error } = await supabase
+    .from('bookings')
+    .update({
+      guide_id: guideId,
+      guide_assigned_at: new Date().toISOString(),
+    })
+    .eq('id', bookingId);
+
+  if (error) return { error: error.message };
+  revalidatePath('/admin/dashboard/booking');
+  return { success: true, guideName: guide.full_name };
+}
+
+// ── Get guide's assigned bookings ─────────────────────────────────
+export async function getGuideBookings(): Promise<any[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from('bookings')
+    .select(`
+      *,
+      treks(id, title, slug, cover_image, duration, start_location)
+    `)
+    .eq('guide_id', user.id)
+    .neq('status', 'cancelled')
+    .order('trek_date', { ascending: true });
+
+  return data ?? [];
+}
+
+// ── Get active guides for admin dropdown ──────────────────────────
+export async function getActiveGuides(): Promise<any[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from('users')
+    .select('id, full_name, phone, avatar_url, guide_order, specialties')
+    .eq('role', 'guide')
+    .eq('is_active', true)
+    .order('guide_order', { ascending: true });
+  return data ?? [];
+}
+
+// ── Fast walk-in booking ──────────────────────────────────────────
+export async function createWalkinBooking(
+  data: {
+    tourist_name: string;
+    tourist_email?: string;
+    tourist_phone: string;
+    trek_id: string;
+    trek_date: string;
+    trek_time: string;
+    adults: number;
+    children?: number;
+    booking_type: 'group' | 'private';
+    special_requests?: string;
+  }
+): Promise<{ success: true; booking_ref: string } | { error: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  const { data: trek } = await supabase
+    .from('treks')
+    .select('price_per_adult, is_active')
+    .eq('id', data.trek_id)
+    .single();
+
+  if (!trek) return { error: 'Trek not found' };
+
+  const multiplier = data.booking_type === 'private' ? 1.5 : 1;
+  const pricePerAdult = trek.price_per_adult * multiplier;
+  const pricePerChild = pricePerAdult * 0.5;
+  const totalPrice =
+    data.adults * pricePerAdult + ((data.children ?? 0) * pricePerChild);
+
+  const { data: refData } = await supabase.rpc('generate_booking_ref');
+  const booking_ref =
+    refData ?? 'OT-WI-' + Date.now().toString(36).toUpperCase();
+
+  const { data: booking, error } = await supabase
+    .from('bookings')
+    .insert({
+      booking_ref,
+      trek_id: data.trek_id,
+      tourist_id: null,
+      booking_type: data.booking_type,
+      status: 'confirmed',
+      payment_status: 'unpaid',
+      source: 'walkin',
+      tourist_name: data.tourist_name,
+      tourist_email: data.tourist_email ?? '',
+      tourist_phone: data.tourist_phone,
+      trek_date: data.trek_date,
+      trek_time: data.trek_time,
+      adults: data.adults,
+      children: data.children ?? 0,
+      price_per_adult: pricePerAdult,
+      price_per_child: pricePerChild,
+      total_price: totalPrice,
+      special_requests: data.special_requests ?? null,
+    })
+    .select('booking_ref')
+    .single();
+
+  if (error) return { error: error.message };
+
+  const { data: guideId } = await supabase.rpc('get_next_guide');
+  if (guideId && booking) {
+    await supabase
+      .from('bookings')
+      .update({
+        guide_id: guideId,
+        guide_assigned_at: new Date().toISOString(),
+      })
+      .eq('booking_ref', booking.booking_ref);
+  }
+
+  revalidatePath('/admin/dashboard/booking');
+  return { success: true, booking_ref: booking.booking_ref };
 }
