@@ -10,9 +10,12 @@ import { AuthUser } from "@/lib/auth";
 const navItems = [
   { label: "Overview", href: "/admin/dashboard/overview" },
   { label: "Users", href: "/admin/dashboard/users" },
+  { label: "Guides", href: "/admin/dashboard/guides" },
   { label: "Treks", href: "/admin/dashboard/treks" },
   { label: "Category", href: "/admin/dashboard/category" },
   { label: "Booking", href: "/admin/dashboard/booking" },
+  { label: "Reviews", href: "/admin/dashboard/reviews" },
+  { label: "Announcements", href: "/admin/dashboard/announcements" },
 ];
 
 interface AdminHeaderProps {
@@ -30,18 +33,19 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
     });
   };
 
-  const userInitials = user.full_name
-    ?.split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2) || "AD";
+  const userInitials =
+    user.full_name
+      ?.split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2) || "AD";
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-4">
-          <Link href="/admin/dashboard" className="flex items-center gap-4 group">
+          <Link href="/admin/dashboard" className="group flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#0b3a2c] font-black text-white transition-transform group-hover:scale-105">
               OT
             </div>
@@ -92,18 +96,18 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
 
       {/* Main Nav Items (Scrollable on mobile) */}
       <nav className="border-t border-black/5">
-        <div className="custom-scrollbar mx-auto flex w-full max-w-6xl items-center gap-2 overflow-x-auto px-6 py-3 scrollbar-hide">
+        <div className="custom-scrollbar scrollbar-hide mx-auto flex w-full max-w-6xl items-center gap-2 overflow-x-auto px-6 py-3">
           {navItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors ${isActive
-                  ? "bg-[#0b3a2c] text-white shadow-sm"
-                  : "bg-white text-gray-600 hover:bg-[#0b3a2c]/10 hover:text-[#0b3a2c]"
-                  }`}
-
+                className={`rounded-full px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors ${
+                  isActive
+                    ? "bg-[#0b3a2c] text-white shadow-sm"
+                    : "bg-white text-gray-600 hover:bg-[#0b3a2c]/10 hover:text-[#0b3a2c]"
+                }`}
               >
                 {item.label}
               </Link>
@@ -114,11 +118,12 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
 
       {/* Mobile Menu Drawer */}
       <div
-        className={`fixed inset-0 z-50 transform bg-white transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed inset-0 z-50 transform bg-white transition-transform duration-300 ease-in-out md:hidden ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="flex h-full flex-col p-6">
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#0b3a2c] font-black text-white">
                 {userInitials}
@@ -144,15 +149,17 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`flex items-center gap-4 rounded-2xl p-4 text-xl font-bold transition-all ${isActive ? "bg-[#0b3a2c] text-white shadow-lg" : "text-[#0b3a2c] hover:bg-gray-50"
-                    }`}
+                  className={`flex items-center gap-4 rounded-2xl p-4 text-xl font-bold transition-all ${
+                    isActive
+                      ? "bg-[#0b3a2c] text-white shadow-lg"
+                      : "text-[#0b3a2c] hover:bg-gray-50"
+                  }`}
                 >
                   {item.label}
                 </Link>
               );
             })}
           </div>
-
 
           <div className="mt-auto space-y-3 pb-8">
             <Link
@@ -185,4 +192,3 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
     </header>
   );
 }
-
