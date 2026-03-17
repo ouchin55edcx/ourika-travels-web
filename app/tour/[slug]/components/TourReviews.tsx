@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronDown, CircleHelp, Ellipsis, Search, ThumbsUp } from "lucide-react";
+import { ChevronDown, CircleHelp, Ellipsis, Search, ThumbsUp, Star } from "lucide-react";
 
 type Props = {
   rating: number;
@@ -15,6 +15,10 @@ type Props = {
     title?: string;
     body: string;
     avatar?: string;
+    rating?: number;
+    rating_guide?: number;
+    rating_value?: number;
+    rating_service?: number;
   }[];
 };
 
@@ -26,7 +30,6 @@ export default function TourReviews({
   reviews,
 }: Props) {
   const hasReviews = reviews.length > 0;
-  const firstReview = reviews[0];
 
   return (
     <section id="reviews" className="border-t border-[#e5e7eb] py-10">
@@ -45,8 +48,9 @@ export default function TourReviews({
               {[...Array(5)].map((_, index) => (
                 <span
                   key={index}
-                  className={`h-4 w-4 rounded-full border border-[#00aa6c] ${index < Math.round(rating) ? "bg-[#00aa6c]" : "bg-white"
-                    }`}
+                  className={`h-4 w-4 rounded-full border border-[#00aa6c] ${
+                    index < Math.round(rating) ? "bg-[#00aa6c]" : "bg-white"
+                  }`}
                 />
               ))}
             </div>
@@ -119,73 +123,123 @@ export default function TourReviews({
             </div>
           )}
 
-          {hasReviews && (
+          {hasReviews ? (
             <>
               <div className="flex flex-col gap-4 border-b border-[#e5e7eb] py-8 sm:flex-row sm:items-center sm:justify-between">
-                <p className="flex items-center gap-2 text-[14px] text-[#5f6368]">
-                  <span>
-                    These reviews have been automatically translated from their original language.
-                  </span>
-                  <CircleHelp className="h-4 w-4" />
+                <p className="text-[14px] text-[#5f6368]">
+                  {reviews.length} verified review{reviews.length !== 1 ? "s" : ""} from real
+                  travelers
                 </p>
-                <button className="w-full rounded-full bg-[#003b1f] px-5 py-3 text-[15px] font-bold text-white sm:w-auto">
-                  Show original reviews
-                </button>
               </div>
 
-              <article className="py-8">
-                <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="relative h-12 w-12 overflow-hidden rounded-full border border-gray-100">
-                      {firstReview.avatar ? (
-                        <Image
-                          src={firstReview.avatar}
-                          alt={firstReview.author}
-                          fill
-                          className="object-cover"
-                          sizes="48px"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-gray-200 font-bold text-gray-400">
-                          {firstReview.author[0]}
+              <div className="space-y-0">
+                {reviews.map((review, index) => (
+                  <article
+                    key={`${review.author}-${index}`}
+                    className="border-b border-[#e5e7eb] py-8 last:border-b-0"
+                  >
+                    {/* Author row */}
+                    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-gray-100">
+                          {review.avatar ? (
+                            <Image
+                              src={review.avatar}
+                              alt={review.author}
+                              fill
+                              className="object-cover"
+                              sizes="48px"
+                            />
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center bg-[#0b3a2c] text-lg font-black text-[#00ef9d]">
+                              {review.author.charAt(0).toUpperCase()}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-[18px] font-extrabold text-[#12311f]">
-                        {firstReview.author}
+                        <div>
+                          <p className="text-[17px] font-extrabold text-[#12311f]">
+                            {review.author}
+                          </p>
+                          <p className="text-[13px] text-[#6b7280]">{review.contributions}</p>
+                        </div>
+                      </div>
+                      <p className="shrink-0 text-[13px] text-[#6b7280] sm:text-right">
+                        {review.date}
                       </p>
-                      <p className="text-[13px] text-[#6b7280]">{firstReview.contributions}</p>
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-4 text-[#12311f]">
-                    <button className="inline-flex items-center gap-1 text-[14px]">
-                      <ThumbsUp className="h-4 w-4" />
-                      <span>0</span>
-                    </button>
-                    <button>
-                      <Ellipsis className="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
+                    {/* Stars */}
+                    {review.rating && (
+                      <div className="mb-3 flex items-center gap-2">
+                        <div className="flex items-center gap-0.5">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <span
+                              key={s}
+                              className={`h-4 w-4 rounded-full border border-[#00aa6c] ${s <= review.rating! ? "bg-[#00aa6c]" : "bg-white"}`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-[13px] font-bold text-[#00873e]">
+                          {["", "Terrible", "Poor", "Average", "Good", "Excellent"][review.rating]}
+                        </span>
+                      </div>
+                    )}
 
-                <div className="mb-3 flex items-center gap-1">
-                  {[...Array(5)].map((_, index) => (
-                    <span key={index} className="h-4 w-4 rounded-full bg-[#00aa6c]" />
-                  ))}
-                </div>
+                    {/* Title */}
+                    {review.title && (
+                      <h4 className="mb-2 text-[20px] font-extrabold text-[#12311f] sm:text-[22px]">
+                        {review.title}
+                      </h4>
+                    )}
 
-                {firstReview.title && (
-                  <h4 className="mb-2 text-[22px] font-extrabold text-[#12311f] sm:text-[24px]">
-                    {firstReview.title}
-                  </h4>
-                )}
-                <p className="max-w-[760px] text-[15px] leading-7 text-[#3f3f46] sm:text-[16px] sm:leading-8">
-                  {firstReview.body}
-                </p>
-              </article>
+                    {/* Body */}
+                    <p className="max-w-[760px] text-[15px] leading-7 text-[#3f3f46] sm:text-[16px] sm:leading-8">
+                      {review.body}
+                    </p>
+
+                    {/* Sub-ratings */}
+                    {(review.rating_guide || review.rating_value || review.rating_service) && (
+                      <div className="mt-4 flex flex-wrap gap-3">
+                        {[
+                          { label: "Guide", val: review.rating_guide },
+                          { label: "Value", val: review.rating_value },
+                          { label: "Service", val: review.rating_service },
+                        ]
+                          .filter((x) => x.val)
+                          .map((x) => (
+                            <div
+                              key={x.label}
+                              className="flex items-center gap-1.5 rounded-full border border-[#e5e7eb] bg-[#f9fafb] px-3 py-1.5"
+                            >
+                              <div className="flex gap-0.5">
+                                {[1, 2, 3, 4, 5].map((s) => (
+                                  <span
+                                    key={s}
+                                    className={`h-2.5 w-2.5 rounded-full border border-[#00aa6c] ${s <= x.val! ? "bg-[#00aa6c]" : "bg-white"}`}
+                                  />
+                                ))}
+                              </div>
+                              <span className="text-[12px] font-semibold text-[#6b7280]">
+                                {x.label}
+                              </span>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </article>
+                ))}
+              </div>
             </>
+          ) : (
+            <div className="border-t border-[#e5e7eb] py-16 text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-50">
+                <Star className="h-8 w-8 text-gray-300" />
+              </div>
+              <p className="text-[18px] font-bold text-[#6b7280]">No reviews yet</p>
+              <p className="mt-2 text-[14px] text-[#9ca3af]">
+                Be the first to share your experience on this trek.
+              </p>
+            </div>
           )}
         </div>
       </div>

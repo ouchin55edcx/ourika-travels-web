@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CircleAlert, Star } from "lucide-react";
 
-type Review = { author: string; date: string; body: string; title?: string };
+type Review = { author: string; date: string; body: string; title?: string; rating?: number };
 type Props = { rating: number; reviewCount: number; reviews: Review[] };
 
 export default function TourTravelersLove({ rating, reviewCount, reviews }: Props) {
@@ -22,8 +22,9 @@ export default function TourTravelersLove({ rating, reviewCount, reviews }: Prop
             {[...Array(5)].map((_, index) => (
               <span
                 key={`review-dot-${index}`}
-                className={`h-3 w-3 rounded-full border border-[#00aa6c] ${index < Math.round(rating) ? "bg-[#00aa6c]" : "bg-white"
-                  }`}
+                className={`h-3 w-3 rounded-full border border-[#00aa6c] ${
+                  index < Math.round(rating) ? "bg-[#00aa6c]" : "bg-white"
+                }`}
               />
             ))}
           </div>
