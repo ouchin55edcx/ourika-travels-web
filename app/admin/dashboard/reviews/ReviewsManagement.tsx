@@ -394,7 +394,7 @@ export default function ReviewsManagement({
               <button
                 onClick={handleCreateReview}
                 disabled={isPending}
-                className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-6 py-2.5 text-sm font-black text-white shadow-sm transition-all hover:bg-[#0d4a38] active:scale-95 disabled:opacity-60"
+                className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-6 py-2.5 text-sm font-black text-white shadow-sm transition-all hover:bg-[#0f3d24] active:scale-95 disabled:opacity-60"
               >
                 {isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -576,7 +576,7 @@ export default function ReviewsManagement({
                             })
                           }
                           disabled={isPending}
-                          className="flex items-center gap-1 rounded-full bg-[#0b3a2c] px-3 py-1.5 text-[11px] font-black text-[#00ef9d] transition-all hover:bg-[#0d4a38] disabled:opacity-50"
+                          className="flex items-center gap-1 rounded-full bg-[#0b3a2c] px-3 py-1.5 text-[11px] font-black text-[#00ef9d] transition-all hover:bg-[#0f3d24] disabled:opacity-50"
                         >
                           <Send className="h-3 w-3" />
                           Send email
@@ -771,7 +771,7 @@ export default function ReviewsManagement({
                         })
                       }
                       disabled={isPending}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3 text-sm font-black text-[#00ef9d] transition-all hover:bg-[#0d4a38] disabled:opacity-60"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3 text-sm font-black text-[#00ef9d] transition-all hover:bg-[#0f3d24] disabled:opacity-60"
                     >
                       {isPending ? (
                         <Loader2 className="h-4 w-4 animate-spin" />

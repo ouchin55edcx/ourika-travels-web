@@ -21,19 +21,27 @@ export default function TourBookingCard({
   const benefits = [
     {
       icon: ShieldCheck,
-      title: 'Free cancellation',
+      title: "Free cancellation",
       description: `Full refund if cancelled up to ${freeCancellationHours}h before the start.`,
     },
-    ...(reserveNowPayLater ? [{
-      icon: WalletCards,
-      title: 'Reserve now & pay later',
-      description: 'Secure your spot while staying flexible.',
-    }] : []),
-    ...(avgBookingLeadDays ? [{
-      icon: CalendarDays,
-      title: 'Book ahead',
-      description: `This is booked ${avgBookingLeadDays} days in advance on average.`,
-    }] : []),
+    ...(reserveNowPayLater
+      ? [
+          {
+            icon: WalletCards,
+            title: "Reserve now & pay later",
+            description: "Secure your spot while staying flexible.",
+          },
+        ]
+      : []),
+    ...(avgBookingLeadDays
+      ? [
+          {
+            icon: CalendarDays,
+            title: "Book ahead",
+            description: `This is booked ${avgBookingLeadDays} days in advance on average.`,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -43,7 +51,9 @@ export default function TourBookingCard({
           <span className="text-[15px] font-semibold text-[#1f1f1f]">From</span>
           <div className="flex flex-col">
             {previousPrice && (
-              <span className="text-sm text-gray-400 line-through">${previousPrice.toFixed(2)}</span>
+              <span className="text-sm text-gray-400 line-through">
+                ${previousPrice.toFixed(2)}
+              </span>
             )}
             <span className="text-[28px] font-extrabold tracking-[-0.03em] text-[#1f1f1f] sm:text-[32px]">
               ${price.toFixed(2)}
@@ -58,13 +68,13 @@ export default function TourBookingCard({
         <div className="mb-4 grid grid-cols-2 gap-2">
           <Link
             href={`/reservation?trek=${trekSlug}&type=group`}
-            className="rounded-full border-2 border-[#0b3a2c] px-4 py-2.5 text-center text-sm font-bold text-[#0b3a2c] transition-all hover:bg-[#f0faf5]"
+            className="rounded-full border-2 border-[#0b3a2c] px-4 py-2.5 text-center text-sm font-bold text-[#0b3a2c] transition-all hover:bg-[#edf7f1]"
           >
             Join group
           </Link>
           <Link
             href={`/reservation?trek=${trekSlug}&type=private`}
-            className="rounded-full bg-[#0b3a2c] px-4 py-2.5 text-center text-sm font-bold text-white transition-all hover:bg-[#0d4a38]"
+            className="rounded-full bg-[#0b3a2c] px-4 py-2.5 text-center text-sm font-bold text-white transition-all hover:bg-[#0f3d24]"
           >
             Book private
           </Link>
@@ -80,7 +90,7 @@ export default function TourBookingCard({
         <div className="space-y-5">
           {benefits.map(({ icon: Icon, title, description }) => (
             <div key={title} className="flex items-start gap-3">
-              <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#f1f32b] text-[#123d2f]">
+              <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#f1f32b] text-[#0f3d24]">
                 <Icon className="h-3.5 w-3.5" />
               </div>
               <p className="text-[14px] leading-6 text-[#444]">
@@ -96,7 +106,7 @@ export default function TourBookingCard({
         <p className="inline-block bg-[#dedede] px-1 text-[15px] font-semibold text-[#434343]">
           Have booking questions?
         </p>
-        <button className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#123d2f] underline underline-offset-2">
+        <button className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0f3d24] underline underline-offset-2">
           <MessageSquare className="h-4 w-4" />
           <span>Chat now</span>
         </button>

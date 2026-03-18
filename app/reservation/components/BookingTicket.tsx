@@ -252,7 +252,7 @@ export default function BookingTicket({
                     transition: all 0.2s;
                     box-shadow: 0 2px 12px rgba(0,79,50,0.3);
                 }
-                .btn-primary:hover { background: linear-gradient(135deg, #003622, #004f32); transform: translateY(-1px); }
+                .btn-primary:hover { background: linear-gradient(135deg, #081f12, #004f32); transform: translateY(-1px); }
 
                 .btn-secondary {
                     flex: 1;
@@ -302,9 +302,9 @@ export default function BookingTicket({
                 .ticket-sidebar {
                     width: 160px;
                     flex-shrink: 0;
-                    background: linear-gradient(160deg, #004f32 0%, #00311f 50%, #002714 100%);
+                    background: linear-gradient(160deg, #004f32 0%, #081f12 50%, #060f0a 100%);
                     background-image:
-                        linear-gradient(160deg, #004f32 0%, #002714 100%),
+                        linear-gradient(160deg, #004f32 0%, #060f0a 100%),
                         repeating-linear-gradient(45deg, transparent 0, transparent 10px, rgba(255,255,255,0.015) 10px, rgba(255,255,255,0.015) 11px);
                     background-blend-mode: normal, overlay;
                     display: flex;
@@ -431,7 +431,7 @@ export default function BookingTicket({
                 }
                 .access-btn.vip {
                     background: linear-gradient(135deg, #c9a84c, #d4af37);
-                    color: #002714;
+                    color: #060f0a;
                     font-weight: 700;
                 }
                 .access-btn:hover { opacity: 0.9; transform: translateY(-1px); }

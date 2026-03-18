@@ -32,7 +32,6 @@ export default function OurikaAboutPage() {
 
   return (
     <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
-
       <div className="mx-auto flex max-w-7xl flex-col gap-2 pb-12 md:mt-4 md:px-5 lg:px-9">
         {/* Hero Section */}
         <section className="relative mx-auto w-full overflow-hidden px-6 py-16 text-[#004f32] sm:px-12 sm:py-24 md:rounded-3xl lg:px-16 lg:py-32">
@@ -69,7 +68,7 @@ export default function OurikaAboutPage() {
 
             {/* CTA Button */}
             <div className="space-y-2 pt-4">
-              <button className="rounded-full bg-[#004f32] px-8 py-3 text-[14px] font-semibold tracking-[0.05em] text-white shadow-lg transition-all transition-colors hover:bg-[#003d27] active:scale-95 sm:text-[15px] md:text-[16px] lg:text-[16px] xl:text-[18px]">
+              <button className="rounded-full bg-[#004f32] px-8 py-3 text-[14px] font-semibold tracking-[0.05em] text-white shadow-lg transition-all transition-colors hover:bg-[#081f12] active:scale-95 sm:text-[15px] md:text-[16px] lg:text-[16px] xl:text-[18px]">
                 {dictionary.about.hero.bookButton}
               </button>
               <p className="text-[12px] leading-[1.4] text-white sm:text-[13px] md:text-[14px] md:leading-[1.5] lg:text-[14px] xl:text-[16px]">
@@ -259,7 +258,6 @@ export default function OurikaAboutPage() {
           </div>
         </section>
       </div>
-
     </div>
   );
 }

@@ -9,7 +9,7 @@ export default function TourTabs() {
             key={item}
             href={`#${item.toLowerCase()}`}
             className={`pb-3 ${
-              index === 0 ? "border-b-2 border-[#123d2f]" : "border-b-2 border-transparent"
+              index === 0 ? "border-b-2 border-[#0f3d24]" : "border-b-2 border-transparent"
             }`}
           >
             {item}

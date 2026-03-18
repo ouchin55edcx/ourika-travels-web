@@ -67,7 +67,7 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
           </Link>
           <Link
             href="/admin/dashboard/profile"
-            className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#003d27]"
+            className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#081f12]"
           >
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold">
               {userInitials}

@@ -47,7 +47,9 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
   // Map dynamic categories to the component's format
   const dynamicInterests = initialCategories.map((cat) => ({
     title: cat.name,
-    image: cat.photo || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
+    image:
+      cat.photo ||
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
     desc: cat.description || "Explore this category",
     slug: cat.name.toLowerCase().replace(/\s+/g, "-"),
   }));
@@ -55,30 +57,15 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
   // Use dynamic categories if they exist, otherwise fallback to static ones
   const displayedInterests = dynamicInterests.length > 0 ? dynamicInterests : interests;
 
-
   return (
     <section ref={elementRef as any} className={`mx-auto mt-16 w-full max-w-7xl px-6`}>
-      <div className={`reveal mb-12 md:mb-16 ${isVisible ? "reveal-visible" : ""}`}>
-        <p className="mb-4 text-xs font-black tracking-[0.2em] text-[#00ef9d] uppercase">
-          Explore by Interest
-        </p>
-        <h2 className="mb-6 text-4xl leading-[0.9] font-black tracking-tighter text-[#004f32] md:text-4xl lg:text-6xl">
-          Authentic Ourika Experiences Tailored for You
-        </h2>
-        <p className="max-w-xl text-lg leading-relaxed font-medium text-gray-500">
-          From the snow-capped High Atlas peaks to the heart of ancient Berber villages, immerse
-          yourself in the natural beauty and rich culture of the Ourika Valley.
-        </p>
-      </div>
-
       <div className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-8">
         {displayedInterests.map((interest, index) => {
-
           return (
             <Link
               key={interest.title}
               href={`/category/${interest.slug}`}
-              className={`group reveal relative h-[400px] min-w-[85%] flex-shrink-0 cursor-pointer snap-center overflow-hidden rounded-[3rem] shadow-2xl transition-all duration-700 sm:min-w-[60%] md:min-w-[45%] lg:min-w-[calc(25%-18px)] lg:h-[480px] ${isVisible ? "reveal-visible" : ""}`}
+              className={`group reveal relative h-[400px] min-w-[85%] flex-shrink-0 cursor-pointer snap-center overflow-hidden rounded-[3rem] shadow-2xl transition-all duration-700 sm:min-w-[60%] md:min-w-[45%] lg:h-[480px] lg:min-w-[calc(25%-18px)] ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <Image

@@ -228,6 +228,20 @@ export async function getTrekReviews(trekId: string): Promise<any[]> {
   return data ?? [];
 }
 
+export async function getLatestApprovedReviews(limit = 6): Promise<any[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("id, tourist_name, tourist_avatar, rating, title, body, created_at, treks(title, slug)")
+    .eq("status", "approved")
+    .not("body", "eq", "")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) return [];
+  return data ?? [];
+}
+
 export async function createManualReview(data: {
   trek_id: string;
   tourist_name: string;

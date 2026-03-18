@@ -15,8 +15,9 @@ const RatingStars = ({ rating }: { rating: number }) => {
         return (
           <Star
             key={i}
-            className={`h-[14px] w-[14px] ${isFull || isHalf ? "fill-[#00aa6c] text-[#00aa6c]" : "text-gray-200"
-              }`}
+            className={`h-[14px] w-[14px] ${
+              isFull || isHalf ? "fill-[#00aa6c] text-[#00aa6c]" : "text-gray-200"
+            }`}
           />
         );
       })}
@@ -60,15 +61,9 @@ export default function Experiences() {
     >
       <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
-          <p className="mb-3 text-[10px] font-black tracking-[0.2em] text-[#00ef9d] uppercase">
-            Top Rated Ourika Activities
-          </p>
-          <h2 className="mb-4 text-4xl leading-[0.9] font-black tracking-tighter text-[#004f32] md:text-5xl">
+          <h2 className="mb-4 text-4xl leading-[0.9] font-black tracking-tighter text-[#0a2e1a] md:text-5xl">
             Unmissable Moments in the Atlas Mountains
           </h2>
-          <p className="text-lg leading-relaxed font-medium text-gray-500">
-            Hand-picked experiences designed to give you an authentic taste of Morocco.
-          </p>
         </div>
         <div className="mb-2 hidden gap-3 lg:flex">
           <button
@@ -124,7 +119,9 @@ export default function Experiences() {
                   </h3>
 
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-[#484848]">{exp.rating.toFixed(1)}</span>
+                    <span className="text-sm font-bold text-[#484848]">
+                      {exp.rating.toFixed(1)}
+                    </span>
                     <RatingStars rating={exp.rating} />
                     <span className="text-[14px] text-gray-500">
                       ({exp.review_count.toLocaleString()})
@@ -138,7 +135,9 @@ export default function Experiences() {
                         ${exp.previous_price.toFixed(2)}
                       </span>
                     )}
-                    <span className={`text-2xl font-black ${exp.previous_price ? "text-[#cc184e]" : "text-[#004f32]"}`}>
+                    <span
+                      className={`text-2xl font-black ${exp.previous_price ? "text-[#cc184e]" : "text-[#004f32]"}`}
+                    >
                       ${exp.price_per_adult.toFixed(2)}
                     </span>
                   </div>

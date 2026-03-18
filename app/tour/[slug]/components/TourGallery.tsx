@@ -88,7 +88,7 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
                 setActiveIndex(allImages.length - 1);
                 setLightboxOpen(true);
               }}
-              className="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-[#123d2f] px-3 py-2 text-xs font-bold text-white shadow-lg sm:right-4 sm:bottom-4 sm:gap-2 sm:text-sm"
+              className="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-[#0f3d24] px-3 py-2 text-xs font-bold text-white shadow-lg sm:right-4 sm:bottom-4 sm:gap-2 sm:text-sm"
             >
               <Camera className="h-4 w-4" />
               <span>{totalPhotoCount || safeGallery.length + 1}</span>

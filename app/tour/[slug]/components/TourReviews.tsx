@@ -34,13 +34,13 @@ export default function TourReviews({
   return (
     <section id="reviews" className="border-t border-[#e5e7eb] py-10">
       <div className="mb-1 flex items-center gap-5 text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
-        <button className="border-b-2 border-[#123d2f] pb-2 text-[#12311f]">Reviews</button>
-        <button className="pb-2 text-[#12311f]">Q&amp;A</button>
+        <button className="border-b-2 border-[#0f3d24] pb-2 text-[#0a2e1a]">Reviews</button>
+        <button className="pb-2 text-[#0a2e1a]">Q&amp;A</button>
       </div>
 
       <div className="grid gap-8 pt-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-10">
         <div>
-          <div className="mb-5 flex items-center gap-2 text-[#12311f]">
+          <div className="mb-5 flex items-center gap-2 text-[#0a2e1a]">
             <span className="text-[32px] leading-none font-extrabold sm:text-[36px]">
               {rating.toFixed(1)}
             </span>
@@ -62,7 +62,7 @@ export default function TourReviews({
               reviewBreakdown.map((item) => (
                 <div
                   key={item.label}
-                  className="grid grid-cols-[52px_minmax(0,1fr)_34px] items-center gap-3 text-[14px] text-[#12311f]"
+                  className="grid grid-cols-[52px_minmax(0,1fr)_34px] items-center gap-3 text-[14px] text-[#0a2e1a]"
                 >
                   <span>{item.label}</span>
                   <div className="h-3 rounded-full bg-[#e6e6e6]">
@@ -91,14 +91,14 @@ export default function TourReviews({
           </div>
 
           <div className="mb-8 flex flex-wrap items-center gap-3">
-            <button className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12311f] sm:text-[15px]">
+            <button className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#0a2e1a] sm:text-[15px]">
               Filters
             </button>
-            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12311f] sm:text-[15px]">
+            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#0a2e1a] sm:text-[15px]">
               <span>English</span>
               <ChevronDown className="h-4 w-4" />
             </button>
-            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12311f] sm:text-[15px]">
+            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#0a2e1a] sm:text-[15px]">
               <span>Most Insightful</span>
               <ChevronDown className="h-4 w-4" />
             </button>
@@ -107,14 +107,14 @@ export default function TourReviews({
 
           {popularMentions.length > 0 && (
             <div className="border-b border-[#e5e7eb] pb-8">
-              <h3 className="mb-4 text-[17px] font-extrabold text-[#12311f] sm:text-[18px]">
+              <h3 className="mb-4 text-[17px] font-extrabold text-[#0a2e1a] sm:text-[18px]">
                 Popular mentions
               </h3>
               <div className="flex flex-wrap gap-3">
                 {popularMentions.map((mention) => (
                   <button
                     key={mention}
-                    className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] text-[#12311f] sm:text-[15px]"
+                    className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] text-[#0a2e1a] sm:text-[15px]"
                   >
                     {mention}
                   </button>
@@ -157,7 +157,7 @@ export default function TourReviews({
                           )}
                         </div>
                         <div>
-                          <p className="text-[17px] font-extrabold text-[#12311f]">
+                          <p className="text-[17px] font-extrabold text-[#0a2e1a]">
                             {review.author}
                           </p>
                           <p className="text-[13px] text-[#6b7280]">{review.contributions}</p>
@@ -187,7 +187,7 @@ export default function TourReviews({
 
                     {/* Title */}
                     {review.title && (
-                      <h4 className="mb-2 text-[20px] font-extrabold text-[#12311f] sm:text-[22px]">
+                      <h4 className="mb-2 text-[20px] font-extrabold text-[#0a2e1a] sm:text-[22px]">
                         {review.title}
                       </h4>
                     )}

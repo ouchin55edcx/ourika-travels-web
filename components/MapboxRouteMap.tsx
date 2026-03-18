@@ -90,7 +90,7 @@ export default function MapboxRouteMap({ steps, activeStepId, onMarkerClick }: P
           "line-cap": "round",
         },
         paint: {
-          "line-color": "#003b1f",
+          "line-color": "#081f12",
           "line-width": 4,
           "line-opacity": 0.9,
         },
@@ -121,8 +121,8 @@ export default function MapboxRouteMap({ steps, activeStepId, onMarkerClick }: P
         const el = document.createElement("div");
         el.style.cssText = `
           width:36px; height:36px; border-radius:50%;
-          background:${isActive ? "#00ef9d" : "#003b1f"};
-          color:${isActive ? "#003b1f" : "white"};
+          background:${isActive ? "#00ef9d" : "#081f12"};
+          color:${isActive ? "#00ef9d" : "white"};
           display:flex; align-items:center; justify-content:center;
           font-size:14px; font-weight:900; cursor:pointer;
           border:2.5px solid white;

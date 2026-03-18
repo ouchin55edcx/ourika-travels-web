@@ -150,7 +150,7 @@ export default async function AdminOverviewPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/admin/dashboard/treks/new"
-            className="rounded-full bg-[#0b3a2c] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#0d4a38]"
+            className="rounded-full bg-[#0b3a2c] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#0f3d24]"
           >
             + Create new trek
           </Link>

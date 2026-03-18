@@ -1,69 +1,93 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { AuthUser } from '@/lib/auth';
-import { updateGuideProfile } from '@/app/actions/profile';
-import { uploadGuideBadgeImage } from '@/app/actions/auth';
+import { useState } from "react";
+import { AuthUser } from "@/lib/auth";
+import { updateGuideProfile } from "@/app/actions/profile";
+import { uploadGuideBadgeImage } from "@/app/actions/auth";
 import {
-  User, MapPin, Briefcase, FileText, Camera, Shield,
-  Loader2, CheckCircle2, AlertCircle, X, Plus, Trash2
-} from 'lucide-react';
-import { useRouter } from 'next/navigation';
+  User,
+  MapPin,
+  Briefcase,
+  FileText,
+  Camera,
+  Shield,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  X,
+  Plus,
+  Trash2,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface GuideProfileEditorProps {
   user: AuthUser;
 }
 
 const AVAILABLE_LANGUAGES = [
-  'Arabic', 'French', 'English', 'Spanish', 'German', 'Italian', 'Chinese', 'Russian'
+  "Arabic",
+  "French",
+  "English",
+  "Spanish",
+  "German",
+  "Italian",
+  "Chinese",
+  "Russian",
 ];
 
 const AVAILABLE_SPECIALTIES = [
-  'Hiking', 'Cultural tours', 'Cooking classes', 'Photography',
-  'Berber villages', 'Waterfall hikes', 'Sunrise treks',
-  'Family tours', 'Camel rides', '4x4 adventures'
+  "Hiking",
+  "Cultural tours",
+  "Cooking classes",
+  "Photography",
+  "Berber villages",
+  "Waterfall hikes",
+  "Sunrise treks",
+  "Family tours",
+  "Camel rides",
+  "4x4 adventures",
 ];
 
 const CERTIFICATION_SUGGESTIONS = [
-  'Certified mountain guide',
-  'First-aid trained',
-  'Cultural ambassador',
-  'Tourism license',
-  'Language interpreter'
+  "Certified mountain guide",
+  "First-aid trained",
+  "Cultural ambassador",
+  "Tourism license",
+  "Language interpreter",
 ];
 
 export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
   const router = useRouter();
   const [form, setForm] = useState({
-    full_name:        user.full_name || '',
-    phone:            user.phone || '',
-    bio:              user.bio || '',
-    location:         user.location || '',
-    years_experience: user.years_experience?.toString() || '',
-    languages:        user.languages ?? [],
-    specialties:      user.specialties ?? [],
-    certifications:   user.certifications ?? [],
-    guide_badge_code: user.guide_badge_code || '',
+    full_name: user.full_name || "",
+    phone: user.phone || "",
+    bio: user.bio || "",
+    location: user.location || "",
+    years_experience: user.years_experience?.toString() || "",
+    languages: user.languages ?? [],
+    specialties: user.specialties ?? [],
+    certifications: user.certifications ?? [],
+    guide_badge_code: user.guide_badge_code || "",
   });
 
-  const [avatarUrl,        setAvatarUrl]        = useState(user.avatar_url || '');
-  const [badgeUrl,         setBadgeUrl]         = useState(user.badge_image_url || '');
-  const [uploadingAvatar,  setUploadingAvatar]  = useState(false);
-  const [uploadingBadge,   setUploadingBadge]   = useState(false);
-  const [saving,           setSaving]           = useState(false);
-  const [saved,            setSaved]            = useState(false);
-  const [error,            setError]            = useState<string | null>(null);
-  const [newCert,          setNewCert]          = useState('');
+  const [avatarUrl, setAvatarUrl] = useState(user.avatar_url || "");
+  const [badgeUrl, setBadgeUrl] = useState(user.badge_image_url || "");
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [uploadingBadge, setUploadingBadge] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [newCert, setNewCert] = useState("");
 
   async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadingAvatar(true);
     const fd = new FormData();
-    fd.append('file', file);
+    fd.append("file", file);
     const result = await uploadGuideBadgeImage(fd);
     setUploadingAvatar(false);
-    if ('error' in result) setError(result.error);
+    if ("error" in result) setError(result.error);
     else setAvatarUrl(result.url);
   }
 
@@ -72,42 +96,42 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
     if (!file) return;
     setUploadingBadge(true);
     const fd = new FormData();
-    fd.append('file', file);
+    fd.append("file", file);
     const result = await uploadGuideBadgeImage(fd);
     setUploadingBadge(false);
-    if ('error' in result) setError(result.error);
+    if ("error" in result) setError(result.error);
     else setBadgeUrl(result.url);
   }
 
   function toggleLanguage(lang: string) {
-    setForm(p => ({
+    setForm((p) => ({
       ...p,
       languages: p.languages.includes(lang)
-        ? p.languages.filter(l => l !== lang)
-        : [...p.languages, lang]
+        ? p.languages.filter((l) => l !== lang)
+        : [...p.languages, lang],
     }));
   }
 
   function toggleSpecialty(spec: string) {
-    setForm(p => ({
+    setForm((p) => ({
       ...p,
       specialties: p.specialties.includes(spec)
-        ? p.specialties.filter(s => s !== spec)
-        : [...p.specialties, spec]
+        ? p.specialties.filter((s) => s !== spec)
+        : [...p.specialties, spec],
     }));
   }
 
   function addCertification(cert: string) {
     if (!cert.trim()) return;
     if (form.certifications.includes(cert.trim())) return;
-    setForm(p => ({ ...p, certifications: [...p.certifications, cert.trim()] }));
-    setNewCert('');
+    setForm((p) => ({ ...p, certifications: [...p.certifications, cert.trim()] }));
+    setNewCert("");
   }
 
   function removeCertification(index: number) {
-    setForm(p => ({
+    setForm((p) => ({
       ...p,
-      certifications: p.certifications.filter((_, i) => i !== index)
+      certifications: p.certifications.filter((_, i) => i !== index),
     }));
   }
 
@@ -116,22 +140,22 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
     setError(null);
     setSaved(false);
     const fd = new FormData();
-    fd.set('full_name',        form.full_name);
-    fd.set('phone',            form.phone);
-    fd.set('bio',              form.bio);
-    fd.set('location',         form.location);
-    fd.set('years_experience', form.years_experience);
-    fd.set('languages',        JSON.stringify(form.languages));
-    fd.set('specialties',      JSON.stringify(form.specialties));
-    fd.set('certifications',   JSON.stringify(form.certifications));
-    fd.set('guide_badge_code', form.guide_badge_code);
-    if (avatarUrl) fd.set('avatar_url', avatarUrl);
-    if (badgeUrl)  fd.set('badge_image_url', badgeUrl);
+    fd.set("full_name", form.full_name);
+    fd.set("phone", form.phone);
+    fd.set("bio", form.bio);
+    fd.set("location", form.location);
+    fd.set("years_experience", form.years_experience);
+    fd.set("languages", JSON.stringify(form.languages));
+    fd.set("specialties", JSON.stringify(form.specialties));
+    fd.set("certifications", JSON.stringify(form.certifications));
+    fd.set("guide_badge_code", form.guide_badge_code);
+    if (avatarUrl) fd.set("avatar_url", avatarUrl);
+    if (badgeUrl) fd.set("badge_image_url", badgeUrl);
 
     const result = await updateGuideProfile(fd);
     setSaving(false);
-    if ('error' in result) {
-      setError(result.error || 'An error occurred');
+    if ("error" in result) {
+      setError(result.error || "An error occurred");
     } else {
       setSaved(true);
       setTimeout(() => {
@@ -144,14 +168,12 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
   return (
     <div className="space-y-6">
       <div className="rounded-3xl border border-gray-100 bg-white p-6 sm:p-8">
-        <h2 className="text-2xl font-black text-[#0b3a2c] mb-6">
-          Complete Your Profile
-        </h2>
+        <h2 className="mb-6 text-2xl font-black text-[#0b3a2c]">Complete Your Profile</h2>
 
         <div className="space-y-8">
           {/* 1. Identity */}
           <div className="space-y-4">
-            <h3 className="text-xs font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
+            <h3 className="flex items-center gap-2 text-xs font-black tracking-widest text-gray-400 uppercase">
               <User className="h-4 w-4" />
               Identity
             </h3>
@@ -161,9 +183,9 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
                 <input
                   type="text"
                   value={form.full_name}
-                  onChange={e => setForm(p => ({ ...p, full_name: e.target.value }))}
+                  onChange={(e) => setForm((p) => ({ ...p, full_name: e.target.value }))}
                   placeholder="Ahmed Amziane"
-                  className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0b3a2c]/10"
+                  className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
                 />
               </div>
               <div>
@@ -171,9 +193,9 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
                 <input
                   type="text"
                   value={form.location}
-                  onChange={e => setForm(p => ({ ...p, location: e.target.value }))}
+                  onChange={(e) => setForm((p) => ({ ...p, location: e.target.value }))}
                   placeholder="e.g. Setti Fatma, Ourika Valley"
-                  className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0b3a2c]/10"
+                  className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
                 />
               </div>
               <div>
@@ -183,17 +205,17 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
                   min="1"
                   max="50"
                   value={form.years_experience}
-                  onChange={e => setForm(p => ({ ...p, years_experience: e.target.value }))}
+                  onChange={(e) => setForm((p) => ({ ...p, years_experience: e.target.value }))}
                   placeholder="5"
-                  className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0b3a2c]/10"
+                  className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
           {/* 2. Your story */}
-          <div className="space-y-4 pt-6 border-t border-gray-100">
-            <h3 className="text-xs font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
+          <div className="space-y-4 border-t border-gray-100 pt-6">
+            <h3 className="flex items-center gap-2 text-xs font-black tracking-widest text-gray-400 uppercase">
               <FileText className="h-4 w-4" />
               Your Story
             </h3>
@@ -202,38 +224,40 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
               <textarea
                 rows={5}
                 value={form.bio}
-                onChange={e => setForm(p => ({ ...p, bio: e.target.value }))}
+                onChange={(e) => setForm((p) => ({ ...p, bio: e.target.value }))}
                 placeholder="Tell travelers what makes guiding with you special..."
-                className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0b3a2c]/10 resize-none"
+                className="mt-2 w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
               />
               <p className="mt-1 text-xs text-gray-400">
-                {form.bio.length} characters {form.bio.length < 100 && '(min 100 recommended)'}
+                {form.bio.length} characters {form.bio.length < 100 && "(min 100 recommended)"}
               </p>
             </div>
           </div>
 
           {/* 3. Profile photo */}
-          <div className="space-y-4 pt-6 border-t border-gray-100">
-            <h3 className="text-xs font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
+          <div className="space-y-4 border-t border-gray-100 pt-6">
+            <h3 className="flex items-center gap-2 text-xs font-black tracking-widest text-gray-400 uppercase">
               <Camera className="h-4 w-4" />
               Profile Photo
             </h3>
-            <label className="relative flex flex-col items-center justify-center w-full h-40 rounded-2xl border-2 border-dashed cursor-pointer overflow-hidden transition-all
-              ${avatarUrl ? 'border-[#0b3a2c]' : 'border-gray-200 hover:border-[#0b3a2c] hover:bg-[#f7fdf9]'}">
+            <label className="${avatarUrl ? 'border-[#0b3a2c]' : 'border-gray-200 hover:bg-[#f7fdf9]'} relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed transition-all hover:border-[#0b3a2c]">
               {uploadingAvatar && (
-                <div className="absolute inset-0 bg-white/90 flex items-center justify-center z-10">
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90">
                   <Loader2 className="h-6 w-6 animate-spin text-[#0b3a2c]" />
                 </div>
               )}
               {avatarUrl && !uploadingAvatar && (
                 <>
-                  <div className="h-28 w-28 rounded-full overflow-hidden">
+                  <div className="h-28 w-28 overflow-hidden rounded-full">
                     <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
                   </div>
                   <button
                     type="button"
-                    onClick={e => { e.preventDefault(); setAvatarUrl(''); }}
-                    className="absolute top-2 right-2 rounded-full bg-white p-1.5 shadow hover:bg-red-50 z-10"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setAvatarUrl("");
+                    }}
+                    className="absolute top-2 right-2 z-10 rounded-full bg-white p-1.5 shadow hover:bg-red-50"
                   >
                     <X className="h-3 w-3 text-gray-500" />
                   </button>
@@ -246,20 +270,24 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
                   <p className="text-xs text-gray-400">JPG, PNG or WebP · Max 10 MB</p>
                 </div>
               )}
-              <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleAvatarUpload} />
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                onChange={handleAvatarUpload}
+              />
             </label>
           </div>
 
           {/* 4. Official guide badge */}
-          <div className="space-y-4 pt-6 border-t border-gray-100">
-            <h3 className="text-xs font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
+          <div className="space-y-4 border-t border-gray-100 pt-6">
+            <h3 className="flex items-center gap-2 text-xs font-black tracking-widest text-gray-400 uppercase">
               <Shield className="h-4 w-4" />
               Official Guide Badge
             </h3>
-            <label className="relative flex flex-col items-center justify-center w-full h-32 rounded-2xl border-2 border-dashed cursor-pointer overflow-hidden transition-all
-              ${badgeUrl ? 'border-[#0b3a2c]' : 'border-gray-200 hover:border-[#0b3a2c] hover:bg-[#f7fdf9]'}">
+            <label className="${badgeUrl ? 'border-[#0b3a2c]' : 'border-gray-200 hover:bg-[#f7fdf9]'} relative flex h-32 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed transition-all hover:border-[#0b3a2c]">
               {uploadingBadge && (
-                <div className="absolute inset-0 bg-white/90 flex items-center justify-center z-10">
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90">
                   <Loader2 className="h-6 w-6 animate-spin text-[#0b3a2c]" />
                 </div>
               )}
@@ -268,8 +296,11 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
                   <img src={badgeUrl} alt="Badge" className="h-full w-full object-contain p-2" />
                   <button
                     type="button"
-                    onClick={e => { e.preventDefault(); setBadgeUrl(''); }}
-                    className="absolute top-2 right-2 rounded-full bg-white p-1.5 shadow hover:bg-red-50 z-10"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setBadgeUrl("");
+                    }}
+                    className="absolute top-2 right-2 z-10 rounded-full bg-white p-1.5 shadow hover:bg-red-50"
                   >
                     <X className="h-3 w-3 text-gray-500" />
                   </button>
@@ -282,35 +313,40 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
                   <p className="text-xs text-gray-400">JPG, PNG or WebP · Max 10 MB</p>
                 </div>
               )}
-              <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleBadgeUpload} />
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                onChange={handleBadgeUpload}
+              />
             </label>
             <div>
               <label className="text-sm font-bold text-gray-700">Guide badge code (optional)</label>
               <input
                 type="text"
                 value={form.guide_badge_code}
-                onChange={e => setForm(p => ({ ...p, guide_badge_code: e.target.value }))}
+                onChange={(e) => setForm((p) => ({ ...p, guide_badge_code: e.target.value }))}
                 placeholder="e.g. GD-2026-MA-0042"
-                className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0b3a2c]/10"
+                className="mt-2 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 font-mono text-sm focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
               />
             </div>
           </div>
 
           {/* 5. Languages */}
-          <div className="space-y-4 pt-6 border-t border-gray-100">
-            <h3 className="text-xs font-black uppercase tracking-widest text-gray-400">
+          <div className="space-y-4 border-t border-gray-100 pt-6">
+            <h3 className="text-xs font-black tracking-widest text-gray-400 uppercase">
               Languages
             </h3>
             <div className="flex flex-wrap gap-2">
-              {AVAILABLE_LANGUAGES.map(lang => (
+              {AVAILABLE_LANGUAGES.map((lang) => (
                 <button
                   key={lang}
                   type="button"
                   onClick={() => toggleLanguage(lang)}
                   className={`rounded-full px-4 py-2 text-sm font-bold transition-all ${
                     form.languages.includes(lang)
-                      ? 'bg-[#0b3a2c] text-white'
-                      : 'border border-gray-200 text-gray-600 hover:border-[#0b3a2c]'
+                      ? "bg-[#0b3a2c] text-white"
+                      : "border border-gray-200 text-gray-600 hover:border-[#0b3a2c]"
                   }`}
                 >
                   {lang}
@@ -320,20 +356,20 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
           </div>
 
           {/* 6. Specialties */}
-          <div className="space-y-4 pt-6 border-t border-gray-100">
-            <h3 className="text-xs font-black uppercase tracking-widest text-gray-400">
+          <div className="space-y-4 border-t border-gray-100 pt-6">
+            <h3 className="text-xs font-black tracking-widest text-gray-400 uppercase">
               Specialties
             </h3>
             <div className="flex flex-wrap gap-2">
-              {AVAILABLE_SPECIALTIES.map(spec => (
+              {AVAILABLE_SPECIALTIES.map((spec) => (
                 <button
                   key={spec}
                   type="button"
                   onClick={() => toggleSpecialty(spec)}
                   className={`rounded-full px-4 py-2 text-sm font-bold transition-all ${
                     form.specialties.includes(spec)
-                      ? 'bg-[#0b3a2c] text-white'
-                      : 'border border-gray-200 text-gray-600 hover:border-[#0b3a2c]'
+                      ? "bg-[#0b3a2c] text-white"
+                      : "border border-gray-200 text-gray-600 hover:border-[#0b3a2c]"
                   }`}
                 >
                   {spec}
@@ -343,16 +379,19 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
           </div>
 
           {/* 7. Certifications */}
-          <div className="space-y-4 pt-6 border-t border-gray-100">
-            <h3 className="text-xs font-black uppercase tracking-widest text-gray-400">
+          <div className="space-y-4 border-t border-gray-100 pt-6">
+            <h3 className="text-xs font-black tracking-widest text-gray-400 uppercase">
               Certifications & Credentials
             </h3>
-            
+
             {/* Existing certifications */}
             {form.certifications.length > 0 && (
               <ul className="space-y-2">
                 {form.certifications.map((cert, i) => (
-                  <li key={i} className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
+                  <li
+                    key={i}
+                    className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3"
+                  >
                     <span className="text-sm text-gray-700">{cert}</span>
                     <button
                       type="button"
@@ -371,15 +410,20 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
               <input
                 type="text"
                 value={newCert}
-                onChange={e => setNewCert(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCertification(newCert); } }}
+                onChange={(e) => setNewCert(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addCertification(newCert);
+                  }
+                }}
                 placeholder="e.g. Certified mountain guide — Morocco Ministry of Tourism"
-                className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0b3a2c]/10"
+                className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
               />
               <button
                 type="button"
                 onClick={() => addCertification(newCert)}
-                className="rounded-xl bg-[#0b3a2c] px-4 py-3 text-white hover:bg-[#0d4a38] transition-all"
+                className="rounded-xl bg-[#0b3a2c] px-4 py-3 text-white transition-all hover:bg-[#0f3d24]"
               >
                 <Plus className="h-5 w-5" />
               </button>
@@ -387,12 +431,12 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
 
             {/* Suggestions */}
             <div className="flex flex-wrap gap-2">
-              {CERTIFICATION_SUGGESTIONS.map(sug => (
+              {CERTIFICATION_SUGGESTIONS.map((sug) => (
                 <button
                   key={sug}
                   type="button"
                   onClick={() => addCertification(sug)}
-                  className="rounded-full border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-500 hover:border-[#0b3a2c] hover:text-[#0b3a2c] transition-all"
+                  className="rounded-full border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-500 transition-all hover:border-[#0b3a2c] hover:text-[#0b3a2c]"
                 >
                   + {sug}
                 </button>
@@ -402,7 +446,7 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
 
           {/* Error */}
           {error && (
-            <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 flex items-center gap-2">
+            <div className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
               <AlertCircle className="h-4 w-4 shrink-0" />
               {error}
             </div>
@@ -412,7 +456,7 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="w-full rounded-full bg-[#0b3a2c] py-4 text-base font-black text-white shadow-lg transition-all hover:bg-[#0d4a38] active:scale-95 disabled:opacity-60 flex items-center justify-center gap-2"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-4 text-base font-black text-white shadow-lg transition-all hover:bg-[#0f3d24] active:scale-95 disabled:opacity-60"
           >
             {saving ? (
               <>
@@ -421,11 +465,10 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
               </>
             ) : saved ? (
               <>
-                <CheckCircle2 className="h-5 w-5" />
-                ✓ Profile saved!
+                <CheckCircle2 className="h-5 w-5" />✓ Profile saved!
               </>
             ) : (
-              'Save profile'
+              "Save profile"
             )}
           </button>
         </div>
@@ -433,4 +476,3 @@ export default function GuideProfileEditor({ user }: GuideProfileEditorProps) {
     </div>
   );
 }
-

@@ -57,7 +57,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
         <div>
           <div className="flex gap-3">
             <div className="flex shrink-0 flex-col items-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#12311f] bg-[#f2ef31] text-[14px] font-extrabold text-[#111827]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#0a2e1a] bg-[#f2ef31] text-[14px] font-extrabold text-[#111827]">
                 Start
               </div>
               <div className="h-10 w-px border-l border-dashed border-[#bdbdbd]" />
@@ -72,7 +72,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                   Or, you can also get picked up
                 </p>
               )}
-              <button className="mt-1 text-[14px] font-bold text-[#123d2f] underline sm:text-[15px]">
+              <button className="mt-1 text-[14px] font-bold text-[#0f3d24] underline sm:text-[15px]">
                 See departure details
               </button>
             </div>
@@ -89,7 +89,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                       type="button"
                       onClick={() => toggleStep(step.id)}
                       className={`flex h-10 w-10 items-center justify-center rounded-full text-[18px] font-extrabold transition ${
-                        isActive ? "bg-[#00ef9d] text-[#12311f]" : "bg-[#003b1f] text-white"
+                        isActive ? "bg-[#00ef9d] text-[#0a2e1a]" : "bg-[#081f12] text-white"
                       }`}
                     >
                       {step.id}
@@ -107,7 +107,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                     >
                       <p
                         className={`text-[18px] font-extrabold transition-colors sm:text-[22px] ${
-                          isActive ? "text-[#00ef9d]" : "text-[#12311f]"
+                          isActive ? "text-[#00ef9d]" : "text-[#0a2e1a]"
                         }`}
                       >
                         {step.title}
@@ -115,7 +115,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                       <p className="mt-1 text-[14px] text-[#666] sm:text-[15px]">
                         Stop: {step.duration}
                       </p>
-                      <span className="mt-1 inline-block text-[14px] font-bold text-[#123d2f] underline sm:text-[15px]">
+                      <span className="mt-1 inline-block text-[14px] font-bold text-[#0f3d24] underline sm:text-[15px]">
                         See details &amp; photo
                       </span>
                     </button>
@@ -132,7 +132,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                               sizes="(max-width: 1024px) 100vw, 340px"
                             />
                           </div>
-                          <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#123d2f] shadow-sm">
+                          <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f3d24] shadow-sm">
                             <Heart className="h-5 w-5" />
                           </button>
                         </div>
@@ -141,7 +141,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                           {step.description}
                         </p>
 
-                        <button className="mt-4 min-h-11 w-full rounded-full border border-[#123d2f] px-5 py-3 text-[15px] font-bold text-[#12311f] transition hover:bg-[#f6f8f7]">
+                        <button className="mt-4 min-h-11 w-full rounded-full border border-[#0f3d24] px-5 py-3 text-[15px] font-bold text-[#0a2e1a] transition hover:bg-[#f6f8f7]">
                           {step.buttonLabel || `More about ${step.title}`}
                         </button>
                       </div>
@@ -154,7 +154,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
 
           <div className="mt-1 flex gap-3">
             <div className="flex shrink-0 flex-col items-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#12311f] bg-[#f2ef31] text-[14px] font-extrabold text-[#111827]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#0a2e1a] bg-[#f2ef31] text-[14px] font-extrabold text-[#111827]">
                 End
               </div>
             </div>

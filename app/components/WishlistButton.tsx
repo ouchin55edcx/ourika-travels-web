@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useTransition } from 'react';
-import { Heart } from 'lucide-react';
-import { toggleWishlist } from '@/app/actions/wishlist';
+import { useState, useTransition } from "react";
+import { Heart } from "lucide-react";
+import { toggleWishlist } from "@/app/actions/wishlist";
 
 export default function WishlistButton({
   trekId,
@@ -19,7 +19,7 @@ export default function WishlistButton({
   function handleClick() {
     startTransition(async () => {
       const result = await toggleWishlist(trekId);
-      if ('added' in result) setWishlisted(result.added);
+      if ("added" in result) setWishlisted(result.added);
     });
   }
 
@@ -29,13 +29,11 @@ export default function WishlistButton({
         type="button"
         onClick={handleClick}
         disabled={isPending}
-        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#123d2f] shadow-sm transition hover:bg-white disabled:opacity-50"
-        aria-label={wishlisted ? 'Saved' : 'Save'}
+        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#0f3d24] shadow-sm transition hover:bg-white disabled:opacity-50"
+        aria-label={wishlisted ? "Saved" : "Save"}
       >
         <Heart
-          className={`h-4 w-4 transition-all ${
-            wishlisted ? 'fill-red-500 text-red-500' : '' 
-          }`}
+          className={`h-4 w-4 transition-all ${wishlisted ? "fill-red-500 text-red-500" : ""}`}
         />
       </button>
     );
@@ -50,10 +48,10 @@ export default function WishlistButton({
     >
       <Heart
         className={`h-4 w-4 transition-all ${
-          wishlisted ? 'fill-red-500 text-red-500' : 'text-[#123d2f]'
+          wishlisted ? "fill-red-500 text-red-500" : "text-[#0f3d24]"
         }`}
       />
-      <span>{wishlisted ? 'Saved' : 'Save'}</span>
+      <span>{wishlisted ? "Saved" : "Save"}</span>
     </button>
   );
 }

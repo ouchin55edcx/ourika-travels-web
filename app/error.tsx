@@ -25,7 +25,7 @@ export default function Error({ error, reset }: ErrorProps) {
             <button
               type="button"
               onClick={reset}
-              className="inline-flex items-center justify-center rounded-full bg-[#004f32] px-8 py-3 text-sm font-black tracking-wide text-white uppercase shadow-sm transition-colors hover:bg-[#003d27]"
+              className="inline-flex items-center justify-center rounded-full bg-[#004f32] px-8 py-3 text-sm font-black tracking-wide text-white uppercase shadow-sm transition-colors hover:bg-[#081f12]"
             >
               Try again
             </button>

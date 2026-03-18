@@ -63,7 +63,7 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
     }
 
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-[#d0ede0] bg-[#f0faf5] p-4">
+      <div className="flex items-center gap-3 rounded-2xl border border-[#d0ede0] bg-[#edf7f1] p-4">
         <input
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
@@ -552,7 +552,7 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
                     {selectedGuide.specialties.map((s) => (
                       <span
                         key={s}
-                        className="rounded-full border border-emerald-100 bg-[#f0faf5] px-3 py-1 text-xs font-semibold text-[#0b3a2c]"
+                        className="rounded-full border border-emerald-100 bg-[#edf7f1] px-3 py-1 text-xs font-semibold text-[#0b3a2c]"
                       >
                         {s}
                       </span>
@@ -669,7 +669,7 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
                           if (!result.error) setSelectedGuide(null);
                         });
                       }}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3.5 text-sm font-black text-[#00ef9d] shadow-lg transition-all hover:bg-[#0d4a38] active:scale-95 disabled:opacity-60"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3.5 text-sm font-black text-[#00ef9d] shadow-lg transition-all hover:bg-[#0f3d24] active:scale-95 disabled:opacity-60"
                     >
                       {isPending ? (
                         <Loader2 className="h-5 w-5 animate-spin" />

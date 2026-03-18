@@ -1,11 +1,7 @@
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 
-export default function GuideSuccessPage({
-  searchParams,
-}: {
-  searchParams?: { email?: string };
-}) {
+export default function GuideSuccessPage({ searchParams }: { searchParams?: { email?: string } }) {
   const email = searchParams?.email ? decodeURIComponent(searchParams.email) : null;
 
   return (
@@ -33,14 +29,14 @@ export default function GuideSuccessPage({
           </h1>
           <p className="mt-3 text-sm font-medium text-gray-600">
             We sent a verification email{email ? " to " : ""}
-            {email ? <span className="font-bold text-[#004f32]">{email}</span> : ""}.
-            Click the link to activate your guide profile.
+            {email ? <span className="font-bold text-[#004f32]">{email}</span> : ""}. Click the link
+            to activate your guide profile.
           </p>
 
           <div className="mt-8">
             <Link
               href="/"
-              className="inline-flex items-center justify-center rounded-full bg-[#004f32] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#003d27]"
+              className="inline-flex items-center justify-center rounded-full bg-[#004f32] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#081f12]"
             >
               Back to home
             </Link>

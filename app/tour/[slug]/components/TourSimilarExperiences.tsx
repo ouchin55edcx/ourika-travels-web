@@ -14,11 +14,11 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch('/api/treks/similar?exclude=' + currentTrekId + '&limit=4');
+        const res = await fetch("/api/treks/similar?exclude=" + currentTrekId + "&limit=4");
         const data = await res.json();
         setSimilar(data);
       } catch (error) {
-        console.error('Failed to load similar experiences:', error);
+        console.error("Failed to load similar experiences:", error);
       }
     }
     load();
@@ -46,7 +46,7 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
           <button
             type="button"
             onClick={() => scrollByAmount("left")}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#123d2f] text-[#123d2f] transition hover:bg-[#f6f8f7]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#0f3d24] text-[#0f3d24] transition hover:bg-[#f6f8f7]"
             aria-label="Scroll left"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -54,7 +54,7 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
           <button
             type="button"
             onClick={() => scrollByAmount("right")}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#123d2f] text-[#123d2f] transition hover:bg-[#f6f8f7]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#0f3d24] text-[#0f3d24] transition hover:bg-[#f6f8f7]"
             aria-label="Scroll right"
           >
             <ChevronRight className="h-5 w-5" />
@@ -82,7 +82,7 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
                     sizes="(max-width: 640px) 256px, (max-width: 1024px) 268px, 25vw"
                   />
                 </div>
-                <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#123d2f] shadow-sm">
+                <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f3d24] shadow-sm">
                   <Heart className="h-5 w-5" />
                 </button>
                 {trek.badge && (
@@ -92,7 +92,7 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
                 )}
               </div>
 
-              <h4 className="text-[15px] leading-7 font-extrabold text-[#12311f] sm:text-[16px] lg:text-[17px]">
+              <h4 className="text-[15px] leading-7 font-extrabold text-[#0a2e1a] sm:text-[16px] lg:text-[17px]">
                 {trek.title}
               </h4>
 
@@ -102,8 +102,9 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
                   {[...Array(5)].map((_, index) => (
                     <span
                       key={index}
-                      className={`h-3 w-3 rounded-full border border-[#00aa6c] ${index < Math.round(trek.rating) ? "bg-[#00aa6c]" : "bg-white"
-                        }`}
+                      className={`h-3 w-3 rounded-full border border-[#00aa6c] ${
+                        index < Math.round(trek.rating) ? "bg-[#00aa6c]" : "bg-white"
+                      }`}
                     />
                   ))}
                 </div>
@@ -111,10 +112,10 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
               </div>
 
               <p className="mt-2 text-[14px] text-[#666] lg:text-[15px]">
-                {trek.categories?.name || 'Experience'}
+                {trek.categories?.name || "Experience"}
               </p>
 
-              <div className="mt-4 text-[15px] font-extrabold text-[#12311f] sm:text-[16px] lg:text-[17px]">
+              <div className="mt-4 text-[15px] font-extrabold text-[#0a2e1a] sm:text-[16px] lg:text-[17px]">
                 from{" "}
                 {trek.previous_price && (
                   <span className="mr-1 text-[#666] line-through">

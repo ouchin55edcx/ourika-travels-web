@@ -37,7 +37,7 @@ export default function Hero() {
         className={`relative flex flex-col items-center justify-center px-6 pt-10 pb-8 transition-all duration-300 md:pt-20 md:pb-12 ${isFocused ? "z-[var(--z-modal-backdrop)]" : "z-20"} animate-fade-in-up`}
       >
         <h1
-          className={`mb-8 text-center text-4xl font-black tracking-tight text-[#004f32] transition-all duration-300 md:mb-12 md:text-7xl ${isFocused ? "-translate-y-4 opacity-0" : "opacity-100"}`}
+          className={`text-center text-4xl font-black tracking-tight text-[#0a2e1a] transition-all duration-300 md:pb-12 md:text-7xl ${isFocused ? "-translate-y-4 opacity-0" : "opacity-100"}`}
         >
           Discover the Magic of Ourika Valley
         </h1>

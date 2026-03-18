@@ -152,7 +152,7 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
 
             <button
               onClick={() => setIsLoginModalOpen(true)}
-              className="ml-2 rounded-full bg-[#0b3a2c] px-8 py-3.5 text-[15px] font-black whitespace-nowrap text-white shadow-sm transition-all hover:bg-[#003d27] active:scale-95"
+              className="ml-2 rounded-full bg-[#0b3a2c] px-8 py-3.5 text-[15px] font-black whitespace-nowrap text-white shadow-sm transition-all hover:bg-[#081f12] active:scale-95"
             >
               Sign In
             </button>

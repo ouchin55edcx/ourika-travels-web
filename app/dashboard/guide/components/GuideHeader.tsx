@@ -26,7 +26,7 @@ export default function GuideHeader() {
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard/guide" className="flex items-center gap-4 group">
+          <Link href="/dashboard/guide" className="group flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#0b3a2c] font-black text-white transition-transform group-hover:scale-105">
               OT
             </div>
@@ -48,7 +48,7 @@ export default function GuideHeader() {
           </Link>
           <Link
             href="/dashboard/guide/profile"
-            className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#003d27]"
+            className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#081f12]"
           >
             <CircleUser className="h-4 w-4" />
             Guide Profile
@@ -75,17 +75,18 @@ export default function GuideHeader() {
 
       {/* Main Nav Items (Scrollable on mobile) */}
       <nav className="border-t border-black/5">
-        <div className="mx-auto flex w-full max-w-6xl items-center gap-2 overflow-x-auto px-6 py-3 scrollbar-hide">
+        <div className="scrollbar-hide mx-auto flex w-full max-w-6xl items-center gap-2 overflow-x-auto px-6 py-3">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors ${isActive
-                  ? "bg-[#0b3a2c] text-white shadow-sm"
-                  : "bg-white text-gray-600 hover:bg-[#0b3a2c]/10 hover:text-[#0b3a2c]"
-                  }`}
+                className={`rounded-full px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors ${
+                  isActive
+                    ? "bg-[#0b3a2c] text-white shadow-sm"
+                    : "bg-white text-gray-600 hover:bg-[#0b3a2c]/10 hover:text-[#0b3a2c]"
+                }`}
               >
                 {item.label}
               </Link>
@@ -96,11 +97,12 @@ export default function GuideHeader() {
 
       {/* Mobile Menu Drawer */}
       <div
-        className={`fixed inset-0 z-50 transform bg-white transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed inset-0 z-50 transform bg-white transition-transform duration-300 ease-in-out md:hidden ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="flex h-full flex-col p-6">
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#0b3a2c] font-black text-white">
                 OT
@@ -124,8 +126,11 @@ export default function GuideHeader() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`flex items-center gap-4 rounded-2xl p-4 text-xl font-bold transition-all ${pathname === item.href ? "bg-[#0b3a2c] text-white shadow-lg" : "text-[#0b3a2c] hover:bg-gray-50"
-                  }`}
+                className={`flex items-center gap-4 rounded-2xl p-4 text-xl font-bold transition-all ${
+                  pathname === item.href
+                    ? "bg-[#0b3a2c] text-white shadow-lg"
+                    : "text-[#0b3a2c] hover:bg-gray-50"
+                }`}
               >
                 {item.label}
               </Link>

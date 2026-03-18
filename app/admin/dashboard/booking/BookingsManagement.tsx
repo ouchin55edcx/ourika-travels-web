@@ -371,7 +371,7 @@ export default function BookingsManagement({ initialBookings }: { initialBooking
                             });
                           }}
                           disabled={isPending}
-                          className="flex items-center gap-1 rounded-full bg-[#0b3a2c] px-3 py-1.5 text-[11px] font-black text-[#00ef9d] transition-all hover:bg-[#0d4a38] disabled:opacity-50"
+                          className="flex items-center gap-1 rounded-full bg-[#0b3a2c] px-3 py-1.5 text-[11px] font-black text-[#00ef9d] transition-all hover:bg-[#0f3d24] disabled:opacity-50"
                         >
                           💳 Paid
                         </button>
@@ -562,7 +562,7 @@ export default function BookingsManagement({ initialBookings }: { initialBooking
                 </p>
 
                 {selected.guide_id ? (
-                  <div className="flex items-center justify-between rounded-2xl border border-emerald-100 bg-[#f0faf5] p-4">
+                  <div className="flex items-center justify-between rounded-2xl border border-emerald-100 bg-[#edf7f1] p-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b3a2c] text-sm font-black text-[#00ef9d]">
                         {guides.find((g) => g.id === selected.guide_id)?.full_name?.charAt(0)}
@@ -636,7 +636,7 @@ export default function BookingsManagement({ initialBookings }: { initialBooking
                         });
                       }}
                       disabled={isPending || guides.length === 0}
-                      className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3 text-sm font-black text-[#00ef9d] transition-all hover:bg-[#0d4a38] disabled:opacity-50"
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3 text-sm font-black text-[#00ef9d] transition-all hover:bg-[#0f3d24] disabled:opacity-50"
                     >
                       {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "⚡"}
                       Auto-assign next guide
@@ -692,7 +692,7 @@ export default function BookingsManagement({ initialBookings }: { initialBooking
                           });
                         }}
                         disabled={isPending}
-                        className="rounded-2xl bg-[#0b3a2c] px-4 py-2.5 text-sm font-black text-white transition-all hover:bg-[#0d4a38] disabled:opacity-50"
+                        className="rounded-2xl bg-[#0b3a2c] px-4 py-2.5 text-sm font-black text-white transition-all hover:bg-[#0f3d24] disabled:opacity-50"
                       >
                         Assign
                       </button>
@@ -706,7 +706,7 @@ export default function BookingsManagement({ initialBookings }: { initialBooking
                 <button
                   onClick={() => handleMarkPaid(selected.id)}
                   disabled={isPending}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3.5 text-sm font-black text-[#00ef9d] transition-all hover:bg-[#0d4a38] active:scale-95 disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0b3a2c] py-3.5 text-sm font-black text-[#00ef9d] transition-all hover:bg-[#0f3d24] active:scale-95 disabled:opacity-60"
                 >
                   {isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

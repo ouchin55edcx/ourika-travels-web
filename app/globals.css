@@ -4,7 +4,9 @@
   --background: #ffffff;
   --foreground: #0f1f18;
   --primary-accent: #00ef9d;
-  --primary-dark: #004f32;
+  --primary-dark: #0a2e1a;
+  --primary-mid: #0f3d24;
+  --primary-hover: #0b3320;
 
   /* Spacing Concept Variables */
   --container-px: 1.5rem;

@@ -94,8 +94,8 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
   return (
     <>
       <nav
-        className={`flex items-center justify-between border-b border-gray-100 bg-white px-6 py-2 transition-all duration-300 md:px-16 ${
-          sticky ? "sticky top-0" : ""
+        className={`flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-[#edf7f1]/80 via-white/95 to-[#edf7f1]/80 px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
+          sticky ? "sticky top-0 shadow-lg shadow-[#0a2e1a]/10" : ""
         } ${isSearchFocused ? "z-[150]" : "z-[100]"}`}
       >
         {/* Left Section: Logo + Search + Globe */}
@@ -104,7 +104,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           <div className="flex items-center transition-all duration-500 ease-in-out">
             <Link
               href="/"
-              className="text-[24px] font-black tracking-[-0.04em] whitespace-nowrap text-[#004f32] md:text-[28px]"
+              className="text-[24px] font-black tracking-[-0.04em] whitespace-nowrap text-[#0a2e1a] md:text-[28px]"
             >
               Ourika Travels
             </Link>
@@ -124,7 +124,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                   <div className="flex-1 truncate px-4 text-[14px] font-bold text-gray-800">
                     Start your search
                   </div>
-                  <div className="rounded-full bg-[#004f32] p-2 text-white transition-transform duration-300 group-hover/search:scale-105">
+                  <div className="rounded-full bg-[#00ef9d] p-2 text-[#0a2e1a] transition-transform duration-300 group-hover/search:scale-105">
                     <Search className="h-3.5 w-3.5 stroke-[4px]" />
                   </div>
                 </div>
@@ -138,25 +138,16 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
         </div>
 
         {/* Desktop Actions Section - Hidden on smaller screens */}
-        <div className={`hidden items-center gap-3 transition-all duration-500 lg:flex`}>
-          {/* Language Selector */}
-          <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] font-bold text-[#004f32] shadow-sm transition-colors hover:bg-gray-50">
-            <Globe className="h-4 w-4 stroke-[2.5px]" />
-            <span>MAD · EN</span>
-          </button>
-
-          {/* Divider */}
-          <div className="h-8 w-[1px] bg-gray-200" />
-
-          {/* Account Actions: Wishlist, Reservations, Become a Guide, Sign In */}
+        <div className={`hidden items-center gap-2 transition-all duration-500 lg:flex`}>
+          {/* Account Actions: Wishlist, Reservations, Sign In */}
           <div className={`flex items-center gap-1`}>
             <Link
               href="/wishlist"
               className="group flex min-w-[64px] flex-col items-center justify-center gap-1.5 rounded-2xl px-4 py-2 transition-all hover:bg-gray-50"
             >
-              <Heart className="h-6 w-6 stroke-[2.5px] text-[#004f32] transition-all group-hover:fill-[#004f32]" />
+              <Heart className="h-6 w-6 stroke-[2.5px] text-[#0a2e1a] transition-all group-hover:fill-[#0a2e1a]" />
               {!showSearchBar && (
-                <span className="text-[11px] font-bold text-[#004f32]">Wishlist</span>
+                <span className="text-[11px] font-bold text-[#0a2e1a]">Wishlist</span>
               )}
             </Link>
 
@@ -164,28 +155,17 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               href="/reservation-historic"
               className="group flex min-w-[64px] flex-col items-center justify-center gap-1.5 rounded-2xl px-4 py-2 transition-all hover:bg-gray-50"
             >
-              <ClipboardList className="h-6 w-6 stroke-[2.5px] text-[#004f32] transition-transform group-hover:scale-110" />
+              <ClipboardList className="h-6 w-6 stroke-[2.5px] text-[#0a2e1a] transition-transform group-hover:scale-110" />
               {!showSearchBar && (
-                <span className="text-[11px] font-bold text-[#004f32]">Reservations</span>
+                <span className="text-[11px] font-bold text-[#0a2e1a]">Reservations</span>
               )}
             </Link>
-
-            {!user || user.role !== "tourist" ? (
-              <Link
-                href="/register/guide"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ml-2 hidden items-center gap-2 rounded-full px-4 py-3 text-[15px] font-bold whitespace-nowrap text-[#004f32] transition-colors hover:bg-gray-50 xl:flex"
-              >
-                <span>Become a Guide</span>
-              </Link>
-            ) : null}
 
             {user ? (
               <div className="relative ml-2" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen((value) => !value)}
-                  className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-[#004f32] shadow-sm transition hover:bg-gray-50"
+                  className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-[#0a2e1a] shadow-sm transition hover:bg-gray-50"
                   aria-expanded={isUserMenuOpen}
                   aria-haspopup="menu"
                 >
@@ -198,11 +178,11 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                       className="h-9 w-9 rounded-full object-cover"
                     />
                   ) : (
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#004f32] text-xs font-bold text-white">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0a2e1a] text-xs font-bold text-white">
                       {initials}
                     </span>
                   )}
-                  <span className="hidden max-w-[120px] truncate text-[13px] font-bold text-[#004f32] xl:inline">
+                  <span className="hidden max-w-[120px] truncate text-[13px] font-bold text-[#0a2e1a] xl:inline">
                     {displayName || "Account"}
                   </span>
                 </button>
@@ -266,12 +246,22 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                 )}
               </div>
             ) : (
-              <button
-                onClick={() => setIsLoginModalOpen(true)}
-                className="ml-2 rounded-full bg-[#004f32] px-8 py-3.5 text-[15px] font-black whitespace-nowrap text-white shadow-sm transition-all hover:bg-[#003d27] active:scale-95"
-              >
-                Sign In
-              </button>
+              <>
+                {/* Language / Currency — next to Sign In */}
+                <button className="flex items-center gap-1.5 rounded-full border border-[#0a2e1a]/30 bg-[#edf7f1] px-5 py-3.5 text-[14px] font-bold text-[#0a2e1a] transition-colors hover:bg-[#0a2e1a] hover:text-white">
+                  <Globe className="h-4 w-4 stroke-[2.5px]" />
+                  <span>MAD · EN</span>
+                </button>
+
+                <div className="h-8 w-[1px] bg-gray-200" />
+
+                <button
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="ml-2 rounded-full bg-[#0a2e1a] px-8 py-3.5 text-[15px] font-black whitespace-nowrap text-white shadow-sm transition-all hover:bg-[#0b3320] active:scale-95"
+                >
+                  Sign In
+                </button>
+              </>
             )}
           </div>
         </div>
@@ -283,7 +273,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           {showSearchBar && (
             <button
               onClick={() => setIsSearchFocused(true)}
-              className="rounded-full p-2 text-[#004f32] transition-colors hover:bg-gray-50"
+              className="rounded-full p-2 text-[#0a2e1a] transition-colors hover:bg-gray-50"
               aria-label="Open search"
             >
               <Search className="h-7 w-7 stroke-[2.5px]" />
@@ -291,7 +281,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           )}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="z-50 rounded-full p-2 text-[#004f32] transition-colors hover:bg-gray-50"
+            className="z-50 rounded-full p-2 text-[#0a2e1a] transition-colors hover:bg-gray-50"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
@@ -309,7 +299,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             <div className="flex flex-col gap-6">
               <Link
                 href="/reservation-historic"
-                className="flex items-center gap-4 text-2xl font-bold text-[#004f32]"
+                className="flex items-center gap-4 text-2xl font-bold text-[#0a2e1a]"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <ClipboardList className="h-8 w-8 stroke-[2.5px]" />
@@ -317,35 +307,23 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               </Link>
               <Link
                 href="/wishlist"
-                className="flex items-center gap-4 text-2xl font-bold text-[#004f32]"
+                className="flex items-center gap-4 text-2xl font-bold text-[#0a2e1a]"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Heart className="h-8 w-8 stroke-[2.5px]" />
                 Wishlist
               </Link>
-              {!user || user.role !== "tourist" ? (
-                <Link
-                  href="/register/guide"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 flex items-center gap-4 text-2xl font-bold text-[#004f32]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <Compass className="h-8 w-8 stroke-[2.5px]" />
-                  Become a Guide
-                </Link>
-              ) : null}
             </div>
 
             <div className="h-[1px] w-full bg-gray-100" />
 
             {/* Secondary/Settings */}
             <div className="flex flex-col gap-6">
-              <button className="flex items-center gap-4 text-xl font-medium text-[#004f32]">
+              <button className="flex items-center gap-4 text-xl font-medium text-[#0a2e1a]">
                 <Globe className="h-6 w-6 stroke-[2px]" />
                 <span>Language: EN</span>
               </button>
-              <button className="flex items-center gap-4 text-xl font-medium text-[#004f32]">
+              <button className="flex items-center gap-4 text-xl font-medium text-[#0a2e1a]">
                 <Moon className="h-6 w-6 stroke-[2px]" />
                 <span>Dark Mode</span>
               </button>
@@ -358,7 +336,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                   <Link
                     href="/profile"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block rounded-full border border-[#004f32] px-6 py-4 text-center text-lg font-bold text-[#004f32]"
+                    className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#0a2e1a]"
                   >
                     My Profile
                   </Link>
@@ -366,7 +344,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     <Link
                       href="/dashboard/guide"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block rounded-full border border-[#004f32] px-6 py-4 text-center text-lg font-bold text-[#004f32]"
+                      className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#0a2e1a]"
                     >
                       Guide Dashboard
                     </Link>
@@ -375,7 +353,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     <Link
                       href="/admin/dashboard"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block rounded-full border border-[#004f32] px-6 py-4 text-center text-lg font-bold text-[#004f32]"
+                      className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#0a2e1a]"
                     >
                       Admin Dashboard
                     </Link>
@@ -388,7 +366,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                         await contextSignOut();
                       })
                     }
-                    className="w-full rounded-full bg-[#004f32] py-5 text-xl font-black text-white shadow-lg transition-all active:scale-95"
+                    className="w-full rounded-full bg-[#0a2e1a] py-5 text-xl font-black text-white shadow-lg transition-all active:scale-95"
                     disabled={isSigningOut}
                   >
                     {isSigningOut ? "Signing out..." : "Sign out"}
@@ -400,7 +378,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     setIsMenuOpen(false);
                     setIsLoginModalOpen(true);
                   }}
-                  className="block w-full rounded-full bg-[#004f32] py-5 text-center text-xl font-black text-white shadow-lg transition-all active:scale-95"
+                  className="block w-full rounded-full bg-[#0a2e1a] py-5 text-center text-xl font-black text-white shadow-lg transition-all active:scale-95"
                 >
                   Sign In
                 </button>
@@ -470,7 +448,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                       />
                     </div>
                     <div className="flex-1">
-                      <h4 className="mb-0.5 text-[15px] leading-tight font-semibold text-[#004f32]">
+                      <h4 className="mb-0.5 text-[15px] leading-tight font-semibold text-[#0a2e1a]">
                         Cultural wonder in Ourika
                       </h4>
                       <p className="text-[13px] font-medium text-gray-500">Sponsored Tourism</p>

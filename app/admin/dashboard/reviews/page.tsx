@@ -41,7 +41,7 @@ export default async function AdminReviewsPage() {
             label: "Avg rating",
             value: avgRating > 0 ? `${avgRating.toFixed(1)} ⭐` : "—",
             color: "text-[#0b3a2c]",
-            bg: "bg-[#f0faf5]",
+            bg: "bg-[#edf7f1]",
           },
         ].map((stat) => (
           <div key={stat.label} className={`rounded-3xl ${stat.bg} flex flex-col gap-1 p-6`}>

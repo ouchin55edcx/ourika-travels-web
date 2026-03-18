@@ -28,7 +28,7 @@ export default function TourTravelersLove({ rating, reviewCount, reviews }: Prop
               />
             ))}
           </div>
-          <Link href="#reviews" className="font-medium text-[#245b4a] underline">
+          <Link href="#reviews" className="font-medium text-[#0f3d24] underline">
             ({reviewCount.toLocaleString()} reviews)
           </Link>
         </div>
@@ -59,7 +59,7 @@ export default function TourTravelersLove({ rating, reviewCount, reviews }: Prop
         ))}
 
         <div className="hidden items-center justify-center md:flex">
-          <button className="flex h-8 w-8 items-center justify-center rounded-full border border-[#123d2f] text-[#123d2f]">
+          <button className="flex h-8 w-8 items-center justify-center rounded-full border border-[#0f3d24] text-[#0f3d24]">
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

@@ -10,7 +10,13 @@ type Props = {
   isWishlisted: boolean;
 };
 
-export default function TourHeroHeader({ title, rating, reviewCount, trekId, isWishlisted }: Props) {
+export default function TourHeroHeader({
+  title,
+  rating,
+  reviewCount,
+  trekId,
+  isWishlisted,
+}: Props) {
   return (
     <>
       <div className="mb-3">
@@ -34,12 +40,13 @@ export default function TourHeroHeader({ title, rating, reviewCount, trekId, isW
               {[...Array(5)].map((_, index) => (
                 <span
                   key={index}
-                  className={`h-3.5 w-3.5 rounded-full border border-[#00aa6c] ${index < Math.round(rating) ? "bg-[#00aa6c]" : "bg-white"
-                    }`}
+                  className={`h-3.5 w-3.5 rounded-full border border-[#00aa6c] ${
+                    index < Math.round(rating) ? "bg-[#00aa6c]" : "bg-white"
+                  }`}
                 />
               ))}
             </div>
-            <Link href="#reviews" className="font-medium text-[#245b4a] underline">
+            <Link href="#reviews" className="font-medium text-[#0f3d24] underline">
               ({reviewCount.toLocaleString()} reviews)
             </Link>
           </div>
@@ -47,7 +54,7 @@ export default function TourHeroHeader({ title, rating, reviewCount, trekId, isW
 
         <div className="flex w-full flex-wrap items-center gap-3 self-start sm:w-auto">
           <WishlistButton trekId={trekId} initialState={isWishlisted} />
-          <button className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-[#123d2f] px-4 py-2 text-sm font-semibold text-[#123d2f] transition hover:bg-[#f7faf9] sm:min-h-0 sm:flex-none">
+          <button className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-[#0f3d24] px-4 py-2 text-sm font-semibold text-[#0f3d24] transition hover:bg-[#f7faf9] sm:min-h-0 sm:flex-none">
             <MessageSquare className="h-4 w-4" />
             <span>Write a review</span>
           </button>
