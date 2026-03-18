@@ -39,6 +39,11 @@ export default async function Gallery() {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-6 py-24 md:py-32">
+      <div className="mb-12">
+        <h2 className="text-4xl leading-[0.9] font-black tracking-tighter text-[#0a2e1a] md:text-5xl">
+          Moments from the Valley
+        </h2>
+      </div>
       <div className="grid grid-cols-1 gap-4 md:h-[500px] md:grid-cols-4 md:grid-rows-2">
         {hasImages
           ? galleryImages.map((image) => (

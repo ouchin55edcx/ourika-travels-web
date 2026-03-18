@@ -95,7 +95,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
     <>
       <nav
         className={`flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-[#edf7f1]/80 via-white/95 to-[#edf7f1]/80 px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
-          sticky ? "sticky top-0 shadow-lg shadow-[#0a2e1a]/10" : ""
+          sticky ? "sticky top-0" : ""
         } ${isSearchFocused ? "z-[150]" : "z-[100]"}`}
       >
         {/* Left Section: Logo + Search + Globe */}
@@ -284,7 +284,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             className="z-50 rounded-full p-2 text-[#0a2e1a] transition-colors hover:bg-gray-50"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
+            <Menu className="h-8 w-8" />
           </button>
         </div>
 
@@ -294,7 +294,25 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="flex h-full flex-col gap-8 px-6 pt-24">
+          <div className="flex h-full flex-col gap-8 px-6 pt-6">
+            {/* Close button inside drawer */}
+            <div className="flex items-center justify-between">
+              <Link
+                href="/"
+                className="text-xl font-black tracking-tight text-[#0a2e1a]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Ourika Travels
+              </Link>
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-[#0a2e1a] transition-colors hover:bg-gray-200"
+                aria-label="Close menu"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
             {/* Primary Links */}
             <div className="flex flex-col gap-6">
               <Link
@@ -390,7 +408,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
         {/* Backdrop for mobile menu */}
         {isMenuOpen && (
           <div
-            className="fixed inset-0 z-[299] bg-black/20 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[400] bg-black/20 backdrop-blur-sm lg:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
         )}
