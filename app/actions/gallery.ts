@@ -16,87 +16,71 @@ export type GalleryImage = {
 
 export async function getGalleryImages(): Promise<GalleryImage[]> {
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from("gallery_images")
-    .select("*")
+    .select("id, slot, image_url, cf_image_id, title, updated_at")
     .order("slot", { ascending: true });
-
-  if (error) {
-    console.error("Error fetching gallery images:", error);
-    return [];
-  }
-
   return data ?? [];
 }
 
 export async function updateGalleryImage(
   slot: number,
   formData: FormData,
-): Promise<{ success: true; url: string } | { error: string }> {
-  const user = await getCurrentUser();
-  if (!user || user.role !== "admin") {
-    return { error: "Forbidden" };
-  }
-
-  if (slot < 1 || slot > 4) {
-    return { error: "Invalid slot number" };
-  }
-
+): Promise<{ success: true; image_url: string } | { error: string }> {
   const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== "admin") return { error: "Forbidden" };
 
-  // Get existing image to delete from Cloudflare
+  const file = formData.get("file") as File | null;
+  if (!file) return { error: "No file provided" };
+
+  // Fetch existing row for this slot to get old cf_image_id
   const { data: existing } = await supabase
     .from("gallery_images")
-    .select("cf_image_id")
+    .select("id, cf_image_id")
     .eq("slot", slot)
-    .single();
+    .maybeSingle();
 
-  const file = formData.get("file") as File;
-  if (!file || file.size === 0) {
-    return { error: "No file provided" };
-  }
-
-  const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-  if (!allowed.includes(file.type)) {
-    return { error: "Invalid file type. Use JPG, PNG or WebP." };
-  }
-
+  // Upload new image to Cloudflare (throws on error)
+  let uploadResult: { imageId: string; url: string };
   try {
-    // Delete old image from Cloudflare if exists
-    if (existing?.cf_image_id) {
-      await deleteFromCloudflare(existing.cf_image_id);
-    }
-
-    // Upload new image to Cloudflare
-    const uploadResult = await uploadToCloudflare(file, {
-      folder: "gallery",
-      uploadedBy: user.id,
-    });
-
-    const cfImageId = uploadResult.imageId;
-    const imageUrl = uploadResult.url;
-
-    // Upsert into database
-    const { error: dbError } = await supabase.from("gallery_images").upsert({
-      slot,
-      image_url: imageUrl,
-      cf_image_id: cfImageId,
-      title: `Gallery Image ${slot}`,
-      updated_at: new Date().toISOString(),
-    });
-
-    if (dbError) {
-      // Rollback: delete from Cloudflare if DB fails
-      await deleteFromCloudflare(cfImageId);
-      return { error: dbError.message };
-    }
-
-    revalidatePath("/");
-    revalidatePath("/admin/dashboard/params");
-
-    return { success: true, url: imageUrl };
+    uploadResult = await uploadToCloudflare(file, { folder: `gallery/slot-${slot}` });
   } catch (err: any) {
-    console.error("Gallery image upload error:", err);
-    return { error: err.message || "Upload failed. Please try again." };
+    return { error: err.message ?? "Upload failed" };
   }
+
+  // Delete old Cloudflare image if one existed
+  if (existing?.cf_image_id) {
+    await deleteFromCloudflare(existing.cf_image_id).catch(() => {});
+  }
+
+  const newImageUrl = uploadResult.url;
+
+  if (existing?.id) {
+    // Row exists — UPDATE it, never INSERT
+    const { error } = await supabase
+      .from("gallery_images")
+      .update({
+        image_url: newImageUrl,
+        cf_image_id: uploadResult.imageId,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("slot", slot);
+
+    if (error) return { error: error.message };
+  } else {
+    // Row doesn't exist yet — safe to INSERT
+    const { error } = await supabase.from("gallery_images").insert({
+      slot,
+      image_url: newImageUrl,
+      cf_image_id: uploadResult.imageId,
+      title: `Photo ${slot}`,
+    });
+
+    if (error) return { error: error.message };
+  }
+
+  revalidatePath("/");
+  revalidatePath("/admin/dashboard/params");
+  return { success: true, image_url: newImageUrl };
 }
