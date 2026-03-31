@@ -99,6 +99,8 @@ export async function sendReviewRequest(
   }
 
   revalidatePath("/admin/dashboard/booking");
+  revalidatePath("/admin/dashboard/reviews");
+  revalidatePath("/admin/dashboard/overview");
   return { success: true };
 }
 
@@ -162,15 +164,34 @@ export async function submitReview(
   return { success: true };
 }
 
-export async function getAllReviews(): Promise<any[]> {
+export async function getAllReviews(offset = 0, limit = 50): Promise<any[]> {
   const supabase = await createSupabaseServerClient();
   const admin = await getCurrentUser();
   if (!admin || admin.role !== "admin") return [];
 
   const { data, error } = await supabase
     .from("reviews")
-    .select("*, treks(title, slug, cover_image), bookings(booking_ref, trek_date)")
-    .order("created_at", { ascending: false });
+    .select(
+      `
+      id,
+      booking_id,
+      tourist_name,
+      tourist_email,
+      rating,
+      title,
+      body,
+      rating_guide,
+      rating_value,
+      rating_service,
+      status,
+      admin_note,
+      created_at,
+      treks(title, slug, cover_image),
+      bookings(booking_ref, trek_date)
+    `,
+    )
+    .order("created_at", { ascending: false })
+    .range(offset, offset + limit - 1);
 
   if (error) return [];
   return data ?? [];
@@ -190,6 +211,7 @@ export async function approveReview(
 
   if (error) return { error: error.message };
   revalidatePath("/admin/dashboard/reviews");
+  revalidatePath("/admin/dashboard/overview");
   revalidatePath("/experiences");
   return { success: true };
 }
@@ -209,6 +231,7 @@ export async function rejectReview(
 
   if (error) return { error: error.message };
   revalidatePath("/admin/dashboard/reviews");
+  revalidatePath("/admin/dashboard/overview");
   return { success: true };
 }
 
@@ -283,6 +306,7 @@ export async function createManualReview(data: {
   if (error) return { error: error.message };
 
   revalidatePath("/admin/dashboard/reviews");
+  revalidatePath("/admin/dashboard/overview");
   revalidatePath("/experiences");
   return { success: true };
 }

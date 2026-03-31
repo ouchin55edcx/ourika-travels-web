@@ -1,25 +1,40 @@
 "use client";
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import { GripVertical, Pause, Play, Loader2, CheckCircle2, Shield } from "lucide-react";
+import { GripVertical, Pause, Play, Loader2, CheckCircle2, Shield, PlusCircle } from "lucide-react";
 
 import { updateGuideOrder, toggleGuideActive } from "@/app/actions/guides";
+import { toggleGuideAddTreksPermission } from "@/app/actions/guide-permissions";
 
 type Guide = {
   id: string;
-  full_name: string;
+  full_name: string | null;
   avatar_url: string | null;
   phone: string | null;
   guide_order: number | null;
-  guide_active: boolean;
-  is_verified: boolean;
-  specialties: string[];
-  languages: string[];
+  guide_active: boolean | null;
+  is_verified: boolean | null;
+  can_add_treks: boolean | null;
+  specialties: string[] | null;
+  languages: string[] | null;
+  is_active: boolean | null;
+  role?: string;
 };
 
 export default function GuideOrderManagement({ initialGuides }: { initialGuides: Guide[] }) {
   const [guides, setGuides] = useState<Guide[]>(
-    [...initialGuides].sort((a, b) => (a.guide_order ?? 999) - (b.guide_order ?? 999)),
+    [...initialGuides]
+      .map((g) => ({
+        ...g,
+        guide_active: g.guide_active ?? false,
+        is_active: g.is_active ?? true,
+        is_verified: g.is_verified ?? false,
+        can_add_treks: g.can_add_treks ?? false,
+        specialties: g.specialties ?? [],
+        languages: g.languages ?? [],
+        guide_order: g.guide_order ?? null,
+      }))
+      .sort((a, b) => (a.guide_order ?? 9999) - (b.guide_order ?? 9999)),
   );
   const [toast, setToast] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -70,6 +85,18 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
     });
   }
 
+  function handleToggleAddTreks(guideId: string, current: boolean) {
+    startTransition(async () => {
+      const result = await toggleGuideAddTreksPermission(guideId, !current);
+      if ("success" in result) {
+        setGuides((prev) =>
+          prev.map((g) => (g.id === guideId ? { ...g, can_add_treks: !current } : g)),
+        );
+        showToast(`Trek creation ${!current ? "enabled" : "disabled"} ✓`);
+      }
+    });
+  }
+
   return (
     <div className="space-y-4">
       <div className="rounded-2xl border border-[#d0ede0] bg-[#edf7f1] px-5 py-4 text-sm font-medium text-[#0b3a2c]">
@@ -80,7 +107,10 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
       <div className="overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-sm">
         {guides.length === 0 ? (
           <div className="py-20 text-center">
-            <p className="text-xl font-black text-gray-300">No active guides</p>
+            <p className="text-xl font-black text-gray-300">No guides found</p>
+            <p className="mt-2 text-sm text-gray-400">
+              Create a guide account in the Users page first
+            </p>
           </div>
         ) : (
           <div className="divide-y divide-gray-50">
@@ -112,7 +142,7 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
                     />
                   ) : (
                     <span className="text-lg font-black text-white">
-                      {guide.full_name?.charAt(0)}
+                      {guide.full_name?.charAt(0) || "G"}
                     </span>
                   )}
                 </div>
@@ -120,11 +150,16 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
                 {/* Info */}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <p className="font-black text-[#0b3a2c]">{guide.full_name}</p>
+                    <p className="font-black text-[#0b3a2c]">{guide.full_name || "Unknown"}</p>
                     {guide.is_verified && <Shield className="h-4 w-4 text-[#00ef9d]" />}
                     {!guide.guide_active && (
                       <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-black text-gray-500">
                         Paused
+                      </span>
+                    )}
+                    {!guide.is_active && (
+                      <span className="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-black text-red-600">
+                        Inactive
                       </span>
                     )}
                     {index === 0 && guide.guide_active && (
@@ -134,7 +169,7 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
                     )}
                   </div>
                   <p className="mt-0.5 text-xs font-medium text-gray-400">
-                    {guide.languages?.slice(0, 3).join(" · ")}
+                    {guide.languages?.slice(0, 3).join(" · ") || ""}
                     {guide.specialties?.length > 0 ? ` · ${guide.specialties[0]}` : ""}
                   </p>
                 </div>
@@ -176,6 +211,20 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
                       <Play className="h-3 w-3" /> Resume
                     </>
                   )}
+                </button>
+
+                {/* Add Trek Permission Toggle */}
+                <button
+                  onClick={() => handleToggleAddTreks(guide.id, guide.can_add_treks)}
+                  disabled={isPending}
+                  className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-black transition-all disabled:opacity-50 ${
+                    guide.can_add_treks
+                      ? "border border-[#00ef9d] bg-[#00ef9d]/20 text-[#0b3a2c] hover:bg-[#00ef9d]/30"
+                      : "border border-gray-200 bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  }`}
+                >
+                  <PlusCircle className="h-3 w-3" />
+                  {guide.can_add_treks ? "Can add treks" : "Cannot add treks"}
                 </button>
               </div>
             ))}

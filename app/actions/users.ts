@@ -4,27 +4,62 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
+export async function getAdminUsersPage(offset = 0, limit = 50) {
+  const supabase = await createSupabaseServerClient();
+  const admin = await getCurrentUser();
+  if (!admin || admin.role !== "admin") return [];
+
+  const { data, error } = await supabase
+    .from("users")
+    .select(
+      `
+      id,
+      full_name,
+      email,
+      role,
+      avatar_url,
+      phone,
+      bio,
+      guide_badge_code,
+      badge_image_url,
+      is_active,
+      specialties,
+      languages,
+      location,
+      years_experience,
+      certifications,
+      is_verified,
+      verification_status,
+      verification_note,
+      verified_at
+    `,
+    )
+    .order("created_at", { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (error) return [];
+  return data ?? [];
+}
+
 /**
  * Toggles a user's active status.
  * This is the primary mechanism for blocking/activating accounts.
  */
 export async function toggleUserStatus(userId: string, isActive: boolean) {
   const supabase = await createSupabaseServerClient();
-  
+
   // 1. Update the database profile
-  const { error } = await supabase
-    .from("users")
-    .update({ is_active: isActive })
-    .eq("id", userId);
+  const { error } = await supabase.from("users").update({ is_active: isActive }).eq("id", userId);
 
   if (error) return { error: error.message };
 
   // 2. Revalidate the users management page
   revalidatePath("/admin/dashboard/users");
-  
-  return { 
-    success: true, 
-    message: `User ${isActive ? "activated" : "blocked"} successfully` 
+  revalidatePath("/admin/dashboard/overview");
+
+  return {
+    success: true,
+    message: `User ${isActive ? "activated" : "blocked"} successfully`,
   };
 }
 
@@ -33,19 +68,20 @@ export async function toggleUserStatus(userId: string, isActive: boolean) {
  */
 export async function toggleGuideVerification(userId: string, isVerified: boolean) {
   const supabase = await createSupabaseServerClient();
-  
+
   const { error } = await supabase
     .from("users")
     .update({ email_verified: isVerified }) // Deriving verification from email_verified for now
     .eq("id", userId);
 
   if (error) return { error: error.message };
-  
+
   revalidatePath("/admin/dashboard/users");
-  
-  return { 
-    success: true, 
-    message: `Guide ${isVerified ? "verified" : "unverified"} successfully` 
+  revalidatePath("/admin/dashboard/overview");
+
+  return {
+    success: true,
+    message: `Guide ${isVerified ? "verified" : "unverified"} successfully`,
   };
 }
 
@@ -56,19 +92,17 @@ export async function toggleGuideVerification(userId: string, isVerified: boolea
  */
 export async function archiveUser(userId: string) {
   const supabase = await createSupabaseServerClient();
-  
-  const { error } = await supabase
-    .from("users")
-    .update({ is_active: false })
-    .eq("id", userId);
+
+  const { error } = await supabase.from("users").update({ is_active: false }).eq("id", userId);
 
   if (error) return { error: error.message };
-  
+
   revalidatePath("/admin/dashboard/users");
-  
-  return { 
-    success: true, 
-    message: "User archived successfully" 
+  revalidatePath("/admin/dashboard/overview");
+
+  return {
+    success: true,
+    message: "User archived successfully",
   };
 }
 
@@ -80,18 +114,16 @@ export async function archiveUser(userId: string) {
 export async function deleteUser(userId: string) {
   const supabase = await createSupabaseServerClient();
 
-  const { error } = await supabase
-    .from("users")
-    .delete()
-    .eq("id", userId);
+  const { error } = await supabase.from("users").delete().eq("id", userId);
 
   if (error) return { error: error.message };
 
   revalidatePath("/admin/dashboard/users");
+  revalidatePath("/admin/dashboard/overview");
 
   return {
     success: true,
-    message: "User record removed successfully"
+    message: "User record removed successfully",
   };
 }
 
@@ -102,23 +134,24 @@ export async function deleteUser(userId: string) {
 export async function requestVerification() {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
-  if (!user || user.role !== 'guide') return { error: 'Unauthorized' };
+  if (!user || user.role !== "guide") return { error: "Unauthorized" };
 
   // Only allow if not already verified or pending
-  if (user.verification_status === 'verified') {
-    return { error: 'Already verified' };
+  if (user.verification_status === "verified") {
+    return { error: "Already verified" };
   }
 
   const { error } = await supabase
-    .from('users')
-    .update({ verification_status: 'pending' })
-    .eq('id', user.id);
+    .from("users")
+    .update({ verification_status: "pending" })
+    .eq("id", user.id);
 
   if (error) return { error: error.message };
 
-  revalidatePath('/dashboard/guide');
-  revalidatePath('/dashboard/guide/profile');
-  revalidatePath('/admin/dashboard/users');
+  revalidatePath("/dashboard/guide");
+  revalidatePath("/dashboard/guide/profile");
+  revalidatePath("/admin/dashboard/users");
+  revalidatePath("/admin/dashboard/overview");
   return { success: true };
 }
 
@@ -129,21 +162,22 @@ export async function requestVerification() {
 export async function verifyGuide(guideId: string, note?: string) {
   const supabase = await createSupabaseServerClient();
   const admin = await getCurrentUser();
-  if (!admin || admin.role !== 'admin') return { error: 'Forbidden' };
+  if (!admin || admin.role !== "admin") return { error: "Forbidden" };
 
   const { error } = await supabase
-    .from('users')
+    .from("users")
     .update({
-      is_verified:         true,
-      verification_status: 'verified',
-      verification_note:   note || null,
-      verified_at:         new Date().toISOString(),
+      is_verified: true,
+      verification_status: "verified",
+      verification_note: note || null,
+      verified_at: new Date().toISOString(),
     })
-    .eq('id', guideId);
+    .eq("id", guideId);
 
   if (error) return { error: error.message };
 
-  revalidatePath('/admin/dashboard/users');
+  revalidatePath("/admin/dashboard/users");
+  revalidatePath("/admin/dashboard/overview");
   return { success: true };
 }
 
@@ -154,20 +188,20 @@ export async function verifyGuide(guideId: string, note?: string) {
 export async function rejectGuide(guideId: string, note: string) {
   const supabase = await createSupabaseServerClient();
   const admin = await getCurrentUser();
-  if (!admin || admin.role !== 'admin') return { error: 'Forbidden' };
+  if (!admin || admin.role !== "admin") return { error: "Forbidden" };
 
   const { error } = await supabase
-    .from('users')
+    .from("users")
     .update({
-      is_verified:         false,
-      verification_status: 'rejected',
-      verification_note:   note,
-      verified_at:         null,
+      is_verified: false,
+      verification_status: "rejected",
+      verification_note: note,
+      verified_at: null,
     })
-    .eq('id', guideId);
+    .eq("id", guideId);
 
   if (error) return { error: error.message };
 
-  revalidatePath('/admin/dashboard/users');
+  revalidatePath("/admin/dashboard/users");
   return { success: true };
 }

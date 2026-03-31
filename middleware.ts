@@ -21,6 +21,11 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
   const pathname = request.nextUrl.pathname;
+  const hostname = request.headers.get("host") || "";
+
+  // Check for guide subdomain (e.g., ahmed.ourika-travels.com or guide.ourika-travels.com/ahmed)
+  // For now, we'll use path-based routing: /guide/[username]
+  // Subdomain support can be added later with Vercel/Netlify configuration
 
   // Redirect authenticated users away from auth pages
   const authPages = ["/auth/login", "/auth/register"];
@@ -74,7 +79,7 @@ export async function middleware(request: NextRequest) {
         }
       }
     }
-  } else if (isProtected || Object.keys(ROLE_ROUTES).some(route => pathname.startsWith(route))) {
+  } else if (isProtected || Object.keys(ROLE_ROUTES).some((route) => pathname.startsWith(route))) {
     const url = new URL("/auth/login", request.url);
     url.searchParams.set("redirectTo", pathname);
     return NextResponse.redirect(url);
@@ -82,7 +87,6 @@ export async function middleware(request: NextRequest) {
 
   return supabaseResponse;
 }
-
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico|public|api/test).*)"],

@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: "Manage your administrative account settings and personal information.",
 };
 
-
 export default async function AdminProfilePage() {
   const user = await getCurrentUser();
 
@@ -17,11 +16,13 @@ export default async function AdminProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 py-6">
+    <div className="space-y-8 py-4">
       <div>
-        <p className="text-sm font-bold uppercase tracking-wider text-[#0b3a2c]/60">Settings</p>
-        <h1 className="mt-1 text-4xl font-black tracking-tight text-[#0b3a2c]">Admin Profile</h1>
-        <p className="mt-3 text-lg font-medium text-gray-500">
+        <p className="text-sm font-bold tracking-wider text-[#0b3a2c]/60 uppercase">Settings</p>
+        <h1 className="mt-1 text-3xl font-black tracking-tight text-[#0b3a2c] sm:text-[2rem]">
+          Admin Profile
+        </h1>
+        <p className="mt-1 text-sm font-medium text-gray-500 sm:text-base">
           Manage your account information and preferences.
         </p>
       </div>
@@ -34,7 +35,7 @@ export default async function AdminProfilePage() {
           <div>
             <h2 className="text-xl font-bold text-gray-900">{user.full_name}</h2>
             <p className="text-sm font-medium text-gray-400">{user.email}</p>
-            <div className="mt-2 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 border border-emerald-100 uppercase tracking-tighter">
+            <div className="mt-2 inline-flex items-center rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-bold tracking-tighter text-emerald-700 uppercase">
               {user.role} Account
             </div>
           </div>
@@ -45,4 +46,3 @@ export default async function AdminProfilePage() {
     </div>
   );
 }
-

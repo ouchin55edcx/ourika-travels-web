@@ -13,7 +13,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
-  signOut: async () => { },
+  signOut: async () => {},
 });
 
 export function AuthProvider({
@@ -39,16 +39,16 @@ export function AuthProvider({
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       // Always clear user on sign out — handle this FIRST
-      if (event === 'SIGNED_OUT' || !session) {
+      if (event === "SIGNED_OUT" || !session) {
         setUser(null);
         return;
       }
 
-      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "USER_UPDATED") {
         const { data } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', session.user.id)
+          .from("users")
+          .select("*")
+          .eq("id", session.user.id)
           .single();
 
         if (data) {
@@ -56,12 +56,10 @@ export function AuthProvider({
         } else {
           setUser({
             id: session.user.id,
-            email: session.user.email || '',
+            email: session.user.email || "",
             full_name:
-              session.user.user_metadata?.full_name ||
-              session.user.email?.split('@')[0] ||
-              'User',
-            role: (session.user.user_metadata?.role as any) || 'tourist',
+              session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "User",
+            role: (session.user.user_metadata?.role as any) || "tourist",
             avatar_url: session.user.user_metadata?.avatar_url || null,
             phone: session.user.user_metadata?.phone || null,
             bio: null,
@@ -75,9 +73,10 @@ export function AuthProvider({
             years_experience: null,
             certifications: [],
             is_verified: false,
-            verification_status: 'unsubmitted',
+            verification_status: "unsubmitted",
             verification_note: null,
             verified_at: null,
+            can_add_treks: false,
           } as AuthUser);
         }
       }

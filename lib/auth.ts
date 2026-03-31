@@ -21,9 +21,10 @@ export type AuthUser = {
   years_experience: number | null;
   certifications: string[];
   is_verified: boolean;
-  verification_status: 'unsubmitted' | 'pending' | 'verified' | 'rejected';
+  verification_status: "unsubmitted" | "pending" | "verified" | "rejected";
   verification_note: string | null;
   verified_at: string | null;
+  can_add_treks: boolean;
 };
 
 export async function getCurrentUser(): Promise<AuthUser | null> {
@@ -32,7 +33,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   try {
     await connection();
   } catch {
-    // connection() might fail in some environments (like mid-middleware), 
+    // connection() might fail in some environments (like mid-middleware),
     // we continue as cookies() will also opt-out usually.
   }
 
@@ -44,11 +45,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   if (!user) return null;
 
   // Try to fetch profile from the public.users table
-  const { data: profile } = await supabase
-    .from("users")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+  const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
 
   if (profile) {
     return profile as AuthUser;
@@ -74,9 +71,10 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     years_experience: null,
     certifications: [],
     is_verified: false,
-    verification_status: 'unsubmitted',
+    verification_status: "unsubmitted",
     verification_note: null,
     verified_at: null,
+    can_add_treks: false,
   } as AuthUser;
 }
 
@@ -89,4 +87,3 @@ export async function requireAuth(allowedRoles?: UserRole[]): Promise<AuthUser> 
   }
   return user;
 }
-

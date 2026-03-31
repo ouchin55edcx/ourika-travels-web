@@ -1,24 +1,30 @@
-import { getTrekById } from '@/app/actions/treks';
-import { getCategories } from '@/app/actions/categories';
-import { getCurrentUser } from '@/lib/auth';
-import { redirect, notFound } from 'next/navigation';
-import TrekWizard from '../../new/TrekWizard';
+import { getTrekById } from "@/app/actions/treks";
+import { getCategories } from "@/app/actions/categories";
+import { getCurrentUser } from "@/lib/auth";
+import { redirect, notFound } from "next/navigation";
+import dynamic from "next/dynamic";
 
-export const metadata = { title: 'Edit Trek | Admin' };
+const TrekWizard = dynamic(() => import("../../new/TrekWizard"), {
+  loading: () => (
+    <div className="min-h-screen bg-[#f5f7f6] p-6">
+      <div className="animate-pulse space-y-6">
+        <div className="h-12 w-64 rounded-2xl bg-gray-200" />
+        <div className="h-[70vh] rounded-[2rem] bg-white" />
+      </div>
+    </div>
+  ),
+});
 
-export default async function EditTrekPage({
-    params,
-}: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
-    const user = await getCurrentUser();
-    if (!user || user.role !== 'admin') redirect('/auth/login');
+export const metadata = { title: "Edit Trek | Admin" };
 
-    const [trek, categories] = await Promise.all([
-        getTrekById(id),
-        getCategories()
-    ]);
+export default async function EditTrekPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const user = await getCurrentUser();
+  if (!user || user.role !== "admin") redirect("/auth/login");
 
-    if (!trek) notFound();
+  const [trek, categories] = await Promise.all([getTrekById(id), getCategories()]);
 
-    return <TrekWizard categories={categories} initialData={trek} trekId={id} />;
+  if (!trek) notFound();
+
+  return <TrekWizard categories={categories} initialData={trek} trekId={id} />;
 }

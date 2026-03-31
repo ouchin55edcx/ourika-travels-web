@@ -21,6 +21,7 @@ import {
   assignGuide,
   autoAssignGuide,
   getActiveGuides,
+  getAllBookings,
 } from "@/app/actions/bookings";
 
 type Booking = any;
@@ -29,7 +30,13 @@ type StatusFilter = "all" | "pending" | "confirmed" | "cancelled" | "completed";
 type PaymentFilter = "all" | "paid" | "unpaid";
 type SourceFilter = "all" | "online" | "walkin" | "partner";
 
-export default function BookingsManagement({ initialBookings }: { initialBookings: Booking[] }) {
+export default function BookingsManagement({
+  initialBookings,
+  initialOffset,
+}: {
+  initialBookings: Booking[];
+  initialOffset: number;
+}) {
   const [bookings, setBookings] = useState<Booking[]>(initialBookings);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
@@ -38,6 +45,9 @@ export default function BookingsManagement({ initialBookings }: { initialBooking
   const [selected, setSelected] = useState<Booking | null>(null);
   const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [offset, setOffset] = useState(initialOffset);
+  const [hasMore, setHasMore] = useState(initialBookings.length === 50);
   const [guides, setGuides] = useState<any[]>([]);
 
   useEffect(() => {
@@ -140,7 +150,7 @@ export default function BookingsManagement({ initialBookings }: { initialBooking
             placeholder="Search name, email, ref or trek..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-2xl border border-gray-100 bg-white py-3 pr-4 pl-11 text-sm shadow-sm focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
+            className="w-full rounded-2xl border border-gray-100 bg-white py-3 pr-4 pl-11 text-sm shadow-sm placeholder:text-gray-700 focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
           />
         </div>
 
@@ -384,6 +394,26 @@ export default function BookingsManagement({ initialBookings }: { initialBooking
           </table>
         )}
       </div>
+
+      {hasMore && (
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={async () => {
+              setIsLoadingMore(true);
+              const nextPage = await getAllBookings(offset, 50);
+              setBookings((prev) => [...prev, ...nextPage]);
+              setOffset((prev) => prev + nextPage.length);
+              setHasMore(nextPage.length === 50);
+              setIsLoadingMore(false);
+            }}
+            disabled={isLoadingMore}
+            className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-bold text-gray-700 transition-all hover:bg-gray-50 disabled:opacity-50"
+          >
+            {isLoadingMore ? "Loading..." : "Load more"}
+          </button>
+        </div>
+      )}
 
       {/* ── DETAIL PANEL (right drawer) ──────────────────────── */}
       {selected && (

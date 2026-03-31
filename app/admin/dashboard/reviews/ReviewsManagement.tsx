@@ -19,6 +19,7 @@ import {
   rejectReview,
   sendReviewRequest,
   createManualReview,
+  getAllReviews,
 } from "@/app/actions/reviews";
 
 type StatusFilter = "all" | "pending" | "approved" | "rejected" | "unsent";
@@ -74,15 +75,17 @@ function RatingStars({ rating }: { rating: number }) {
 }
 
 const INPUT = `w-full rounded-2xl border border-gray-200 bg-gray-50 px-4
-  py-3 text-sm font-medium focus:border-[#0b3a2c] focus:bg-white
+  py-3 text-sm font-medium placeholder:text-gray-700 focus:border-[#0b3a2c] focus:bg-white
   focus:outline-none focus:ring-2 focus:ring-[#0b3a2c]/10 transition-all`;
 
 export default function ReviewsManagement({
   initialReviews,
   treks,
+  initialOffset,
 }: {
   initialReviews: any[];
   treks: { id: string; title: string; slug: string }[];
+  initialOffset: number;
 }) {
   const [reviews, setReviews] = useState(initialReviews);
   const [statusFilter, setFilter] = useState<StatusFilter>("pending");
@@ -92,6 +95,9 @@ export default function ReviewsManagement({
   const [showForm, setShowForm] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [offset, setOffset] = useState(initialOffset);
+  const [hasMore, setHasMore] = useState(initialReviews.length === 50);
 
   // Manual form state
   const [form, setForm] = useState({
@@ -591,17 +597,37 @@ export default function ReviewsManagement({
         )}
       </div>
 
+      {hasMore && (
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={async () => {
+              setIsLoadingMore(true);
+              const nextPage = await getAllReviews(offset, 50);
+              setReviews((prev) => [...prev, ...nextPage]);
+              setOffset((prev) => prev + nextPage.length);
+              setHasMore(nextPage.length === 50);
+              setIsLoadingMore(false);
+            }}
+            disabled={isLoadingMore}
+            className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-bold text-gray-700 transition-all hover:bg-gray-50 disabled:opacity-50"
+          >
+            {isLoadingMore ? "Loading..." : "Load more"}
+          </button>
+        </div>
+      )}
+
       {/* ── DETAIL PANEL ──────────────────────────────────── */}
       {selected && (
         <div className="fixed inset-0 z-[300] flex">
           <div
-            className="flex-1 bg-black/40 backdrop-blur-sm"
+            className="hidden flex-1 bg-black/40 backdrop-blur-sm lg:block"
             onClick={() => {
               setSelected(null);
               setShowReject(false);
             }}
           />
-          <div className="animate-in slide-in-from-right flex h-full w-full max-w-md flex-col overflow-y-auto bg-white shadow-2xl duration-300">
+          <div className="animate-in slide-in-from-right flex h-full w-full flex-col overflow-y-auto bg-white shadow-2xl duration-300 lg:max-w-md">
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-100 bg-white px-6 py-5">
               <h2 className="text-lg font-black text-[#0b3a2c]">Review detail</h2>
               <button
@@ -711,7 +737,7 @@ export default function ReviewsManagement({
                       onChange={(e) => setRejectNote(e.target.value)}
                       placeholder="Reason for rejection (optional)..."
                       rows={3}
-                      className="w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-red-300 focus:outline-none"
+                      className="w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm placeholder:text-gray-700 focus:border-red-300 focus:outline-none"
                     />
                     <div className="flex gap-2">
                       <button

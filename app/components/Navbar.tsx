@@ -294,7 +294,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="flex h-full flex-col gap-8 px-6 pt-6">
+          <div className="flex h-full flex-col gap-8 bg-white px-6 pt-6">
             {/* Close button inside drawer */}
             <div className="flex items-center justify-between">
               <Link
@@ -408,7 +408,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
         {/* Backdrop for mobile menu */}
         {isMenuOpen && (
           <div
-            className="fixed inset-0 z-[400] bg-black/20 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[299] bg-black/20 backdrop-blur-sm lg:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
         )}

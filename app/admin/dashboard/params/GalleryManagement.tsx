@@ -13,7 +13,13 @@ type GallerySlot = {
   title: string | null;
 };
 
-export default function GalleryManagement({ initialSlots }: { initialSlots: GallerySlot[] }) {
+export default function GalleryManagement({
+  initialSlots,
+  showHeader = true,
+}: {
+  initialSlots: GallerySlot[];
+  showHeader?: boolean;
+}) {
   const [activeTab, setActiveTab] = useState("gallery");
   const [gallerySlots, setGallerySlots] = useState<GallerySlot[]>(initialSlots);
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
@@ -53,16 +59,18 @@ export default function GalleryManagement({ initialSlots }: { initialSlots: Gall
 
   return (
     <div className="space-y-6">
-      <div>
-        <p className="text-sm font-bold tracking-wider text-[#0a2e1a]/60 uppercase">Settings</p>
-        <h1 className="text-4xl font-black tracking-tight text-[#0a2e1a]">Platform Settings</h1>
-        <p className="mt-1 text-base font-medium text-gray-500">
-          Manage gallery images and platform configuration.
-        </p>
-      </div>
+      {showHeader && (
+        <div>
+          <p className="text-sm font-bold tracking-wider text-[#0a2e1a]/60 uppercase">Settings</p>
+          <h1 className="text-4xl font-black tracking-tight text-[#0a2e1a]">Platform Settings</h1>
+          <p className="mt-1 text-base font-medium text-gray-500">
+            Manage gallery images and platform configuration.
+          </p>
+        </div>
+      )}
 
       {/* Tab Navigation */}
-      <div className="flex gap-2">
+      <div className={`flex gap-2 ${showHeader ? "" : "hidden"}`}>
         <button
           onClick={() => setActiveTab("gallery")}
           className={`rounded-full px-5 py-2.5 text-sm font-bold transition-all ${
@@ -165,7 +173,7 @@ export default function GalleryManagement({ initialSlots }: { initialSlots: Gall
       )}
 
       {/* General Tab Placeholder */}
-      {activeTab === "general" && (
+      {showHeader && activeTab === "general" && (
         <div className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-sm">
           <p className="text-lg font-semibold text-gray-800">General settings coming soon...</p>
         </div>

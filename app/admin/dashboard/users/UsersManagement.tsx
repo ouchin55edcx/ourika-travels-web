@@ -24,6 +24,7 @@ import {
   ShieldX,
 } from "lucide-react";
 import {
+  getAdminUsersPage,
   toggleUserStatus,
   toggleGuideVerification,
   archiveUser,
@@ -34,13 +35,23 @@ import { sendNotificationToAllGuides } from "@/app/actions/announcements";
 
 interface UsersManagementProps {
   initialUsers: AuthUser[];
+  initialOffset: number;
+  pendingGuidesCount: number;
 }
 
-export default function UsersManagement({ initialUsers }: UsersManagementProps) {
+export default function UsersManagement({
+  initialUsers,
+  initialOffset,
+  pendingGuidesCount,
+}: UsersManagementProps) {
   type Tab = "tourist" | "guide" | "pending";
+  const [users, setUsers] = useState<AuthUser[]>(initialUsers);
   const [activeTab, setActiveTab] = useState<Tab>("tourist");
   const [searchQuery, setSearchQuery] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [offset, setOffset] = useState(initialOffset);
+  const [hasMore, setHasMore] = useState(initialUsers.length === 50);
   const [selectedGuide, setSelectedGuide] = useState<AuthUser | null>(null);
   const [rejectNote, setRejectNote] = useState("");
   const [showRejectInput, setShowRejectInput] = useState(false);
@@ -68,7 +79,7 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
           placeholder="Send a quick message to all guides..."
-          className="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium focus:border-[#0b3a2c] focus:outline-none"
+          className="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium placeholder:text-gray-700 focus:border-[#0b3a2c] focus:outline-none"
         />
         <button
           onClick={handleSend}
@@ -87,12 +98,7 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
     );
   }
 
-  const tourists = initialUsers.filter((u) => u.role === "tourist");
-  const guides = initialUsers.filter((u) => u.role === "guide");
-  const blockedUsers = initialUsers.filter((u) => !u.is_active).length;
-  const pendingGuides = guides.filter((g) => g.verification_status === "pending").length;
-
-  const filteredUsers = initialUsers.filter((user) => {
+  const filteredUsers = users.filter((user) => {
     if (activeTab === "pending") {
       return user.role === "guide" && user.verification_status === "pending";
     }
@@ -136,57 +142,6 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
 
   return (
     <div className="space-y-10">
-      {/* Stats Summary */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          {
-            label: "Total Tourists",
-            count: tourists.length,
-            icon: UsersRound,
-            color: "text-blue-600",
-            bg: "bg-blue-50",
-          },
-          {
-            label: "Active Guides",
-            count: guides.filter((g) => g.is_active).length,
-            icon: Compass,
-            color: "text-emerald-600",
-            bg: "bg-emerald-50",
-          },
-          {
-            label: "Pending Verification",
-            count: pendingGuides,
-            icon: ShieldAlert,
-            color: "text-amber-600",
-            bg: "bg-amber-50",
-          },
-          {
-            label: "Blocked Accounts",
-            count: blockedUsers,
-            icon: ShieldCheck,
-            color: "text-red-600",
-            bg: "bg-red-50",
-          },
-        ].map((stat) => (
-          <div
-            key={stat.label}
-            className="flex items-center gap-4 rounded-3xl border border-black/5 bg-white p-6 shadow-sm"
-          >
-            <div
-              className={`flex h-12 w-12 items-center justify-center rounded-2xl ${stat.bg} ${stat.color}`}
-            >
-              <stat.icon className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-xs font-bold tracking-tight text-gray-400 uppercase">
-                {stat.label}
-              </p>
-              <p className="text-2xl font-black text-[#0b3a2c]">{stat.count}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
       <div className="space-y-6">
         {/* Filters & Search */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -220,9 +175,9 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
               }`}
             >
               Pending Verification
-              {pendingGuides > 0 && (
+              {pendingGuidesCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-black text-white">
-                  {pendingGuides}
+                  {pendingGuidesCount}
                 </span>
               )}
             </button>
@@ -235,7 +190,7 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
               placeholder={`Search ${activeTab}s by name or email...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-2xl border border-black/5 bg-white py-3 pr-4 pl-11 text-sm shadow-sm transition-all focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+              className="w-full rounded-2xl border border-black/5 bg-white py-3 pr-4 pl-11 text-sm shadow-sm transition-all placeholder:text-gray-700 focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
             />
           </div>
         </div>
@@ -392,6 +347,26 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
           </div>
         </div>
       </div>
+
+      {hasMore && (
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={async () => {
+              setIsLoadingMore(true);
+              const nextPage = await getAdminUsersPage(offset, 50);
+              setUsers((prev) => [...prev, ...(nextPage as AuthUser[])]);
+              setOffset((prev) => prev + nextPage.length);
+              setHasMore(nextPage.length === 50);
+              setIsLoadingMore(false);
+            }}
+            disabled={isLoadingMore}
+            className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-bold text-gray-700 transition-all hover:bg-gray-50 disabled:opacity-50"
+          >
+            {isLoadingMore ? "Loading..." : "Load more"}
+          </button>
+        </div>
+      )}
 
       {/* Guide Detail Panel */}
       {selectedGuide && (
@@ -617,7 +592,7 @@ export default function UsersManagement({ initialUsers }: UsersManagementProps) 
                       onChange={(e) => setRejectNote(e.target.value)}
                       placeholder="Reason for rejection (shown to guide)..."
                       rows={3}
-                      className="w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-red-300 focus:outline-none"
+                      className="w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm placeholder:text-gray-700 focus:border-red-300 focus:outline-none"
                     />
                     <div className="flex gap-2">
                       <button

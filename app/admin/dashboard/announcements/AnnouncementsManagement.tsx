@@ -64,14 +64,14 @@ export default function AnnouncementsManagement({
           placeholder="Title — e.g. 'Important: Schedule change this weekend'"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium transition-all focus:border-[#0b3a2c] focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
+          className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium transition-all placeholder:text-gray-700 focus:border-[#0b3a2c] focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
         />
         <textarea
           rows={4}
           placeholder="Write your message to guides..."
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          className="w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium transition-all focus:border-[#0b3a2c] focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
+          className="w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium transition-all placeholder:text-gray-700 focus:border-[#0b3a2c] focus:bg-white focus:ring-2 focus:ring-[#0b3a2c]/10 focus:outline-none"
         />
 
         <div className="flex items-center justify-between">

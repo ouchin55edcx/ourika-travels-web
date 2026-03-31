@@ -106,7 +106,7 @@ function DynamicList({
               onChange(next);
             }}
             placeholder={placeholder}
-            className="flex-1 border-b border-gray-200 bg-transparent py-2 text-sm font-medium text-black outline-none focus:border-[#0b3a2c]"
+            className="flex-1 border-b border-gray-200 bg-transparent py-2 text-sm font-medium text-black outline-none placeholder:text-gray-700 focus:border-[#0b3a2c]"
           />
           {items.length > 1 && (
             <button
@@ -468,7 +468,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                     placeholder="e.g. Ourika Valley Full-Day Waterfall Hike"
                     value={formData.title}
                     onChange={(e) => update("title", e.target.value)}
-                    className="h-14 w-full rounded-2xl border border-gray-100 bg-gray-50 px-6 text-xl font-bold text-[#0b3a2c] transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                    className="h-14 w-full rounded-2xl border border-gray-100 bg-gray-50 px-6 text-xl font-bold text-[#0b3a2c] transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                   />
                   <div className="flex justify-between px-2">
                     <span className="text-xs font-bold text-gray-400 opacity-60">
@@ -538,7 +538,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                     placeholder="e.g. 2025"
                     value={formData.award || ""}
                     onChange={(e) => update("award", e.target.value)}
-                    className="h-12 w-full max-w-xs rounded-2xl border border-gray-100 bg-gray-50 px-6 text-base font-bold text-[#0b3a2c] transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                    className="h-12 w-full max-w-xs rounded-2xl border border-gray-100 bg-gray-50 px-6 text-base font-bold text-[#0b3a2c] transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                   />
                 </div>
               </div>
@@ -556,7 +556,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                     value={formData.about}
                     onChange={(e) => update("about", e.target.value)}
                     placeholder="Describe the hidden waterfalls, the mountain views, and the authentic Berber hospitality..."
-                    className="w-full rounded-3xl border border-gray-100 bg-gray-50 p-6 font-medium text-black transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                    className="w-full rounded-3xl border border-gray-100 bg-gray-50 p-6 font-medium text-black transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                   />
                   <div className="flex justify-end px-2">
                     <span
@@ -865,7 +865,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                         <input
                           type="text"
                           placeholder="e.g. 3 days"
-                          className="w-full rounded-2xl border border-gray-100 bg-gray-50 px-5 py-3 text-sm font-bold text-black focus:bg-white focus:outline-none"
+                          className="w-full rounded-2xl border border-gray-100 bg-gray-50 px-5 py-3 text-sm font-bold text-black placeholder:text-gray-700 focus:bg-white focus:outline-none"
                         />
                       )}
                     </div>
@@ -935,7 +935,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                           placeholder="e.g. Place Jemaa el-Fnaa, Marrakech"
                           value={formData.start_location}
                           onChange={(e) => update("start_location", e.target.value)}
-                          className="w-full rounded-2xl border border-gray-100 bg-gray-50 py-3.5 pr-4 pl-11 text-sm font-bold text-black transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                          className="w-full rounded-2xl border border-gray-100 bg-gray-50 py-3.5 pr-4 pl-11 text-sm font-bold text-black transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -1098,7 +1098,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                     placeholder="e.g. price varies by group size"
                     value={formData.price_note || ""}
                     onChange={(e) => update("price_note", e.target.value)}
-                    className="h-12 w-full rounded-2xl border border-gray-100 bg-gray-50 px-6 text-base font-medium text-[#0b3a2c] transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                    className="h-12 w-full rounded-2xl border border-gray-100 bg-gray-50 px-6 text-base font-medium text-[#0b3a2c] transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                   />
                 </div>
 
@@ -1113,7 +1113,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                     onChange={(e) =>
                       update("avg_booking_lead_days", e.target.value ? +e.target.value : null)
                     }
-                    className="h-12 w-full rounded-2xl border border-gray-100 bg-gray-50 px-6 text-base font-medium text-[#0b3a2c] transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                    className="h-12 w-full rounded-2xl border border-gray-100 bg-gray-50 px-6 text-base font-medium text-[#0b3a2c] transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                   />
                   <p className="text-xs text-gray-500">
                     This appears as 'Book ahead' in the booking card
@@ -1129,7 +1129,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                     placeholder="Auto-generated from title if left empty. Max 155 chars."
                     value={formData.meta_description || ""}
                     onChange={(e) => update("meta_description", e.target.value)}
-                    className="w-full rounded-2xl border border-gray-100 bg-gray-50 p-4 font-medium text-[#0b3a2c] transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                    className="w-full rounded-2xl border border-gray-100 bg-gray-50 p-4 font-medium text-[#0b3a2c] transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                   />
                   <div className="flex justify-end px-2">
                     <span
@@ -1166,7 +1166,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                                 update("itinerary_steps", newS);
                               }}
                               placeholder="Stop Title"
-                              className="bg-transparent font-bold text-[#0b3a2c] focus:outline-none"
+                              className="bg-transparent font-bold text-[#0b3a2c] placeholder:text-gray-700 focus:outline-none"
                             />
                           </div>
                           <button
@@ -1195,7 +1195,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
                                 update("itinerary_steps", newS);
                               }}
                               placeholder="e.g. 2 hours"
-                              className="w-full rounded-xl border border-gray-50 bg-gray-50 px-3 py-2 text-xs font-bold text-black focus:bg-white focus:outline-none"
+                              className="w-full rounded-xl border border-gray-50 bg-gray-50 px-3 py-2 text-xs font-bold text-black placeholder:text-gray-700 focus:bg-white focus:outline-none"
                             />
                           </div>
                           <div className="space-y-1">

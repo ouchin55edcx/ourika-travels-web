@@ -111,7 +111,7 @@ export default function CategoryManagement({ initialCategories }: CategoryManage
             placeholder="Search categories..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-2xl border border-black/5 bg-white py-3 pr-4 pl-11 text-sm shadow-sm transition-all focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+            className="w-full rounded-2xl border border-black/5 bg-white py-3 pr-4 pl-11 text-sm shadow-sm transition-all placeholder:text-gray-700 focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
           />
         </div>
         <button
@@ -310,7 +310,7 @@ export default function CategoryManagement({ initialCategories }: CategoryManage
                     defaultValue={editingCategory?.name}
                     required
                     placeholder="e.g., Adventure Tours"
-                    className="mt-2 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-black transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-black transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                   />
                 </div>
                 <div className="space-y-2">
@@ -387,7 +387,7 @@ export default function CategoryManagement({ initialCategories }: CategoryManage
                     defaultValue={editingCategory?.description || ""}
                     rows={4}
                     placeholder="What makes this category special?"
-                    className="mt-2 w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-black transition-all focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
+                    className="mt-2 w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-black transition-all placeholder:text-gray-700 focus:bg-white focus:ring-4 focus:ring-[#0b3a2c]/5 focus:outline-none"
                   />
                 </div>
               </div>
