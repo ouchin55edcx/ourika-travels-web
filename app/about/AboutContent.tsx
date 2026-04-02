@@ -92,7 +92,13 @@ export default function OurikaAboutPage() {
 
               {/* Picture - Second on mobile, second column spans both rows on desktop */}
               <div className="relative order-2 h-64 overflow-hidden rounded-2xl shadow-xl sm:h-80 lg:row-span-2 lg:h-full">
-                <Image src="/about.png" alt="Ourika Valley" fill className="object-cover" />
+                <Image
+                  src="/about.png"
+                  alt="Ourika Valley local guides in Setti Fatma, Morocco"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
               </div>
 
               {/* Content - Third on mobile, first column second row on desktop */}

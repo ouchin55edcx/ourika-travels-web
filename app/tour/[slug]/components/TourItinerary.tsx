@@ -126,10 +126,10 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                           <div className="relative aspect-[16/9] sm:aspect-[16/7]">
                             <Image
                               src={fixUrl(step.image)}
-                              alt={step.title}
+                              alt={`${step.title} — Ourika Valley, Morocco`}
                               fill
                               className="object-cover"
-                              sizes="(max-width: 1024px) 100vw, 340px"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                           </div>
                           <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f3d24] shadow-sm">

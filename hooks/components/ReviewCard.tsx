@@ -46,7 +46,13 @@ export default function ReviewCard({ review, index }: ReviewCardProps) {
       <div className="flex items-center gap-4 border-t border-gray-50 pt-8">
         <div className="relative h-12 w-12 overflow-hidden rounded-2xl">
           {review.tourist_avatar ? (
-            <Image src={review.tourist_avatar} alt={review.tourist_name} fill className="object-cover" />
+            <Image
+              src={review.tourist_avatar}
+              alt={`${review.tourist_name} traveler profile photo`}
+              fill
+              className="object-cover"
+              sizes="48px"
+            />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-[#0a2e1a] font-black text-white">
               {initials}
@@ -59,7 +65,7 @@ export default function ReviewCard({ review, index }: ReviewCardProps) {
             Verified Traveler
           </p>
           {review.treks?.title && (
-            <p className="text-[10px] text-gray-500 mt-0.5">{review.treks.title}</p>
+            <p className="mt-0.5 text-[10px] text-gray-500">{review.treks.title}</p>
           )}
         </div>
       </div>

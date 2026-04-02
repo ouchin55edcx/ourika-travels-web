@@ -9,7 +9,7 @@ type Props = {
 
 export default function TourHighlights({ highlights, included, not_included, services }: Props) {
   return (
-    <section className="max-w-[760px] space-y-10 border-t border-[#e5e7eb] py-8">
+    <section id="highlights" className="max-w-[760px] space-y-10 border-t border-[#e5e7eb] py-8">
       {/* 1. Highlights */}
       <div>
         <h3 className="mb-4 text-2xl leading-tight font-black text-[#111827] md:text-[28px]">

@@ -17,10 +17,10 @@ export default function TouristHighlight() {
         <div className={`relative h-[300px] w-full overflow-hidden lg:h-auto lg:w-[40%]`}>
           <Image
             src="https://images.unsplash.com/photo-1531058020387-3be344556be6?q=80&w=1200&auto=format&fit=crop"
-            alt="Happy tourist enjoying Ourika"
+            alt="Traveler enjoying Ourika Valley, Morocco"
             fill
             className="object-cover saturate-[0.8]"
-            sizes="(max-width: 1024px) 100vw, 45vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
 

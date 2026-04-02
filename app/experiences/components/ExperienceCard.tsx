@@ -22,10 +22,10 @@ export default function ExperienceCard({
         <div className="relative aspect-[4/3]">
           <Image
             src={trek.cover_image}
-            alt={trek.title}
+            alt={`${trek.title} — Ourika Valley, Morocco`}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
         <div

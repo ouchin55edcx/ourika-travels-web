@@ -170,7 +170,9 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
                   </div>
                   <p className="mt-0.5 text-xs font-medium text-gray-400">
                     {guide.languages?.slice(0, 3).join(" · ") || ""}
-                    {guide.specialties?.length > 0 ? ` · ${guide.specialties[0]}` : ""}
+                    {guide.specialties && guide.specialties.length > 0
+                      ? ` · ${guide.specialties[0]}`
+                      : ""}
                   </p>
                 </div>
 
@@ -194,7 +196,7 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
 
                 {/* Pause/resume toggle */}
                 <button
-                  onClick={() => handleToggleActive(guide.id, guide.guide_active)}
+                  onClick={() => handleToggleActive(guide.id, guide.guide_active ?? false)}
                   disabled={isPending}
                   className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-black transition-all disabled:opacity-50 ${
                     guide.guide_active
@@ -215,7 +217,7 @@ export default function GuideOrderManagement({ initialGuides }: { initialGuides:
 
                 {/* Add Trek Permission Toggle */}
                 <button
-                  onClick={() => handleToggleAddTreks(guide.id, guide.can_add_treks)}
+                  onClick={() => handleToggleAddTreks(guide.id, guide.can_add_treks ?? false)}
                   disabled={isPending}
                   className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-black transition-all disabled:opacity-50 ${
                     guide.can_add_treks

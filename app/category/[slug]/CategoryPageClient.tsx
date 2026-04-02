@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
 import ExperienceCard from "@/app/experiences/components/ExperienceCard";
 import { ChevronDown } from "lucide-react";
@@ -77,32 +76,19 @@ export default function CategoryPageClient({ slug, category, treks }: Props) {
           <div className="absolute inset-0 overflow-hidden">
             <img
               src={category.photo}
-              alt={category.name}
+              alt={`${category.name} in Ourika Valley, Morocco`}
               className="h-full w-full object-cover opacity-10"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-white" />
           </div>
         )}
         <div className="relative mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-          {/* Breadcrumb */}
-          <nav className="mb-6 flex items-center gap-2 text-xs font-bold tracking-widest text-gray-400 uppercase">
-            <Link href="/" className="transition-colors hover:text-black">
-              Home
-            </Link>
-            <span className="text-gray-200">/</span>
-            <Link href="/experiences" className="transition-colors hover:text-black">
-              Experiences
-            </Link>
-            <span className="text-gray-200">/</span>
-            <span className="text-black">{category.name}</span>
-          </nav>
-
           <div className="flex items-start gap-6">
             {category.photo && (
               <div className="hidden h-24 w-24 shrink-0 overflow-hidden rounded-2xl shadow-lg sm:block">
                 <img
                   src={category.photo}
-                  alt={category.name}
+                  alt={`${category.name} in Ourika Valley, Morocco`}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -222,7 +208,7 @@ export default function CategoryPageClient({ slug, category, treks }: Props) {
                 <div className="hidden h-20 w-20 shrink-0 overflow-hidden rounded-2xl shadow-md md:block">
                   <img
                     src={category.photo}
-                    alt={category.name}
+                    alt={`${category.name} in Ourika Valley, Morocco`}
                     className="h-full w-full object-cover"
                   />
                 </div>

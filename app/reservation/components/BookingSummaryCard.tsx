@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { Clock, Calendar, Users, ShieldCheck, MessageSquare } from 'lucide-react';
+import Image from "next/image";
+import { Clock, Calendar, Users, ShieldCheck, MessageSquare } from "lucide-react";
 
 type Props = {
   trek: {
@@ -11,7 +11,7 @@ type Props = {
     review_count: number;
     duration: string;
   };
-  bookingType: 'group' | 'private';
+  bookingType: "group" | "private";
   date: string;
   time: string;
   adults: number;
@@ -35,8 +35,13 @@ export default function BookingSummaryCard({
   freeCancellationHours,
 }: Props) {
   const displayDate = date
-    ? new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
-    : 'Select date';
+    ? new Date(date).toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "Select date";
 
   return (
     <aside className="w-full text-gray-700 lg:sticky lg:top-6 lg:w-[380px] lg:self-start">
@@ -45,13 +50,14 @@ export default function BookingSummaryCard({
           <div className="relative h-24 w-32 overflow-hidden rounded-lg">
             <Image
               src={trek.cover_image}
-              alt={trek.title}
+              alt={`${trek.title} — Ourika Valley, Morocco`}
               fill
               className="object-cover"
+              sizes="280px"
             />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-lg leading-tight font-bold text-[#1a1a1a] line-clamp-2">
+            <h3 className="line-clamp-2 text-lg leading-tight font-bold text-[#1a1a1a]">
               {trek.title}
             </h3>
             <div className="mt-1 flex items-center gap-1 text-gray-700">
@@ -59,7 +65,7 @@ export default function BookingSummaryCard({
                 {[1, 2, 3, 4, 5].map((i) => (
                   <svg
                     key={i}
-                    className={`h-3 w-3 ${i <= Math.round(trek.rating) ? 'text-green-500' : 'text-gray-300'}`}
+                    className={`h-3 w-3 ${i <= Math.round(trek.rating) ? "text-green-500" : "text-gray-300"}`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -75,23 +81,25 @@ export default function BookingSummaryCard({
 
         <div className="space-y-3 border-t border-gray-200 pt-4 text-gray-700">
           <div className="flex items-center gap-3 text-sm">
-            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-bold capitalize text-gray-700">
+            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-bold text-gray-700 capitalize">
               {bookingType}
             </span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <Clock className="h-4 w-4 text-gray-700 shrink-0" />
+            <Clock className="h-4 w-4 shrink-0 text-gray-700" />
             <span>{trek.title}</span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <Calendar className="h-4 w-4 text-gray-700 shrink-0" />
-            <span>{displayDate} {time ? `• ${time}` : ''}</span>
+            <Calendar className="h-4 w-4 shrink-0 text-gray-700" />
+            <span>
+              {displayDate} {time ? `• ${time}` : ""}
+            </span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <Users className="h-4 w-4 text-gray-700 shrink-0" />
+            <Users className="h-4 w-4 shrink-0 text-gray-700" />
             <span>
-              {adults} adult{adults !== 1 ? 's' : ''}
-              {children > 0 ? ` + ${children} children` : ''}
+              {adults} adult{adults !== 1 ? "s" : ""}
+              {children > 0 ? ` + ${children} children` : ""}
             </span>
           </div>
         </div>
@@ -127,7 +135,10 @@ export default function BookingSummaryCard({
           <a href="tel:+18337642165" className="text-sm font-semibold text-blue-600">
             +1 833 764 2165
           </a>
-          <button type="button" className="flex items-center gap-2 text-sm font-semibold text-blue-600">
+          <button
+            type="button"
+            className="flex items-center gap-2 text-sm font-semibold text-blue-600"
+          >
             <MessageSquare className="h-4 w-4" />
             <span>Chat now</span>
           </button>

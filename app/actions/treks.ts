@@ -29,6 +29,7 @@ export type Trek = {
   slug: string;
   category_id: string | null;
   category_name?: string; // Virtual field for display
+  categories?: { name: string } | { name: string }[] | null;
   cover_image: string;
   gallery_images: GalleryImage[];
   total_photo_count: number;

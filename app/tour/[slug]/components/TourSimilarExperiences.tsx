@@ -7,11 +7,16 @@ import Link from "next/link";
 
 type Props = { currentTrekId: string };
 
-export default function TourSimilarExperiences({ currentTrekId }: Props) {
-  const [similar, setSimilar] = useState<any[]>([]);
+export default function TourSimilarExperiences({
+  currentTrekId,
+  initialSimilar = [],
+}: Props & { initialSimilar?: any[] }) {
+  const [similar, setSimilar] = useState<any[]>(initialSimilar);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (initialSimilar.length > 0) return;
+
     async function load() {
       try {
         const res = await fetch("/api/treks/similar?exclude=" + currentTrekId + "&limit=4");
@@ -22,7 +27,7 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
       }
     }
     load();
-  }, [currentTrekId]);
+  }, [currentTrekId, initialSimilar]);
 
   const scrollByAmount = (direction: "left" | "right") => {
     const container = scrollRef.current;
@@ -76,10 +81,10 @@ export default function TourSimilarExperiences({ currentTrekId }: Props) {
                 <div className="relative aspect-[4/5] lg:aspect-[4/4]">
                   <Image
                     src={trek.cover_image}
-                    alt={trek.title}
+                    alt={`${trek.title} — Ourika Valley, Morocco`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 256px, (max-width: 1024px) 268px, 25vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
                 <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f3d24] shadow-sm">

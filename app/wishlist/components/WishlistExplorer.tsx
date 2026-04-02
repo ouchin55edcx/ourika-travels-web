@@ -71,7 +71,13 @@ export default function WishlistExplorer() {
                 className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md"
               >
                 <div className="relative h-48 w-full">
-                  <Image src={trek.cover_image} alt={trek.title} fill className="object-cover" />
+                  <Image
+                    src={trek.cover_image}
+                    alt={`${trek.title} — Ourika Valley, Morocco`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
                   <button
                     type="button"
                     onClick={() => handleRemove(item.trek_id)}

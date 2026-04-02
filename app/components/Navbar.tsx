@@ -1,17 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Moon,
-  Globe,
-  Heart,
-  ClipboardList,
-  Menu,
-  X,
-  Search,
-  SearchIcon,
-  Compass,
-} from "lucide-react";
+import { Moon, Heart, ClipboardList, Menu, X, Search, SearchIcon, Compass } from "lucide-react";
 import { useState, useEffect, useRef, useTransition } from "react";
 import Image from "next/image";
 // signOut is now from useAuth context instead of server action
@@ -89,16 +79,27 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
     return () => observer.disconnect();
   }, [hidden]);
 
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMenuOpen]);
+
   if (hidden) return null;
 
   return (
     <>
       <nav
-        className={`flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-[#edf7f1]/80 via-white/95 to-[#edf7f1]/80 px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
+        className={`isolate flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-[#edf7f1]/80 via-white/95 to-[#edf7f1]/80 px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
           sticky ? "sticky top-0" : ""
         } ${isSearchFocused ? "z-[150]" : "z-[100]"}`}
       >
-        {/* Left Section: Logo + Search + Globe */}
+        {/* Left Section: Logo + Search */}
         <div className="flex items-center gap-4 lg:gap-8">
           {/* Logo Section */}
           <div className="flex items-center transition-all duration-500 ease-in-out">
@@ -134,7 +135,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             )}
           </div>
 
-          {/* Utilities: Globe/Language (moved to actions) */}
+          {/* Utilities */}
         </div>
 
         {/* Desktop Actions Section - Hidden on smaller screens */}
@@ -247,14 +248,6 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               </div>
             ) : (
               <>
-                {/* Language / Currency — next to Sign In */}
-                <button className="flex items-center gap-1.5 rounded-full border border-[#0a2e1a]/30 bg-[#edf7f1] px-5 py-3.5 text-[14px] font-bold text-[#0a2e1a] transition-colors hover:bg-[#0a2e1a] hover:text-white">
-                  <Globe className="h-4 w-4 stroke-[2.5px]" />
-                  <span>MAD · EN</span>
-                </button>
-
-                <div className="h-8 w-[1px] bg-gray-200" />
-
                 <button
                   onClick={() => setIsLoginModalOpen(true)}
                   className="ml-2 rounded-full bg-[#0a2e1a] px-8 py-3.5 text-[15px] font-black whitespace-nowrap text-white shadow-sm transition-all hover:bg-[#0b3320] active:scale-95"
@@ -290,11 +283,12 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
 
         {/* Mobile Menu Drawer */}
         <div
-          className={`fixed inset-0 z-[300] transform bg-white transition-transform duration-300 ease-in-out lg:hidden ${
+          className={`fixed top-0 left-0 z-[400] h-[100dvh] w-screen overflow-y-auto overscroll-contain bg-white shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
+          aria-hidden={!isMenuOpen}
         >
-          <div className="flex h-full flex-col gap-8 bg-white px-6 pt-6">
+          <div className="flex min-h-[100dvh] flex-col gap-8 bg-white px-6 pt-6">
             {/* Close button inside drawer */}
             <div className="flex items-center justify-between">
               <Link
@@ -337,10 +331,6 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
 
             {/* Secondary/Settings */}
             <div className="flex flex-col gap-6">
-              <button className="flex items-center gap-4 text-xl font-medium text-[#0a2e1a]">
-                <Globe className="h-6 w-6 stroke-[2px]" />
-                <span>Language: EN</span>
-              </button>
               <button className="flex items-center gap-4 text-xl font-medium text-[#0a2e1a]">
                 <Moon className="h-6 w-6 stroke-[2px]" />
                 <span>Dark Mode</span>
@@ -408,7 +398,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
         {/* Backdrop for mobile menu */}
         {isMenuOpen && (
           <div
-            className="fixed inset-0 z-[299] bg-black/20 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[390] bg-black/20 backdrop-blur-sm lg:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
         )}

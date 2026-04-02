@@ -1,18 +1,20 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://ourikatreks.com";
+import { BASE_URL } from "@/lib/config";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
+      allow: ["/", "/guide/"],
       disallow: [
         "/reservation",
         "/reservation-historic",
         "/wishlist",
         "/ticket-generator",
         "/api/",
+        "/admin/",
+        "/dashboard/",
       ],
     },
     sitemap: `${BASE_URL}/sitemap.xml`,

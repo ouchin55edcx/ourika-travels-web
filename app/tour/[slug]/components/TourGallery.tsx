@@ -16,7 +16,13 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
   const [activeIndex, setActiveIndex] = useState(0);
 
   const safeGallery = (galleryImages || []).filter((img) => img?.src);
-  const allImages = [{ src: coverImage, alt: title }, ...safeGallery];
+  const allImages = [
+    { src: coverImage, alt: `${title} — Ourika Valley, Morocco` },
+    ...safeGallery.map((img) => ({
+      ...img,
+      alt: img.alt || `${title} — Ourika Valley, Morocco`,
+    })),
+  ];
 
   useEffect(() => {
     if (!lightboxOpen) return;
@@ -45,11 +51,12 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
         >
           <Image
             src={coverImage}
-            alt={title}
+            alt={`${title} — Ourika Valley, Morocco`}
             fill
             priority
+            fetchPriority="high"
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 70vw, 70vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
         <div className="grid grid-cols-2 gap-2 md:grid-cols-1">
@@ -62,10 +69,10 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
           >
             <Image
               src={safeGallery[0]?.src || coverImage}
-              alt={safeGallery[0]?.alt ?? title}
+              alt={safeGallery[0]?.alt ?? `${title} — Ourika Valley, Morocco`}
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 50vw, 20vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
           <div
@@ -77,10 +84,10 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
           >
             <Image
               src={safeGallery[1]?.src || coverImage}
-              alt={safeGallery[1]?.alt ?? title}
+              alt={safeGallery[1]?.alt ?? `${title} — Ourika Valley, Morocco`}
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 50vw, 20vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <button
               onClick={(event) => {
@@ -156,7 +163,7 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
                     : "border-transparent opacity-50 hover:opacity-80"
                 }`}
               >
-                <Image src={img.src} alt={img.alt} fill className="object-cover" />
+                <Image src={img.src} alt={img.alt} fill className="object-cover" sizes="96px" />
               </button>
             ))}
           </div>

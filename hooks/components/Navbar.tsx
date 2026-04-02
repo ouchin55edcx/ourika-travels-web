@@ -109,7 +109,7 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
           <div className="hidden items-center lg:flex">
             <button className="flex items-center gap-2 rounded-full px-3 py-3 text-[15px] font-bold whitespace-nowrap text-[#004f32] transition-colors hover:bg-gray-50">
               <Globe className="h-5.5 w-5.5 stroke-[2.5px]" />
-              <span className={`${showSearchBar ? "hidden xl:inline" : "inline"}`}>MAD · EN</span>
+              <span className="hidden">MAD · EN</span>
             </button>
           </div>
         </div>

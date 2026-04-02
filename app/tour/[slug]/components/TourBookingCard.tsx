@@ -1,8 +1,10 @@
 import { MessageSquare, ShieldCheck, WalletCards, CalendarDays } from "lucide-react";
 import Link from "next/link";
+import { BASE_URL, WHATSAPP_PHONE } from "@/lib/config";
 
 type Props = {
   trekSlug: string;
+  trekTitle: string;
   price: number;
   previousPrice: number | null;
   freeCancellationHours: number;
@@ -12,12 +14,19 @@ type Props = {
 
 export default function TourBookingCard({
   trekSlug,
+  trekTitle,
   price,
   previousPrice,
   freeCancellationHours,
   reserveNowPayLater,
   avgBookingLeadDays,
 }: Props) {
+  const whatsappPhone = WHATSAPP_PHONE.replace(/\D/g, "");
+  const whatsappMessage = `Hi! I want to reserve "${trekTitle}". ${BASE_URL}/tour/${trekSlug}`;
+  const whatsappUrl = whatsappPhone
+    ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`
+    : "";
+
   const benefits = [
     {
       icon: ShieldCheck,
@@ -86,6 +95,16 @@ export default function TourBookingCard({
         >
           Check availability
         </Link>
+        {whatsappUrl ? (
+          <Link
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-6 block min-h-12 w-full rounded-full border-2 border-[#0b3a2c] px-5 py-4 text-center text-[15px] font-bold text-[#0b3a2c] transition hover:bg-[#edf7f1]"
+          >
+            Reserve on WhatsApp
+          </Link>
+        ) : null}
 
         <div className="space-y-5">
           {benefits.map(({ icon: Icon, title, description }) => (
@@ -106,10 +125,22 @@ export default function TourBookingCard({
         <p className="inline-block bg-[#dedede] px-1 text-[15px] font-semibold text-[#434343]">
           Have booking questions?
         </p>
-        <button className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0f3d24] underline underline-offset-2">
-          <MessageSquare className="h-4 w-4" />
-          <span>Chat now</span>
-        </button>
+        {whatsappUrl ? (
+          <Link
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0f3d24] underline underline-offset-2"
+          >
+            <MessageSquare className="h-4 w-4" />
+            <span>Chat on WhatsApp</span>
+          </Link>
+        ) : (
+          <button className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0f3d24] underline underline-offset-2">
+            <MessageSquare className="h-4 w-4" />
+            <span>Chat now</span>
+          </button>
+        )}
       </div>
     </aside>
   );

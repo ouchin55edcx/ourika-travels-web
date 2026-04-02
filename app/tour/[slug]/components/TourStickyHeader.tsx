@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Heart, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Props = {
   title: string;
-  navigationItems: readonly string[];
+  navigationItems: { label: string; id: string }[];
   rating: number;
   price: number;
 };
@@ -16,8 +15,6 @@ export default function TourStickyHeader({ title, navigationItems, rating, price
 
   useEffect(() => {
     const handleScroll = () => {
-      isVisible ? setIsVisible(window.scrollY > 220) : setIsVisible(window.scrollY > 220);
-      // Simpler check
       setIsVisible(window.scrollY > 220);
     };
 
@@ -51,15 +48,6 @@ export default function TourStickyHeader({ title, navigationItems, rating, price
                 <span className="font-semibold">{rating.toFixed(1)}</span>
               </div>
             </div>
-
-            <div className="flex items-center gap-3 text-[#0f3d24]">
-              <button className="transition hover:opacity-70">
-                <Heart className="h-4 w-4" />
-              </button>
-              <button className="transition hover:opacity-70">
-                <Pencil className="h-4 w-4" />
-              </button>
-            </div>
           </div>
         </div>
 
@@ -67,13 +55,13 @@ export default function TourStickyHeader({ title, navigationItems, rating, price
           <nav className="flex min-w-max items-center gap-5 text-[14px] font-semibold whitespace-nowrap text-[#0a2e1a] sm:gap-6 sm:text-[15px]">
             {navigationItems.map((item, index) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
+                key={item.id}
+                href={`#${item.id}`}
                 className={`py-3 ${
-                  index === 1 ? "border-b-2 border-[#0f3d24]" : "border-b-2 border-transparent"
+                  index === 0 ? "border-b-2 border-[#0f3d24]" : "border-b-2 border-transparent"
                 }`}
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>

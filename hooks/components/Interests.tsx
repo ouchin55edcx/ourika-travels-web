@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
-import { Category } from "@/app/actions/categories";
+import type { Category } from "@/app/actions/categories";
+import { getCategorySlug } from "@/lib/category-slug";
 
 const interests = [
   {
@@ -51,7 +52,7 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
       cat.photo ||
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
     desc: cat.description || "Explore this category",
-    slug: cat.name.toLowerCase().replace(/\s+/g, "-"),
+    slug: getCategorySlug(cat),
   }));
 
   // Use dynamic categories if they exist, otherwise fallback to static ones
@@ -75,9 +76,10 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
             >
               <Image
                 src={interest.image}
-                alt={interest.title}
+                alt={`${interest.title} experiences in Ourika Valley, Morocco`}
                 fill
                 className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#004f32]/90 via-black/10 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
 

@@ -8,6 +8,7 @@ import { getCachedCategories } from "@/lib/admin-cache";
 
 export type Category = {
   id: string;
+  slug?: string | null;
   name: string;
   description: string | null;
   photo: string | null;

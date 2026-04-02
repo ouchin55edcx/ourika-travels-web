@@ -145,7 +145,7 @@ export default function TourReviews({
                           {review.avatar ? (
                             <Image
                               src={review.avatar}
-                              alt={review.author}
+                              alt={`${review.author} review profile photo`}
                               fill
                               className="object-cover"
                               sizes="48px"

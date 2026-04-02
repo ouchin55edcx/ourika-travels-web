@@ -97,9 +97,10 @@ export default function Hero() {
                           <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-gray-100 md:h-16 md:w-16">
                             <Image
                               src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=200&auto=format&fit=crop"
-                              alt="Sponsored"
+                              alt="Sponsored cultural experience in Ourika Valley, Morocco"
                               fill
                               className="object-cover"
+                              sizes="64px"
                             />
                           </div>
                           <div className="flex-1">

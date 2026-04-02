@@ -40,7 +40,7 @@ export default function TourFacts({
   ];
 
   return (
-    <section className="max-w-[760px] border-t border-[#e5e7eb] py-6">
+    <section id="details" className="max-w-[760px] border-t border-[#e5e7eb] py-6">
       <div className="space-y-3">
         {facts.map(({ icon: Icon, text }) => (
           <div

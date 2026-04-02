@@ -20,7 +20,7 @@ export default function SearchResultCard({
       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-gray-100">
         <Image
           src={trek.cover_image}
-          alt={trek.title}
+          alt={`${trek.title} — Ourika Valley, Morocco`}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="48px"
@@ -41,7 +41,7 @@ export default function SearchResultCard({
                 <span className="relative inline-block h-3 w-3 shrink-0 overflow-hidden rounded-full">
                   <Image
                     src={trek.categories.photo}
-                    alt=""
+                    alt={`${trek.categories.name} category`}
                     fill
                     className="object-cover"
                     sizes="12px"

@@ -72,10 +72,10 @@ export default function GuideCTA() {
           <div className="relative min-h-[400px] w-full bg-gray-100 lg:min-h-0 lg:w-[45%]">
             <Image
               src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1200&auto=format&fit=crop"
-              alt="Local Ourika Guide"
+              alt="Local guide in Ourika Valley, Morocco"
               fill
               className="object-cover saturate-[0.8]"
-              sizes="(max-width: 1024px) 100vw, 45vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             {/* Overlay Gradient for Mobile */}
             <div className="absolute inset-0 bg-gradient-to-t from-white lg:hidden" />

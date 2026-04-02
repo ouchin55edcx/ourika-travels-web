@@ -3,6 +3,7 @@ import { createSupabasePublicClient, createSupabaseServerClient } from "@/lib/su
 
 export type CachedCategoryOption = {
   id: string;
+  slug?: string | null;
   name: string;
   description: string | null;
   photo: string | null;
@@ -29,7 +30,7 @@ const getCachedCategoriesInternal = unstable_cache(
     const supabase = createSupabasePublicClient();
     const { data, error } = await supabase
       .from("categories")
-      .select("id, name, description, photo, created_at")
+      .select("*")
       .order("created_at", { ascending: false });
 
     if (error) {
