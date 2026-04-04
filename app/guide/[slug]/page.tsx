@@ -1,11 +1,12 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabasePublicClient, createSupabaseServerClient } from "@/lib/supabase/server";
 import { BASE_URL } from "@/lib/config";
+import { getGuideSlug } from "@/lib/guide-slug";
 import GuidePublicProfile from "./GuidePublicProfile";
 
 interface GuidePublicPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 interface Trek {
@@ -30,19 +31,30 @@ interface Review {
   } | null;
 }
 
-export async function generateMetadata({ params }: GuidePublicPageProps): Promise<Metadata> {
-  const { id } = await params;
-  const supabase = await createSupabaseServerClient();
-
-  const { data: guide } = await supabase
+async function getActiveGuides(supabase: any) {
+  const { data } = await supabase
     .from("users")
-    .select(
-      "full_name, bio, location, specialties, languages, years_experience, avatar_url, is_verified",
-    )
-    .eq("id", id)
+    .select("*")
     .eq("role", "guide")
-    .eq("is_active", true)
-    .single();
+    .eq("is_active", true);
+  return data ?? [];
+}
+
+export async function generateStaticParams() {
+  const supabase = createSupabasePublicClient();
+  const guides = await getActiveGuides(supabase);
+
+  return guides
+    .map((guide: any) => getGuideSlug(guide))
+    .filter(Boolean)
+    .map((slug: string) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: GuidePublicPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = await createSupabaseServerClient();
+  const guides = await getActiveGuides(supabase);
+  const guide = guides.find((candidate: any) => getGuideSlug(candidate) === slug);
 
   if (!guide) {
     return {
@@ -52,10 +64,11 @@ export async function generateMetadata({ params }: GuidePublicPageProps): Promis
   }
 
   const name = guide.full_name || "Guide";
-  const title = `${name} — Certified Local Guide in ${guide.location || "Ourika Valley"} | Ourika Travels`;
+  const title = `${name} — Certified Local Guide in ${guide.location || "Ourika Valley"}`;
   const description =
     guide.bio ||
     `${name} is a certified local guide based in ${guide.location || "Ourika Valley, Morocco"}. Book an authentic Atlas Mountains experience with ${guide.specialties?.[0] || "expert guidance"}.`;
+  const canonicalUrl = `${BASE_URL}/guide/${getGuideSlug(guide)}`;
 
   return {
     title,
@@ -63,7 +76,7 @@ export async function generateMetadata({ params }: GuidePublicPageProps): Promis
     openGraph: {
       title,
       description,
-      url: `${BASE_URL}/guide/${id}`,
+      url: canonicalUrl,
       type: "profile",
       images: guide.avatar_url
         ? [{ url: guide.avatar_url, width: 800, height: 800, alt: name }]
@@ -79,27 +92,27 @@ export async function generateMetadata({ params }: GuidePublicPageProps): Promis
       index: true,
       follow: true,
     },
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        en: canonicalUrl,
+        fr: `${BASE_URL}/fr/guide/${getGuideSlug(guide)}`,
+        "x-default": canonicalUrl,
+      },
+    },
   };
 }
 
 export default async function GuidePublicPage({ params }: GuidePublicPageProps) {
-  const { id } = await params;
+  const { slug } = await params;
   const supabase = await createSupabaseServerClient();
+  const guides = await getActiveGuides(supabase);
+  const guide = guides.find((candidate: any) => getGuideSlug(candidate) === slug);
 
-  // Fetch guide profile
-  const { data: guide, error } = await supabase
-    .from("users")
-    .select("*")
-    .eq("id", id)
-    .eq("role", "guide")
-    .eq("is_active", true)
-    .single();
-
-  if (error || !guide) {
+  if (!guide) {
     notFound();
   }
 
-  // Fetch guide's treks/experiences (from completed bookings)
   const { data: bookingsData } = await supabase
     .from("bookings")
     .select(
@@ -116,11 +129,10 @@ export default async function GuidePublicPage({ params }: GuidePublicPageProps) 
       )
     `,
     )
-    .eq("guide_id", id)
+    .eq("guide_id", guide.id)
     .eq("status", "completed")
     .not("treks", "is", null);
 
-  // Extract unique treks from bookings
   const treksMap = new Map<string, Trek>();
   if (bookingsData) {
     bookingsData.forEach((booking: unknown) => {
@@ -135,7 +147,6 @@ export default async function GuidePublicPage({ params }: GuidePublicPageProps) 
   }
   const guideTreks = Array.from(treksMap.values());
 
-  // Fetch approved reviews for this guide's bookings
   const { data: reviewsData } = await supabase
     .from("reviews")
     .select(
@@ -154,11 +165,10 @@ export default async function GuidePublicPage({ params }: GuidePublicPageProps) 
       )
     `,
     )
-    .eq("bookings.guide_id", id)
-    .eq("is_visible", true)
+    .eq("bookings.guide_id", guide.id)
+    .eq("status", "approved")
     .order("created_at", { ascending: false });
 
-  // Transform reviews to include tourist info at top level
   const guideReviews: Review[] = (reviewsData || []).map((review: unknown) => {
     const r = review as {
       id: string;
@@ -182,10 +192,11 @@ export default async function GuidePublicPage({ params }: GuidePublicPageProps) 
     };
   });
 
-  // Calculate average rating
   const averageRating =
     guideReviews.length > 0
-      ? (guideReviews.reduce((acc, r) => acc + (r.rating || 0), 0) / guideReviews.length).toFixed(1)
+      ? (
+          guideReviews.reduce((acc, review) => acc + (review.rating || 0), 0) / guideReviews.length
+        ).toFixed(1)
       : null;
 
   return (

@@ -1,7 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CheckCircle2, Download, Languages, MapPin, QrCode, Trophy, Info } from "lucide-react";
+import {
+  CheckCircle2,
+  Download,
+  Languages,
+  MapPin,
+  QrCode,
+  Trophy,
+  Info,
+  ClipboardList,
+  CalendarCheck,
+  Star,
+} from "lucide-react";
 import { Metadata } from "next";
 import { getCurrentUser } from "@/lib/auth";
 import { getGuideBookings } from "@/app/actions/bookings";
@@ -46,6 +57,39 @@ export default async function GuideDashboardPage() {
     .eq("role", "guide")
     .eq("is_active", true)
     .eq("guide_active", true);
+
+  const today = new Date().toISOString().split("T")[0];
+  const [
+    { count: totalBookings },
+    { count: upcomingBookings },
+    { count: completedBookings },
+    { data: ratingRows },
+  ] = await Promise.all([
+    supabase.from("bookings").select("*", { count: "exact", head: true }).eq("guide_id", user.id),
+    supabase
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .eq("guide_id", user.id)
+      .in("status", ["pending", "confirmed"])
+      .gte("trek_date", today),
+    supabase
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .eq("guide_id", user.id)
+      .eq("status", "completed"),
+    supabase
+      .from("reviews")
+      .select("rating, bookings(guide_id)")
+      .eq("bookings.guide_id", user.id)
+      .eq("status", "approved")
+      .not("rating", "is", null),
+  ]);
+
+  const ratings = (ratingRows ?? [])
+    .map((row: { rating?: number | null }) => row.rating)
+    .filter((rating): rating is number => typeof rating === "number");
+  const averageRating =
+    ratings.length > 0 ? (ratings.reduce((acc, r) => acc + r, 0) / ratings.length).toFixed(1) : "—";
 
   const guideOrder = guideData?.guide_order;
   const isGuideActive = guideData?.guide_active ?? false;
@@ -188,6 +232,44 @@ export default async function GuideDashboardPage() {
       {user.verification_status === "rejected" && (
         <VerificationBanner status="rejected" note={user.verification_note} />
       )}
+
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          {
+            label: "Total bookings",
+            value: totalBookings ?? 0,
+            icon: ClipboardList,
+          },
+          {
+            label: "Upcoming",
+            value: upcomingBookings ?? 0,
+            icon: CalendarCheck,
+          },
+          {
+            label: "Completed",
+            value: completedBookings ?? 0,
+            icon: CheckCircle2,
+          },
+          {
+            label: "Avg rating",
+            value: averageRating,
+            icon: Star,
+          },
+        ].map(({ label, value, icon: Icon }) => (
+          <div
+            key={label}
+            className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm md:p-5"
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-semibold text-gray-500">{label}</p>
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+                <Icon className="h-4 w-4" />
+              </div>
+            </div>
+            <p className="mt-3 text-3xl font-black text-[#0b3a2c]">{value}</p>
+          </div>
+        ))}
+      </section>
 
       <section className="grid gap-6 lg:grid-cols-[1fr]">
         <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-sm sm:p-8">

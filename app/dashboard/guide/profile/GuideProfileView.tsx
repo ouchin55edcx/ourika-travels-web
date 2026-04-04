@@ -1,4 +1,5 @@
 import { AuthUser } from "@/lib/auth";
+import { getGuidePublicPath } from "@/lib/guide-slug";
 import {
   MapPin,
   Mail,
@@ -250,7 +251,7 @@ export default function GuideProfileView({ user, completeness }: GuideProfileVie
         {/* View public profile button */}
         <div className="mt-6 border-t border-gray-100 pt-6">
           <a
-            href={`/guide/${user.id}`}
+            href={getGuidePublicPath(user)}
             target="_blank"
             rel="noopener noreferrer"
             className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#0b3a2c] bg-white py-3 text-sm font-bold text-[#0b3a2c] transition-all hover:bg-[#0b3a2c] hover:text-white"

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import Link from "next/link";
 
 import NavbarWrapper from "@/app/components/NavbarWrapper";
 import { getCategories } from "@/app/actions/categories";
@@ -51,7 +52,14 @@ export const metadata: Metadata = {
       "Book with local certified guides. Atlas Mountains, Berber villages, Setti Fatma waterfalls.",
     images: [`${BASE_URL}/og-image.jpg`],
   },
-  alternates: { canonical: BASE_URL },
+  alternates: {
+    canonical: BASE_URL,
+    languages: {
+      en: BASE_URL,
+      fr: `${BASE_URL}/fr`,
+      "x-default": BASE_URL,
+    },
+  },
 };
 
 const sectionFallback = (
@@ -80,25 +88,73 @@ async function HomeExperiencesSection() {
 }
 
 export default async function Home() {
+  const supabase = createSupabasePublicClient();
+  const [{ data: approvedRatings, count: approvedReviewCount }] = await Promise.all([
+    supabase
+      .from("reviews")
+      .select("rating", { count: "exact" })
+      .eq("status", "approved")
+      .not("rating", "is", null),
+  ]);
+
+  const ratingValues = (approvedRatings ?? [])
+    .map((review) => review.rating)
+    .filter((rating): rating is number => typeof rating === "number");
+  const averageRating =
+    ratingValues.length > 0
+      ? (ratingValues.reduce((sum, rating) => sum + rating, 0) / ratingValues.length).toFixed(1)
+      : null;
+
   const organizationSchema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["LocalBusiness", "TouristInformationCenter"],
+    "@id": `${BASE_URL}#business`,
     name: "Ourika Travels",
-    url: "https://ourikatravels.com",
-    logo: "https://ourikatravels.com/og-image.jpg",
     description:
-      "Local guide association in Setti Fatma, Ourika Valley, Morocco. Certified Berber guides for authentic Atlas Mountain experiences.",
+      "Local guide association in Setti Fatma offering certified Berber guides for Atlas Mountains treks, Ourika Valley hikes, and authentic Moroccan experiences.",
+    url: BASE_URL,
+    telephone: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "",
+    email: "contact@ourikatravels.com",
+    image: `${BASE_URL}/og-image.jpg`,
+    logo: `${BASE_URL}/og-image.jpg`,
+    priceRange: "$$",
+    currenciesAccepted: "MAD, USD, EUR",
+    paymentAccepted: "Cash",
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "07:00",
+      closes: "19:00",
+    },
     address: {
       "@type": "PostalAddress",
+      streetAddress: "Centre de Setti Fatma",
       addressLocality: "Setti Fatma",
-      addressRegion: "Ourika Valley",
+      addressRegion: "Ourika Valley, Marrakech-Safi",
+      postalCode: "40000",
       addressCountry: "MA",
     },
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "customer service",
-      availableLanguage: ["English", "French", "Arabic", "Berber"],
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 31.2267,
+      longitude: -7.67,
     },
+    hasMap: "https://maps.google.com/?q=Setti+Fatma+Ourika+Valley+Morocco",
+    sameAs: [
+      "https://www.tripadvisor.com",
+      "https://www.facebook.com/ourikatravels",
+      "https://www.instagram.com/ourikatravels",
+    ],
+    ...(averageRating && approvedReviewCount
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: averageRating,
+            reviewCount: String(approvedReviewCount),
+            bestRating: "5",
+          },
+        }
+      : {}),
   };
 
   const websiteSchema = {
@@ -126,6 +182,13 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <Hero />
+        <section className="mx-auto w-full max-w-7xl px-6 py-6 text-sm font-medium text-[#355646] sm:text-base">
+          Based in <strong>Setti Fatma, Ourika Valley</strong>, we offer{" "}
+          <Link href="/experiences" className="font-black text-[#0b3a2c] underline">
+            guided treks and cultural experiences
+          </Link>{" "}
+          in the Atlas Mountains, around 45 minutes from Marrakech.
+        </section>
         <div className="relative mt-2 space-y-0">
           <Suspense fallback={sectionFallback}>
             <HomeInterestsSection />

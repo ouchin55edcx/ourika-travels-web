@@ -6,14 +6,13 @@ const nextConfig: NextConfig = {
       "default-src 'self'",
       "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob:",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc https://lh3.googleusercontent.com https://sobkyklhsbwqxrthrjhr.supabase.co https://imgs.search.brave.com https://*.mapbox.com https://imagedelivery.net",
+      "img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc https://lh3.googleusercontent.com https://sobkyklhsbwqxrthrjhr.supabase.co https://imgs.search.brave.com https://*.mapbox.com https://imagedelivery.net https://*.cloudflareimages.com",
       "font-src 'self' https://fonts.gstatic.com",
       "connect-src 'self' https://*.supabase.co https://api.mapbox.com https://events.mapbox.com",
       "worker-src 'self' blob:",
       "media-src 'self'",
       "frame-ancestors 'none'",
     ].join("; ");
-
 
     return [
       {
@@ -34,7 +33,10 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    unoptimized: true,
+    unoptimized: false,
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [
       {
         protocol: "https",
@@ -60,6 +62,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "imagedelivery.net",
         pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "**.cloudflareimages.com",
       },
     ],
   },

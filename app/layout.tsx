@@ -70,10 +70,21 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: BASE_URL,
+    languages: {
+      en: BASE_URL,
+      fr: `${BASE_URL}/fr`,
+      "x-default": BASE_URL,
+    },
   },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
+  },
+  other: {
+    "geo.region": "MA-06",
+    "geo.placename": "Ourika Valley, Marrakech, Morocco",
+    "geo.position": "31.2267;-7.6700",
+    ICBM: "31.2267, -7.6700",
   },
 };
 

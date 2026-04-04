@@ -133,7 +133,7 @@ export async function generateMetadata({
   const description = trek.meta_description || buildTrekDescription(trek);
 
   return {
-    title: trek.title,
+    title: `${trek.title} — Ourika Valley, Morocco`,
     description,
     keywords: [
       trek.title,
@@ -166,7 +166,14 @@ export async function generateMetadata({
       description,
       images: [trek.cover_image || `${BASE_URL}/og-image.jpg`],
     },
-    alternates: { canonical: `${BASE_URL}/tour/${slug}` },
+    alternates: {
+      canonical: `${BASE_URL}/tour/${slug}`,
+      languages: {
+        en: `${BASE_URL}/tour/${slug}`,
+        fr: `${BASE_URL}/fr/tour/${slug}`,
+        "x-default": `${BASE_URL}/tour/${slug}`,
+      },
+    },
   };
 }
 
@@ -175,6 +182,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const trek = await getTrekBySlug(slug);
 
   if (!trek) notFound();
+
+  const description = trek.meta_description || buildTrekDescription(trek);
+  const trekReviews = await getTrekReviews(trek.id);
 
   const hasHighlights =
     trek.highlights?.filter(Boolean).length > 0 ||
@@ -205,40 +215,169 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   ];
   const tourSchema = {
     "@context": "https://schema.org",
-    "@type": "TouristAttraction",
-    name: trek.title,
-    description: trek.about,
-    url: `${BASE_URL}/tour/${trek.slug}`,
-    image: trek.cover_image,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Setti Fatma",
-      addressRegion: "Ourika Valley, Marrakech",
-      addressCountry: "MA",
-    },
-    provider: {
-      "@type": "Organization",
-      name: "Ourika Travels",
-      url: BASE_URL,
-    },
-    offers: {
-      "@type": "Offer",
-      price: trek.price_per_adult,
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: `${BASE_URL}/reservation?trek=${trek.slug}`,
-    },
-    ...(trek.review_count > 0
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: trek.rating,
-            reviewCount: trek.review_count,
-            bestRating: 5,
-            worstRating: 1,
+    "@graph": [
+      {
+        "@type": ["Product", "TouristAttraction"],
+        "@id": `${BASE_URL}/tour/${trek.slug}#product`,
+        name: trek.title,
+        description: trek.about || description,
+        url: `${BASE_URL}/tour/${trek.slug}`,
+        image: [
+          trek.cover_image,
+          ...(trek.gallery_images?.slice(0, 3).map((galleryImage: any) => galleryImage.src) ?? []),
+        ].filter(Boolean),
+        brand: {
+          "@type": "Brand",
+          name: "Ourika Travels",
+        },
+        offers: {
+          "@type": "Offer",
+          price: trek.price_per_adult,
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+          url: `${BASE_URL}/reservation?trek=${trek.slug}`,
+          seller: {
+            "@type": "Organization",
+            name: "Ourika Travels",
+            url: BASE_URL,
           },
-        }
-      : {}),
+        },
+        ...(trek.review_count > 0
+          ? {
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: trek.rating,
+                reviewCount: trek.review_count,
+                bestRating: 5,
+                worstRating: 1,
+              },
+            }
+          : {}),
+        additionalProperty: [
+          { "@type": "PropertyValue", name: "Duration", value: trek.duration },
+          {
+            "@type": "PropertyValue",
+            name: "Group size",
+            value: `Max ${trek.max_group_size} people`,
+          },
+          {
+            "@type": "PropertyValue",
+            name: "Language",
+            value: trek.live_guide_languages?.join(", ") || "English, French, Arabic",
+          },
+          {
+            "@type": "PropertyValue",
+            name: "Meeting point",
+            value: trek.start_location || "Setti Fatma, Ourika Valley",
+          },
+        ],
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Setti Fatma",
+          addressRegion: "Ourika Valley",
+          addressCountry: "MA",
+        },
+        provider: {
+          "@type": "TouristInformationCenter",
+          name: "Ourika Travels",
+          url: BASE_URL,
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Setti Fatma",
+            addressRegion: "Ourika Valley, Marrakech-Safi",
+            addressCountry: "MA",
+          },
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Experiences",
+            item: `${BASE_URL}/experiences`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: trek.title,
+            item: `${BASE_URL}/tour/${trek.slug}`,
+          },
+        ],
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: `What is included in the ${trek.title}?`,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                trek.included?.join(", ") ||
+                "Professional local guide, transport, and authentic experience",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How do I get to the meeting point?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: `The meeting point is at ${trek.start_location || "Setti Fatma, Ourika Valley, Morocco"}. We recommend taking a taxi from Marrakech (approximately 1 hour).`,
+            },
+          },
+          {
+            "@type": "Question",
+            name: "When do I pay?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "You reserve your spot for free online. Payment is made in cash at the Ourika Travels bureau in Setti Fatma before the activity starts.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: `How long does ${trek.title} last?`,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: trek.duration
+                ? `The experience lasts ${trek.duration}.`
+                : "Duration varies — see the trek details page for the full schedule.",
+            },
+          },
+          trek.free_cancellation_hours
+            ? {
+                "@type": "Question",
+                name: "Can I cancel my booking?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: `Yes, free cancellation up to ${trek.free_cancellation_hours} hours before the activity. Cancel anytime from your booking history.`,
+                },
+              }
+            : null,
+        ].filter(Boolean),
+      },
+      ...trekReviews
+        .filter((review: any) => review?.rating && review?.body && review?.created_at)
+        .slice(0, 5)
+        .map((review: any) => ({
+          "@type": "Review",
+          "@id": `${BASE_URL}/tour/${trek.slug}#review-${review.id}`,
+          itemReviewed: { "@id": `${BASE_URL}/tour/${trek.slug}#product` },
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: review.rating,
+            bestRating: 5,
+          },
+          author: {
+            "@type": "Person",
+            name: review.tourist_name,
+          },
+          datePublished: review.created_at.split("T")[0],
+          reviewBody: review.body,
+        })),
+    ],
   };
 
   return (
@@ -319,6 +458,25 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <Suspense fallback={<div className="h-64 animate-pulse rounded-3xl bg-gray-100" />}>
           <TourSimilarExperiencesSection trekId={trek.id} />
         </Suspense>
+        <section className="rounded-[2rem] border border-black/5 bg-[#f7faf9] p-6 text-[15px] leading-8 text-[#355646]">
+          Explore all{" "}
+          <a href="/experiences" className="font-black text-[#0b3a2c] underline">
+            Ourika Valley experiences
+          </a>{" "}
+          or browse by category:{" "}
+          <a href="/category/hiking" className="font-black text-[#0b3a2c] underline">
+            Hiking
+          </a>
+          ,{" "}
+          <a href="/category/culture" className="font-black text-[#0b3a2c] underline">
+            Cultural tours
+          </a>
+          ,{" "}
+          <a href="/category/food" className="font-black text-[#0b3a2c] underline">
+            Food experiences
+          </a>
+          .
+        </section>
         <Suspense fallback={<div className="h-96 animate-pulse rounded-3xl bg-gray-100" />}>
           <TourReviewsSection trekId={trek.id} trek={trek} />
         </Suspense>

@@ -7,6 +7,7 @@ export type AuthUser = {
   id: string;
   email: string;
   full_name: string;
+  slug?: string | null;
   role: UserRole;
   avatar_url: string | null;
   phone: string | null;
@@ -57,6 +58,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     id: user.id,
     email: user.email || "",
     full_name: user.user_metadata?.full_name || user.email?.split("@")[0] || "User",
+    slug: user.user_metadata?.slug || null,
     role: (user.user_metadata?.role as UserRole) || "tourist",
     avatar_url: user.user_metadata?.avatar_url || null,
     phone: user.user_metadata?.phone || null,

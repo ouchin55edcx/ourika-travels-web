@@ -7,6 +7,7 @@ import { MapPin, Star, ShieldCheck, Languages, Check, Mountain, Share2, Globe } 
 
 interface Guide {
   id: string;
+  slug?: string | null;
   full_name: string | null;
   bio: string | null;
   location: string | null;

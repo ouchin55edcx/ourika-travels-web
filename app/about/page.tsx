@@ -61,14 +61,62 @@ export async function generateMetadata(): Promise<Metadata> {
 
     alternates: {
       canonical: `${BASE_URL}/about`,
+      languages: {
+        en: `${BASE_URL}/about`,
+        fr: `${BASE_URL}/fr/about`,
+        "x-default": `${BASE_URL}/about`,
+      },
     },
   };
 }
 
 export default function AboutPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Who are Ourika Travels guides?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Ourika Travels works with certified local guides based in Setti Fatma and across Ourika Valley for hikes, cultural tours, and Atlas Mountains experiences.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What types of experiences do you offer in Ourika Valley?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "We offer waterfall hikes, Berber village visits, cultural experiences, and guided outdoor adventures in and around Setti Fatma and the Atlas Mountains.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How do I book an experience with Ourika Travels?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Choose an experience online, reserve your place, and finalize payment at the Ourika Travels bureau in Setti Fatma before the activity starts.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How far is Ourika Valley from Marrakech?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Ourika Valley is roughly 45 minutes to 1 hour from Marrakech by road, depending on traffic and your starting point.",
+        },
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
       <NavbarWrapper />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <AboutContent />
       <Footer />
     </div>

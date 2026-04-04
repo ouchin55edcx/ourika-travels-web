@@ -46,7 +46,14 @@ export const metadata: Metadata = {
     description: "Browse and book authentic Moroccan experiences in Ourika Valley.",
     images: [`${BASE_URL}/og-image.jpg`],
   },
-  alternates: { canonical: `${BASE_URL}/experiences` },
+  alternates: {
+    canonical: `${BASE_URL}/experiences`,
+    languages: {
+      en: `${BASE_URL}/experiences`,
+      fr: `${BASE_URL}/fr/experiences`,
+      "x-default": `${BASE_URL}/experiences`,
+    },
+  },
 };
 
 export default async function ExperiencesPage() {
@@ -79,6 +86,7 @@ export default async function ExperiencesPage() {
     { label: "Home", href: BASE_URL },
     { label: "Experiences", href: `${BASE_URL}/experiences` },
   ];
+  const totalTreks = (treks ?? []).length;
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -104,6 +112,16 @@ export default async function ExperiencesPage() {
         <div className="mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
           <Breadcrumb items={breadcrumbItems} />
         </div>
+        <section className="mx-auto w-full max-w-7xl px-4 pt-2 sm:px-6 lg:px-8">
+          <h1 className="mb-2 text-3xl font-black text-[#0a2e1a]">
+            Experiences in Ourika Valley, Morocco
+          </h1>
+          <p className="mb-8 max-w-4xl text-gray-600">
+            {totalTreks} authentic experiences, from Setti Fatma waterfall hikes to Berber village
+            tours, Atlas Mountains treks, and cultural adventures. All led by certified local
+            guides.
+          </p>
+        </section>
         <ExperiencesExplorer
           initialTreks={treks ?? []}
           initialCategories={(categories ?? []).map((category) => ({
@@ -112,6 +130,24 @@ export default async function ExperiencesPage() {
           }))}
           wishlistedTrekIds={Array.from(wishlistedTrekIds)}
         />
+        <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="max-w-4xl rounded-[2rem] border border-black/5 bg-[#f7faf9] p-6 sm:p-8">
+            <h2 className="text-2xl font-black text-[#0a2e1a]">Why Ourika Valley</h2>
+            <p className="mt-4 text-[15px] leading-8 text-[#355646]">
+              Ourika Valley is one of the most sought-after day-trip destinations near Marrakech
+              because it combines mountain scenery, Berber culture, and accessible outdoor adventure
+              in one place. Setti Fatma is the best-known gateway to the valley, with riverside
+              cafes, local markets, and trailheads leading into the Atlas Mountains. Travelers come
+              here for waterfall hikes, village walks, panoramic viewpoints, and authentic
+              encounters with families who have lived in the valley for generations. The landscape
+              changes quickly between fertile terraces, rocky gorges, and mountain ridges, which
+              makes it ideal for both short cultural visits and full trekking days. Booking with a
+              local guide helps you understand the places behind the views: the rhythm of Berber
+              life, the seasonal paths, the meeting points, and the hidden stops that most visitors
+              miss.
+            </p>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
