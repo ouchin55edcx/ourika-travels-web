@@ -183,7 +183,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   if (!trek) notFound();
 
-  const safeGalleryImages = Array.isArray(trek.gallery_images) ? trek.gallery_images : [];
+  const safeGalleryImages = Array.isArray(trek.gallery_images)
+    ? trek.gallery_images.filter((galleryImage: any) => galleryImage?.src)
+    : [];
   const safeHighlights = Array.isArray(trek.highlights) ? trek.highlights : [];
   const safeIncluded = Array.isArray(trek.included) ? trek.included : [];
   const safeNotIncluded = Array.isArray(trek.not_included) ? trek.not_included : [];
@@ -239,7 +241,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         url: `${BASE_URL}/tour/${trek.slug}`,
         image: [
           trek.cover_image,
-          ...(safeGalleryImages.slice(0, 3).map((galleryImage: any) => galleryImage.src) ?? []),
+          ...safeGalleryImages.slice(0, 3).map((galleryImage: any) => galleryImage.src),
         ].filter(Boolean),
         brand: {
           "@type": "Brand",
