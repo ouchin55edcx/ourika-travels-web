@@ -1,9 +1,11 @@
 "use server";
 
+import { BASE_URL } from "@/lib/config";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || BASE_URL;
 
 // ─── TOURIST REGISTER ───
 export async function registerTourist(formData: FormData) {
@@ -20,7 +22,7 @@ export async function registerTourist(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm`,
+      emailRedirectTo: `${APP_URL}/auth/confirm`,
       data: { full_name, role: "tourist" },
     },
   });
@@ -69,14 +71,11 @@ export async function loginWithEmail(formData: FormData) {
 // ─── GOOGLE OAUTH ───
 export async function loginWithGoogle() {
   const supabase = await createSupabaseServerClient();
-  const host = (await headers()).get("host");
-  const protocol = host?.includes("localhost") ? "http" : "https";
-  const origin = `${protocol}://${host}`;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${origin}/auth/callback`,
+      redirectTo: `${APP_URL}/auth/callback`,
       queryParams: { access_type: "offline", prompt: "consent" },
     },
   });
@@ -100,7 +99,7 @@ export async function forgotPassword(formData: FormData) {
   if (!email) return { error: "Email is required" };
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password`,
+    redirectTo: `${APP_URL}/auth/reset-password`,
   });
 
   // Always return success to prevent email enumeration
@@ -143,7 +142,7 @@ export async function registerGuide(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm`,
+      emailRedirectTo: `${APP_URL}/auth/confirm`,
       data: { full_name, role: "guide", phone },
     },
   });
@@ -191,7 +190,7 @@ export async function resendVerification(email: string) {
     type: "signup",
     email,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm`,
+      emailRedirectTo: `${APP_URL}/auth/confirm`,
     },
   });
 

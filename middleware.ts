@@ -15,6 +15,37 @@ const ROLE_ROUTES: Record<string, string[]> = {
   "/dashboard/guide": ["guide"],
 };
 
+const ROOT_DOMAINS = new Set([
+  "ourikatravels.com",
+  "www.ourikatravels.com",
+  "localhost",
+  "127.0.0.1",
+]);
+
+function getGuideSubdomain(hostname: string) {
+  const hostWithoutPort = hostname.split(":")[0].toLowerCase();
+
+  if (!hostWithoutPort || ROOT_DOMAINS.has(hostWithoutPort)) {
+    return null;
+  }
+
+  if (hostWithoutPort.endsWith(".vercel.app")) {
+    return null;
+  }
+
+  if (!hostWithoutPort.endsWith(".ourikatravels.com")) {
+    return null;
+  }
+
+  const subdomain = hostWithoutPort.replace(".ourikatravels.com", "");
+
+  if (!subdomain || subdomain === "www") {
+    return null;
+  }
+
+  return subdomain;
+}
+
 export async function middleware(request: NextRequest) {
   const { supabase, supabaseResponse } = createSupabaseMiddlewareClient(request);
   const {
@@ -22,10 +53,13 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
   const pathname = request.nextUrl.pathname;
   const hostname = request.headers.get("host") || "";
+  const guideSubdomain = getGuideSubdomain(hostname);
 
-  // Check for guide subdomain (e.g., ahmed.ourika-travels.com or guide.ourika-travels.com/ahmed)
-  // For now, we'll use path-based routing: /guide/[username]
-  // Subdomain support can be added later with Vercel/Netlify configuration
+  if (guideSubdomain && (pathname === "/" || pathname === "")) {
+    const rewriteUrl = request.nextUrl.clone();
+    rewriteUrl.pathname = `/guide/${guideSubdomain}`;
+    return NextResponse.rewrite(rewriteUrl);
+  }
 
   // Redirect authenticated users away from auth pages
   const authPages = ["/auth/login", "/auth/register"];
