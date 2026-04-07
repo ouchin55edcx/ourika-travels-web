@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ourikatreks.com";
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.ourikatravels.com";
 
 export const metadata: Metadata = {
   title: "Ticket Generator — Create Printable Experience Tickets",

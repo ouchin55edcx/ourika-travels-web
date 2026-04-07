@@ -183,14 +183,29 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   if (!trek) notFound();
 
+  const safeGalleryImages = Array.isArray(trek.gallery_images) ? trek.gallery_images : [];
+  const safeHighlights = Array.isArray(trek.highlights) ? trek.highlights : [];
+  const safeIncluded = Array.isArray(trek.included) ? trek.included : [];
+  const safeNotIncluded = Array.isArray(trek.not_included) ? trek.not_included : [];
+  const safeServices = Array.isArray(trek.services) ? trek.services : [];
+  const safeLiveGuideLanguages = Array.isArray(trek.live_guide_languages)
+    ? trek.live_guide_languages
+    : [];
+  const safeAudioGuideLanguages = Array.isArray(trek.audio_guide_languages)
+    ? trek.audio_guide_languages
+    : [];
+  const safeWrittenGuideLanguages = Array.isArray(trek.written_guide_languages)
+    ? trek.written_guide_languages
+    : [];
+  const safeItinerarySteps = Array.isArray(trek.itinerary_steps) ? trek.itinerary_steps : [];
   const description = trek.meta_description || buildTrekDescription(trek);
   const trekReviews = await getTrekReviews(trek.id);
 
   const hasHighlights =
-    trek.highlights?.filter(Boolean).length > 0 ||
-    (trek.included ?? []).filter(Boolean).length > 0 ||
-    (trek.not_included ?? []).filter(Boolean).length > 0 ||
-    (trek.services ?? []).filter(Boolean).length > 0;
+    safeHighlights.filter(Boolean).length > 0 ||
+    safeIncluded.filter(Boolean).length > 0 ||
+    safeNotIncluded.filter(Boolean).length > 0 ||
+    safeServices.filter(Boolean).length > 0;
   const hasDetails =
     !!trek.duration ||
     !!trek.max_group_size ||
@@ -198,9 +213,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     !!trek.max_age ||
     !!trek.start_time ||
     !!trek.mobile_ticket ||
-    (trek.live_guide_languages ?? []).length > 0 ||
-    (trek.audio_guide_languages ?? []).length > 0 ||
-    (trek.written_guide_languages ?? []).length > 0;
+    safeLiveGuideLanguages.length > 0 ||
+    safeAudioGuideLanguages.length > 0 ||
+    safeWrittenGuideLanguages.length > 0;
   const navigationItems = [
     { label: "Overview", id: "overview" },
     ...(hasDetails ? [{ label: "Details", id: "details" }] : []),
@@ -224,7 +239,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         url: `${BASE_URL}/tour/${trek.slug}`,
         image: [
           trek.cover_image,
-          ...(trek.gallery_images?.slice(0, 3).map((galleryImage: any) => galleryImage.src) ?? []),
+          ...(safeGalleryImages.slice(0, 3).map((galleryImage: any) => galleryImage.src) ?? []),
         ].filter(Boolean),
         brand: {
           "@type": "Brand",
@@ -260,11 +275,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             name: "Group size",
             value: `Max ${trek.max_group_size} people`,
           },
-          {
-            "@type": "PropertyValue",
-            name: "Language",
-            value: trek.live_guide_languages?.join(", ") || "English, French, Arabic",
-          },
+            {
+              "@type": "PropertyValue",
+              name: "Language",
+              value: safeLiveGuideLanguages.join(", ") || "English, French, Arabic",
+            },
           {
             "@type": "PropertyValue",
             name: "Meeting point",
@@ -316,7 +331,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             acceptedAnswer: {
               "@type": "Answer",
               text:
-                trek.included?.join(", ") ||
+                safeIncluded.join(", ") ||
                 "Professional local guide, transport, and authentic experience",
             },
           },
@@ -402,7 +417,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <section className="min-w-0">
             <TourGallery
               coverImage={trek.cover_image}
-              galleryImages={trek.gallery_images}
+              galleryImages={safeGalleryImages}
               totalPhotoCount={trek.total_photo_count}
               title={trek.title}
             />
@@ -423,17 +438,17 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 maxAge={trek.max_age}
                 startTime={trek.start_time}
                 mobileTicket={trek.mobile_ticket}
-                liveGuideLanguages={trek.live_guide_languages}
-                audioGuideLanguages={trek.audio_guide_languages}
-                writtenGuideLanguages={trek.written_guide_languages}
+                liveGuideLanguages={safeLiveGuideLanguages}
+                audioGuideLanguages={safeAudioGuideLanguages}
+                writtenGuideLanguages={safeWrittenGuideLanguages}
               />
             ) : null}
             {hasHighlights ? (
               <TourHighlights
-                highlights={trek.highlights}
-                included={trek.included ?? []}
-                not_included={trek.not_included ?? []}
-                services={trek.services ?? []}
+                highlights={safeHighlights}
+                included={safeIncluded}
+                not_included={safeNotIncluded}
+                services={safeServices}
               />
             ) : null}
           </section>
@@ -452,7 +467,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <TourItinerary
           startLocation={trek.start_location}
           pickupAvailable={trek.pickup_available}
-          steps={trek.itinerary_steps}
+          steps={safeItinerarySteps}
         />
         <TourAvailabilityBar />
         <Suspense fallback={<div className="h-64 animate-pulse rounded-3xl bg-gray-100" />}>

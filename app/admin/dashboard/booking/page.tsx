@@ -29,7 +29,7 @@ export default async function AdminBookingPage() {
   const [admin, supabase] = await Promise.all([getCurrentUser(), createSupabaseServerClient()]);
   if (!admin || admin.role !== "admin") redirect("/auth/login");
 
-  const qrUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/quick-book`;
+  const qrUrl = `${process.env.NEXT_PUBLIC_APP_URL || "https://www.ourikatravels.com"}/quick-book`;
   const [bookings, totalResult, pendingResult, unpaidResult, revenueRows, qrDataUrl] =
     await Promise.all([
       getAllBookings(0, 50),

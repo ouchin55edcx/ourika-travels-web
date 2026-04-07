@@ -161,10 +161,10 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Ourika Travels",
-    url: "https://ourikatravels.com",
+    url: BASE_URL,
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://ourikatravels.com/experiences?q={search_term_string}",
+      target: `${BASE_URL}/experiences?q={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
   };
