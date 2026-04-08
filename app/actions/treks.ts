@@ -76,6 +76,12 @@ export type TrekFormData = Omit<
   "id" | "slug" | "created_at" | "updated_at" | "category_name"
 >;
 
+function canManageTreks(
+  user: Awaited<ReturnType<typeof getCurrentUser>> | null,
+) {
+  return !!user && (user.role === "admin" || (user.role === "guide" && user.can_add_treks));
+}
+
 // ━━━ PRIVATE HELPERS (not exported) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function slugify(text: string): string {
@@ -171,7 +177,7 @@ export async function createTrek(
   data: TrekFormData,
 ): Promise<{ success: true; slug: string } | { error: string }> {
   const user = await getCurrentUser();
-  if (!user || user.role !== "admin") return { error: "Forbidden" };
+  if (!canManageTreks(user)) return { error: "Forbidden" };
 
   const supabase = await createSupabaseServerClient();
   const slugBase = slugify(data.title);
@@ -252,7 +258,8 @@ export async function uploadTrekImage(
   formData: FormData,
 ): Promise<{ url: string; imageId: string } | { error: string }> {
   const user = await getCurrentUser();
-  if (!user || user.role !== "admin") return { error: "Forbidden" };
+  if (!canManageTreks(user)) return { error: "Forbidden" };
+  const currentUser = user!;
 
   const file = formData.get("file") as File;
   const folder = formData.get("folder") as string; // 'covers'|'gallery'|'itinerary'
@@ -268,7 +275,7 @@ export async function uploadTrekImage(
   try {
     const result = await uploadToCloudflare(file, {
       folder, // stored as metadata tag
-      uploadedBy: user.id,
+      uploadedBy: currentUser.id,
       trek: "pending", // updated after trek is saved
     });
     return result;

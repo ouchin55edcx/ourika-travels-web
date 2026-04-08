@@ -155,7 +155,7 @@ export default async function GuideDashboardPage() {
             </Link>
             {user.can_add_treks && (
               <Link
-                href="/admin/dashboard/treks/new"
+                href="/dashboard/guide/treks/new"
                 className="w-full justify-center rounded-full border-2 border-[#0b3a2c] bg-white px-5 py-2.5 text-sm font-semibold text-[#0b3a2c] shadow-sm transition-all hover:bg-[#0b3a2c] hover:text-white sm:w-auto"
               >
                 + Create new trek

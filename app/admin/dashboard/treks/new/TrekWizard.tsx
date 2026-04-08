@@ -42,6 +42,8 @@ type TrekWizardProps = {
   categories: Category[];
   initialData?: Trek;
   trekId?: string;
+  listHref?: string;
+  successHref?: string;
 };
 
 const STEPS = [
@@ -131,7 +133,13 @@ function DynamicList({
   );
 }
 
-export default function TrekWizard({ categories, initialData, trekId }: TrekWizardProps) {
+export default function TrekWizard({
+  categories,
+  initialData,
+  trekId,
+  listHref = "/admin/dashboard/treks",
+  successHref = "/admin/dashboard/treks",
+}: TrekWizardProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [step, setStep] = useState(1);
@@ -265,7 +273,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
       }
 
       router.push(
-        `/admin/dashboard/treks?${trekId ? "updated" : "created"}=${("slug" in result ? result.slug : "") || trekId}`,
+        `${successHref}?${trekId ? "updated" : "created"}=${("slug" in result ? result.slug : "") || trekId}`,
       );
     });
   }
@@ -298,7 +306,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
       <aside className="sticky top-0 hidden h-screen w-[280px] shrink-0 flex-col overflow-y-auto bg-[#0b3a2c] px-8 py-10 lg:flex xl:w-[300px]">
         <div className="mb-10">
           <Link
-            href="/admin/dashboard/treks"
+            href={listHref}
             className="mb-8 flex items-center gap-2 text-xs font-bold text-white/50 transition-colors hover:text-white"
           >
             ← Back to treks
@@ -399,7 +407,7 @@ export default function TrekWizard({ categories, initialData, trekId }: TrekWiza
       <div className="sticky top-0 z-40 border-b border-gray-100 bg-white px-4 py-3 shadow-sm lg:hidden">
         <div className="mb-2 flex items-center justify-between">
           <Link
-            href="/admin/dashboard/treks"
+            href={listHref}
             className="text-xs font-bold text-gray-400 hover:text-[#0b3a2c]"
           >
             ← Back
