@@ -4,10 +4,10 @@ type GuideLike = {
   full_name?: string | null;
 };
 
-export function slugifyGuideName(name?: string | null) {
-  if (!name) return "guide-ourika";
+export function normalizeGuideSlug(value?: string | null) {
+  if (!value) return "";
 
-  const base = name
+  return value
     .toLowerCase()
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -15,13 +15,17 @@ export function slugifyGuideName(name?: string | null) {
     .trim()
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
+    .replace(/-guide-ourika$/, "")
+    .replace(/(?:-guide)+$/, "")
     .replace(/^-|-$/g, "");
+}
 
-  return `${base || "guide"}-guide-ourika`;
+export function slugifyGuideName(name?: string | null) {
+  return normalizeGuideSlug(name) || "guide";
 }
 
 export function getGuideSlug(guide: GuideLike) {
-  return guide.slug || slugifyGuideName(guide.full_name);
+  return normalizeGuideSlug(guide.slug) || slugifyGuideName(guide.full_name);
 }
 
 export function getGuidePublicPath(guide: GuideLike) {

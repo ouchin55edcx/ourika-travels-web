@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { createSupabasePublicClient, createSupabaseServerClient } from "@/lib/supabase/server";
 import { BASE_URL } from "@/lib/config";
-import { getGuideSlug } from "@/lib/guide-slug";
+import { getGuideSlug, normalizeGuideSlug } from "@/lib/guide-slug";
 import GuidePublicProfile from "./GuidePublicProfile";
 
 interface GuidePublicPageProps {
@@ -54,7 +54,8 @@ export async function generateMetadata({ params }: GuidePublicPageProps): Promis
   const { slug } = await params;
   const supabase = await createSupabaseServerClient();
   const guides = await getActiveGuides(supabase);
-  const guide = guides.find((candidate: any) => getGuideSlug(candidate) === slug);
+  const normalizedSlug = normalizeGuideSlug(slug);
+  const guide = guides.find((candidate: any) => getGuideSlug(candidate) === normalizedSlug);
 
   if (!guide) {
     return {
@@ -107,10 +108,16 @@ export default async function GuidePublicPage({ params }: GuidePublicPageProps) 
   const { slug } = await params;
   const supabase = await createSupabaseServerClient();
   const guides = await getActiveGuides(supabase);
-  const guide = guides.find((candidate: any) => getGuideSlug(candidate) === slug);
+  const normalizedSlug = normalizeGuideSlug(slug);
+  const guide = guides.find((candidate: any) => getGuideSlug(candidate) === normalizedSlug);
 
   if (!guide) {
     notFound();
+  }
+
+  const canonicalSlug = getGuideSlug(guide);
+  if (slug !== canonicalSlug) {
+    permanentRedirect(`/guide/${canonicalSlug}`);
   }
 
   const { data: bookingsData } = await supabase
