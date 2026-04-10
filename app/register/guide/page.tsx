@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { registerGuide, uploadGuideBadgeImage } from "@/app/actions/auth";
+import { registerGuide, uploadGuideBadgeImage, checkEmailExists } from "@/app/actions/auth";
 import {
   Mail,
   Phone,
@@ -16,6 +16,7 @@ import {
   AlertCircle,
   ArrowLeft,
   ArrowRight,
+  Check,
 } from "lucide-react";
 
 const INPUT_CLASS = `
@@ -63,6 +64,8 @@ export default function GuideRegisterPage() {
   const [badgeUrl, setBadgeUrl] = useState("");
   const [uploadingBadge, setUploadingBadge] = useState(false);
   const [badgeError, setBadgeError] = useState<string | null>(null);
+  const [checkingEmail, setCheckingEmail] = useState(false);
+  const [emailAvailable, setEmailAvailable] = useState<boolean | null>(null);
 
   const [form, setForm] = useState({
     firstName: "",
@@ -72,6 +75,45 @@ export default function GuideRegisterPage() {
     confirmPassword: "",
     phone: "",
   });
+
+  // Debounced email check
+  const checkEmail = useCallback(async (email: string) => {
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      setEmailAvailable(null);
+      return;
+    }
+
+    setCheckingEmail(true);
+    try {
+      const result = await checkEmailExists(email);
+      setEmailAvailable(!result.exists);
+      if (result.exists) {
+        setErrors((prev) => ({ ...prev, email: "This email is already registered" }));
+      } else {
+        setErrors((prev) => {
+          const { email: _, ...rest } = prev;
+          return rest;
+        });
+      }
+    } catch (error) {
+      setEmailAvailable(null);
+    } finally {
+      setCheckingEmail(false);
+    }
+  }, []);
+
+  // Debounce email validation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (form.email && /^\S+@\S+\.\S+$/.test(form.email)) {
+        checkEmail(form.email);
+      } else {
+        setEmailAvailable(null);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [form.email, checkEmail]);
 
   async function handleBadgeUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -293,10 +335,37 @@ export default function GuideRegisterPage() {
                       type="email"
                       placeholder="you@example.com"
                       value={form.email}
-                      onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-                      className={`${INPUT_CLASS} pl-11`}
+                      onChange={(e) => {
+                        setForm((p) => ({ ...p, email: e.target.value }));
+                        setEmailAvailable(null);
+                      }}
+                      className={`${INPUT_CLASS} pl-11 pr-11 ${
+                        emailAvailable === false
+                          ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
+                          : emailAvailable === true
+                            ? "border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/10"
+                            : ""
+                      }`}
                     />
+                    {/* Email validation indicator */}
+                    <div className="absolute top-1/2 right-4 -translate-y-1/2">
+                      {checkingEmail && (
+                        <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+                      )}
+                      {!checkingEmail && emailAvailable === true && (
+                        <Check className="h-4 w-4 text-emerald-500" />
+                      )}
+                      {!checkingEmail && emailAvailable === false && (
+                        <AlertCircle className="h-4 w-4 text-red-500" />
+                      )}
+                    </div>
                   </div>
+                  {/* Email status message */}
+                  {!checkingEmail && emailAvailable === true && !errors.email && (
+                    <p className="mt-1 flex items-center gap-1 text-xs font-medium text-emerald-600">
+                      <Check className="h-3 w-3" /> Email is available
+                    </p>
+                  )}
                 </Field>
 
                 <Field label="Password" required error={errors.password}>
@@ -389,13 +458,18 @@ export default function GuideRegisterPage() {
                 {/* Badge upload */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-black text-gray-700">Official guide badge</p>
-                    <span className="text-xs font-medium text-gray-400">Optional</span>
+                    <p className="text-sm font-black text-gray-700">
+                      Official guide badge <span className="text-red-400">*</span>
+                    </p>
                   </div>
                   <p className="-mt-1 text-xs text-gray-400">
-                    Upload your official certificate from the Moroccan Ministry of Tourism. You can
-                    add this later from your profile.
+                    Upload your official certificate from the Moroccan Ministry of Tourism.
                   </p>
+                  {errors.badge && (
+                    <p className="flex items-center gap-1 text-xs font-medium text-red-500">
+                      <AlertCircle className="h-3 w-3 shrink-0" /> {errors.badge}
+                    </p>
+                  )}
 
                   <label
                     className={`relative flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed transition-all ${
@@ -520,12 +594,12 @@ export default function GuideRegisterPage() {
                   />
                   <p className="text-xs leading-relaxed text-gray-500">
                     By registering I agree to Ourika Travels'{" "}
-                    <Link href="/terms" className="font-semibold text-gray-700 underline">
-                      Terms of Service
+                    <Link href="/guide/terms" className="font-semibold text-gray-700 underline">
+                      Guide Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="/privacy" className="font-semibold text-gray-700 underline">
-                      Privacy Policy
+                    <Link href="/guide/privacy" className="font-semibold text-gray-700 underline">
+                      Guide Privacy Policy
                     </Link>
                   </p>
                 </label>
@@ -567,6 +641,9 @@ export default function GuideRegisterPage() {
                           if (!form.lastName.trim()) e.lastName = "Required";
                           if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email))
                             e.email = "Valid email required";
+                          if (emailAvailable === false)
+                            e.email = "This email is already registered";
+                          if (checkingEmail) return; // Wait for email check
                           if (form.password.length < 8) e.password = "Min 8 characters";
                           if (form.password !== form.confirmPassword)
                             e.confirmPassword = "Passwords don't match";
@@ -577,6 +654,7 @@ export default function GuideRegisterPage() {
                         if (step === 2) {
                           const e: Record<string, string> = {};
                           if (!form.phone.trim()) e.phone = "Required";
+                          if (!badgeUrl) e.badge = "Guide badge is required";
                           setErrors(e);
                           if (Object.keys(e).length > 0) return;
                         }

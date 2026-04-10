@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 
-export default function GuideSuccessPage({ searchParams }: { searchParams?: { email?: string } }) {
-  const email = searchParams?.email ? decodeURIComponent(searchParams.email) : null;
+type Props = {
+  searchParams: Promise<{ email?: string }>;
+};
+
+export default async function GuideSuccessPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const email = params?.email ? decodeURIComponent(params.email) : null;
 
   return (
     <div className="min-h-screen bg-gray-50 selection:bg-[#34e0a1] selection:text-black">

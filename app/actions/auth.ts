@@ -7,6 +7,27 @@ import { redirect } from "next/navigation";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || BASE_URL;
 
+// ─── CHECK EMAIL EXISTS ───
+export async function checkEmailExists(email: string): Promise<{ exists: boolean }> {
+  if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+    return { exists: false };
+  }
+
+  const supabase = await createSupabaseServerClient();
+
+  // Use the SQL function to check if email exists
+  const { data, error } = await supabase.rpc("check_email_exists", {
+    email_to_check: email,
+  });
+
+  if (error) {
+    console.error("Error checking email:", error);
+    return { exists: false };
+  }
+
+  return { exists: data === true };
+}
+
 // ─── TOURIST REGISTER ───
 export async function registerTourist(formData: FormData) {
   const supabase = await createSupabaseServerClient();
