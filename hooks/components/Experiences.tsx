@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, ChevronLeft, Star } from "lucide-react";
+import { ChevronRight, ChevronLeft, Star, Heart } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useEffect, useRef, useState } from "react";
 
@@ -108,55 +108,62 @@ export default function Experiences({
             <Link
               key={exp.id}
               href={`/tour/${exp.slug}`}
-              className={`group reveal relative h-[280px] min-w-[280px] overflow-hidden rounded-3xl shadow-lg transition-all duration-500 sm:h-[320px] ${isVisible ? "reveal-visible" : ""}`}
+              className={`group reveal block transition-all duration-500 ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             >
-              <Image
-                src={exp.cover_image}
-                alt={`${exp.title} — Ourika Valley, Morocco`}
-                fill
-                className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-              
-              {/* Badge */}
-              {exp.badge && (
-                <div className="absolute top-4 left-4 z-10 rounded-[6px] bg-[#f2ef31] px-2 py-1 text-[11px] font-extrabold text-[#111827]">
-                  {exp.badge}
+              <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-shadow hover:shadow-lg">
+                {/* Image Container */}
+                <div className="relative aspect-square overflow-hidden bg-gray-100 sm:aspect-[4/3]">
+                  <Image
+                    src={exp.cover_image}
+                    alt={`${exp.title} — Ourika Valley, Morocco`}
+                    fill
+                    className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  
+                  {/* Heart Icon */}
+                  <button className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md transition-all hover:scale-110 active:scale-95">
+                    <Heart className="h-4 w-4 text-gray-600" />
+                  </button>
+                  
+                  {/* Badge */}
+                  {exp.badge && (
+                    <div className="absolute top-3 left-3 z-10 rounded-md bg-[#f2ef31] px-2 py-1 text-[10px] font-extrabold text-[#111827]">
+                      {exp.badge}
+                    </div>
+                  )}
                 </div>
-              )}
-              
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              
-              {/* Content at Bottom */}
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h3 className="line-clamp-2 mb-3 text-lg leading-tight font-bold text-white">
-                  {exp.title}
-                </h3>
 
-                <div className="flex flex-wrap items-center gap-3">
+                {/* Content */}
+                <div className="flex flex-1 flex-col space-y-2 p-4">
+                  <h3 className="line-clamp-2 text-sm font-bold leading-tight text-[#1a1a1a]">
+                    {exp.title}
+                  </h3>
+
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-white">
+                    <span className="text-xs font-bold text-[#1a1a1a]">
                       {exp.rating.toFixed(1)}
                     </span>
                     <RatingStars rating={exp.rating} />
-                  </div>
-                  <span className="text-xs text-white/70">
-                    ({exp.review_count.toLocaleString()})
-                  </span>
-                </div>
-
-                <div className="mt-3 flex items-baseline gap-1">
-                  <span className="text-xs font-bold text-white/70">from</span>
-                  {exp.previous_price && (
-                    <span className="mr-1 text-xs text-white/70 line-through">
-                      ${exp.previous_price.toFixed(2)}
+                    <span className="text-[11px] text-gray-500">
+                      ({exp.review_count.toLocaleString()})
                     </span>
-                  )}
-                  <span className="text-lg font-black text-white">
-                    ${exp.price_per_adult.toFixed(2)}
-                  </span>
+                  </div>
+
+                  <div className="border-t border-gray-50 pt-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-xs font-bold text-gray-500">from</span>
+                      {exp.previous_price && (
+                        <span className="mr-1 text-xs text-gray-400 line-through">
+                          ${exp.previous_price.toFixed(2)}
+                        </span>
+                      )}
+                      <span className="font-black text-[#004f32]">
+                        ${exp.price_per_adult.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Link>
