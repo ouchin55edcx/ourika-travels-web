@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Heart } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 import type { Category } from "@/app/actions/categories";
@@ -71,7 +72,7 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
             <Link
               key={interest.title}
               href={`/category/${interest.slug}`}
-              className={`group reveal relative h-[400px] min-w-[85%] flex-shrink-0 cursor-pointer snap-center overflow-hidden rounded-[3rem] shadow-2xl transition-all duration-700 sm:min-w-[60%] md:min-w-[45%] lg:h-[480px] lg:min-w-[calc(25%-18px)] ${isVisible ? "reveal-visible" : ""}`}
+              className={`group reveal relative h-[400px] min-w-[85%] flex-shrink-0 cursor-pointer snap-center overflow-hidden rounded-3xl shadow-lg transition-all duration-700 sm:min-w-[60%] md:min-w-[45%] lg:h-[480px] lg:min-w-[calc(25%-18px)] ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <Image
@@ -81,16 +82,19 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
                 className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#004f32]/90 via-black/10 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+              
+              {/* Wishlist Button */}
+              <button className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition-all hover:scale-110 active:scale-95">
+                <Heart className="h-5 w-5 text-gray-600 transition-colors hover:text-red-500" />
+              </button>
 
-              <div className="absolute right-10 bottom-10 left-10 transform transition-transform duration-500 group-hover:-translate-y-2">
-                <p className="mb-2 text-[10px] font-black tracking-widest text-[#00ef9d] uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  Explore Category
-                </p>
-                <h3 className="mb-2 text-3xl leading-none font-black text-white md:text-4xl">
+              {/* Text Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="mb-1 text-2xl leading-tight font-black text-white md:text-3xl">
                   {interest.title}
                 </h3>
-                <p className="text-sm leading-tight font-medium text-white/70">{interest.desc}</p>
+                <p className="text-sm font-medium text-white/80">{interest.desc}</p>
               </div>
             </Link>
           );
