@@ -2,17 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BASE_URL, WHATSAPP_PHONE } from "@/lib/config";
 
-type Props = { price: number; trekSlug: string; trekTitle: string };
+type Props = { price: number };
 
-export default function TourMobileBookBar({ price, trekSlug, trekTitle }: Props) {
+export default function TourMobileBookBar({ price }: Props) {
   const [isVisible, setIsVisible] = useState(false);
-  const whatsappPhone = WHATSAPP_PHONE.replace(/\D/g, "");
-  const whatsappMessage = `Hi! I want to reserve "${trekTitle}". ${BASE_URL}/tour/${trekSlug}`;
-  const whatsappUrl = whatsappPhone
-    ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`
-    : "";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,16 +40,6 @@ export default function TourMobileBookBar({ price, trekSlug, trekTitle }: Props)
         >
           From ${price.toFixed(2)} · Check availability
         </Link>
-        {whatsappUrl ? (
-          <Link
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block min-h-12 w-full rounded-full border-2 border-[#0b3a2c] px-5 py-3 text-center text-[15px] font-bold text-[#0b3a2c]"
-          >
-            Reserve on WhatsApp
-          </Link>
-        ) : null}
       </div>
     </div>
   );

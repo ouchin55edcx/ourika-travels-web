@@ -1,10 +1,8 @@
 import { MessageSquare, ShieldCheck, WalletCards, CalendarDays } from "lucide-react";
 import Link from "next/link";
-import { BASE_URL, WHATSAPP_PHONE } from "@/lib/config";
+import { WHATSAPP_PHONE } from "@/lib/config";
 
 type Props = {
-  trekSlug: string;
-  trekTitle: string;
   price: number;
   previousPrice: number | null;
   freeCancellationHours: number;
@@ -13,8 +11,6 @@ type Props = {
 };
 
 export default function TourBookingCard({
-  trekSlug,
-  trekTitle,
   price,
   previousPrice,
   freeCancellationHours,
@@ -22,7 +18,7 @@ export default function TourBookingCard({
   avgBookingLeadDays,
 }: Props) {
   const whatsappPhone = WHATSAPP_PHONE.replace(/\D/g, "");
-  const whatsappMessage = `Hi! I want to reserve "${trekTitle}". ${BASE_URL}/tour/${trekSlug}`;
+  const whatsappMessage = "Hi! I want to reserve this trek.";
   const whatsappUrl = whatsappPhone
     ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`
     : "";
@@ -76,13 +72,13 @@ export default function TourBookingCard({
 
         <div className="mb-4 grid grid-cols-2 gap-2">
           <Link
-            href={`/reservation?trek=${trekSlug}&type=group`}
+            href="/reservation?type=group"
             className="rounded-full border-2 border-[#0b3a2c] px-4 py-2.5 text-center text-sm font-bold text-[#0b3a2c] transition-all hover:bg-[#edf7f1]"
           >
             Join group
           </Link>
           <Link
-            href={`/reservation?trek=${trekSlug}&type=private`}
+            href="/reservation?type=private"
             className="rounded-full bg-[#0b3a2c] px-4 py-2.5 text-center text-sm font-bold text-white transition-all hover:bg-[#0f3d24]"
           >
             Book private
@@ -90,7 +86,7 @@ export default function TourBookingCard({
         </div>
 
         <Link
-          href={`/reservation?trek=${trekSlug}`}
+          href="/reservation"
           className="mb-6 block min-h-12 w-full rounded-full bg-[#00e05a] px-5 py-4 text-center text-[16px] font-bold text-black transition hover:bg-[#00cb52] sm:text-[17px]"
         >
           Check availability

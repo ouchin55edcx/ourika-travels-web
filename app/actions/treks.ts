@@ -27,6 +27,7 @@ export type Trek = {
   id: string;
   title: string;
   slug: string;
+  creator_id?: string | null;
   category_id: string | null;
   category_name?: string; // Virtual field for display
   categories?: { name: string } | { name: string }[] | null;
@@ -152,15 +153,12 @@ export async function getTrekById(id: string): Promise<Trek | null> {
 
 export async function getTrekBySlug(slug: string): Promise<Trek | null> {
   const supabase = await createSupabaseServerClient();
-  const user = await getCurrentUser();
-
-  let query = supabase.from("treks").select("*, categories(name)").eq("slug", slug);
-
-  if (!user || user.role !== "admin") {
-    query = query.eq("is_active", true);
-  }
-
-  const { data, error } = await query.single();
+  const { data, error } = await supabase
+    .from("treks")
+    .select("*, categories(name)")
+    .eq("slug", slug)
+    .eq("is_active", true)
+    .single();
 
   if (error || !data) return null;
   return data as Trek;
@@ -178,13 +176,16 @@ export async function createTrek(
 ): Promise<{ success: true; slug: string } | { error: string }> {
   const user = await getCurrentUser();
   if (!canManageTreks(user)) return { error: "Forbidden" };
+  const currentUser = user!;
 
   const supabase = await createSupabaseServerClient();
   const slugBase = slugify(data.title);
   const slug = await uniqueSlug(supabase, slugBase);
 
   const { slug: _slug, cover_image_id, ...rest } = data as any;
-  const { error } = await supabase.from("treks").insert({ ...rest, slug });
+  const { error } = await supabase
+    .from("treks")
+    .insert({ ...rest, slug, creator_id: currentUser.id });
 
   if (error) return { error: error.message };
 

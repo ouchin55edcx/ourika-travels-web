@@ -15,8 +15,9 @@ interface Trek {
   slug: string | null;
   cover_image: string | null;
   duration: string | null;
-  price_per_person: number | null;
-  description: string | null;
+  price_per_adult: number | null;
+  about: string | null;
+  is_active: boolean | null;
 }
 
 interface Review {
@@ -120,39 +121,25 @@ export default async function GuidePublicPage({ params }: GuidePublicPageProps) 
     permanentRedirect(`/guide/${canonicalSlug}`);
   }
 
-  const { data: bookingsData } = await supabase
-    .from("bookings")
+  const { data: createdTreksData } = await supabase
+    .from("treks")
     .select(
       `
       id,
-      treks (
-        id,
-        title,
-        slug,
-        cover_image,
-        duration,
-        price_per_person,
-        description
-      )
+      title,
+      slug,
+      cover_image,
+      duration,
+      price_per_adult,
+      about,
+      is_active
     `,
     )
-    .eq("guide_id", guide.id)
-    .eq("status", "completed")
-    .not("treks", "is", null);
+    .eq("creator_id", guide.id)
+    .eq("is_active", true)
+    .order("created_at", { ascending: false });
 
-  const treksMap = new Map<string, Trek>();
-  if (bookingsData) {
-    bookingsData.forEach((booking: unknown) => {
-      const b = booking as { treks: Trek[] | null };
-      if (b.treks && Array.isArray(b.treks) && b.treks.length > 0) {
-        const trek = b.treks[0];
-        if (trek?.id) {
-          treksMap.set(trek.id, trek);
-        }
-      }
-    });
-  }
-  const guideTreks = Array.from(treksMap.values());
+  const guideTreks = (createdTreksData ?? []) as Trek[];
 
   const { data: reviewsData } = await supabase
     .from("reviews")

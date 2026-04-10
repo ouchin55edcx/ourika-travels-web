@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 
 type Props = {
   title: string;
-  navigationItems: { label: string; id: string }[];
-  rating: number;
-  price: number;
+  navigationItems: ReadonlyArray<{ label: string; id: string }>;
+  rating?: number;
+  price?: number;
 };
 
 export default function TourStickyHeader({ title, navigationItems, rating, price }: Props) {
@@ -43,10 +43,12 @@ export default function TourStickyHeader({ title, navigationItems, rating, price
           <div className="hidden items-center gap-4 lg:flex">
             <div className="flex items-center gap-3 text-sm text-[#1f1f1f]">
               <span className="max-w-[420px] truncate font-semibold text-[#0a2e1a]">{title}</span>
-              <div className="flex items-center gap-1">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#00aa6c]" />
-                <span className="font-semibold">{rating.toFixed(1)}</span>
-              </div>
+              {typeof rating === "number" ? (
+                <div className="flex items-center gap-1">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#00aa6c]" />
+                  <span className="font-semibold">{rating.toFixed(1)}</span>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -67,7 +69,9 @@ export default function TourStickyHeader({ title, navigationItems, rating, price
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
-            <p className="text-[15px] font-extrabold text-[#0a2e1a]">from ${price.toFixed(2)}</p>
+            {typeof price === "number" ? (
+              <p className="text-[15px] font-extrabold text-[#0a2e1a]">from ${price.toFixed(2)}</p>
+            ) : null}
             <button className="rounded-full bg-[#00e05a] px-5 py-2.5 text-[15px] font-bold text-black">
               Check availability
             </button>

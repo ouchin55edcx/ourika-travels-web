@@ -59,19 +59,22 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
   const displayedInterests = dynamicInterests.length > 0 ? dynamicInterests : interests;
 
   return (
-    <section ref={elementRef as any} className={`mx-auto mt-16 w-full max-w-7xl px-6`}>
-      <div className="mb-12">
-        <h2 className="text-4xl leading-[0.9] font-black tracking-tighter text-[#0a2e1a] md:text-5xl">
+    <section
+      ref={elementRef as any}
+      className={`mt-10 ml-2 w-full md:mx-auto md:mt-16 md:max-w-7xl md:px-6`}
+    >
+      <div className="mb-6 pr-4 md:mb-12 md:pr-0">
+        <h2 className="text-2xl leading-[0.9] font-black tracking-tighter text-[#0a2e1a] md:text-5xl">
           Explore by Interest
         </h2>
       </div>
-      <div className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-8">
+      <div className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pr-4 pb-6 md:gap-6 md:pr-0 md:pb-8">
         {displayedInterests.map((interest, index) => {
           return (
             <Link
               key={interest.title}
               href={`/category/${interest.slug}`}
-              className={`group reveal relative h-[400px] min-w-[85%] flex-shrink-0 cursor-pointer snap-center overflow-hidden rounded-[3rem] shadow-2xl transition-all duration-700 sm:min-w-[60%] md:min-w-[45%] lg:h-[480px] lg:min-w-[calc(25%-18px)] ${isVisible ? "reveal-visible" : ""}`}
+              className={`group reveal relative h-[220px] min-w-[75%] flex-shrink-0 cursor-pointer snap-center overflow-hidden rounded-2xl shadow-xl transition-all duration-700 sm:min-w-[60%] md:h-[280px] md:min-w-[45%] lg:h-[340px] lg:min-w-[calc(25%-18px)] ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <Image

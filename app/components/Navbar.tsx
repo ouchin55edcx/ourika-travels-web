@@ -90,12 +90,22 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
     };
   }, [isMenuOpen]);
 
+  // Toggle body class for navbar blur when search dropdown is open
+  useEffect(() => {
+    if (isSearchFocused) {
+      document.body.classList.add("search-dropdown-open");
+    } else {
+      document.body.classList.remove("search-dropdown-open");
+    }
+    return () => document.body.classList.remove("search-dropdown-open");
+  }, [isSearchFocused]);
+
   if (hidden) return null;
 
   return (
     <>
       <nav
-        className={`isolate flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-[#edf7f1]/80 via-white/95 to-[#edf7f1]/80 px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
+        className={`isolate flex items-center justify-between bg-white px-6 py-2 transition-all duration-300 md:px-16 ${
           sticky ? "sticky top-0" : ""
         } ${isSearchFocused ? "z-[150]" : "z-[100]"}`}
       >
@@ -425,7 +435,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Where to?"
-                className="flex-1 border-none bg-transparent text-base font-medium outline-none placeholder:text-gray-400 focus:ring-0 md:text-[15px]"
+                className="flex-1 border-none bg-transparent text-base font-medium text-black outline-none placeholder:text-gray-400 focus:ring-0 md:text-[15px]"
               />
               <button
                 onClick={(e) => {

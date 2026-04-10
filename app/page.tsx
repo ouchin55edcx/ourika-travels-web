@@ -11,6 +11,7 @@ import Interests from "@/components/Interests";
 import Experiences from "@/components/Experiences";
 import Reviews from "@/components/Reviews";
 import TouristHighlight from "@/components/TouristHighlight";
+import PromoBanner from "@/components/PromoBanner";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 import { createSupabasePublicClient } from "@/lib/supabase/server";
 
@@ -182,7 +183,8 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <Hero />
-        <section className="mx-auto w-full max-w-7xl px-6 py-6 text-sm font-medium text-[#355646] sm:text-base">
+        <PromoBanner />
+        <section className="ml-2 w-full px-4 py-4 text-xs font-medium text-[#355646] sm:px-6 sm:text-sm md:mx-auto md:max-w-7xl md:px-6 md:py-6 md:text-base">
           Based in <strong>Setti Fatma, Ourika Valley</strong>, we offer{" "}
           <Link href="/experiences" className="font-black text-[#0b3a2c] underline">
             guided treks and cultural experiences

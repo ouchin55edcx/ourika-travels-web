@@ -7,16 +7,11 @@ import Link from "next/link";
 
 type Props = { currentTrekId: string };
 
-export default function TourSimilarExperiences({
-  currentTrekId,
-  initialSimilar = [],
-}: Props & { initialSimilar?: any[] }) {
-  const [similar, setSimilar] = useState<any[]>(initialSimilar);
+export default function TourSimilarExperiences({ currentTrekId }: Props) {
+  const [similar, setSimilar] = useState<any[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (initialSimilar.length > 0) return;
-
     async function load() {
       try {
         const res = await fetch("/api/treks/similar?exclude=" + currentTrekId + "&limit=4");
@@ -27,7 +22,7 @@ export default function TourSimilarExperiences({
       }
     }
     load();
-  }, [currentTrekId, initialSimilar]);
+  }, [currentTrekId]);
 
   const scrollByAmount = (direction: "left" | "right") => {
     const container = scrollRef.current;
@@ -117,6 +112,7 @@ export default function TourSimilarExperiences({
               </div>
 
               <p className="mt-2 text-[14px] text-[#666] lg:text-[15px]">
+                {trek.duration ? `${trek.duration} · ` : ""}
                 {trek.categories?.name || "Experience"}
               </p>
 

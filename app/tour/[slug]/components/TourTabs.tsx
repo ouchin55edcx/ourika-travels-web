@@ -1,12 +1,10 @@
-type Props = {
-  items: { label: string; id: string }[];
-};
+import { navigationItems } from "@/lib/data/tourData";
 
-export default function TourTabs({ items }: Props) {
+export default function TourTabs() {
   return (
     <div className="mt-6 overflow-x-auto border-b border-[#e5e7eb] [-ms-overflow-style:none] [scrollbar-width:none]">
       <nav className="flex min-w-max items-center gap-5 text-[14px] font-semibold whitespace-nowrap text-[#133728] sm:gap-6 sm:text-[15px]">
-        {items.map((item, index) => (
+        {navigationItems.map((item, index) => (
           <a
             key={item.id}
             href={`#${item.id}`}

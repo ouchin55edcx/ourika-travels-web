@@ -1,4 +1,10 @@
-export const navigationItems = ["Overview", "Details", "Itinerary", "Operator", "Reviews"] as const;
+export const navigationItems = [
+  { label: "Overview", id: "overview" },
+  { label: "Details", id: "details" },
+  { label: "Highlights", id: "highlights" },
+  { label: "Itinerary", id: "itinerary" },
+  { label: "Reviews", id: "reviews" },
+] as const;
 
 export function formatTitleFromSlug(slug?: string) {
   if (!slug) {

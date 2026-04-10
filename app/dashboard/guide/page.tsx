@@ -12,6 +12,9 @@ import {
   ClipboardList,
   CalendarCheck,
   Star,
+  Compass,
+  Eye,
+  PlusCircle,
 } from "lucide-react";
 import { Metadata } from "next";
 import { getCurrentUser } from "@/lib/auth";
@@ -64,6 +67,7 @@ export default async function GuideDashboardPage() {
     { count: upcomingBookings },
     { count: completedBookings },
     { data: ratingRows },
+    { data: createdTreksData },
   ] = await Promise.all([
     supabase.from("bookings").select("*", { count: "exact", head: true }).eq("guide_id", user.id),
     supabase
@@ -83,7 +87,26 @@ export default async function GuideDashboardPage() {
       .eq("bookings.guide_id", user.id)
       .eq("status", "approved")
       .not("rating", "is", null),
+    supabase
+      .from("treks")
+      .select("id, title, slug, cover_image, duration, price_per_adult, is_active, created_at")
+      .eq("creator_id", user.id)
+      .order("created_at", { ascending: false }),
   ]);
+
+  const createdTreks = (createdTreksData ??
+    []) as Array<{
+    id: string;
+    title: string | null;
+    slug: string | null;
+    cover_image: string | null;
+    duration: string | null;
+    price_per_adult: number | null;
+    is_active: boolean | null;
+    created_at?: string | null;
+  }>;
+  const publishedTreksCount = createdTreks.filter((trek) => trek.is_active).length;
+  const draftTreksCount = createdTreks.length - publishedTreksCount;
 
   const ratings = (ratingRows ?? [])
     .map((row: { rating?: number | null }) => row.rating)
@@ -269,6 +292,132 @@ export default async function GuideDashboardPage() {
             <p className="mt-3 text-3xl font-black text-[#0b3a2c]">{value}</p>
           </div>
         ))}
+      </section>
+
+      <section className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-sm sm:p-8">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-sm font-semibold text-emerald-700">Trek creator</p>
+            <h2 className="mt-1 text-2xl font-black text-[#0b3a2c]">Created experiences</h2>
+            <p className="mt-2 max-w-2xl text-sm font-medium text-gray-500">
+              Manage the experiences you created, check what is already published, and keep draft
+              ideas ready before they go live.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3">
+              <p className="text-[11px] font-bold tracking-widest text-emerald-700 uppercase">
+                Published
+              </p>
+              <p className="mt-1 text-2xl font-black text-[#0b3a2c]">{publishedTreksCount}</p>
+            </div>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3">
+              <p className="text-[11px] font-bold tracking-widest text-amber-700 uppercase">
+                Drafts
+              </p>
+              <p className="mt-1 text-2xl font-black text-[#0b3a2c]">{draftTreksCount}</p>
+            </div>
+          </div>
+        </div>
+
+        {createdTreks.length === 0 ? (
+          <div className="mt-6 rounded-[2rem] border border-dashed border-[#cfe4d8] bg-[#f7fbf8] p-8 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b3a2c] text-white">
+              <Compass className="h-6 w-6" />
+            </div>
+            <h3 className="mt-4 text-xl font-black text-[#0b3a2c]">No created experiences yet</h3>
+            <p className="mx-auto mt-2 max-w-lg text-sm text-gray-500">
+              Start building your first trek. Once you create it, this space will show its publish
+              status, pricing, and direct link.
+            </p>
+            {user.can_add_treks && (
+              <Link
+                href="/dashboard/guide/treks/new"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#0b3a2c] px-5 py-3 text-sm font-black text-white transition hover:bg-[#09251a]"
+              >
+                <PlusCircle className="h-4 w-4" />
+                Create your first trek
+              </Link>
+            )}
+          </div>
+        ) : (
+          <div className="mt-6 grid gap-4 xl:grid-cols-2">
+            {createdTreks.map((trek) => (
+              <div
+                key={trek.id}
+                className="group overflow-hidden rounded-[1.75rem] border border-black/5 bg-[#f8fbf9] transition hover:border-emerald-200 hover:bg-white hover:shadow-md"
+              >
+                <div className="flex flex-col gap-4 p-4 sm:flex-row sm:p-5">
+                  <div className="relative h-44 w-full overflow-hidden rounded-2xl bg-[#0b3a2c] sm:h-36 sm:w-44">
+                    {trek.cover_image ? (
+                      <Image
+                        src={trek.cover_image}
+                        alt={trek.title || "Created trek"}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center">
+                        <Compass className="h-10 w-10 text-white/30" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <p className="line-clamp-2 text-lg font-black text-[#0b3a2c]">
+                          {trek.title || "Untitled trek"}
+                        </p>
+                        <div className="mt-2 flex flex-wrap items-center gap-2">
+                          <span
+                            className={`rounded-full px-3 py-1 text-[11px] font-black tracking-wide uppercase ${
+                              trek.is_active
+                                ? "bg-emerald-50 text-emerald-700"
+                                : "bg-amber-50 text-amber-700"
+                            }`}
+                          >
+                            {trek.is_active ? "Published" : "Draft"}
+                          </span>
+                          {trek.duration && (
+                            <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500 shadow-sm">
+                              {trek.duration}
+                            </span>
+                          )}
+                          {trek.price_per_adult ? (
+                            <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0b3a2c] shadow-sm">
+                              from {trek.price_per_adult.toFixed(0)} MAD
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
+
+                      {trek.slug ? (
+                        <Link
+                          href={`/tour/${trek.slug}`}
+                          className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-black text-[#0b3a2c] transition hover:border-[#0b3a2c] hover:bg-[#0b3a2c] hover:text-white"
+                        >
+                          <Eye className="h-3.5 w-3.5" />
+                          View page
+                        </Link>
+                      ) : null}
+                    </div>
+
+                    <p className="mt-4 text-xs font-semibold text-gray-400">
+                      {trek.created_at
+                        ? `Created ${new Date(trek.created_at).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}`
+                        : "Recently created"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[1fr]">

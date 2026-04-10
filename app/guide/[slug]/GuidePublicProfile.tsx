@@ -29,8 +29,9 @@ interface Trek {
   slug: string | null;
   cover_image: string | null;
   duration: string | null;
-  price_per_person: number | null;
-  description: string | null;
+  price_per_adult: number | null;
+  about: string | null;
+  is_active?: boolean | null;
 }
 
 interface Review {
@@ -320,7 +321,7 @@ export default function GuidePublicProfile({
       <div className="mx-auto mt-8 max-w-3xl px-4">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xs font-black tracking-widest text-gray-400 uppercase">
-            Experiences by {displayName.split(" ")[0]}
+            Created Experiences
           </h2>
           {guideTreks.length > 4 && (
             <button
@@ -333,9 +334,12 @@ export default function GuidePublicProfile({
         </div>
 
         {guideTreks.length === 0 ? (
-          <div className="rounded-3xl border-2 border-dashed border-gray-200 p-12 text-center">
-            <Mountain className="mx-auto mb-3 h-10 w-10 text-gray-200" />
-            <p className="font-bold text-gray-400">Experiences coming soon</p>
+            <div className="rounded-3xl border-2 border-dashed border-gray-200 p-12 text-center">
+              <Mountain className="mx-auto mb-3 h-10 w-10 text-gray-200" />
+            <p className="font-bold text-gray-400">No published experiences yet</p>
+            <p className="mt-1 text-sm text-gray-400">
+              New trips created by {displayName.split(" ")[0]} will appear here once published.
+            </p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
@@ -361,14 +365,24 @@ export default function GuidePublicProfile({
                   )}
                 </div>
                 <div className="p-4">
-                  <p className="line-clamp-2 font-black text-[#0a2e1a]">{trek.title}</p>
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="line-clamp-2 font-black text-[#0a2e1a]">{trek.title}</p>
+                    <span className="shrink-0 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-black tracking-wide text-emerald-700 uppercase">
+                      Published
+                    </span>
+                  </div>
+                  {trek.about && (
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-500">
+                      {trek.about}
+                    </p>
+                  )}
                   <div className="mt-2 flex items-center gap-3">
                     {trek.duration && (
                       <span className="text-xs font-semibold text-gray-500">{trek.duration}</span>
                     )}
-                    {trek.price_per_person && (
+                    {trek.price_per_adult && (
                       <span className="text-xs font-black text-[#0a2e1a]">
-                        from {trek.price_per_person.toFixed(0)} MAD
+                        from {trek.price_per_adult.toFixed(0)} MAD
                       </span>
                     )}
                   </div>

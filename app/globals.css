@@ -245,3 +245,41 @@ p,
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #d1d5db;
 }
+
+/* ─── Hide scrollbar (horizontal scroll sections) ─── */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ─── Navbar blur when search dropdown is open ─── */
+body.search-dropdown-open nav.sticky {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  transition: background-color 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+}
+
+body.search-dropdown-open nav.sticky * {
+  opacity: 0.4 !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s ease-in-out;
+}
+
+body:not(.search-dropdown-open) nav.sticky {
+  background-color: rgb(255, 255, 255) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  transition: background-color 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+}
+
+body:not(.search-dropdown-open) nav.sticky * {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transition: opacity 0.3s ease-in-out;
+}

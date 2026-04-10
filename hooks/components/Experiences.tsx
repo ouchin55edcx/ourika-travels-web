@@ -75,11 +75,11 @@ export default function Experiences({
     <section
       id="experiences-section"
       ref={elementRef as any}
-      className={`reveal mx-auto w-full max-w-7xl px-6 py-16 md:py-24 xl:py-32 ${isVisible ? "reveal-visible" : ""}`}
+      className={`reveal mt-10 ml-2 w-full md:mx-auto md:mt-16 md:max-w-7xl md:px-6 ${isVisible ? "reveal-visible" : ""}`}
     >
-      <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-xl">
-          <h2 className="mb-4 text-4xl leading-[0.9] font-black tracking-tighter text-[#0a2e1a] md:text-5xl">
+      <div className="mb-6 pr-4 md:mb-12 md:flex md:flex-col md:md:flex-row md:md:items-end md:md:justify-between md:gap-6 md:pr-0">
+        <div className="max-w-xl md:max-w-none">
+          <h2 className="mb-3 text-2xl leading-[0.9] font-black tracking-tighter text-[#0a2e1a] md:text-5xl">
             Unmissable Moments in the Atlas Mountains
           </h2>
         </div>
@@ -101,18 +101,18 @@ export default function Experiences({
 
       <div
         ref={scrollRef}
-        className="hide-scrollbar flex snap-x snap-mandatory scroll-pl-6 gap-6 overflow-x-auto pb-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16 lg:overflow-visible lg:px-0 lg:pb-0"
+        className="hide-scrollbar -mx-2 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-2 pb-8 md:mx-0 md:grid md:grid-cols-4 md:gap-x-8 md:gap-y-16 md:overflow-visible md:px-0 md:pb-0"
       >
         {experiences.map((exp, index) => {
           return (
             <Link
               key={exp.id}
               href={`/tour/${exp.slug}`}
-              className={`group reveal block min-w-[280px] transition-all duration-500 ${isVisible ? "reveal-visible" : ""}`}
+              className={`group reveal block min-w-[75%] snap-center transition-all duration-500 md:min-w-[280px] ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             >
               <div className="flex h-full flex-col">
-                <div className="relative mb-4 aspect-square overflow-hidden rounded-3xl shadow-lg sm:aspect-[4/3]">
+                <div className="relative mb-3 aspect-square overflow-hidden rounded-2xl shadow-md sm:aspect-[4/3] md:rounded-3xl md:shadow-lg">
                   <Image
                     src={exp.cover_image}
                     alt={`${exp.title} — Ourika Valley, Morocco`}
@@ -174,13 +174,13 @@ export default function Experiences({
       `}</style>
 
       {/* View More Button */}
-      <div className="mt-16 flex justify-center">
+      <div className="mt-10 flex justify-center md:mt-16">
         <Link
           href="/experiences"
-          className="group inline-flex items-center gap-3 rounded-full bg-[#004f32] px-12 py-5 text-lg font-black text-white shadow-xl transition-all hover:scale-105 hover:bg-[#003a25]"
+          className="group inline-flex items-center gap-3 rounded-full bg-[#0a2e1a] px-10 py-4 text-base font-black text-white shadow-lg transition-all hover:scale-105 hover:bg-[#0b3a2c] hover:shadow-xl"
         >
           See all experiences
-          <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+          <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </section>

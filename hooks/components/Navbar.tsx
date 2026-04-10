@@ -65,9 +65,9 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
   return (
     <>
       <nav
-        className={`flex items-center justify-between border-b border-gray-100 bg-white px-6 py-2 transition-all duration-300 md:px-16 ${
-          sticky ? "sticky top-0" : ""
-        } ${isSearchFocused ? "z-[var(--z-modal)]" : "z-50"}`}
+        className={`sticky top-0 flex items-center justify-between border-b border-gray-100 bg-white px-6 py-2 transition-all duration-300 md:px-16 ${
+          isSearchFocused ? "z-[var(--z-modal)]" : "z-50"
+        }`}
       >
         {/* Left Section: Logo + Search + Globe */}
         <div className="flex items-center gap-4 lg:gap-8">
@@ -271,7 +271,7 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Where to?"
-              className="flex-1 border-none bg-transparent text-base font-medium outline-none placeholder:text-gray-400 focus:ring-0 md:text-[15px]"
+              className="flex-1 border-none bg-transparent text-base font-medium text-black outline-none placeholder:text-gray-400 focus:ring-0 md:text-[15px]"
             />
             <button
               onClick={(e) => {
