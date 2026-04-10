@@ -28,16 +28,16 @@ export default function Hero() {
       {/* Dark Backdrop - Fixed to cover exact full viewport */}
       {isFocused && (
         <div
-          className="animate-in fade-in fixed inset-0 z-[var(--z-overlay)] bg-black/5 backdrop-blur-md duration-300"
+          className="animate-in fade-in fixed inset-0 z-10 bg-black/5 backdrop-blur-md duration-300"
           onClick={() => setIsFocused(false)}
         />
       )}
 
       <div
-        className={`relative flex flex-col items-center justify-center px-6 pt-10 pb-8 transition-all duration-300 md:pt-20 md:pb-12 z-30 animate-fade-in-up`}
+        className={`relative flex flex-col items-center justify-center px-6 pt-10 pb-8 transition-all duration-300 md:pt-20 md:pb-12 z-40 animate-fade-in-up`}
       >
         <h1
-          className={`relative text-center text-4xl font-black tracking-tight text-[#0a2e1a] transition-all duration-300 md:pb-12 md:text-7xl ${isFocused ? "md:opacity-100 md:translate-y-0 -translate-y-4 opacity-0" : "opacity-100"}`}
+          className={`relative z-50 text-center text-4xl font-black tracking-tight text-[#0a2e1a] transition-all duration-300 md:pb-12 md:text-7xl ${isFocused ? "opacity-100 translate-y-0" : "opacity-100"}`}
         >
           Discover the Magic of Ourika Valley
         </h1>
@@ -62,7 +62,7 @@ export default function Hero() {
                 </div>
               ) : (
                 /* Expanded Box State - "The Design" */
-                <div className="fixed inset-0 z-20 flex flex-col overflow-hidden border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1),0_10px_30px_rgba(0,0,0,0.08)] md:absolute md:-top-2 md:right-0 md:left-0 md:max-h-[85vh] md:min-h-[480px] md:rounded-xl md:border">
+                <div className="fixed inset-0 z-30 flex flex-col overflow-hidden border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1),0_10px_30px_rgba(0,0,0,0.08)] md:absolute md:-top-2 md:right-0 md:left-0 md:max-h-[85vh] md:min-h-[480px] md:rounded-xl md:border">
                   {/* Input Area */}
                   <div className="flex shrink-0 items-center bg-white px-6 py-5 md:py-3">
                     <SearchIcon className="mr-3 h-5 w-5 shrink-0 text-gray-400 md:mr-4 md:h-5 md:w-5" />
