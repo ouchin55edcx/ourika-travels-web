@@ -172,7 +172,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-white selection:bg-[#34e0a1] selection:text-black">
-      <NavbarWrapper />
+      <NavbarWrapper showSearchOnScroll />
       <main className="flex flex-col">
         <script
           type="application/ld+json"

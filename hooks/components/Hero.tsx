@@ -21,40 +21,60 @@ export default function Hero() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Toggle body class for navbar blur
+  // Toggle body class for navbar blur and prevent scroll on mobile
   useEffect(() => {
     if (isFocused) {
       document.body.classList.add("search-dropdown-open");
+      document.body.style.overflow = "hidden";
     } else {
       document.body.classList.remove("search-dropdown-open");
+      document.body.style.overflow = "";
     }
-    return () => document.body.classList.remove("search-dropdown-open");
+    return () => {
+      document.body.classList.remove("search-dropdown-open");
+      document.body.style.overflow = "";
+    };
   }, [isFocused]);
 
   return (
     <>
-      {/* Dark Backdrop - covers everything including navbar */}
+      {/* Dark Backdrop - covers everything including navbar (desktop only) */}
       {isFocused && (
         <div
-          className="animate-in fade-in fixed inset-0 z-[150] bg-black/30 backdrop-blur-[2px] duration-300"
+          className="animate-in fade-in fixed inset-0 z-[150] hidden bg-black/30 backdrop-blur-[2px] duration-300 md:block"
           onClick={() => setIsFocused(false)}
         />
       )}
 
+      {/* Mobile Full Screen Search */}
+      {isFocused && (
+        <div className="fixed inset-0 z-[200] flex flex-col bg-white md:hidden" ref={searchRef}>
+          <SearchDropdown
+            query={query}
+            onChangeQuery={setQuery}
+            results={results}
+            loading={loading}
+            onClose={() => setIsFocused(false)}
+            onSelect={() => setIsFocused(false)}
+            fullScreen
+          />
+        </div>
+      )}
+
       <div
-        className={`relative flex flex-col items-center justify-center px-0 pt-8 pb-5 transition-all duration-300 md:px-6 md:pt-10 md:pb-8 ${isFocused ? "z-[200]" : "z-20"} animate-fade-in-up`}
+        className={`relative flex flex-col items-center justify-center px-0 pt-8 pb-5 transition-all duration-300 md:px-6 md:pt-10 md:pb-8 ${isFocused ? "z-[50] md:z-[200]" : "z-20"} animate-fade-in-up`}
       >
-        <h1 className="mb-8 text-center text-3xl font-black tracking-tight text-[#0a2e1a] opacity-100 transition-all duration-300 md:mb-12 md:text-7xl">
+        <h1 className={`mb-8 text-center text-3xl font-black tracking-tight text-[#0a2e1a] transition-all duration-300 md:mb-12 md:text-7xl ${isFocused ? "opacity-0 md:opacity-100" : "opacity-100"}`}>
           Discover the Magic of Ourika Valley
         </h1>
 
-        <div className="mt-8 w-full px-4 md:px-0" ref={searchRef}>
+        <div className="mt-8 w-full px-4 md:px-0">
           <div className="mx-auto w-full max-w-4xl">
             <div className="relative z-[200]">
               {/* Unified Search Component */}
               <div className="relative w-full">
                 {!isFocused ? (
-                  /* TripAdvisor-style Card State - Mobile */
+                  /* TripAdvisor-style Card State */
                   <button
                     type="button"
                     onClick={() => setIsFocused(true)}
@@ -71,15 +91,17 @@ export default function Hero() {
                     </span>
                   </button>
                 ) : (
-                  /* Expanded Box State - Mobile */
-                  <SearchDropdown
-                    query={query}
-                    onChangeQuery={setQuery}
-                    results={results}
-                    loading={loading}
-                    onClose={() => setIsFocused(false)}
-                    onSelect={() => setIsFocused(false)}
-                  />
+                  /* Desktop Dropdown - hidden on mobile since we use full screen */
+                  <div className="hidden md:block" ref={searchRef}>
+                    <SearchDropdown
+                      query={query}
+                      onChangeQuery={setQuery}
+                      results={results}
+                      loading={loading}
+                      onClose={() => setIsFocused(false)}
+                      onSelect={() => setIsFocused(false)}
+                    />
+                  </div>
                 )}
               </div>
             </div>

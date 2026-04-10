@@ -10,6 +10,7 @@ import { useSearchTreks, type TrekResult } from "@/hooks/useSearchTreks";
 import { useAuth } from "@/lib/context/AuthContext";
 import LoginModal from "./LoginModal";
 import SearchResultCard from "@/components/SearchResultCard";
+import SearchDropdown from "@/components/SearchDropdown";
 
 type NavbarProps = {
   hidden?: boolean;
@@ -119,30 +120,6 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             >
               Ourika Travels
             </Link>
-          </div>
-
-          {/* Desktop Search Bar */}
-          <div
-            className={`hidden px-4 transition-all duration-500 ease-out lg:flex ${showSearchBar || isSearchFocused ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none -translate-y-4 scale-95 opacity-0"}`}
-            ref={searchRef}
-          >
-            {!isSearchFocused ? (
-              <div className="relative w-full max-w-[380px] min-w-[320px]">
-                <div
-                  onClick={() => setIsSearchFocused(true)}
-                  className="group/search flex w-full cursor-pointer items-center rounded-full border border-gray-100 border-gray-200/60 bg-white px-2 py-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
-                >
-                  <div className="flex-1 truncate px-4 text-[14px] font-bold text-gray-800">
-                    Start your search
-                  </div>
-                  <div className="rounded-full bg-[#00ef9d] p-2 text-[#0a2e1a] transition-transform duration-300 group-hover/search:scale-105">
-                    <Search className="h-3.5 w-3.5 stroke-[4px]" />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="h-10 w-full max-w-[380px] min-w-[320px]" />
-            )}
           </div>
 
           {/* Utilities */}
@@ -270,9 +247,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
         </div>
 
         {/* Mobile Actions/Toggle - Visible only on smaller screens */}
-        <div
-          className={`flex items-center gap-2 transition-all duration-300 lg:hidden ${showSearchBar ? "w-[100px] justify-end" : ""}`}
-        >
+        <div className="flex items-center gap-2 transition-all duration-300 lg:hidden">
           {showSearchBar && (
             <button
               onClick={() => setIsSearchFocused(true)}
@@ -413,112 +388,25 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           />
         )}
       </nav>
-      {/* Expanded Search Box - Moved Outside Nav for 100% Reliability on Mobile */}
+      {/* Mobile Search Dropdown - Uses same component as Hero */}
       {isSearchFocused && (
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-[190] hidden bg-black/20 backdrop-blur-sm md:block"
+            className="animate-in fade-in fixed inset-0 z-[150] bg-black/30 backdrop-blur-[2px] duration-300 lg:hidden"
             onClick={() => setIsSearchFocused(false)}
           />
-          {/* Dropdown panel */}
-          <div
-            className="fixed inset-0 z-[200] flex max-h-screen w-full flex-col overflow-hidden bg-white shadow-2xl md:fixed md:top-16 md:left-1/2 md:max-h-[520px] md:w-[520px] md:-translate-x-1/2 md:rounded-2xl md:border md:border-gray-100"
-            ref={searchRef}
-          >
-            {/* Input Area */}
-            <div className="flex shrink-0 items-center bg-white px-5 py-5 md:py-3">
-              <SearchIcon className="mr-3 h-5 w-5 shrink-0 text-gray-400" />
-              <input
-                autoFocus
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Where to?"
-                className="flex-1 border-none bg-transparent text-base font-medium text-black outline-none placeholder:text-gray-400 focus:ring-0 md:text-[15px]"
-              />
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsSearchFocused(false);
-                }}
-                className="ml-1 rounded-md p-2 transition-colors hover:bg-gray-50"
-              >
-                <X className="h-5 w-5 text-gray-400" />
-              </button>
-            </div>
-
-            {/* Divider Line */}
-            <div className="h-[1px] w-full shrink-0 bg-gray-100" />
-
-            {/* Dropdown Content */}
-            <div className="custom-scrollbar flex-1 overflow-y-auto bg-white p-5 md:p-4">
-              {/* Sponsored Section */}
-              {!query && (
-                <div className="mb-6">
-                  <div className="group flex cursor-pointer items-center gap-4 rounded-lg p-2.5 transition-all hover:bg-gray-50">
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-gray-100 md:h-14 md:w-14">
-                      <Image
-                        src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=200&auto=format&fit=crop"
-                        alt="Sponsored"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="mb-0.5 text-[15px] leading-tight font-semibold text-[#0a2e1a]">
-                        Cultural wonder in Ourika
-                      </h4>
-                      <p className="text-[13px] font-medium text-gray-500">Sponsored Tourism</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Content Section */}
-              <div className="space-y-4">
-                <h3 className="mb-2 px-3 text-[13px] font-semibold tracking-wider text-gray-400 uppercase">
-                  {query ? `Results for \"${query}\"` : "Popular experiences"}
-                </h3>
-
-                <div className="grid gap-0.5">
-                  {loading ? (
-                    // Loading skeleton
-                    <div className="space-y-1">
-                      {[...Array(4)].map((_, i) => (
-                        <div key={i} className="flex items-center gap-4 px-3 py-2.5">
-                          <div className="h-12 w-12 shrink-0 animate-pulse rounded-lg bg-gray-100" />
-                          <div className="flex-1 space-y-2">
-                            <div className="h-3.5 w-2/3 animate-pulse rounded-full bg-gray-100" />
-                            <div className="h-3 w-1/3 animate-pulse rounded-full bg-gray-100" />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : results.length > 0 ? (
-                    results.map((trek) => (
-                      <SearchResultCard
-                        key={trek.id}
-                        trek={trek}
-                        onSelect={() => setIsSearchFocused(false)}
-                      />
-                    ))
-                  ) : (
-                    <div className="py-16 text-center md:py-8">
-                      <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-50 md:h-16 md:w-16">
-                        <SearchIcon className="h-10 w-10 text-gray-300 md:h-8 md:w-8" />
-                      </div>
-                      <p className="text-lg font-bold text-gray-500 md:text-sm">
-                        No results for \"{query}\"
-                      </p>
-                      <p className="mt-1 text-sm text-gray-400">
-                        Try \"waterfall\", \"Berber\" or \"hike\"
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+          {/* Full screen search dropdown for mobile */}
+          <div className="fixed inset-0 z-[200] flex flex-col bg-white lg:hidden" ref={searchRef}>
+            <SearchDropdown
+              query={query}
+              onChangeQuery={setQuery}
+              results={results}
+              loading={loading}
+              onClose={() => setIsSearchFocused(false)}
+              onSelect={() => setIsSearchFocused(false)}
+              fullScreen
+            />
           </div>
         </>
       )}

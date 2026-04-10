@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/Footer";
 import NavbarWrapper from "@/app/components/NavbarWrapper";
 import TourAbout from "./components/TourAbout";
-import TourAvailabilityBar from "./components/TourAvailabilityBar";
 import TourBookingCard from "./components/TourBookingCard";
 import TourFacts from "./components/TourFacts";
 import TourGallery from "./components/TourGallery";
@@ -82,7 +81,7 @@ export default async function Page({
 
   return (
     <div className="min-h-screen bg-white text-[#1f1f1f] selection:bg-[#34e0a1] selection:text-black">
-      <NavbarWrapper />
+      <NavbarWrapper sticky={false} />
       <TourStickyHeader title={trek.title} navigationItems={navigationItems} />
       <TourMobileBookBar price={trek.price_per_adult} />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-2 px-3 py-4 pb-24 sm:px-6 sm:py-6 sm:pb-24 lg:px-8 lg:pb-6">
@@ -136,7 +135,6 @@ export default async function Page({
           pickupAvailable={trek.pickup_available}
           steps={trek.itinerary_steps}
         />
-        <TourAvailabilityBar />
         <TourSimilarExperiences currentTrekId={trek.id} />
         <TourReviews
           rating={trek.rating}

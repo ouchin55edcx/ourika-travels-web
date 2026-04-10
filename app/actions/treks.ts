@@ -161,7 +161,66 @@ export async function getTrekBySlug(slug: string): Promise<Trek | null> {
     .single();
 
   if (error || !data) return null;
-  return data as Trek;
+
+  // Fetch approved reviews for this trek
+  const { data: reviewsData } = await supabase
+    .from("reviews")
+    .select(
+      "id, tourist_name, tourist_avatar, rating, title, body, rating_guide, rating_value, rating_service, created_at"
+    )
+    .eq("trek_id", data.id)
+    .eq("status", "approved")
+    .order("created_at", { ascending: false });
+
+  // Transform reviews to match expected format
+  const reviews = (reviewsData || []).map((review: any) => ({
+    author: review.tourist_name || "Anonymous",
+    contributions: "Verified traveler",
+    date: review.created_at
+      ? new Date(review.created_at).toLocaleDateString("en-US", {
+          month: "short",
+          year: "numeric",
+        })
+      : "",
+    title: review.title,
+    body: review.body || "",
+    avatar: review.tourist_avatar,
+    rating: review.rating,
+    rating_guide: review.rating_guide,
+    rating_value: review.rating_value,
+    rating_service: review.rating_service,
+  }));
+
+  // Calculate review breakdown
+  const reviewCount = reviews.length;
+  const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+  reviews.forEach((r: any) => {
+    if (r.rating >= 1 && r.rating <= 5) {
+      ratingCounts[r.rating as keyof typeof ratingCounts]++;
+    }
+  });
+
+  const reviewBreakdown = [
+    { label: "Excellent", count: ratingCounts[5], percentage: reviewCount > 0 ? `${Math.round((ratingCounts[5] / reviewCount) * 100)}%` : "0%" },
+    { label: "Very good", count: ratingCounts[4], percentage: reviewCount > 0 ? `${Math.round((ratingCounts[4] / reviewCount) * 100)}%` : "0%" },
+    { label: "Average", count: ratingCounts[3], percentage: reviewCount > 0 ? `${Math.round((ratingCounts[3] / reviewCount) * 100)}%` : "0%" },
+    { label: "Poor", count: ratingCounts[2], percentage: reviewCount > 0 ? `${Math.round((ratingCounts[2] / reviewCount) * 100)}%` : "0%" },
+    { label: "Terrible", count: ratingCounts[1], percentage: reviewCount > 0 ? `${Math.round((ratingCounts[1] / reviewCount) * 100)}%` : "0%" },
+  ];
+
+  // Calculate average rating
+  const avgRating = reviewCount > 0
+    ? reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0) / reviewCount
+    : data.rating || 0;
+
+  return {
+    ...data,
+    reviews,
+    review_count: reviewCount || data.review_count || 0,
+    rating: avgRating || data.rating || 0,
+    review_breakdown: reviewBreakdown,
+    popular_mentions: data.popular_mentions || [],
+  } as Trek;
 }
 
 export async function getPublicTreks(): Promise<{ slug: string }[]> {

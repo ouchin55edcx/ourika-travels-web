@@ -65,7 +65,7 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
   return (
     <>
       <nav
-        className={`sticky top-0 flex items-center justify-between border-b border-gray-100 bg-white px-6 py-2 transition-all duration-300 md:px-16 ${
+        className={`sticky top-0 flex items-center justify-between bg-white px-6 py-2 transition-all duration-300 md:px-16 ${
           isSearchFocused ? "z-[var(--z-modal)]" : "z-50"
         }`}
       >

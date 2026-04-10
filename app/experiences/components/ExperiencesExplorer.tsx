@@ -119,16 +119,6 @@ export default function ExperiencesExplorer({
   return (
     <>
       <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8">
-        <div className="space-y-1">
-          <p className="text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
-            Experiences in Ourika Valley
-          </p>
-          <p className="text-sm font-medium text-[#6b7280]">
-            {filteredTreks.length} {filteredTreks.length === 1 ? "result" : "results"}
-            {hasActiveFilters && " · Filtered"}
-          </p>
-        </div>
-
         <div className="sticky top-0 z-40 -mx-4 border-y border-[#e5e7eb] bg-white/95 px-4 py-2 backdrop-blur-sm sm:-mx-6 sm:px-6 sm:py-3">
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">

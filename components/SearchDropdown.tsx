@@ -13,6 +13,7 @@ interface SearchDropdownProps {
   loading: boolean;
   onClose: () => void;
   onSelect: () => void;
+  fullScreen?: boolean;
 }
 
 export default function SearchDropdown({
@@ -22,6 +23,7 @@ export default function SearchDropdown({
   loading,
   onClose,
   onSelect,
+  fullScreen = false,
 }: SearchDropdownProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -30,7 +32,10 @@ export default function SearchDropdown({
   }, []);
 
   return (
-    <div className="absolute left-0 right-0 top-full z-[300] mt-3 flex max-h-96 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl md:top-full md:max-h-[75vh] md:min-h-[400px] md:rounded-2xl md:shadow-[0_20px_60px_-10px_rgba(0,0,0,0.15)]">
+    <div className={fullScreen
+      ? "flex h-full w-full flex-col overflow-hidden bg-white"
+      : "absolute left-0 right-0 top-full z-[300] mt-3 flex max-h-96 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl md:top-full md:max-h-[75vh] md:min-h-[400px] md:rounded-2xl md:shadow-[0_20px_60px_-10px_rgba(0,0,0,0.15)]"
+    }>
       {/* Input Area */}
       <div className="flex shrink-0 items-center border-b border-gray-100 bg-white px-5 py-4">
         <SearchIcon className="mr-3 h-5 w-5 shrink-0 text-gray-400 md:mr-4 md:h-5 md:w-5" />
