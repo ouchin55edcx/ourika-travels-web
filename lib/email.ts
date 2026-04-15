@@ -1,8 +1,100 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.ourikatravels.com';
-const FROM = 'Ourika Travels <onboarding@resend.dev>';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.ourikatravels.com";
+const FROM = "Ourika Travels <onboarding@resend.dev>";
+
+export async function sendVerificationCodeEmail({
+  to,
+  code,
+  role,
+}: {
+  to: string;
+  code: string;
+  role: "tourist" | "guide";
+}) {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("Missing RESEND_API_KEY");
+  }
+
+  const title = role === "guide" ? "Guide Account Verification" : "Verify Your Account";
+  const subtitle =
+    role === "guide"
+      ? "Your Ourika Travels guide registration is almost complete!"
+      : "Welcome to Ourika Travels!";
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `Your verification code: ${code}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <body style="margin:0;padding:0;background:#f8faf8;font-family:sans-serif;">
+        <div style="max-width:600px;margin:0 auto;padding:40px 20px;">
+
+          <div style="background:#0b3a2c;border-radius:20px;padding:32px;
+            text-align:center;margin-bottom:24px;">
+            <div style="width:56px;height:56px;background:#00ef9d;border-radius:14px;
+              display:inline-flex;align-items:center;justify-content:center;
+              margin-bottom:16px;">
+              <span style="font-size:22px;font-weight:900;color:#0b3a2c;">OT</span>
+            </div>
+            <h1 style="color:white;font-size:24px;font-weight:900;margin:0;
+              letter-spacing:-0.5px;">
+              Ourika Travels
+            </h1>
+            <p style="color:rgba(255,255,255,0.6);font-size:14px;margin:8px 0 0;">
+              ${subtitle}
+            </p>
+          </div>
+
+          <div style="background:white;border-radius:20px;padding:32px;
+            border:1px solid #e5e7eb;">
+            <h2 style="color:#0b3a2c;font-size:22px;font-weight:900;
+              margin:0 0 8px;">
+              ${title}
+            </h2>
+            <p style="color:#6b7280;font-size:15px;line-height:1.6;margin:0 0 24px;">
+              Enter the code below to verify your email address and activate your account.
+            </p>
+
+            <div style="text-align:center;margin:24px 0;">
+              <div style="display:inline-flex;gap:12px;">
+                ${code
+                  .split("")
+                  .map(
+                    (digit) => `
+                  <span style="display:inline-flex;align-items:center;justify-content:center;
+                    width:56px;height:64px;background:#f8faf8;border:2px solid #0b3a2c;
+                    border-radius:12px;font-size:28px;font-weight:900;color:#0b3a2c;
+                    letter-spacing:2px;">
+                    ${digit}
+                  </span>
+                `,
+                  )
+                  .join("")}
+              </div>
+            </div>
+
+            <p style="color:#9ca3af;font-size:13px;text-align:center;margin:16px 0 0;">
+              This code expires in 15 minutes.
+            </p>
+          </div>
+
+          <div style="text-align:center;padding:24px 0;">
+            <p style="color:#9ca3af;font-size:12px;margin:0;">
+              If you didn't create an account, you can safely ignore this email.<br/>
+              Ourika Travels · Setti Fatma, Ourika Valley, Morocco<br/>
+              <a href="${APP_URL}" style="color:#0b3a2c;">ourikatravels.com</a>
+            </p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `,
+  });
+}
 
 export async function sendReviewRequestEmail({
   to,
@@ -20,7 +112,7 @@ export async function sendReviewRequestEmail({
   trekDate: string;
 }) {
   if (!process.env.RESEND_API_KEY) {
-    throw new Error('Missing RESEND_API_KEY');
+    throw new Error("Missing RESEND_API_KEY");
   }
 
   const reviewUrl = `${APP_URL}/review/${reviewToken}`;

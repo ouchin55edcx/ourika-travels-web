@@ -39,7 +39,7 @@ export async function registerTourist(formData: FormData) {
   if (!email || !password || !full_name) return { error: "All fields required" };
   if (password.length < 8) return { error: "Password must be at least 8 characters" };
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -49,7 +49,31 @@ export async function registerTourist(formData: FormData) {
   });
 
   if (error) return { error: error.message };
-  return { success: "Check your email to verify your account." };
+
+  // Generate 4-digit verification code
+  const code = Math.floor(1000 + Math.random() * 9000).toString();
+  const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString(); // 15 minutes
+
+  // Store verification code on user
+  if (data.user) {
+    await supabase
+      .from("users")
+      .update({
+        verification_code: code,
+        code_expires_at: expiresAt,
+      })
+      .eq("id", data.user.id);
+  }
+
+  // Send verification code via email
+  try {
+    const { sendVerificationCodeEmail } = await import("@/lib/email");
+    await sendVerificationCodeEmail({ to: email, code, role: "tourist" });
+  } catch (err) {
+    console.error("Failed to send verification code:", err);
+  }
+
+  return { success: "Check your email to verify your account.", email };
 }
 
 // ─── TOURIST / ADMIN LOGIN ───
@@ -65,7 +89,15 @@ export async function loginWithEmail(formData: FormData) {
     email,
     password,
   });
-  if (error) return { error: "Invalid email or password" };
+  if (error) {
+    // Check if it's an email not confirmed error
+    if (error.message.includes("Email not confirmed") || error.message.includes("not confirmed")) {
+      return {
+        error: "Please verify your email address first. Check your inbox for a verification code.",
+      };
+    }
+    return { error: "Invalid email or password" };
+  }
 
   // Fetch role to redirect correctly
   const { data: profile } = await supabase
@@ -163,42 +195,97 @@ export async function registerGuide(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: `${APP_URL}/auth/confirm`,
+      emailRedirectTo: `${APP_URL}/register/guide/welcome`,
       data: { full_name, role: "guide", phone },
     },
   });
 
   if (error) return { error: error.message };
 
-  // Update additional guide fields (phone, badge_image_url) after registration
+  // Generate 4-digit verification code
+  const code = Math.floor(1000 + Math.random() * 9000).toString();
+  const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString(); // 15 minutes
+
+  // Update user with verification code and guide fields
   if (data.user) {
-    const updates: Record<string, any> = { phone, role: "guide" };
+    const updates: Record<string, any> = {
+      phone,
+      role: "guide",
+      verification_code: code,
+      code_expires_at: expiresAt,
+    };
     if (badge_image_url) updates.badge_image_url = badge_image_url;
     await supabase.from("users").update(updates).eq("id", data.user.id);
   }
 
+  // Send verification code via email
+  try {
+    const { sendVerificationCodeEmail } = await import("@/lib/email");
+    await sendVerificationCodeEmail({ to: email, code, role: "guide" });
+  } catch (err) {
+    console.error("Failed to send verification code:", err);
+  }
+
   return {
     success: "Account created! Please verify your email to activate your guide profile.",
+    email,
   };
+}
+
+// ─── VERIFY EMAIL OTP ───
+export async function verifyEmailOtp(
+  email: string,
+  token: string,
+): Promise<{ success: true; role: string } | { error: string }> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: "email",
+  });
+  if (error) return { error: error.message };
+  const role = data.user?.user_metadata?.role ?? "guide";
+
+  // Mark email as verified in users table
+  if (data.user) {
+    await supabase
+      .from("users")
+      .update({ email_verified: true, verification_code: null, code_expires_at: null })
+      .eq("id", data.user.id);
+  }
+
+  return { success: true, role };
+}
+
+// ─── RESEND OTP ───
+export async function resendOtp(email: string) {
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email,
+    options: { emailRedirectTo: `${APP_URL}/register/guide/welcome` },
+  });
+  if (error) return { error: error.message };
+  return { success: true };
 }
 
 // ─── UPLOAD GUIDE BADGE IMAGE ───
 export async function uploadGuideBadgeImage(
-  formData: FormData
+  formData: FormData,
 ): Promise<{ url: string } | { error: string }> {
-  const file = formData.get('file') as File;
-  if (!file || file.size === 0) return { error: 'No file provided' };
-  if (file.size > 10 * 1024 * 1024) return { error: 'File too large (max 10 MB)' };
-  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-    return { error: 'Use JPG, PNG or WebP' };
+  const file = formData.get("file") as File;
+  if (!file || file.size === 0) return { error: "No file provided" };
+  if (file.size > 10 * 1024 * 1024) return { error: "File too large (max 10 MB)" };
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    return { error: "Use JPG, PNG or WebP" };
   }
   try {
-    const { uploadToCloudflare } = await import('@/lib/cloudflare-images');
-    const result = await uploadToCloudflare(file, { folder: 'guide-badges' });
-    const url = result.url.replace(/([^:])\/ \/+/g, '$1/');
+    const { uploadToCloudflare } = await import("@/lib/cloudflare-images");
+    const result = await uploadToCloudflare(file, { folder: "guide-badges" });
+    const url = result.url.replace(/([^:])\/ \/+/g, "$1/");
     return { url };
   } catch (err: any) {
-    return { error: err.message || 'Upload failed' };
+    return { error: err.message || "Upload failed" };
   }
 }
 
@@ -207,14 +294,53 @@ export async function resendVerification(email: string) {
   const supabase = await createSupabaseServerClient();
   if (!email) return { error: "Email is required" };
 
+  // Use Supabase auth resend with type 'signup'
   const { error } = await supabase.auth.resend({
     type: "signup",
     email,
-    options: {
-      emailRedirectTo: `${APP_URL}/auth/confirm`,
-    },
+    options: { emailRedirectTo: `${APP_URL}/register/guide/welcome` },
   });
-
   if (error) return { error: error.message };
-  return { success: "Verification email resent." };
+  return { success: true };
+}
+
+// ─── VERIFY CODE ───
+export async function verifyCode(email: string, code: string, role: "tourist" | "guide") {
+  const supabase = await createSupabaseServerClient();
+  if (!email || !code) return { error: "Email and code are required" };
+
+  // Find user by email
+  const { data: user, error: userError } = await supabase
+    .from("users")
+    .select("id, verification_code, code_expires_at, role, email_verified")
+    .eq("email", email)
+    .single();
+
+  if (userError || !user) {
+    return { error: "User not found" };
+  }
+
+  // Check if already verified
+  if (user.email_verified) {
+    return { success: true, alreadyVerified: true };
+  }
+
+  // Check if code matches
+  if (user.verification_code !== code) {
+    return { error: "Invalid verification code" };
+  }
+
+  // Check if code has expired
+  const expiresAt = new Date(user.code_expires_at);
+  if (new Date() > expiresAt) {
+    return { error: "Verification code has expired. Please request a new code." };
+  }
+
+  // Mark email as verified in users table
+  await supabase
+    .from("users")
+    .update({ email_verified: true, verification_code: null, code_expires_at: null })
+    .eq("id", user.id);
+
+  return { success: true };
 }

@@ -2,7 +2,8 @@
 
 import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
-import { loginWithGoogle, registerTourist, resendVerification } from "@/app/actions/auth";
+import { useRouter } from "next/navigation";
+import { loginWithGoogle, registerTourist } from "@/app/actions/auth";
 
 function Spinner() {
   return (
@@ -63,15 +64,13 @@ function isValidEmail(email: string) {
 }
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [googlePending, setGooglePending] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [resendPending, startResend] = useTransition();
   const [clientError, setClientError] = useState<string | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
-  const [successEmail, setSuccessEmail] = useState<string | null>(null);
-  const [resendMessage, setResendMessage] = useState<string | null>(null);
   const [password, setPassword] = useState("");
 
   const strength = useMemo(() => getPasswordStrength(password), [password]);
@@ -103,72 +102,7 @@ export default function RegisterPage() {
       return;
     }
 
-    setSuccessEmail(email);
-  }
-
-  if (successEmail) {
-    return (
-      <div className="min-h-screen bg-[#f6f7f5] px-4 py-10">
-        <div className="mx-auto flex min-h-[calc(100vh-80px)] max-w-md flex-col justify-center">
-          <div className="rounded-2xl bg-white p-8 shadow-xl">
-            <div className="mb-6 flex justify-center">
-              <Link
-                href="/"
-                className="text-2xl font-semibold text-[#004f32]"
-                style={{ fontFamily: "Outfit, sans-serif" }}
-              >
-                Ourika Travels
-              </Link>
-            </div>
-
-            <div className="text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-                <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
-                  <path
-                    fill="currentColor"
-                    d="M9.55 17.2 4.8 12.45l1.4-1.4 3.35 3.35L17.8 6.15l1.4 1.4Z"
-                  />
-                </svg>
-              </div>
-              <h1
-                className="text-2xl font-semibold text-[#004f32]"
-                style={{ fontFamily: "Outfit, sans-serif" }}
-              >
-                Check your inbox!
-              </h1>
-              <p className="mt-2 text-sm text-slate-600">
-                We sent a verification email to {successEmail}. Click the link to activate your
-                account.
-              </p>
-            </div>
-
-            <div className="mt-6 text-center">
-              <button
-                type="button"
-                onClick={() =>
-                  startResend(async () => {
-                    setResendMessage(null);
-                    const result = await resendVerification(successEmail);
-                    if (result?.error) {
-                      setResendMessage(result.error);
-                      return;
-                    }
-                    setResendMessage("Verification email resent.");
-                  })
-                }
-                className="text-sm font-medium text-[#004f32] hover:underline"
-                disabled={resendPending}
-              >
-                {resendPending ? "Resending..." : "Resend email"}
-              </button>
-              {resendMessage && (
-                <div className="mt-3 text-sm text-emerald-700">{resendMessage}</div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    router.push(`/auth/verify?email=${encodeURIComponent(email)}`);
   }
 
   return (

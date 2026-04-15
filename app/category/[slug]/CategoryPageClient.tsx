@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import ExperienceCard from "@/app/experiences/components/ExperienceCard";
 import { ChevronDown } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -50,6 +50,22 @@ export default function CategoryPageClient({ slug, category, treks }: Props) {
   const { elementRef, isVisible } = useScrollReveal(0.05);
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [activeMenu, setActiveMenu] = useState<keyof Filters | null>(null);
+  const [dropdownPos, setDropdownPos] = useState<{ top: number; left: number } | null>(null);
+  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+  const handleToggleMenu = (key: keyof Filters) => {
+    if (activeMenu === key) {
+      setActiveMenu(null);
+      setDropdownPos(null);
+      return;
+    }
+    setActiveMenu(key);
+    const btn = buttonRefs.current[key];
+    if (btn) {
+      const rect = btn.getBoundingClientRect();
+      setDropdownPos({ top: rect.bottom + 8, left: rect.left });
+    }
+  };
 
   const filteredTreks = useMemo(() => {
     return treks.filter((trek) => {
@@ -66,6 +82,7 @@ export default function CategoryPageClient({ slug, category, treks }: Props) {
   const clearFilters = () => {
     setFilters(initialFilters);
     setActiveMenu(null);
+    setDropdownPos(null);
   };
 
   return (
@@ -116,9 +133,12 @@ export default function CategoryPageClient({ slug, category, treks }: Props) {
         <div className="no-scrollbar mx-auto flex max-w-7xl items-center justify-between gap-4 overflow-x-auto px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             {(Object.keys(filterOptions) as (keyof Filters)[]).map((key) => (
-              <div key={key} className="relative shrink-0">
+              <div key={key} className="shrink-0">
                 <button
-                  onClick={() => setActiveMenu(activeMenu === key ? null : key)}
+                  ref={(el) => {
+                    buttonRefs.current[key] = el;
+                  }}
+                  onClick={() => handleToggleMenu(key)}
                   className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition-all ${
                     filters[key] !== "All"
                       ? "border-[#004f32] bg-[#edf7f1] text-[#004f32]"
@@ -131,30 +151,6 @@ export default function CategoryPageClient({ slug, category, treks }: Props) {
                     className={`h-3.5 w-3.5 transition-transform ${activeMenu === key ? "rotate-180" : ""}`}
                   />
                 </button>
-
-                {activeMenu === key && (
-                  <>
-                    <div className="fixed inset-0 z-0" onClick={() => setActiveMenu(null)} />
-                    <div className="animate-in fade-in zoom-in-95 absolute top-full left-0 z-10 mt-2 w-52 rounded-2xl border border-gray-100 bg-white p-2 shadow-2xl duration-200">
-                      {filterOptions[key].map((opt) => (
-                        <button
-                          key={opt}
-                          onClick={() => {
-                            setFilters((prev) => ({ ...prev, [key]: opt }));
-                            setActiveMenu(null);
-                          }}
-                          className={`w-full rounded-xl px-4 py-2.5 text-left text-sm font-bold transition-colors ${
-                            filters[key] === opt
-                              ? "bg-[#edf7f1] text-[#004f32]"
-                              : "text-gray-700 hover:bg-gray-50"
-                          }`}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
               </div>
             ))}
 
@@ -169,6 +165,41 @@ export default function CategoryPageClient({ slug, category, treks }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Dropdown portal - fixed positioned to escape stacking context */}
+      {activeMenu && dropdownPos && (
+        <>
+          <div
+            className="fixed inset-0 z-50"
+            onClick={() => {
+              setActiveMenu(null);
+              setDropdownPos(null);
+            }}
+          />
+          <div
+            className="fixed z-[60] w-52 rounded-2xl border border-gray-100 bg-white p-2 shadow-2xl"
+            style={{ top: `${dropdownPos.top}px`, left: `${dropdownPos.left}px` }}
+          >
+            {filterOptions[activeMenu].map((opt) => (
+              <button
+                key={opt}
+                onClick={() => {
+                  setFilters((prev) => ({ ...prev, [activeMenu]: opt }));
+                  setActiveMenu(null);
+                  setDropdownPos(null);
+                }}
+                className={`w-full rounded-xl px-4 py-2.5 text-left text-sm font-bold transition-colors ${
+                  filters[activeMenu] === opt
+                    ? "bg-[#edf7f1] text-[#004f32]"
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* Trek cards grid */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-8">

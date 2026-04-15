@@ -135,14 +135,14 @@ export default function Experiences({
       <div className="relative md:hidden">
         <button
           onClick={() => scrollByAmount("left")}
-          className="absolute -left-1 top-1/3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#004f32] shadow-lg backdrop-blur-sm transition-all active:scale-95"
+          className="absolute top-1/3 -left-1 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#004f32] shadow-lg backdrop-blur-sm transition-all active:scale-95"
           aria-label="Previous"
         >
           <ChevronLeft className="h-5 w-5 stroke-[2.5px]" />
         </button>
         <button
           onClick={() => scrollByAmount("right")}
-          className="absolute -right-1 top-1/3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#004f32] shadow-lg backdrop-blur-sm transition-all active:scale-95"
+          className="absolute top-1/3 -right-1 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#004f32] shadow-lg backdrop-blur-sm transition-all active:scale-95"
           aria-label="Next"
         >
           <ChevronRight className="h-5 w-5 stroke-[2.5px]" />
@@ -217,9 +217,7 @@ export default function Experiences({
               key={index}
               onClick={() => scrollToIndex(index)}
               className={`h-2 rounded-full transition-all duration-300 ${
-                activeIndex === index
-                  ? "w-6 bg-[#0a2e1a]"
-                  : "w-2 bg-gray-300 hover:bg-gray-400"
+                activeIndex === index ? "w-6 bg-[#0a2e1a]" : "w-2 bg-gray-300 hover:bg-gray-400"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -259,9 +257,7 @@ export default function Experiences({
                 </h3>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-[#484848]">
-                    {exp.rating.toFixed(1)}
-                  </span>
+                  <span className="text-sm font-bold text-[#484848]">{exp.rating.toFixed(1)}</span>
                   <RatingStars rating={exp.rating} />
                   <span className="text-[14px] text-gray-500">
                     ({exp.review_count.toLocaleString()})
@@ -298,7 +294,7 @@ export default function Experiences({
       `}</style>
 
       {/* View More Button */}
-      <div className="mt-8 flex justify-center px-4 md:mt-16 md:px-0">
+      <div className="mt-8 mb-8 flex justify-center px-4 md:mt-16 md:mb-0 md:px-0">
         <Link
           href="/experiences"
           className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#0a2e1a] px-10 py-4 text-base font-black text-white shadow-lg transition-all hover:scale-105 hover:bg-[#0b3a2c] hover:shadow-xl sm:w-auto"

@@ -14,7 +14,9 @@ export async function GET(request: NextRequest) {
     });
 
     if (!error) {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (user) {
         // Check database profile first, then fall back to metadata
@@ -28,7 +30,7 @@ export async function GET(request: NextRequest) {
         const baseUrl = process.env.NEXT_PUBLIC_APP_URL || origin;
 
         if (role === "guide") {
-          return NextResponse.redirect(new URL("/dashboard/guide", baseUrl));
+          return NextResponse.redirect(new URL("/register/guide/welcome", baseUrl));
         }
         if (role === "admin") {
           return NextResponse.redirect(new URL("/admin/dashboard/overview", baseUrl));

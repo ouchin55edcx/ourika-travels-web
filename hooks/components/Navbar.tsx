@@ -226,10 +226,6 @@ export default function Navbar({ hidden = false, sticky = true }: NavbarProps) {
                 <Globe className="h-6 w-6 stroke-[2px]" />
                 <span>Language: EN</span>
               </button>
-              <button className="flex items-center gap-4 text-xl font-medium text-[#004f32]">
-                <Moon className="h-6 w-6 stroke-[2px]" />
-                <span>Dark Mode</span>
-              </button>
             </div>
 
             {/* Sign In Button at bottom */}

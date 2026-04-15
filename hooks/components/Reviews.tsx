@@ -7,7 +7,7 @@ export default async function Reviews() {
   if (!reviews || reviews.length === 0) return null;
 
   return (
-    <section className="mt-10 ml-2 w-full md:mx-auto md:mt-16 md:max-w-7xl md:px-6 md:py-24 md:py-32">
+    <section className="mt-16 ml-2 w-full md:mx-auto md:mt-16 md:max-w-7xl md:px-6 md:py-24 md:py-32">
       <div className="mb-6 pr-4 md:mb-12">
         <h2 className="text-2xl leading-[0.9] font-black tracking-tighter text-[#0a2e1a] md:text-5xl">
           What Our Travelers Say

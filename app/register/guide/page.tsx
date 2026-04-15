@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useEffect, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { registerGuide, uploadGuideBadgeImage, checkEmailExists } from "@/app/actions/auth";
@@ -14,16 +15,16 @@ import {
   Loader2,
   CheckCircle2,
   AlertCircle,
-  ArrowLeft,
   ArrowRight,
   Check,
+  Upload,
 } from "lucide-react";
 
 const INPUT_CLASS = `
   w-full rounded-xl border border-gray-200 bg-white px-4 py-3
   text-sm font-medium text-gray-900 placeholder-gray-400
-  focus:border-[#0b3a2c] focus:outline-none focus:ring-2
-  focus:ring-[#0b3a2c]/10 transition-all
+  focus:border-[#0a2e1a] focus:outline-none focus:ring-2
+  focus:ring-[#0a2e1a]/10 transition-all
 `;
 
 function Field({
@@ -68,8 +69,7 @@ export default function GuideRegisterPage() {
   const [emailAvailable, setEmailAvailable] = useState<boolean | null>(null);
 
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    full_name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -95,7 +95,7 @@ export default function GuideRegisterPage() {
           return rest;
         });
       }
-    } catch (error) {
+    } catch {
       setEmailAvailable(null);
     } finally {
       setCheckingEmail(false);
@@ -128,16 +128,22 @@ export default function GuideRegisterPage() {
     else setBadgeUrl(result.url);
   }
 
-  function validate() {
+  function validateStep1() {
     const e: Record<string, string> = {};
-    if (!form.firstName.trim()) e.firstName = "Required";
-    if (!form.lastName.trim()) e.lastName = "Required";
+    if (!form.full_name.trim()) e.full_name = "Required";
     if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email)) e.email = "Valid email required";
+    if (emailAvailable === false) e.email = "This email is already registered";
+    if (checkingEmail) e.email = "Checking email...";
     if (form.password.length < 8) e.password = "Min 8 characters";
     if (form.password !== form.confirmPassword) e.confirmPassword = "Passwords don't match";
-    if (!form.phone.trim()) e.phone = "Required";
     setErrors(e);
     return Object.keys(e).length === 0;
+  }
+
+  function handleContinue() {
+    if (validateStep1()) {
+      setStep(2);
+    }
   }
 
   function submitRegistration() {
@@ -145,7 +151,7 @@ export default function GuideRegisterPage() {
     const payload = new FormData();
     payload.set("email", form.email.trim());
     payload.set("password", form.password);
-    payload.set("full_name", `${form.firstName.trim()} ${form.lastName.trim()}`);
+    payload.set("full_name", form.full_name.trim());
     payload.set("phone", form.phone.trim());
     if (badgeUrl) payload.set("badge_image_url", badgeUrl);
     startTransition(async () => {
@@ -154,110 +160,82 @@ export default function GuideRegisterPage() {
         setSubmitError(result.error);
         return;
       }
-      router.push(`/register/guide/success?email=${encodeURIComponent(form.email)}`);
+      const redirectEmail = (result as any)?.email || form.email;
+      router.push(`/register/guide/verify?email=${encodeURIComponent(redirectEmail)}`);
     });
   }
 
   return (
     <div className="flex min-h-screen">
       {/* LEFT PANEL — desktop only, fixed */}
-      <div className="fixed top-0 left-0 hidden h-screen shrink-0 flex-col justify-between bg-[#0b3a2c] px-12 py-16 lg:flex lg:w-[420px] xl:w-[480px]">
+      <div className="fixed top-0 left-0 hidden h-screen w-[480px] flex-col justify-between bg-[#0a2e1a] px-12 py-16 lg:flex">
         {/* Top: logo + close */}
         <div className="flex items-center justify-between">
           <Link href="/" className="text-xl font-black tracking-tight text-white">
             Ourika Travels
           </Link>
-          <Link href="/" className="text-white/40 transition-colors hover:text-white">
+          <Link
+            href="/"
+            className="rounded-full p-2 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+          >
             <X className="h-5 w-5" />
           </Link>
         </div>
 
-        {/* Middle: headline + step progress */}
-        <div className="space-y-12">
+        {/* Middle: headline + trust bullets */}
+        <div className="space-y-8">
           <div>
-            <p className="mb-4 text-xs font-black tracking-[0.2em] text-[#00ef9d] uppercase">
-              Join our guide network
-            </p>
+            {/* OT Logo */}
+            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#00ef9d] text-xl font-black text-[#0a2e1a] shadow-[0_0_30px_rgba(0,239,157,0.3)]">
+              OT
+            </div>
             <h1 className="text-4xl leading-[1.05] font-black tracking-tight text-white xl:text-5xl">
-              Share the magic
+              Become a
               <br />
-              of Ourika Valley
+              certified guide
             </h1>
             <p className="mt-4 text-base leading-relaxed font-medium text-white/50">
-              Certified guides. Real travelers.
-              <br />
-              Authentic experiences.
+              Join Morocco&apos;s most authentic guide community.
             </p>
           </div>
 
-          {/* Vertical step indicator */}
-          <div className="space-y-0">
+          {/* Trust bullets */}
+          <ul className="space-y-4">
             {[
-              { n: 1, label: "Account", hint: "Name, email & password" },
-              { n: 2, label: "Your profile", hint: "Phone & guide badge" },
-              { n: 3, label: "Verification", hint: "Confirm & submit" },
-            ].map((s, i) => {
-              const isCompleted = step > s.n;
-              const isActive = step === s.n;
-              return (
-                <div key={s.n} className="flex gap-4">
-                  {/* Line + circle column */}
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 text-sm font-black transition-all duration-300 ${
-                        isCompleted
-                          ? "border-[#00ef9d] bg-[#00ef9d] text-[#0b3a2c]"
-                          : isActive
-                            ? "border-[#00ef9d] bg-transparent text-[#00ef9d]"
-                            : "border-white/20 bg-transparent text-white/30"
-                      }`}
-                    >
-                      {isCompleted ? <CheckCircle2 className="h-4 w-4" /> : s.n}
-                    </div>
-                    {i < 2 && (
-                      <div
-                        className={`mt-1 h-10 w-px transition-colors duration-500 ${step > s.n ? "bg-[#00ef9d]" : "bg-white/10"}`}
-                      />
-                    )}
-                  </div>
-                  {/* Labels */}
-                  <div className="pt-1.5 pb-10">
-                    <p
-                      className={`text-sm font-black transition-colors ${
-                        isActive ? "text-white" : isCompleted ? "text-white/50" : "text-white/25"
-                      }`}
-                    >
-                      {s.label}
-                    </p>
-                    <p
-                      className={`mt-0.5 text-xs transition-colors ${isActive ? "text-white/60" : "text-white/20"}`}
-                    >
-                      {s.hint}
-                    </p>
-                  </div>
+              "Manage bookings & earnings in one place",
+              "Get discovered by travelers worldwide",
+              "Verified badge builds traveler trust",
+            ].map((item, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#00ef9d]/20">
+                  <Check className="h-3.5 w-3.5 text-[#00ef9d]" />
                 </div>
-              );
-            })}
-          </div>
+                <span className="text-sm font-medium text-white/70">{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Bottom: testimonial */}
-        <div className="border-t border-white/10 pt-8">
-          <p className="text-sm leading-relaxed text-white/60 italic">
-            "Joining Ourika Travels changed everything. I now guide travelers from around the world
-            through my valley."
-          </p>
-          <p className="mt-3 text-xs font-black tracking-wider text-[#00ef9d] uppercase">
-            — Ahmed, Guide since 2022
+        {/* Bottom: photo */}
+        <div className="relative h-48 w-full overflow-hidden rounded-2xl">
+          <Image
+            src="/ourika-valley.jpg"
+            alt="Ourika Valley"
+            fill
+            className="object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a2e1a] to-transparent" />
+          <p className="absolute bottom-4 left-4 text-xs font-bold text-white/60">
+            Ourika Valley, Morocco
           </p>
         </div>
       </div>
 
       {/* RIGHT PANEL — scrollable form */}
-      <div className="flex min-h-screen flex-1 flex-col bg-[#f8faf8] lg:ml-[420px] xl:ml-[480px]">
-        {/* Mobile header only */}
+      <div className="flex min-h-screen flex-1 flex-col bg-white lg:ml-[480px]">
+        {/* Mobile header */}
         <div className="sticky top-0 z-40 flex items-center justify-between border-b border-gray-100 bg-white px-6 py-4 lg:hidden">
-          <Link href="/" className="text-lg font-black text-[#0b3a2c]">
+          <Link href="/" className="text-lg font-black text-[#0a2e1a]">
             Ourika Travels
           </Link>
           <Link href="/" className="rounded-full p-2 hover:bg-gray-100">
@@ -265,68 +243,50 @@ export default function GuideRegisterPage() {
           </Link>
         </div>
 
-        {/* Mobile step bar */}
-        <div className="border-b border-gray-100 bg-white px-6 pt-4 pb-2 lg:hidden">
-          <div className="mb-2 flex items-center justify-between">
-            <span className="text-xs font-black tracking-widest text-gray-400 uppercase">
-              Step {step} of 3
-            </span>
-            <span className="text-xs font-black text-[#0b3a2c]">
-              {step === 1 ? "Account" : step === 2 ? "Profile" : "Verify"}
-            </span>
-          </div>
-          <div className="h-1 w-full overflow-hidden rounded-full bg-gray-100">
-            <div
-              className="h-full rounded-full bg-[#00ef9d] transition-all duration-500"
-              style={{ width: `${(step / 3) * 100}%` }}
-            />
-          </div>
-        </div>
-
         {/* Form content */}
         <div className="flex flex-1 items-start justify-center px-6 py-10 lg:px-16 lg:py-16">
           <div className="w-full max-w-md">
+            {/* Step indicator */}
+            <div className="mb-8 flex items-center gap-3">
+              <div
+                className={`h-3 w-3 rounded-full transition-all ${
+                  step === 1 ? "bg-[#0a2e1a]" : "bg-[#00ef9d]"
+                }`}
+              />
+              <div
+                className={`h-3 w-3 rounded-full transition-all ${
+                  step === 2 ? "bg-[#0a2e1a]" : "bg-gray-300"
+                }`}
+              />
+              <span className="ml-2 text-xs font-black tracking-widest text-gray-400 uppercase">
+                Step {step} of 2
+              </span>
+            </div>
+
             {/* Step header */}
             <div className="mb-8">
-              <p className="mb-2 text-xs font-black tracking-[0.2em] text-[#00ef9d] uppercase">
-                Step {step} of 3
-              </p>
-              <h2 className="text-3xl leading-tight font-black text-[#0b3a2c]">
-                {step === 1 && "Create your account"}
-                {step === 2 && "Complete your profile"}
-                {step === 3 && "Almost there"}
+              <h2 className="text-3xl leading-tight font-black text-[#0a2e1a]">
+                {step === 1 && "Personal info"}
+                {step === 2 && "Upload your badge"}
               </h2>
               <p className="mt-2 font-medium text-gray-500">
-                {step === 1 && "Enter your basic details to get started."}
-                {step === 2 && "Add your contact info and guide badge."}
-                {step === 3 && "Review and submit your registration."}
+                {step === 1 && "Enter your details to get started."}
+                {step === 2 && "Upload your official guide badge or certification."}
               </p>
             </div>
 
-            {/* ─── STEP 1 ─────────────────────────────────── */}
+            {/* ─── STEP 1 — Personal Info ────────────────── */}
             {step === 1 && (
-              <div className="animate-in fade-in slide-in-from-right-4 space-y-5 duration-300">
-                {/* Name row */}
-                <div className="grid grid-cols-2 gap-4">
-                  <Field label="First name" required error={errors.firstName}>
-                    <input
-                      type="text"
-                      placeholder="Ahmed"
-                      value={form.firstName}
-                      onChange={(e) => setForm((p) => ({ ...p, firstName: e.target.value }))}
-                      className={INPUT_CLASS}
-                    />
-                  </Field>
-                  <Field label="Last name" required error={errors.lastName}>
-                    <input
-                      type="text"
-                      placeholder="Amziane"
-                      value={form.lastName}
-                      onChange={(e) => setForm((p) => ({ ...p, lastName: e.target.value }))}
-                      className={INPUT_CLASS}
-                    />
-                  </Field>
-                </div>
+              <div className="space-y-5">
+                <Field label="Full name" required error={errors.full_name}>
+                  <input
+                    type="text"
+                    placeholder="Ahmed Amziane"
+                    value={form.full_name}
+                    onChange={(e) => setForm((p) => ({ ...p, full_name: e.target.value }))}
+                    className={INPUT_CLASS}
+                  />
+                </Field>
 
                 <Field label="Email address" required error={errors.email}>
                   <div className="relative">
@@ -339,7 +299,7 @@ export default function GuideRegisterPage() {
                         setForm((p) => ({ ...p, email: e.target.value }));
                         setEmailAvailable(null);
                       }}
-                      className={`${INPUT_CLASS} pl-11 pr-11 ${
+                      className={`${INPUT_CLASS} pr-11 pl-11 ${
                         emailAvailable === false
                           ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
                           : emailAvailable === true
@@ -347,12 +307,9 @@ export default function GuideRegisterPage() {
                             : ""
                       }`}
                     />
-                    {/* Email validation indicator */}
                     <div className="absolute top-1/2 right-4 -translate-y-1/2">
-                      {checkingEmail && (
-                        <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
-                      )}
-                      {!checkingEmail && emailAvailable === true && (
+                      {checkingEmail && <Loader2 className="h-4 w-4 animate-spin text-gray-400" />}
+                      {!checkingEmail && emailAvailable === true && !errors.email && (
                         <Check className="h-4 w-4 text-emerald-500" />
                       )}
                       {!checkingEmail && emailAvailable === false && (
@@ -360,12 +317,19 @@ export default function GuideRegisterPage() {
                       )}
                     </div>
                   </div>
-                  {/* Email status message */}
-                  {!checkingEmail && emailAvailable === true && !errors.email && (
-                    <p className="mt-1 flex items-center gap-1 text-xs font-medium text-emerald-600">
-                      <Check className="h-3 w-3" /> Email is available
-                    </p>
-                  )}
+                </Field>
+
+                <Field label="Phone number" required error={errors.phone}>
+                  <div className="relative">
+                    <Phone className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-gray-300" />
+                    <input
+                      type="tel"
+                      placeholder="+212 6XX XXX XXX"
+                      value={form.phone}
+                      onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+                      className={`${INPUT_CLASS} pl-11`}
+                    />
+                  </div>
                 </Field>
 
                 <Field label="Password" required error={errors.password}>
@@ -385,37 +349,6 @@ export default function GuideRegisterPage() {
                       {showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
-                  {/* Password strength bar */}
-                  {form.password.length > 0 && (
-                    <div className="mt-2">
-                      <div className="h-1 w-full overflow-hidden rounded-full bg-gray-100">
-                        <div
-                          className={`h-full rounded-full transition-all duration-300 ${
-                            form.password.length < 8
-                              ? "w-1/4 bg-red-400"
-                              : form.password.length < 12
-                                ? "w-2/4 bg-amber-400"
-                                : "w-full bg-[#00ef9d]"
-                          }`}
-                        />
-                      </div>
-                      <p
-                        className={`mt-1 text-[11px] font-bold ${
-                          form.password.length < 8
-                            ? "text-red-400"
-                            : form.password.length < 12
-                              ? "text-amber-500"
-                              : "text-emerald-600"
-                        }`}
-                      >
-                        {form.password.length < 8
-                          ? "Too short"
-                          : form.password.length < 12
-                            ? "Good"
-                            : "Strong"}
-                      </p>
-                    </div>
-                  )}
                 </Field>
 
                 <Field label="Confirm password" required error={errors.confirmPassword}>
@@ -436,173 +369,6 @@ export default function GuideRegisterPage() {
                     </button>
                   </div>
                 </Field>
-              </div>
-            )}
-
-            {/* ─── STEP 2 ─────────────────────────────────── */}
-            {step === 2 && (
-              <div className="animate-in fade-in slide-in-from-right-4 space-y-6 duration-300">
-                <Field label="Phone number" required error={errors.phone}>
-                  <div className="relative">
-                    <Phone className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-gray-300" />
-                    <input
-                      type="tel"
-                      placeholder="+212 6XX XXX XXX"
-                      value={form.phone}
-                      onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-                      className={`${INPUT_CLASS} pl-11`}
-                    />
-                  </div>
-                </Field>
-
-                {/* Badge upload */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-black text-gray-700">
-                      Official guide badge <span className="text-red-400">*</span>
-                    </p>
-                  </div>
-                  <p className="-mt-1 text-xs text-gray-400">
-                    Upload your official certificate from the Moroccan Ministry of Tourism.
-                  </p>
-                  {errors.badge && (
-                    <p className="flex items-center gap-1 text-xs font-medium text-red-500">
-                      <AlertCircle className="h-3 w-3 shrink-0" /> {errors.badge}
-                    </p>
-                  )}
-
-                  <label
-                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed transition-all ${
-                      badgeUrl
-                        ? "h-40 border-[#0b3a2c]"
-                        : "h-40 border-gray-200 hover:border-[#0b3a2c] hover:bg-[#edf7f1]"
-                    }`}
-                  >
-                    {uploadingBadge && (
-                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-white/90">
-                        <Loader2 className="h-6 w-6 animate-spin text-[#0b3a2c]" />
-                        <p className="text-sm font-semibold text-[#0b3a2c]">Uploading...</p>
-                      </div>
-                    )}
-
-                    {badgeUrl && !uploadingBadge && (
-                      <>
-                        <img
-                          src={badgeUrl}
-                          alt="Badge"
-                          className="h-full w-full object-contain p-4"
-                        />
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setBadgeUrl("");
-                          }}
-                          className="absolute top-3 right-3 z-10 rounded-full bg-white p-1.5 shadow-lg transition-colors hover:bg-red-50"
-                        >
-                          <X className="h-3.5 w-3.5 text-gray-500" />
-                        </button>
-                        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-[#0b3a2c] px-3 py-1 text-[11px] font-bold text-white">
-                          <CheckCircle2 className="h-3 w-3" /> Uploaded
-                        </div>
-                      </>
-                    )}
-
-                    {!badgeUrl && !uploadingBadge && (
-                      <div className="flex flex-col items-center gap-2 px-6 text-center">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
-                          <Shield className="h-6 w-6 text-gray-300" />
-                        </div>
-                        <p className="text-sm font-semibold text-gray-500">Click to upload badge</p>
-                        <p className="text-xs text-gray-400">JPG, PNG or WebP · Max 10 MB</p>
-                      </div>
-                    )}
-
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      className="hidden"
-                      onChange={handleBadgeUpload}
-                    />
-                  </label>
-
-                  {badgeError && (
-                    <p className="flex items-center gap-1.5 text-xs font-medium text-red-500">
-                      <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                      {badgeError}
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* ─── STEP 3 ─────────────────────────────────── */}
-            {step === 3 && (
-              <div className="animate-in fade-in slide-in-from-right-4 space-y-6 duration-300">
-                {/* Summary card */}
-                <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-                  <p className="mb-4 text-xs font-black tracking-widest text-gray-400 uppercase">
-                    Registration summary
-                  </p>
-                  {[
-                    { label: "Name", value: `${form.firstName} ${form.lastName}` },
-                    { label: "Email", value: form.email },
-                    { label: "Phone", value: form.phone },
-                    { label: "Badge", value: badgeUrl ? "✓ Uploaded" : "Not uploaded (add later)" },
-                  ].map((row) => (
-                    <div
-                      key={row.label}
-                      className="flex items-center justify-between border-b border-gray-50 pb-3 last:border-0 last:pb-0"
-                    >
-                      <span className="text-xs font-bold tracking-wider text-gray-400 uppercase">
-                        {row.label}
-                      </span>
-                      <span
-                        className={`text-sm font-semibold ${
-                          row.value.startsWith("✓") ? "text-emerald-600" : "text-gray-800"
-                        }`}
-                      >
-                        {row.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* What happens next */}
-                <div className="space-y-3 rounded-2xl border border-emerald-100 bg-[#edf7f1] p-5">
-                  <p className="text-sm font-black text-[#0b3a2c]">What happens next</p>
-                  {[
-                    "You'll receive a verification email",
-                    "Click the link to activate your account",
-                    "Complete your guide profile to start accepting bookings",
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#00ef9d] text-[10px] font-black text-[#0b3a2c]">
-                        {i + 1}
-                      </div>
-                      <p className="text-sm font-medium text-gray-600">{item}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Terms checkbox */}
-                <label className="group flex cursor-pointer items-start gap-3">
-                  <input
-                    type="checkbox"
-                    required
-                    className="mt-1 h-4 w-4 rounded border-gray-300 text-[#0b3a2c] focus:ring-[#0b3a2c]"
-                  />
-                  <p className="text-xs leading-relaxed text-gray-500">
-                    By registering I agree to Ourika Travels'{" "}
-                    <Link href="/guide/terms" className="font-semibold text-gray-700 underline">
-                      Guide Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link href="/guide/privacy" className="font-semibold text-gray-700 underline">
-                      Guide Privacy Policy
-                    </Link>
-                  </p>
-                </label>
 
                 {submitError && (
                   <div className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
@@ -610,80 +376,126 @@ export default function GuideRegisterPage() {
                     {submitError}
                   </div>
                 )}
+
+                <button
+                  type="button"
+                  onClick={handleContinue}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0a2e1a] px-8 py-3.5 text-sm font-black text-white shadow-lg shadow-[#0a2e1a]/20 transition-all hover:bg-[#0f3d24] active:scale-[0.98]"
+                >
+                  Continue <ArrowRight className="h-4 w-4" />
+                </button>
               </div>
             )}
 
-            {/* ─── NAVIGATION ──────────────────────────────── */}
-            <div className="mt-8 flex items-center justify-between gap-4">
-              {step > 1 ? (
+            {/* ─── STEP 2 — Badge Upload ─────────────────── */}
+            {step === 2 && (
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <Field label="Guide badge" error={badgeError ?? undefined}>
+                    <label
+                      className={`relative flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed transition-all ${
+                        badgeUrl
+                          ? "h-48 border-[#0a2e1a]"
+                          : "h-48 border-gray-200 hover:border-[#0a2e1a] hover:bg-[#edf7f1]"
+                      }`}
+                    >
+                      {uploadingBadge && (
+                        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-white/90">
+                          <Loader2 className="h-6 w-6 animate-spin text-[#0a2e1a]" />
+                          <p className="text-sm font-semibold text-[#0a2e1a]">Uploading...</p>
+                        </div>
+                      )}
+
+                      {badgeUrl && !uploadingBadge && (
+                        <>
+                          <img
+                            src={badgeUrl}
+                            alt="Badge"
+                            className="h-full w-full object-contain p-4"
+                          />
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setBadgeUrl("");
+                            }}
+                            className="absolute top-3 right-3 z-10 rounded-full bg-white p-1.5 shadow-lg transition-colors hover:bg-red-50"
+                          >
+                            <X className="h-3.5 w-3.5 text-gray-500" />
+                          </button>
+                          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-[#0a2e1a] px-3 py-1 text-[11px] font-bold text-white">
+                            <CheckCircle2 className="h-3 w-3" /> Uploaded
+                          </div>
+                        </>
+                      )}
+
+                      {!badgeUrl && !uploadingBadge && (
+                        <div className="flex flex-col items-center gap-3 px-6 text-center">
+                          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
+                            <Upload className="h-6 w-6 text-gray-400" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-gray-500">
+                              Drag & drop or click to upload
+                            </p>
+                            <p className="mt-1 text-xs text-gray-400">
+                              JPG, PNG or WebP · Max 10 MB
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        className="hidden"
+                        onChange={handleBadgeUpload}
+                      />
+                    </label>
+                  </Field>
+                  <p className="text-xs text-gray-400">
+                    Optional — you can add your badge later from the dashboard.
+                  </p>
+                </div>
+
+                {submitError && (
+                  <div className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                    <AlertCircle className="h-4 w-4 shrink-0" />
+                    {submitError}
+                  </div>
+                )}
+
                 <button
                   type="button"
-                  onClick={() => setStep((s) => s - 1)}
-                  className="flex items-center gap-2 text-sm font-bold text-gray-500 transition-colors hover:text-[#0b3a2c]"
+                  onClick={submitRegistration}
+                  disabled={isPending}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0a2e1a] px-8 py-3.5 text-sm font-black text-white shadow-lg shadow-[#0a2e1a]/20 transition-all hover:bg-[#0f3d24] active:scale-[0.98] disabled:opacity-60"
                 >
-                  <ArrowLeft className="h-4 w-4" />
-                  Back
-                </button>
-              ) : (
-                <div />
-              )}
-
-              <button
-                type="button"
-                onClick={
-                  step === 3
-                    ? submitRegistration
-                    : () => {
-                        // Validate step 1 before moving to step 2
-                        if (step === 1) {
-                          const e: Record<string, string> = {};
-                          if (!form.firstName.trim()) e.firstName = "Required";
-                          if (!form.lastName.trim()) e.lastName = "Required";
-                          if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email))
-                            e.email = "Valid email required";
-                          if (emailAvailable === false)
-                            e.email = "This email is already registered";
-                          if (checkingEmail) return; // Wait for email check
-                          if (form.password.length < 8) e.password = "Min 8 characters";
-                          if (form.password !== form.confirmPassword)
-                            e.confirmPassword = "Passwords don't match";
-                          setErrors(e);
-                          if (Object.keys(e).length > 0) return;
-                        }
-                        // Validate step 2 before moving to step 3
-                        if (step === 2) {
-                          const e: Record<string, string> = {};
-                          if (!form.phone.trim()) e.phone = "Required";
-                          if (!badgeUrl) e.badge = "Guide badge is required";
-                          setErrors(e);
-                          if (Object.keys(e).length > 0) return;
-                        }
-                        setStep((s) => s + 1);
-                      }
-                }
-                disabled={step === 3 && isPending}
-                className="flex items-center gap-2 rounded-full bg-[#0b3a2c] px-8 py-3.5 text-sm font-black text-white shadow-lg shadow-[#0b3a2c]/20 transition-all hover:bg-[#0f3d24] active:scale-95 disabled:opacity-60"
-              >
-                {step === 3 ? (
-                  isPending ? (
+                  {isPending ? (
                     <>
-                      <Loader2 className="h-4 w-4 animate-spin" /> Submitting...
+                      <Loader2 className="h-4 w-4 animate-spin" /> Creating account...
                     </>
                   ) : (
-                    "Complete registration"
-                  )
-                ) : (
-                  <>
-                    Continue <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
-              </button>
-            </div>
+                    <>
+                      Create my account <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="w-full text-center text-sm font-bold text-gray-400 transition-colors hover:text-[#0a2e1a]"
+                >
+                  ← Back to personal info
+                </button>
+              </div>
+            )}
 
             {/* Sign in link */}
             <p className="mt-8 text-center text-sm text-gray-400">
               Already have an account?{" "}
-              <Link href="/auth/login" className="font-bold text-[#0b3a2c] hover:underline">
+              <Link href="/auth/login" className="font-bold text-[#0a2e1a] hover:underline">
                 Sign in
               </Link>
             </p>

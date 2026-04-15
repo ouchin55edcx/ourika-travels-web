@@ -92,7 +92,7 @@ export async function middleware(request: NextRequest) {
   if (user) {
     const { data: profile } = await supabase
       .from("users")
-      .select("role, is_active")
+      .select("role, is_active, email_verified")
       .eq("id", user.id)
       .single();
 
@@ -103,6 +103,20 @@ export async function middleware(request: NextRequest) {
       const response = NextResponse.redirect(url);
       // We should ideally clear the cookies here
       return response;
+    }
+
+    // Check for unverified guides trying to access dashboard
+    if (user && profile?.role === "guide") {
+      const isEmailVerified = user.email_confirmed_at !== null || profile?.email_verified === true;
+      if (
+        !isEmailVerified &&
+        pathname.startsWith("/dashboard/guide") &&
+        pathname !== "/auth/verify-email"
+      ) {
+        const url = new URL("/auth/verify-email", request.url);
+        url.searchParams.set("email", user.email ?? "");
+        return NextResponse.redirect(url);
+      }
     }
 
     // Role-based protection check (already has user, now check role and access)

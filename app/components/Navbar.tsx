@@ -312,16 +312,6 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               </Link>
             </div>
 
-            <div className="h-[1px] w-full bg-gray-100" />
-
-            {/* Secondary/Settings */}
-            <div className="flex flex-col gap-6">
-              <button className="flex items-center gap-4 text-xl font-medium text-[#0a2e1a]">
-                <Moon className="h-6 w-6 stroke-[2px]" />
-                <span>Dark Mode</span>
-              </button>
-            </div>
-
             {/* Account actions at bottom */}
             <div className="mt-auto pb-12">
               {user ? (
