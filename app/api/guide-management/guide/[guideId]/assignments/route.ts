@@ -7,10 +7,10 @@ import { NextRequest, NextResponse } from "next/server";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { guideId: string } },
+  context: { params: Promise<{ guideId: string }> },
 ) {
   try {
-    const { guideId } = params;
+    const { guideId } = await context.params;
     const supabase = await createSupabaseServerClient();
 
     // Get guide info
