@@ -5,6 +5,7 @@ import "./globals.css";
 import { BASE_URL, SITE_NAME, TWITTER_HANDLE } from "@/lib/config";
 import { AuthProvider } from "@/lib/context/AuthContext";
 import { getCurrentUser } from "@/lib/auth";
+import { Analytics } from "@vercel/analytics/next";
 
 /* ─── Single font — Outfit ─── */
 const outfit = Outfit({
@@ -110,6 +111,7 @@ export default async function RootLayout({
     <html lang={lang}>
       <body className={`${outfit.variable} font-outfit antialiased`}>
         <AuthProvider initialUser={user}>{children}</AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
