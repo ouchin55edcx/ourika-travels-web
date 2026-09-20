@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import { createSupabasePublicClient, createSupabaseServerClient } from "@/lib/supabase/server";
+import { experiencesData } from "@/lib/data/experiences";
 import { BASE_URL } from "@/lib/config";
 import { staticGuideSlugs } from "@/lib/data/home";
 import { getGuideSlug, normalizeGuideSlug } from "@/lib/guide-slug";
@@ -32,14 +32,11 @@ interface Review {
   } | null;
 }
 
-async function getActiveGuides(supabase: any) {
-  const { data } = await supabase
-    .from("users")
-    .select("*")
-    .eq("role", "guide")
-    .eq("is_active", true);
-  return data ?? [];
-}
+const staticGuide = {
+  id: "guide-1", slug: "local-guides", full_name: "Youssef Amrani", location: "Ourika Valley", bio: "A local guide sharing the landscapes, villages, and traditions of the Atlas Mountains.", phone: null, avatar_url: null, badge_image_url: null, guide_badge_code: null, is_verified: true, is_active: true, years_experience: 8, languages: ["English", "French", "Arabic"], specialties: ["Mountain walks", "Berber culture"], certifications: ["Local mountain guide"],
+};
+
+function getActiveGuides() { return [staticGuide]; }
 
 export function generateStaticParams() {
   return staticGuideSlugs.map((slug) => ({ slug }));
@@ -47,14 +44,13 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: GuidePublicPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = await createSupabaseServerClient();
-  const guides = await getActiveGuides(supabase);
+  const guides = getActiveGuides();
   const normalizedSlug = normalizeGuideSlug(slug);
   const guide = guides.find((candidate: any) => getGuideSlug(candidate) === normalizedSlug);
 
   if (!guide) {
     return {
-      title: "Guide Not Found | Ourika Travels",
+      title: "Guide Not Found | Nomadicashara",
       description: "This guide profile is not available.",
     };
   }
@@ -101,8 +97,7 @@ export async function generateMetadata({ params }: GuidePublicPageProps): Promis
 
 export default async function GuidePublicPage({ params }: GuidePublicPageProps) {
   const { slug } = await params;
-  const supabase = await createSupabaseServerClient();
-  const guides = await getActiveGuides(supabase);
+  const guides = getActiveGuides();
   const normalizedSlug = normalizeGuideSlug(slug);
   const guide = guides.find((candidate: any) => getGuideSlug(candidate) === normalizedSlug);
 
@@ -115,84 +110,8 @@ export default async function GuidePublicPage({ params }: GuidePublicPageProps) 
     permanentRedirect(`/guide/${canonicalSlug}`);
   }
 
-  const { data: bookingsData } = await supabase
-    .from("bookings")
-    .select(
-      `
-      id,
-      treks (
-        id,
-        title,
-        slug,
-        cover_image,
-        duration,
-        price_per_person,
-        description
-      )
-    `,
-    )
-    .eq("guide_id", guide.id)
-    .eq("status", "completed")
-    .not("treks", "is", null);
-
-  const treksMap = new Map<string, Trek>();
-  if (bookingsData) {
-    bookingsData.forEach((booking: unknown) => {
-      const b = booking as { treks: Trek[] | null };
-      if (b.treks && Array.isArray(b.treks) && b.treks.length > 0) {
-        const trek = b.treks[0];
-        if (trek?.id) {
-          treksMap.set(trek.id, trek);
-        }
-      }
-    });
-  }
-  const guideTreks = Array.from(treksMap.values());
-
-  const { data: reviewsData } = await supabase
-    .from("reviews")
-    .select(
-      `
-      id,
-      rating,
-      comment,
-      created_at,
-      bookings (
-        guide_id,
-        tourists (
-          id,
-          full_name,
-          avatar_url
-        )
-      )
-    `,
-    )
-    .eq("bookings.guide_id", guide.id)
-    .eq("status", "approved")
-    .order("created_at", { ascending: false });
-
-  const guideReviews: Review[] = (reviewsData || []).map((review: unknown) => {
-    const r = review as {
-      id: string;
-      rating: number | null;
-      comment: string | null;
-      created_at: string | null;
-      bookings: {
-        tourists: Array<{
-          id: string;
-          full_name: string | null;
-          avatar_url: string | null;
-        }> | null;
-      } | null;
-    };
-    return {
-      id: r.id,
-      rating: r.rating,
-      comment: r.comment,
-      created_at: r.created_at,
-      tourists: r.bookings?.tourists?.[0] || null,
-    };
-  });
+  const guideTreks: Trek[] = experiencesData.slice(0, 4).map((item) => ({ id: String(item.id), title: item.title, slug: item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"), cover_image: item.image, duration: item.duration, price_per_person: item.price, description: item.title }));
+  const guideReviews: Review[] = [];
 
   const averageRating =
     guideReviews.length > 0

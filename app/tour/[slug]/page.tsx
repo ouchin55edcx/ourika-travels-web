@@ -18,9 +18,8 @@ import TourSimilarExperiences from "./components/TourSimilarExperiences";
 import TourStickyHeader from "./components/TourStickyHeader";
 import TourTabs from "./components/TourTabs";
 import TourTravelersLove from "./components/TourTravelersLove";
-import { getTrekBySlug } from "@/app/actions/treks";
-import { getTrekReviews } from "@/app/actions/reviews";
 import { staticTourSlugs, staticExperiences } from "@/lib/data/home";
+import { experiencesData } from "@/lib/data/experiences";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 
 export function generateStaticParams() {
@@ -29,13 +28,34 @@ export function generateStaticParams() {
 
 export const dynamicParams = false;
 
-function buildTrekDescription(trek: Awaited<ReturnType<typeof getTrekBySlug>>) {
+function getStaticTrek(slug: string): any | null {
+  const item = experiencesData.find((experience) => experience.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") === slug);
+  if (!item) return null;
+  return {
+    id: String(item.id), title: item.title, slug, category_id: null, categories: { name: item.category },
+    cover_image: item.image, gallery_images: [{ src: item.image, alt: item.title }], total_photo_count: 1,
+    price_per_adult: item.price, previous_price: item.previousPrice ?? null, price_note: null,
+    rating: item.rating, review_count: item.reviews, review_breakdown: [], popular_mentions: [],
+    about: `Discover ${item.title} with local guides and authentic moments in the Atlas Mountains.`,
+    highlights: ["Local guide", "Small groups", "Beautiful mountain scenery"], meta_description: null,
+    duration: item.duration, time_of_day: item.timeOfDay, max_group_size: 12, min_age: 3, max_age: 99,
+    start_time: null, mobile_ticket: true, avg_booking_lead_days: null, live_guide_languages: item.languages,
+    audio_guide_languages: [], written_guide_languages: [], start_location: "Marrakech", pickup_available: true,
+    itinerary_steps: [], map_image_url: null, free_cancellation_hours: 24, reserve_now_pay_later: true,
+    badge: item.badges[0] ?? null, award: item.award ?? null, included: [], not_included: [], services: [],
+    is_active: true, created_at: "2026-01-01T00:00:00.000Z", updated_at: "2026-01-01T00:00:00.000Z",
+  };
+}
+
+function getStaticReviews(): any[] { return []; }
+
+function buildTrekDescription(trek: any) {
   const base = `${trek?.title} in Ourika Valley from $${trek?.price_per_adult} with ${trek?.duration}. Book with local guides in Setti Fatma for an authentic Atlas Mountains experience.`;
   if (base.length <= 160) return base;
   return `${base.slice(0, 157).trimEnd()}...`;
 }
 
-function formatReviews(trekReviews: Awaited<ReturnType<typeof getTrekReviews>>) {
+function formatReviews(trekReviews: any[]) {
   return trekReviews.map((r) => ({
     author: r.tourist_name,
     contributions: "Verified traveler",
@@ -62,7 +82,7 @@ async function TourTravelersLoveSection({
   rating: number;
   reviewCount: number;
 }) {
-  const trekReviews = await getTrekReviews(trekId);
+  const trekReviews = getStaticReviews();
   return (
     <TourTravelersLove
       rating={rating}
@@ -73,7 +93,7 @@ async function TourTravelersLoveSection({
 }
 
 async function TourReviewsSection({ trekId, trek }: { trekId: string; trek: any }) {
-  const trekReviews = await getTrekReviews(trekId);
+  const trekReviews = getStaticReviews();
   const reviewBreakdown = [5, 4, 3, 2, 1].map((stars) => {
     const count = trekReviews.filter((r) => r.rating === stars).length;
     const pct = trekReviews.length > 0 ? Math.round((count / trekReviews.length) * 100) : 0;
@@ -106,10 +126,10 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const trek = await getTrekBySlug(slug);
+  const trek = getStaticTrek(slug);
 
   if (!trek) {
-    return { title: "Trek not found | Ourika Travels" };
+    return { title: "Trek not found | Nomadicashara" };
   }
 
   const categoryName = Array.isArray(trek.categories)
@@ -164,7 +184,7 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const trek = await getTrekBySlug(slug);
+  const trek = getStaticTrek(slug);
 
   if (!trek) notFound();
 
@@ -186,7 +206,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     : [];
   const safeItinerarySteps = Array.isArray(trek.itinerary_steps) ? trek.itinerary_steps : [];
   const description = trek.meta_description || buildTrekDescription(trek);
-  const trekReviews = await getTrekReviews(trek.id);
+  const trekReviews = getStaticReviews();
 
   const hasHighlights =
     safeHighlights.filter(Boolean).length > 0 ||
@@ -230,7 +250,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         ].filter(Boolean),
         brand: {
           "@type": "Brand",
-          name: "Ourika Travels",
+          name: "Nomadicashara",
         },
         offers: {
           "@type": "Offer",
@@ -240,7 +260,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           url: `${BASE_URL}/reservation?trek=${trek.slug}`,
           seller: {
             "@type": "Organization",
-            name: "Ourika Travels",
+            name: "Nomadicashara",
             url: BASE_URL,
           },
         },
@@ -281,7 +301,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         },
         provider: {
           "@type": "TouristInformationCenter",
-          name: "Ourika Travels",
+          name: "Nomadicashara",
           url: BASE_URL,
           address: {
             "@type": "PostalAddress",
@@ -335,7 +355,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             name: "When do I pay?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "You reserve your spot for free online. Payment is made in cash at the Ourika Travels bureau in Setti Fatma before the activity starts.",
+              text: "You reserve your spot for free online. Payment is made in cash at the Nomadicashara bureau in Setti Fatma before the activity starts.",
             },
           },
           {

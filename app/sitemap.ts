@@ -3,17 +3,10 @@ import type { MetadataRoute } from "next";
 import { BASE_URL } from "@/lib/config";
 import { getCategorySlug } from "@/lib/category-slug";
 import { getGuideSlug } from "@/lib/guide-slug";
-import { createSupabasePublicClient } from "@/lib/supabase/server";
+import { staticCategories, staticTourSlugs, staticGuideSlugs } from "@/lib/data/home";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = createSupabasePublicClient();
+export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-
-  const [{ data: treks }, { data: categories }, { data: guides }] = await Promise.all([
-    supabase.from("treks").select("slug, updated_at").eq("is_active", true).not("slug", "is", null),
-    supabase.from("categories").select("*"),
-    supabase.from("users").select("*").eq("role", "guide").eq("is_active", true),
-  ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -36,25 +29,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const trekRoutes: MetadataRoute.Sitemap = (treks ?? []).map((trek) => ({
-    url: `${BASE_URL}/tour/${trek.slug}`,
-    lastModified: trek.updated_at ? new Date(trek.updated_at) : now,
-    changeFrequency: "weekly",
-    priority: 0.9,
+  const trekRoutes: MetadataRoute.Sitemap = staticTourSlugs.map((slug) => ({
+    url: `${BASE_URL}/tour/${slug}`, lastModified: now, changeFrequency: "weekly", priority: 0.9,
   }));
-
-  const categoryRoutes: MetadataRoute.Sitemap = (categories ?? []).map((category) => ({
-    url: `${BASE_URL}/category/${getCategorySlug(category)}`,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.8,
+  const categoryRoutes: MetadataRoute.Sitemap = staticCategories.map((category) => ({
+    url: `${BASE_URL}/category/${getCategorySlug(category)}`, lastModified: now, changeFrequency: "weekly", priority: 0.8,
   }));
-
-  const guideRoutes: MetadataRoute.Sitemap = (guides ?? []).map((guide: any) => ({
-    url: `${BASE_URL}/guide/${getGuideSlug(guide)}`,
-    lastModified: guide.updated_at ? new Date(guide.updated_at) : now,
-    changeFrequency: "weekly",
-    priority: 0.7,
+  const guideRoutes: MetadataRoute.Sitemap = staticGuideSlugs.map((slug) => ({
+    url: `${BASE_URL}/guide/${slug}`, lastModified: now, changeFrequency: "weekly", priority: 0.7,
   }));
 
   return [...staticRoutes, ...trekRoutes, ...categoryRoutes, ...guideRoutes];
