@@ -18,21 +18,16 @@ import TourSimilarExperiences from "./components/TourSimilarExperiences";
 import TourStickyHeader from "./components/TourStickyHeader";
 import TourTabs from "./components/TourTabs";
 import TourTravelersLove from "./components/TourTravelersLove";
-import { getTrekBySlug, getPublicTreks } from "@/app/actions/treks";
+import { getTrekBySlug } from "@/app/actions/treks";
 import { getTrekReviews } from "@/app/actions/reviews";
-import { createSupabasePublicClient } from "@/lib/supabase/server";
+import { staticTourSlugs, staticExperiences } from "@/lib/data/home";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 
-// Build static params from real Supabase data
-export async function generateStaticParams() {
-  const treks = await getPublicTreks();
-  const list = Array.isArray(treks) ? treks : [];
-  return list
-    .filter((t: { slug?: string }) => t.slug)
-    .map((t: { slug: string }) => ({ slug: t.slug }));
+export function generateStaticParams() {
+  return staticTourSlugs.map((slug) => ({ slug }));
 }
 
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 function buildTrekDescription(trek: Awaited<ReturnType<typeof getTrekBySlug>>) {
   const base = `${trek?.title} in Ourika Valley from $${trek?.price_per_adult} with ${trek?.duration}. Book with local guides in Setti Fatma for an authentic Atlas Mountains experience.`;
@@ -100,19 +95,9 @@ async function TourReviewsSection({ trekId, trek }: { trekId: string; trek: any 
   );
 }
 
-async function TourSimilarExperiencesSection({ trekId }: { trekId: string }) {
-  const supabase = createSupabasePublicClient();
-  const { data: similar } = await supabase
-    .from("treks")
-    .select(
-      "id, slug, title, cover_image, badge, rating, review_count, previous_price, price_per_adult, categories(name)",
-    )
-    .eq("is_active", true)
-    .neq("id", trekId)
-    .order("created_at", { ascending: false })
-    .limit(4);
-
-  return <TourSimilarExperiences currentTrekId={trekId} initialSimilar={similar ?? []} />;
+function TourSimilarExperiencesSection({ trekId }: { trekId: string }) {
+  const similar = staticExperiences.filter((experience) => experience.id !== trekId).slice(0, 4);
+  return <TourSimilarExperiences currentTrekId={trekId} initialSimilar={similar} />;
 }
 
 export async function generateMetadata({

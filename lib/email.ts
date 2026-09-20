@@ -1,8 +1,7 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.ourikatravels.com';
-const FROM = 'Ourika Travels <onboarding@resend.dev>';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://nomadicashara.com';
+const FROM = 'Nomadicashara <onboarding@resend.dev>';
 
 export async function sendReviewRequestEmail({
   to,
@@ -23,6 +22,7 @@ export async function sendReviewRequestEmail({
     throw new Error('Missing RESEND_API_KEY');
   }
 
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const reviewUrl = `${APP_URL}/review/${reviewToken}`;
 
   await resend.emails.send({

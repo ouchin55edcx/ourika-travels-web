@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { createSupabasePublicClient, createSupabaseServerClient } from "@/lib/supabase/server";
 import { BASE_URL } from "@/lib/config";
+import { staticGuideSlugs } from "@/lib/data/home";
 import { getGuideSlug, normalizeGuideSlug } from "@/lib/guide-slug";
 import GuidePublicProfile from "./GuidePublicProfile";
 
@@ -40,14 +41,8 @@ async function getActiveGuides(supabase: any) {
   return data ?? [];
 }
 
-export async function generateStaticParams() {
-  const supabase = createSupabasePublicClient();
-  const guides = await getActiveGuides(supabase);
-
-  return guides
-    .map((guide: any) => getGuideSlug(guide))
-    .filter(Boolean)
-    .map((slug: string) => ({ slug }));
+export function generateStaticParams() {
+  return staticGuideSlugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: GuidePublicPageProps): Promise<Metadata> {

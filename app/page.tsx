@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 
 import NavbarWrapper from "@/app/components/NavbarWrapper";
-import { getCategories } from "@/app/actions/categories";
+import { staticCategories, staticExperiences, staticAverageRating, staticReviewCount } from "@/lib/data/home";
 import Footer from "@/components/Footer";
 import Gallery from "@/components/Gallery";
 import Hero from "@/components/Hero";
@@ -12,10 +12,9 @@ import Experiences from "@/components/Experiences";
 import Reviews from "@/components/Reviews";
 import TouristHighlight from "@/components/TouristHighlight";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
-import { createSupabasePublicClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Ourika Travels — Authentic Local Treks & Experiences in Ourika Valley, Morocco",
+  title: "Nomadicashara — Authentic Local Treks & Experiences in Ourika Valley, Morocco",
   description:
     "Book guided treks, Berber village tours, and waterfall hikes in Ourika Valley with certified local guides. Small groups, authentic experiences, unforgettable memories — from Setti Fatma.",
   keywords: [
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: BASE_URL,
-    title: "Ourika Travels — Authentic Local Treks in Ourika Valley",
+    title: "Nomadicashara — Authentic Local Treks in Ourika Valley",
     description:
       "Certified local guides. Small groups. Real Berber culture. Book your Ourika Valley experience today.",
     images: [
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ourika Travels — Authentic Ourika Valley Experiences",
+    title: "Nomadicashara — Authentic Ourika Valley Experiences",
     description:
       "Book with local certified guides. Atlas Mountains, Berber villages, Setti Fatma waterfalls.",
     images: [`${BASE_URL}/og-image.jpg`],
@@ -68,48 +67,23 @@ const sectionFallback = (
   </div>
 );
 
-async function HomeInterestsSection() {
-  const categories = await getCategories();
-  return <Interests initialCategories={categories} />;
+function HomeInterestsSection() {
+  return <Interests initialCategories={staticCategories} />;
 }
 
-async function HomeExperiencesSection() {
-  const supabase = createSupabasePublicClient();
-  const { data: experiences } = await supabase
-    .from("treks")
-    .select(
-      "id, slug, title, cover_image, badge, rating, review_count, previous_price, price_per_adult",
-    )
-    .eq("is_active", true)
-    .order("created_at", { ascending: false })
-    .limit(8);
-
-  return <Experiences initialExperiences={experiences ?? []} />;
+function HomeExperiencesSection() {
+  return <Experiences initialExperiences={staticExperiences} />;
 }
 
 export default async function Home() {
-  const supabase = createSupabasePublicClient();
-  const [{ data: approvedRatings, count: approvedReviewCount }] = await Promise.all([
-    supabase
-      .from("reviews")
-      .select("rating", { count: "exact" })
-      .eq("status", "approved")
-      .not("rating", "is", null),
-  ]);
-
-  const ratingValues = (approvedRatings ?? [])
-    .map((review) => review.rating)
-    .filter((rating): rating is number => typeof rating === "number");
-  const averageRating =
-    ratingValues.length > 0
-      ? (ratingValues.reduce((sum, rating) => sum + rating, 0) / ratingValues.length).toFixed(1)
-      : null;
+  const averageRating = staticAverageRating;
+  const approvedReviewCount = staticReviewCount;
 
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "TouristInformationCenter"],
     "@id": `${BASE_URL}#business`,
-    name: "Ourika Travels",
+    name: "Nomadicashara",
     description:
       "Local guide association in Setti Fatma offering certified Berber guides for Atlas Mountains treks, Ourika Valley hikes, and authentic Moroccan experiences.",
     url: BASE_URL,
@@ -160,7 +134,7 @@ export default async function Home() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Ourika Travels",
+    name: "Nomadicashara",
     url: BASE_URL,
     potentialAction: {
       "@type": "SearchAction",

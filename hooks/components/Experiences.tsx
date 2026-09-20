@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ChevronLeft, Star, Heart } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 type ExperienceItem = {
   id: string;
@@ -44,22 +44,7 @@ export default function Experiences({
 }) {
   const { elementRef, isVisible } = useScrollReveal(0.05);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [experiences, setExperiences] = useState<ExperienceItem[]>(initialExperiences);
-
-  useEffect(() => {
-    if (initialExperiences.length > 0) return;
-
-    async function load() {
-      try {
-        const res = await fetch("/api/treks/similar?limit=8");
-        const data = await res.json();
-        setExperiences(data);
-      } catch (error) {
-        console.error("Failed to load experiences:", error);
-      }
-    }
-    load();
-  }, [initialExperiences]);
+  const experiences = initialExperiences;
 
   const scrollByAmount = (direction: "left" | "right") => {
     const container = scrollRef.current;

@@ -6,22 +6,14 @@ import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 import { getCategorySlug } from "@/lib/category-slug";
-import { createSupabasePublicClient, createSupabaseServerClient } from "@/lib/supabase/server";
+import { staticCategories, staticExperiences, staticCategorySlugs } from "@/lib/data/home";
+import { experiencesData } from "@/lib/data/experiences";
 import CategoryPageClient from "./CategoryPageClient";
 
-export const dynamicParams = true;
+export const dynamicParams = false;
 
-export async function generateStaticParams() {
-  try {
-    const supabase = createSupabasePublicClient();
-    const { data } = await supabase.from("categories").select("*");
-    return (data ?? []).map((cat: { slug?: string | null; name: string }) => ({
-      slug: getCategorySlug(cat),
-    }));
-  } catch (error) {
-    console.error("Failed to generate static params:", error);
-    return [];
-  }
+export function generateStaticParams() {
+  return staticCategorySlugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -30,11 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = await createSupabaseServerClient();
-  const { data: categories } = await supabase.from("categories").select("*");
-  const category = (categories ?? []).find(
-    (item: { slug?: string | null; name: string }) => getCategorySlug(item) === slug,
-  );
+  const category = staticCategories.find((item) => getCategorySlug(item) === slug);
 
   if (!category) return { title: "Category not found" };
 
@@ -80,28 +68,16 @@ export async function generateMetadata({
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const supabase = await createSupabaseServerClient();
-  const { data: categories } = await supabase.from("categories").select("*");
-  const category = (categories ?? []).find(
-    (item: { slug?: string | null; name: string }) => getCategorySlug(item) === slug,
-  );
+  const category = staticCategories.find((item) => getCategorySlug(item) === slug);
 
   if (!category) notFound();
-  const { data: treks } = await supabase
-    .from("treks")
-    .select(
-      `
-      id, title, slug, cover_image,
-      rating, review_count,
-      price_per_adult, previous_price,
-      badge, award, duration,
-      time_of_day, live_guide_languages,
-      is_active, categories(name)
-    `,
-    )
-    .eq("is_active", true)
-    .eq("category_id", category.id)
-    .order("created_at", { ascending: false });
+  const treks = staticExperiences.filter((trek) => {
+    const source = experiencesData.find((item) => String(item.id) === trek.id);
+    return source?.category.toLowerCase().includes(category.name.toLowerCase().split(" ")[0]) || category.slug === "outdoors";
+  }).map((trek) => {
+    const source = experiencesData.find((item) => String(item.id) === trek.id)!;
+    return { ...trek, award: source.award ?? null, duration: source.duration, time_of_day: source.timeOfDay, live_guide_languages: source.languages, is_active: true, categories: { name: category.name } };
+  });
 
   const breadcrumbItems = [
     { label: "Home", href: BASE_URL },

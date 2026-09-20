@@ -63,6 +63,7 @@ export default function BookingsManagement({
     const matchSearch =
       b.tourist_name?.toLowerCase().includes(search.toLowerCase()) ||
       b.tourist_email?.toLowerCase().includes(search.toLowerCase()) ||
+      b.tourist_phone?.toLowerCase().includes(search.toLowerCase()) ||
       b.booking_ref?.toLowerCase().includes(search.toLowerCase()) ||
       b.treks?.title?.toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === "all" || b.status === statusFilter;
