@@ -44,7 +44,7 @@ export async function sendReviewRequestEmail({
             </div>
             <h1 style="color:white;font-size:24px;font-weight:900;margin:0;
               letter-spacing:-0.5px;">
-              Ourika Travels
+              Nomadica Sahara
             </h1>
             <p style="color:rgba(255,255,255,0.6);font-size:14px;margin:8px 0 0;">
               Authentic experiences in the Atlas Mountains
@@ -83,8 +83,8 @@ export async function sendReviewRequestEmail({
 
           <div style="text-align:center;padding:24px 0;">
             <p style="color:#9ca3af;font-size:12px;margin:0;">
-              Ourika Travels · Setti Fatma, Ourika Valley, Morocco<br/>
-              <a href="${APP_URL}" style="color:#0b3a2c;">ourikatravels.com</a>
+              Nomadica Sahara · Setti Fatma, Ourika Valley, Morocco<br/>
+              <a href="${APP_URL}" style="color:#0b3a2c;">nomadicasahara.com</a>
             </p>
           </div>
         </div>

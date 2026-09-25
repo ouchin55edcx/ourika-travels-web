@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { BASE_URL, SITE_NAME, TWITTER_HANDLE } from "@/lib/config";
 
-/* ─── Single font — Outfit ─── */
-const outfit = Outfit({
-  variable: "--font-outfit",
+/* ─── Single font — Plus Jakarta Sans ─── */
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap", // prevents invisible-text flash
 });
 
@@ -15,7 +15,7 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: `${SITE_NAME} | Authentic Local Experiences in Ourika Valley`,
+    default: `${SITE_NAME} | Authentic Sahara Experiences`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: BASE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} | Authentic Local Experiences in Ourika Valley`,
+    title: `${SITE_NAME} | Authentic Sahara Experiences`,
     description:
       "Discover the hidden gems of Ourika Valley with certified local guides. Book unique hikes, cultural tours, and Moroccan adventures.",
     images: [
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
         url: `${BASE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Ourika Valley — stunning Atlas Mountains landscape",
+        alt: "Nomadica Sahara — authentic desert experiences",
         type: "image/jpeg",
       },
     ],
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a2e1a",
+  themeColor: "#12355B",
   width: "device-width",
   initialScale: 1,
 };
@@ -98,7 +98,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} font-outfit antialiased`}>{children}</body>
+      <body className={`${jakarta.variable} font-jakarta antialiased`}>{children}</body>
     </html>
   );
 }

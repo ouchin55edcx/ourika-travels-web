@@ -37,7 +37,7 @@ export default function GuideNavbar() {
             href="/"
             className="text-[24px] font-black tracking-[-0.04em] whitespace-nowrap text-[#004f32] md:text-[28px]"
           >
-            Ourika Travels
+            Nomadica Sahara
           </Link>
         </div>
 

@@ -37,7 +37,7 @@ export default function Hero() {
         className={`relative flex flex-col items-center justify-center px-6 pt-10 pb-8 transition-all duration-300 md:pt-20 md:pb-12 z-40 animate-fade-in-up`}
       >
         <h1
-          className={`relative z-50 text-center text-4xl font-black tracking-tight text-[#0a2e1a] transition-all duration-300 md:pb-12 md:text-7xl ${isFocused ? "opacity-100 translate-y-0" : "opacity-100"}`}
+          className={`relative z-50 text-center text-4xl font-black tracking-tight text-[#12355B] transition-all duration-300 md:pb-12 md:text-7xl ${isFocused ? "opacity-100 translate-y-0" : "opacity-100"}`}
         >
           Discover the Magic of Ourika Valley
         </h1>
@@ -56,7 +56,7 @@ export default function Hero() {
                   <div className="flex-1 truncate text-[13px] font-medium text-gray-400 sm:text-base md:text-xl">
                     Search activities, guided tours, or local experiences...
                   </div>
-                  <button className="h-full rounded-full bg-[#00ef9d] px-5 text-sm font-black text-black shadow-inner transition-all duration-300 hover:bg-[#00dd8e] active:scale-95 md:px-14 md:text-xl">
+                  <button className="h-full rounded-full bg-[#F26B21] px-5 text-sm font-black text-black shadow-inner transition-all duration-300 hover:bg-[#00dd8e] active:scale-95 md:px-14 md:text-xl">
                     Search
                   </button>
                 </div>

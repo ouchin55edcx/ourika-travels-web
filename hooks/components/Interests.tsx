@@ -62,7 +62,7 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
   return (
     <section ref={elementRef as any} className={`mx-auto mt-16 w-full max-w-7xl px-6`}>
       <div className="mb-12">
-        <h2 className="text-4xl leading-[0.9] font-black tracking-tighter text-[#0a2e1a] md:text-5xl">
+        <h2 className="text-4xl leading-[0.9] font-black tracking-tighter text-[#12355B] md:text-5xl">
           Explore by Interest
         </h2>
       </div>

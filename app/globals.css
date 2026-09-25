@@ -1,12 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f1f18;
-  --primary-accent: #00ef9d;
-  --primary-dark: #0a2e1a;
-  --primary-mid: #0f3d24;
-  --primary-hover: #0b3320;
+  --primary: #12355b;
+  --accent: #f26b21;
+  --safe: #1e9e6a;
+  --sand: #f6e7d0;
+  --teal: #0e8fa3;
+  --background: #fafaf7;
+  --foreground: #1f2937;
+  --muted: #6b7280;
+  --destructive: #d64545;
+  --primary-accent: var(--accent);
+  --primary-dark: var(--primary);
+  --primary-mid: var(--primary);
+  --primary-hover: #0e2947;
 
   /* Spacing Concept Variables */
   --container-px: 1.5rem;
@@ -46,11 +53,18 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-outfit: var(--font-outfit);
-  --font-inter: var(--font-inter);
+  --font-jakarta: var(--font-jakarta);
+  --font-outfit: var(--font-jakarta);
+  --font-inter: var(--font-jakarta);
 
-  --color-primary: var(--primary-dark);
-  --color-mint: var(--primary-accent);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-safe: var(--safe);
+  --color-sand: var(--sand);
+  --color-teal: var(--teal);
+  --color-muted: var(--muted);
+  --color-destructive: var(--destructive);
+  --color-mint: var(--accent);
 
   @keyframes fade-in {
     from {
@@ -123,8 +137,8 @@
 ───────────────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f1715;
-    --foreground: #f0f7f4;
+    --background: #fafaf7;
+    --foreground: #1f2937;
   }
 }
 
@@ -142,7 +156,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   /* ✅ ONE font across the entire site */
-  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
   letter-spacing: -0.01em;
   font-feature-settings: "ss01", "ss02";
   -webkit-font-smoothing: antialiased;
@@ -154,7 +168,7 @@ body {
 ───────────────────────────────────────────── */
 h1,
 .h1 {
-  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.04em;
   font-size: var(--h1-size-mobile);
@@ -163,7 +177,7 @@ h1,
 
 h2,
 .h2 {
-  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.04em;
   font-size: var(--h2-size-mobile);
@@ -175,7 +189,7 @@ h4,
 h5,
 h6,
 .font-heading {
-  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.04em;
 }
@@ -216,13 +230,13 @@ section + section {
 ───────────────────────────────────────────── */
 p,
 .font-body {
-  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
   line-height: 1.6;
 }
 
 [data-admin-dashboard] input::placeholder,
 [data-admin-dashboard] textarea::placeholder {
-  color: #374151;
+  color: var(--muted);
   opacity: 1;
 }
 

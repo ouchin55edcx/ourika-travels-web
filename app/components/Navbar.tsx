@@ -105,9 +105,9 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           <div className="flex items-center transition-all duration-500 ease-in-out">
             <Link
               href="/"
-              className="text-[24px] font-black tracking-[-0.04em] whitespace-nowrap text-[#0a2e1a] md:text-[28px]"
+              className="text-[24px] font-black tracking-[-0.04em] whitespace-nowrap text-[#12355B] md:text-[28px]"
             >
-              Ourika Travels
+              <span className="font-normal">nomadic</span><span className="font-bold"> sahara</span><span aria-hidden="true" className="ml-2 inline-block h-3 w-3 rounded-sm bg-[#F26B21]" />
             </Link>
           </div>
 
@@ -125,7 +125,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                   <div className="flex-1 truncate px-4 text-[14px] font-bold text-gray-800">
                     Start your search
                   </div>
-                  <div className="rounded-full bg-[#00ef9d] p-2 text-[#0a2e1a] transition-transform duration-300 group-hover/search:scale-105">
+                  <div className="rounded-full bg-[#F26B21] p-2 text-[#12355B] transition-transform duration-300 group-hover/search:scale-105">
                     <Search className="h-3.5 w-3.5 stroke-[4px]" />
                   </div>
                 </div>
@@ -146,9 +146,9 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               href="/wishlist"
               className="group flex min-w-[64px] flex-col items-center justify-center gap-1.5 rounded-2xl px-4 py-2 transition-all hover:bg-gray-50"
             >
-              <Heart className="h-6 w-6 stroke-[2.5px] text-[#0a2e1a] transition-all group-hover:fill-[#0a2e1a]" />
+              <Heart className="h-6 w-6 stroke-[2.5px] text-[#12355B] transition-all group-hover:fill-[#0a2e1a]" />
               {!showSearchBar && (
-                <span className="text-[11px] font-bold text-[#0a2e1a]">Wishlist</span>
+                <span className="text-[11px] font-bold text-[#12355B]">Wishlist</span>
               )}
             </Link>
 
@@ -156,9 +156,9 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               href="/reservation-historic"
               className="group flex min-w-[64px] flex-col items-center justify-center gap-1.5 rounded-2xl px-4 py-2 transition-all hover:bg-gray-50"
             >
-              <ClipboardList className="h-6 w-6 stroke-[2.5px] text-[#0a2e1a] transition-transform group-hover:scale-110" />
+              <ClipboardList className="h-6 w-6 stroke-[2.5px] text-[#12355B] transition-transform group-hover:scale-110" />
               {!showSearchBar && (
-                <span className="text-[11px] font-bold text-[#0a2e1a]">Reservations</span>
+                <span className="text-[11px] font-bold text-[#12355B]">Reservations</span>
               )}
             </Link>
 
@@ -166,7 +166,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               <div className="relative ml-2" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen((value) => !value)}
-                  className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-[#0a2e1a] shadow-sm transition hover:bg-gray-50"
+                  className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-[#12355B] shadow-sm transition hover:bg-gray-50"
                   aria-expanded={isUserMenuOpen}
                   aria-haspopup="menu"
                 >
@@ -183,7 +183,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                       {initials}
                     </span>
                   )}
-                  <span className="hidden max-w-[120px] truncate text-[13px] font-bold text-[#0a2e1a] xl:inline">
+                  <span className="hidden max-w-[120px] truncate text-[13px] font-bold text-[#12355B] xl:inline">
                     {displayName || "Account"}
                   </span>
                 </button>
@@ -266,7 +266,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           {showSearchBar && (
             <button
               onClick={() => setIsSearchFocused(true)}
-              className="rounded-full p-2 text-[#0a2e1a] transition-colors hover:bg-gray-50"
+              className="rounded-full p-2 text-[#12355B] transition-colors hover:bg-gray-50"
               aria-label="Open search"
             >
               <Search className="h-7 w-7 stroke-[2.5px]" />
@@ -274,7 +274,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           )}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="z-50 rounded-full p-2 text-[#0a2e1a] transition-colors hover:bg-gray-50"
+            className="z-50 rounded-full p-2 text-[#12355B] transition-colors hover:bg-gray-50"
             aria-label="Toggle menu"
           >
             <Menu className="h-8 w-8" />
@@ -293,14 +293,14 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             <div className="flex items-center justify-between">
               <Link
                 href="/"
-                className="text-xl font-black tracking-tight text-[#0a2e1a]"
+                className="text-xl font-black tracking-tight text-[#12355B]"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Ourika Travels
+                <span className="font-normal">nomadic</span><span className="font-bold"> sahara</span><span aria-hidden="true" className="ml-2 inline-block h-3 w-3 rounded-sm bg-[#F26B21]" />
               </Link>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-[#0a2e1a] transition-colors hover:bg-gray-200"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-[#12355B] transition-colors hover:bg-gray-200"
                 aria-label="Close menu"
               >
                 <X className="h-6 w-6" />
@@ -311,7 +311,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             <div className="flex flex-col gap-6">
               <Link
                 href="/reservation-historic"
-                className="flex items-center gap-4 text-2xl font-bold text-[#0a2e1a]"
+                className="flex items-center gap-4 text-2xl font-bold text-[#12355B]"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <ClipboardList className="h-8 w-8 stroke-[2.5px]" />
@@ -319,7 +319,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               </Link>
               <Link
                 href="/wishlist"
-                className="flex items-center gap-4 text-2xl font-bold text-[#0a2e1a]"
+                className="flex items-center gap-4 text-2xl font-bold text-[#12355B]"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Heart className="h-8 w-8 stroke-[2.5px]" />
@@ -331,7 +331,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
 
             {/* Secondary/Settings */}
             <div className="flex flex-col gap-6">
-              <button className="flex items-center gap-4 text-xl font-medium text-[#0a2e1a]">
+              <button className="flex items-center gap-4 text-xl font-medium text-[#12355B]">
                 <Moon className="h-6 w-6 stroke-[2px]" />
                 <span>Dark Mode</span>
               </button>
@@ -344,7 +344,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                   <Link
                     href="/profile"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#0a2e1a]"
+                    className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#12355B]"
                   >
                     My Profile
                   </Link>
@@ -352,7 +352,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     <Link
                       href="/dashboard/guide"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#0a2e1a]"
+                      className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#12355B]"
                     >
                       Guide Dashboard
                     </Link>
@@ -361,7 +361,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     <Link
                       href="/admin/dashboard"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#0a2e1a]"
+                      className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#12355B]"
                     >
                       Admin Dashboard
                     </Link>
@@ -456,7 +456,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                       />
                     </div>
                     <div className="flex-1">
-                      <h4 className="mb-0.5 text-[15px] leading-tight font-semibold text-[#0a2e1a]">
+                      <h4 className="mb-0.5 text-[15px] leading-tight font-semibold text-[#12355B]">
                         Cultural wonder in Ourika
                       </h4>
                       <p className="text-[13px] font-medium text-gray-500">Sponsored Tourism</p>

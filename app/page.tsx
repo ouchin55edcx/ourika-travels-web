@@ -14,7 +14,7 @@ import TouristHighlight from "@/components/TouristHighlight";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "Nomadicashara — Authentic Local Treks & Experiences in Ourika Valley, Morocco",
+  title: "Nomadica Sahara — Authentic Local Treks & Experiences in Ourika Valley, Morocco",
   description:
     "Book guided treks, Berber village tours, and waterfall hikes in Ourika Valley with certified local guides. Small groups, authentic experiences, unforgettable memories — from Setti Fatma.",
   keywords: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: BASE_URL,
-    title: "Nomadicashara — Authentic Local Treks in Ourika Valley",
+    title: "Nomadica Sahara — Authentic Local Treks in Ourika Valley",
     description:
       "Certified local guides. Small groups. Real Berber culture. Book your Ourika Valley experience today.",
     images: [
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nomadicashara — Authentic Ourika Valley Experiences",
+    title: "Nomadica Sahara — Authentic Ourika Valley Experiences",
     description:
       "Book with local certified guides. Atlas Mountains, Berber villages, Setti Fatma waterfalls.",
     images: [`${BASE_URL}/og-image.jpg`],
@@ -83,7 +83,7 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "TouristInformationCenter"],
     "@id": `${BASE_URL}#business`,
-    name: "Nomadicashara",
+    name: "Nomadica Sahara",
     description:
       "Local guide association in Setti Fatma offering certified Berber guides for Atlas Mountains treks, Ourika Valley hikes, and authentic Moroccan experiences.",
     url: BASE_URL,
@@ -134,7 +134,7 @@ export default async function Home() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Nomadicashara",
+    name: "Nomadica Sahara",
     url: BASE_URL,
     potentialAction: {
       "@type": "SearchAction",
