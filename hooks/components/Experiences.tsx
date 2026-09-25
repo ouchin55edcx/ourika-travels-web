@@ -28,7 +28,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
           <Star
             key={i}
             className={`h-[14px] w-[14px] ${
-              isFull || isHalf ? "fill-[#00aa6c] text-[#00aa6c]" : "text-gray-200"
+              isFull || isHalf ? "fill-[#F26B21] text-[#F26B21]" : "text-[#F6E7D0]"
             }`}
           />
         );
@@ -60,7 +60,7 @@ export default function Experiences({
     <section
       id="experiences-section"
       ref={elementRef as any}
-      className={`reveal mx-auto w-full max-w-7xl px-6 py-16 md:py-24 xl:py-32 ${isVisible ? "reveal-visible" : ""}`}
+      className={`reveal mx-auto w-full max-w-7xl bg-[#F6E7D0] px-6 py-16 md:py-24 xl:py-32 ${isVisible ? "reveal-visible" : ""}`}
     >
       <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
@@ -71,13 +71,13 @@ export default function Experiences({
         <div className="mb-2 hidden gap-3 lg:flex">
           <button
             onClick={() => scrollByAmount("left")}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#004f32] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md"
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#12355B] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md"
           >
             <ChevronLeft className="h-5 w-5 stroke-[2.5px]" />
           </button>
           <button
             onClick={() => scrollByAmount("right")}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#004f32] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md"
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-[#12355B] shadow-sm transition-all hover:border-[#00ef9d] hover:shadow-md"
           >
             <ChevronRight className="h-5 w-5 stroke-[2.5px]" />
           </button>
@@ -114,7 +114,7 @@ export default function Experiences({
                   
                   {/* Badge */}
                   {exp.badge && (
-                    <div className="absolute top-3 left-3 z-10 rounded-md bg-[#f2ef31] px-2 py-1 text-[10px] font-extrabold text-[#111827]">
+                    <div className={`absolute top-3 left-3 z-10 rounded-md px-2 py-1 text-[10px] font-extrabold text-white ${exp.badge === "Traveler favorite" ? "bg-[#1E9E6A]" : "bg-[#F26B21]"}`}>
                       {exp.badge}
                     </div>
                   )}
@@ -141,11 +141,11 @@ export default function Experiences({
                       <span className="text-xs font-bold text-gray-500">from</span>
                       {exp.previous_price && (
                         <span className="mr-1 text-xs text-gray-400 line-through">
-                          ${exp.previous_price.toFixed(2)}
+                          €{exp.previous_price.toFixed(2)}
                         </span>
                       )}
-                      <span className="font-black text-[#004f32]">
-                        ${exp.price_per_adult.toFixed(2)}
+                      <span className="font-black text-[#12355B]">
+                        €{exp.price_per_adult.toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -170,7 +170,7 @@ export default function Experiences({
       <div className="mt-16 flex justify-center">
         <Link
           href="/experiences"
-          className="group inline-flex items-center gap-3 rounded-full bg-[#004f32] px-12 py-5 text-lg font-black text-white shadow-xl transition-all hover:scale-105 hover:bg-[#003a25]"
+          className="group inline-flex items-center gap-3 rounded-full bg-[#F26B21] px-12 py-5 text-lg font-black text-white shadow-xl transition-all hover:scale-105 hover:bg-[#d95b18]"
         >
           See all experiences
           <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />

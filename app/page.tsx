@@ -9,8 +9,7 @@ import Gallery from "@/components/Gallery";
 import Hero from "@/components/Hero";
 import Interests from "@/components/Interests";
 import Experiences from "@/components/Experiences";
-import Reviews from "@/components/Reviews";
-import TouristHighlight from "@/components/TouristHighlight";
+import { TrustStrip, SocialProof, FAQ, Newsletter, WhatsAppButton } from "@/hooks/components/HomeAdditions";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 
 export const metadata: Metadata = {
@@ -88,11 +87,11 @@ export default async function Home() {
       "Local guide association in Setti Fatma offering certified Berber guides for Atlas Mountains treks, Ourika Valley hikes, and authentic Moroccan experiences.",
     url: BASE_URL,
     telephone: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "",
-    email: "contact@ourikatravels.com",
+    email: "hello@nomadicasahara.com",
     image: `${BASE_URL}/og-image.jpg`,
     logo: `${BASE_URL}/og-image.jpg`,
-    priceRange: "$$",
-    currenciesAccepted: "MAD, USD, EUR",
+    priceRange: "€€",
+    currenciesAccepted: "EUR",
     paymentAccepted: "Cash",
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
@@ -156,7 +155,8 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <Hero />
-        <section className="mx-auto w-full max-w-7xl px-6 py-6 text-sm font-medium text-[#355646] sm:text-base">
+          <TrustStrip />
+          <section className="mx-auto w-full max-w-7xl px-6 py-6 text-sm font-medium text-[#355646] sm:text-base">
           Based in <strong>Setti Fatma, Ourika Valley</strong>, we offer{" "}
           <Link href="/experiences" className="font-black text-[#0b3a2c] underline">
             guided treks and cultural experiences
@@ -170,16 +170,16 @@ export default async function Home() {
           <Suspense fallback={sectionFallback}>
             <HomeExperiencesSection />
           </Suspense>
-          <Suspense fallback={sectionFallback}>
-            <Reviews />
-          </Suspense>
+          <SocialProof />
           <Suspense fallback={sectionFallback}>
             <Gallery />
           </Suspense>
-          <TouristHighlight />
+          <FAQ />
+          <Newsletter />
         </div>
       </main>
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

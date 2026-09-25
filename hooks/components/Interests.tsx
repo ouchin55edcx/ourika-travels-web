@@ -60,7 +60,7 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
   const displayedInterests = dynamicInterests.length > 0 ? dynamicInterests : interests;
 
   return (
-    <section ref={elementRef as any} className={`mx-auto mt-16 w-full max-w-7xl px-6`}>
+    <section ref={elementRef as any} className={`mx-auto mt-16 w-full max-w-7xl bg-[#FAFAF7] px-6`}>
       <div className="mb-12">
         <h2 className="text-4xl leading-[0.9] font-black tracking-tighter text-[#12355B] md:text-5xl">
           Explore by Interest

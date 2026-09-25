@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchTreks, type TrekResult } from "@/hooks/useSearchTreks";
 import SearchResultCard from "@/components/SearchResultCard";
+import { HomeFilters } from "@/hooks/components/HomeAdditions";
 
 export default function Hero() {
   const [query, setQuery] = useState("");
@@ -56,7 +57,7 @@ export default function Hero() {
                   <div className="flex-1 truncate text-[13px] font-medium text-gray-400 sm:text-base md:text-xl">
                     Search activities, guided tours, or local experiences...
                   </div>
-                  <button className="h-full rounded-full bg-[#F26B21] px-5 text-sm font-black text-black shadow-inner transition-all duration-300 hover:bg-[#00dd8e] active:scale-95 md:px-14 md:text-xl">
+                  <button className="h-full rounded-full bg-[#F26B21] px-5 text-sm font-black text-white shadow-inner transition-all duration-300 hover:bg-[#00dd8e] active:scale-95 md:px-14 md:text-xl">
                     Search
                   </button>
                 </div>
@@ -164,6 +165,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
+        <HomeFilters />
       </div>
     </>
   );

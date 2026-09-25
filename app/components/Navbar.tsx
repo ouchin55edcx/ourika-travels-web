@@ -95,7 +95,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
   return (
     <>
       <nav
-        className={`isolate flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-[#edf7f1]/80 via-white/95 to-[#edf7f1]/80 px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
+        className={`isolate flex items-center justify-between border-b border-[#12355B]/10 bg-[#FAFAF7] px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
           sticky ? "sticky top-0" : ""
         } ${isSearchFocused ? "z-[150]" : "z-[100]"}`}
       >
@@ -250,7 +250,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               <>
                 <button
                   onClick={() => setIsLoginModalOpen(true)}
-                  className="ml-2 rounded-full bg-[#0a2e1a] px-8 py-3.5 text-[15px] font-black whitespace-nowrap text-white shadow-sm transition-all hover:bg-[#0b3320] active:scale-95"
+                  className="ml-2 rounded-full bg-[#12355B] px-8 py-3.5 text-[15px] font-black whitespace-nowrap text-white shadow-sm transition-all hover:bg-[#0e2947] active:scale-95"
                 >
                   Sign In
                 </button>

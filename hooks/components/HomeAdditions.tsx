@@ -1,0 +1,33 @@
+"use client";
+
+import { useState } from "react";
+import { CheckCircle2, ChevronDown, Clock3, FileCheck2, Globe2, Headphones, MapPin, MessageCircle, ShieldCheck, Star, Users } from "lucide-react";
+
+const filters = ["Todo", "Marrakech", "Essaouira", "Agadir", "Fez", "Chefchaouen", "Traslados", "Excursiones de un día", "Circuitos", "Desierto"];
+const faqs = [
+  ["¿Qué documentos necesito?", "Lleva tu documento de identidad o pasaporte vigente. Para excursiones internacionales, revisa también los requisitos de entrada del destino."],
+  ["¿Cuál es la mejor época para viajar?", "La primavera y el otoño ofrecen temperaturas agradables; el verano es ideal para empezar las actividades temprano."],
+  ["¿Qué métodos de pago aceptáis?", "Puedes pagar con tarjeta o efectivo según la experiencia. Verás las opciones disponibles antes de confirmar."],
+  ["¿Cuál es la política de cancelación?", "La mayoría de experiencias permiten cancelación gratuita hasta 24 horas antes de la salida."],
+  ["¿Qué idiomas están disponibles?", "Trabajamos con guías locales en español, inglés, francés y árabe."],
+];
+
+export function HomeFilters() {
+  return <div className="mx-auto flex w-full max-w-7xl gap-2 overflow-x-auto px-6 pb-4 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{filters.map((filter, index) => <button key={filter} className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition-colors ${index === 0 ? "border-[#F26B21] bg-[#F26B21] text-white" : "border-[#12355B]/20 bg-white text-[#12355B] hover:border-[#F26B21] hover:bg-[#F26B21] hover:text-white"}`}><MapPin className="h-3.5 w-3.5" />{filter}</button>)}</div>;
+}
+
+export function TrustStrip() {
+  const items = [[CheckCircle2, "Cancelación gratuita"], [Clock3, "Confirmación inmediata"], [ShieldCheck, "Guías locales certificados"], [Headphones, "Soporte en español 24/7"]] as const;
+  return <section className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-3 px-6 py-5 md:grid-cols-4">{items.map(([Icon, label]) => <div key={label} className="flex items-center gap-2 text-sm font-bold text-[#1F2937]"><Icon className="h-5 w-5 shrink-0 text-[#1E9E6A]" />{label}</div>)}</section>;
+}
+
+export function SocialProof() {
+  const reviews = [["Lucía Martín", "Madrid", "Una experiencia auténtica y muy bien organizada. El guía conocía cada rincón."] , ["Carlos Ruiz", "Barcelona", "Paisajes increíbles, grupo pequeño y una atención cercana desde el primer momento."], ["Ana Gómez", "Valencia", "Todo fue sencillo y memorable. Repetiría con Nomadica Sahara sin dudarlo."]];
+  return <section className="bg-white px-6 py-20 md:py-28"><div className="mx-auto max-w-7xl"><div className="mb-10"><p className="mb-3 text-sm font-black uppercase tracking-[0.18em] text-[#0E8FA3]">Experiencias reales</p><h2 className="text-4xl font-black tracking-tight text-[#12355B] md:text-5xl">Lo que dicen nuestros viajeros</h2></div><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]"><div><div className="flex items-end gap-3"><span className="text-6xl font-black text-[#12355B]">4.8</span><span className="pb-2 font-bold text-[#6B7280]">de 5</span></div><div className="mt-3 flex gap-1 text-[#F26B21]">{Array.from({length: 5}).map((_, i) => <Star key={i} className="h-6 w-6 fill-current" />)}</div><div className="mt-6 space-y-2">{[[5,86],[4,10],[3,3],[2,1],[1,0]].map(([star, width]) => <div key={star} className="flex items-center gap-3 text-sm"><span className="w-3 text-[#6B7280]">{star}</span><div className="h-2 flex-1 rounded-full bg-[#F6E7D0]"><div className="h-full rounded-full bg-[#F26B21]" style={{width: `${width}%`}} /></div></div>)}</div></div><div className="grid gap-4 md:grid-cols-3">{reviews.map(([name, city, quote]) => <article key={name} className="rounded-2xl border border-[#12355B]/10 bg-[#FAFAF7] p-5"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F6E7D0] font-black text-[#12355B]">{name[0]}</div><div><p className="font-black text-[#12355B]">{name}</p><p className="text-xs text-[#6B7280]">{city}</p></div></div><div className="mt-4 flex gap-0.5 text-[#F26B21]">{Array.from({length: 5}).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}</div><p className="mt-3 text-sm leading-6 text-[#6B7280]">“{quote}”</p></article>)}</div></div></div></section>;
+}
+
+export function FAQ() { const [open, setOpen] = useState(0); return <section className="bg-[#FAFAF7] px-6 py-20 md:py-28"><div className="mx-auto max-w-3xl"><h2 className="mb-10 text-center text-4xl font-black text-[#12355B]">Preguntas frecuentes</h2><div className="divide-y divide-[#12355B]/10 rounded-2xl border border-[#12355B]/10 bg-white px-6">{faqs.map(([question, answer], index) => <div key={question}><button onClick={() => setOpen(open === index ? -1 : index)} className="flex w-full items-center justify-between py-5 text-left font-black text-[#12355B]"><span>{question}</span><ChevronDown className={`h-5 w-5 transition-transform ${open === index ? "rotate-180" : ""}`} /></button>{open === index && <p className="pb-5 pr-8 text-sm leading-6 text-[#6B7280]">{answer}</p>}</div>)}</div></div></section>; }
+
+export function Newsletter() { return <section className="bg-[#F6E7D0] px-6 py-16"><div className="mx-auto max-w-2xl text-center"><h2 className="text-3xl font-black text-[#12355B] md:text-4xl">No te pierdas nuestras ofertas</h2><p className="mt-3 text-[#6B7280]">Ideas de viaje, nuevas experiencias y ofertas directas en tu correo.</p><form className="mx-auto mt-7 flex max-w-xl flex-col gap-2 sm:flex-row"><input type="email" required placeholder="Tu email" aria-label="Tu email" className="min-h-12 flex-1 rounded-full border border-[#12355B]/15 bg-white px-5 outline-none focus:ring-2 focus:ring-[#F26B21]" /><button className="min-h-12 rounded-full bg-[#F26B21] px-7 font-black text-white hover:bg-[#d95b18]">Suscribirme</button></form></div></section>; }
+
+export function WhatsAppButton() { return <a href="https://wa.me/212600000000" target="_blank" rel="noreferrer" aria-label="Contactar por WhatsApp" className="fixed right-5 bottom-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#1E9E6A] text-white shadow-xl transition-transform hover:scale-105"><MessageCircle className="h-7 w-7" /></a>; }
