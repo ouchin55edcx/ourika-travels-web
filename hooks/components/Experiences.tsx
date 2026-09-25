@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, ChevronLeft, Star, Heart } from "lucide-react";
+import { ChevronRight, ChevronLeft, Star, Heart, Clock3, Languages, MapPin, Users } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useRef } from "react";
 
@@ -90,66 +90,10 @@ export default function Experiences({
       >
         {experiences.map((exp, index) => {
           return (
-            <Link
-              key={exp.id}
-              href={`/tour/${exp.slug}`}
-              className={`group reveal block w-[82vw] shrink-0 snap-start transition-all duration-500 active:scale-[0.98] sm:w-[62vw] lg:w-auto lg:shrink lg:snap-none ${isVisible ? "reveal-visible" : ""}`}
-              style={{ transitionDelay: `${(index % 4) * 100}ms` }}
-            >
-              <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_rgba(18,53,91,0.16)] transition-shadow hover:shadow-[0_16px_40px_rgba(18,53,91,0.22)]">
-                {/* Image Container */}
-                <div className="relative aspect-square overflow-hidden bg-gray-100 sm:aspect-[4/3]">
-                  <Image
-                    src={exp.cover_image || "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1000&auto=format&fit=crop"}
-                    alt={`${exp.title} — Marruecos`}
-                    fill
-                    className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  
-                  {/* Heart Icon */}
-                  <button className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md transition-all hover:scale-110 active:scale-95">
-                    <Heart className="h-4 w-4 text-gray-600" />
-                  </button>
-                  
-                  {/* Badge */}
-                  {exp.badge && (
-                    <div className={`absolute top-3 left-3 z-10 rounded-md px-2 py-1 text-[10px] font-extrabold text-white ${exp.badge === "Traveler favorite" ? "bg-[#1E9E6A]" : "bg-[#F26B21]"}`}>
-                      {exp.badge}
-                    </div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-1 flex-col space-y-2 p-4">
-                  <h3 className="line-clamp-2 text-sm font-bold leading-tight text-[#1a1a1a]">
-                    {exp.title}
-                  </h3>
-
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-[#1a1a1a]">
-                      {exp.rating.toFixed(1)}
-                    </span>
-                    <RatingStars rating={exp.rating} />
-                    <span className="text-[11px] text-gray-500">
-                      ({exp.review_count.toLocaleString()})
-                    </span>
-                  </div>
-
-                  <div className="border-t border-gray-50 pt-2">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-xs font-bold text-gray-500">desde</span>
-                      {exp.previous_price && (
-                        <span className="mr-1 text-xs text-gray-400 line-through">
-                          €{exp.previous_price.toFixed(2)}
-                        </span>
-                      )}
-                      <span className="font-black text-[#12355B]">
-                        €{exp.price_per_adult.toFixed(2)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+            <Link key={exp.id} href={`/tour/${exp.slug}`} className={`group reveal block w-[82vw] shrink-0 snap-start transition-all duration-500 active:scale-[0.98] sm:w-[62vw] lg:w-auto lg:shrink lg:snap-none ${isVisible ? "reveal-visible" : ""}`} style={{ transitionDelay: `${(index % 4) * 100}ms` }}>
+              <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_rgba(18,53,91,0.16)] transition duration-200 group-hover:-translate-y-1 group-hover:shadow-[0_16px_40px_rgba(18,53,91,0.22)]">
+                <div className="relative aspect-square shrink-0 overflow-hidden bg-gray-100 sm:aspect-[4/3]"><Image src={exp.cover_image || "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1000&auto=format&fit=crop"} alt={`${exp.title} — Marruecos`} fill className="object-cover transition-transform duration-200 group-hover:scale-105" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />{exp.badge && <span className={`absolute top-3 left-3 rounded-full px-2.5 py-1 text-[10px] font-black text-white ${exp.badge === "Traveler favorite" ? "bg-[#1E9E6A]" : "bg-[#F26B21]"}`}>{exp.badge}</span>}<button type="button" aria-label="Añadir a favoritos" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} className="absolute top-3 right-3 flex size-9 items-center justify-center rounded-full bg-white shadow-md transition hover:scale-110"><Heart className="size-4 text-[#12355B]" /></button><span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-black/65 px-2.5 py-1 text-[11px] font-bold text-white"><Clock3 className="size-3.5" />{2 + (index % 4)} días</span>{index % 3 === 1 && <span className="absolute right-3 bottom-3 rounded-full bg-[#F26B21] px-2.5 py-1 text-[11px] font-black text-white">-15%</span>}</div>
+                <div className="flex flex-1 flex-col gap-2.5 p-4"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#0E8FA3]">CIRCUITO · DESIERTO</p><h3 className="line-clamp-2 min-h-11 text-[17px] leading-5 font-black text-[#12355B]">{exp.title}</h3><div className="flex items-center gap-1 text-[11px] text-[#6B7280]"><span className="inline-flex items-center gap-1"><Languages className="size-3.5" />Español</span><span>·</span><span className="inline-flex items-center gap-1"><Users className="size-3.5" />Grupo pequeño</span><span>·</span><span className="inline-flex items-center gap-1"><MapPin className="size-3.5" />Marrakech</span></div><div className="flex items-center gap-1.5"><strong className="text-sm font-black text-[#111827]">{exp.rating.toFixed(1)}</strong><RatingStars rating={exp.rating} /><span className="text-xs text-[#6B7280]">({exp.review_count.toLocaleString()})</span></div>{index % 3 !== 2 && <span className="inline-flex w-fit items-center gap-1 rounded-full bg-[#EAF8F1] px-2 py-1 text-[10px] font-bold text-[#1E9E6A]">✓ {index % 3 === 0 ? "Cancelación gratuita" : "Confirmación inmediata"}</span>}<div className="mt-auto border-t border-[#E5E7EB] pt-3"><div className="flex items-end justify-between"><div><p className="text-[11px] text-[#6B7280]">desde</p>{index % 3 === 1 && <p className="text-xs text-[#9CA3AF] line-through">€{(exp.price_per_adult * 1.15).toFixed(2)}</p>}<p className={`text-xl font-black ${index % 3 === 1 ? "text-[#F26B21]" : "text-[#12355B]"}`}>€{exp.price_per_adult.toFixed(2)}</p></div><span className="pb-1 text-right text-[10px] text-[#6B7280]">{index % 4 === 0 ? "Solo 3 plazas" : "por persona"}</span></div></div></div>
               </div>
             </Link>
           );

@@ -1,141 +1,20 @@
 "use client";
 
-import Image from "next/image";
-import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
-import { useRef, useEffect, useState } from "react";
-import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import ExperienceCard from "@/app/experiences/components/ExperienceCard";
+import type { TrekItem } from "@/app/experiences/components/ExperiencesExplorer";
 
-type Props = { currentTrekId: string };
+type Props = { currentTrekId: string; initialSimilar?: Partial<TrekItem>[] };
 
-export default function TourSimilarExperiences({
-  currentTrekId,
-  initialSimilar = [],
-}: Props & { initialSimilar?: any[] }) {
-  const [similar, setSimilar] = useState<any[]>(initialSimilar);
+export default function TourSimilarExperiences({ currentTrekId, initialSimilar = [] }: Props) {
+  const [similar, setSimilar] = useState<Partial<TrekItem>[]>(initialSimilar);
   const scrollRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     if (initialSimilar.length > 0) return;
-
-    async function load() {
-      try {
-        const res = await fetch("/api/treks/similar?exclude=" + currentTrekId + "&limit=4");
-        const data = await res.json();
-        setSimilar(data);
-      } catch (error) {
-        console.error("Failed to load similar experiences:", error);
-      }
-    }
-    load();
+    fetch(`/api/treks/similar?exclude=${currentTrekId}&limit=4`).then((res) => res.json()).then(setSimilar).catch(() => setSimilar([]));
   }, [currentTrekId, initialSimilar]);
-
-  const scrollByAmount = (direction: "left" | "right") => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const amount = Math.min(container.clientWidth * 0.9, 420);
-    container.scrollBy({
-      left: direction === "right" ? amount : -amount,
-      behavior: "smooth",
-    });
-  };
-
+  const scrollByAmount = (direction: "left" | "right") => scrollRef.current?.scrollBy({ left: direction === "right" ? 300 : -300, behavior: "smooth" });
   if (similar.length === 0) return null;
-
-  return (
-    <section className="py-10">
-      <div className="mb-1 flex items-center justify-between gap-4">
-        <h3 className="text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
-          Similar experiences
-        </h3>
-        <div className="flex items-center gap-2 lg:hidden">
-          <button
-            type="button"
-            onClick={() => scrollByAmount("left")}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#0f3d24] text-[#0f3d24] transition hover:bg-[#f6f8f7]"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByAmount("right")}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#0f3d24] text-[#0f3d24] transition hover:bg-[#f6f8f7]"
-            aria-label="Scroll right"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
-
-      <div
-        ref={scrollRef}
-        className="hide-scrollbar flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-0 pt-1 pb-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-5 lg:overflow-visible lg:px-0"
-      >
-        {similar.map((trek) => (
-          <article
-            key={trek.id}
-            className="group max-w-[256px] min-w-[256px] shrink-0 snap-start rounded-[18px] bg-white p-0 first:ml-4 last:mr-4 sm:max-w-[268px] sm:min-w-[268px] sm:first:ml-6 sm:last:mr-6 lg:mr-0 lg:ml-0 lg:max-w-none lg:min-w-0 lg:rounded-none lg:bg-transparent"
-          >
-            <Link href={`/tour/${trek.slug}`}>
-              <div className="relative mb-3 overflow-hidden rounded-[16px]">
-                <div className="relative aspect-[4/5] lg:aspect-[4/4]">
-                  <Image
-                    src={trek.cover_image}
-                    alt={`${trek.title} — Ourika Valley, Morocco`}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                </div>
-                <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f3d24] shadow-sm">
-                  <Heart className="h-5 w-5" />
-                </button>
-                {trek.badge && (
-                  <div className="absolute bottom-3 left-3 rounded-[6px] bg-[#f2ef31] px-2 py-1 text-[11px] font-extrabold text-[#111827]">
-                    {trek.badge}
-                  </div>
-                )}
-              </div>
-
-              <h4 className="text-[15px] leading-7 font-extrabold text-[#0a2e1a] sm:text-[16px] lg:text-[17px]">
-                {trek.title}
-              </h4>
-
-              <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[13px] sm:text-sm">
-                <span className="font-medium">{trek.rating.toFixed(1)}</span>
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, index) => (
-                    <span
-                      key={index}
-                      className={`h-3 w-3 rounded-full border border-[#00aa6c] ${
-                        index < Math.round(trek.rating) ? "bg-[#00aa6c]" : "bg-white"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="text-[#6b7280]">({trek.review_count})</span>
-              </div>
-
-              <p className="mt-2 text-[14px] text-[#666] lg:text-[15px]">
-                {trek.categories?.name || "Experience"}
-              </p>
-
-              <div className="mt-4 text-[15px] font-extrabold text-[#0a2e1a] sm:text-[16px] lg:text-[17px]">
-                from{" "}
-                {trek.previous_price && (
-                  <span className="mr-1 text-[#666] line-through">
-                    ${trek.previous_price.toFixed(2)}
-                  </span>
-                )}
-                <span className={trek.previous_price ? "text-[#cc184e]" : ""}>
-                  ${trek.price_per_adult.toFixed(2)}
-                </span>{" "}
-                per adult
-              </div>
-            </Link>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
+  return <section className="py-10"><div className="mb-4 flex items-center justify-between gap-4"><h3 className="text-2xl font-black text-[#12355B] md:text-[28px]">Similar experiences</h3><div className="flex gap-2 lg:hidden"><button type="button" onClick={() => scrollByAmount("left")} aria-label="Scroll left" className="flex size-10 items-center justify-center rounded-full border border-[#12355B]"><ChevronLeft className="size-5" /></button><button type="button" onClick={() => scrollByAmount("right")} aria-label="Scroll right" className="flex size-10 items-center justify-center rounded-full border border-[#12355B]"><ChevronRight className="size-5" /></button></div></div><div ref={scrollRef} className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] lg:grid lg:grid-cols-4 lg:overflow-visible">{similar.map((trek, index) => { const normalized = { id: trek.id || `similar-${index}`, slug: trek.slug || "", title: trek.title || "Experience in Morocco", cover_image: trek.cover_image || "", rating: trek.rating || 4.8, review_count: trek.review_count || 0, previous_price: trek.previous_price || null, price_per_adult: trek.price_per_adult || 0, badge: trek.badge || null, award: trek.award || null, duration: trek.duration || `${2 + (index % 4)} days`, time_of_day: trek.time_of_day || "Flexible", live_guide_languages: trek.live_guide_languages || ["Spanish"], is_active: trek.is_active ?? true, categories: trek.categories || { name: "Circuit" } } as TrekItem; return <div key={normalized.id} className="w-[78vw] shrink-0 snap-start sm:w-[268px] lg:w-auto"><ExperienceCard trek={normalized} index={index} /></div>; })}</div></section>;
 }
