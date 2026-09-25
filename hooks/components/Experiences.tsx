@@ -60,7 +60,7 @@ export default function Experiences({
     <section
       id="experiences-section"
       ref={elementRef as any}
-      className={`reveal mx-auto w-full max-w-7xl bg-[#F6E7D0] px-6 py-16 md:py-24 xl:py-32 ${isVisible ? "reveal-visible" : ""}`}
+      className={`reveal relative mx-auto w-full max-w-7xl bg-[#F6E7D0] px-6 py-20 md:py-24 xl:py-32 before:absolute before:inset-x-0 before:top-0 before:h-14 before:-translate-y-full before:bg-gradient-to-b before:from-transparent before:to-[#F6E7D0] ${isVisible ? "reveal-visible" : ""}`}
     >
       <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
@@ -86,17 +86,17 @@ export default function Experiences({
 
       <div
         ref={scrollRef}
-        className="hide-scrollbar flex snap-x snap-mandatory scroll-pl-6 gap-6 overflow-x-auto pb-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16 lg:overflow-visible lg:px-0 lg:pb-0"
+        className="hide-scrollbar flex snap-x snap-mandatory scroll-pl-6 gap-4 overflow-x-auto pb-10 [-webkit-overflow-scrolling:touch] lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16 lg:overflow-visible lg:px-0 lg:pb-0"
       >
         {experiences.map((exp, index) => {
           return (
             <Link
               key={exp.id}
               href={`/tour/${exp.slug}`}
-              className={`group reveal block transition-all duration-500 ${isVisible ? "reveal-visible" : ""}`}
+              className={`group reveal block w-[82vw] shrink-0 snap-start transition-all duration-500 active:scale-[0.98] sm:w-[62vw] lg:w-auto lg:shrink lg:snap-none ${isVisible ? "reveal-visible" : ""}`}
               style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             >
-              <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-shadow hover:shadow-lg">
+              <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_rgba(18,53,91,0.16)] transition-shadow hover:shadow-[0_16px_40px_rgba(18,53,91,0.22)]">
                 {/* Image Container */}
                 <div className="relative aspect-square overflow-hidden bg-gray-100 sm:aspect-[4/3]">
                   <Image

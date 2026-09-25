@@ -259,3 +259,8 @@ p,
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #d1d5db;
 }
+
+@media (max-width: 767px) {
+  html { scroll-padding-bottom: 84px; }
+  .horizontal-scroll { -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; }
+}

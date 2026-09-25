@@ -90,6 +90,12 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
   }, []);
 
   useEffect(() => {
+    const openMenu = () => setIsMenuOpen(true);
+    window.addEventListener("nomadica:open-menu", openMenu);
+    return () => window.removeEventListener("nomadica:open-menu", openMenu);
+  }, []);
+
+  useEffect(() => {
     if (!isMenuOpen) return;
 
     const previousOverflow = document.body.style.overflow;
@@ -108,7 +114,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
         <TrustStrip />
       </div>
       <nav
-        className={`isolate flex items-center justify-between bg-[#FAFAF7] px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
+        className={`isolate flex items-center justify-between bg-[#FAFAF7] h-14 px-4 py-1 backdrop-blur-md transition-all duration-300 md:h-auto md:px-16 md:py-2 ${
           sticky ? `sticky ${isScrolled ? "top-0" : "top-8"}` : ""
         } ${isSearchFocused ? "z-[150]" : "z-[100]"}`}
       >
@@ -118,7 +124,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
           <div className="flex items-center transition-all duration-500 ease-in-out">
             <Link
               href="/"
-              className="text-[24px] font-black tracking-[-0.04em] whitespace-nowrap text-[#12355B] md:text-[28px]"
+              className="text-[21px] font-black tracking-[-0.04em] whitespace-nowrap text-[#12355B] md:text-[28px]"
             >
               <span className="font-normal">nomadic</span><span className="font-bold"> sahara</span><span aria-hidden="true" className="ml-2 inline-block h-3 w-3 rounded-sm bg-[#F26B21]" />
             </Link>
@@ -133,7 +139,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               <div className="relative w-full max-w-[380px] min-w-[320px]">
                 <div
                   onClick={() => setIsSearchFocused(true)}
-                  className="group/search flex w-full cursor-pointer items-center rounded-full border border-gray-100 border-gray-200/60 bg-white px-2 py-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
+                  className="group/search hidden w-full cursor-pointer items-center md:flex rounded-full border border-gray-100 border-gray-200/60 bg-white px-2 py-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
                 >
                   <div className="flex-1 truncate px-4 text-[14px] font-bold text-gray-800">
                     Comienza tu búsqueda
@@ -164,8 +170,8 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               {[['Circuitos', '/experiences'], ['Ofertas', '/offers']].map(([label, href]) => <Link key={label} href={href} className="group relative text-sm font-medium text-[#12355B] transition-colors hover:text-[#F26B21]">{label}<span className="absolute -bottom-1 left-0 h-px w-0 bg-[#F26B21] transition-all group-hover:w-full" /></Link>)}
               <a href="#faq-section" className="group relative text-sm font-medium text-[#12355B] transition-colors hover:text-[#F26B21]">Ayuda<span className="absolute -bottom-1 left-0 h-px w-0 bg-[#F26B21] transition-all group-hover:w-full" /></a>
             </div>
-            <LanguageSwitcher />
-            {user ? (
+          <div className="hidden md:block"><LanguageSwitcher /></div>
+          {user ? (
               <div className="relative ml-2" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen((value) => !value)}
@@ -280,7 +286,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             className="z-50 rounded-full p-2 text-[#12355B] transition-colors hover:bg-gray-50"
             aria-label="Toggle menu"
           >
-            <Menu className="h-8 w-8" />
+            <Menu className="h-6 w-6 md:h-8 md:w-8" />
           </button>
         </div>
 
@@ -317,6 +323,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             </div>
 
             <div className="h-[1px] w-full bg-gray-100" />
+            <div className="flex items-center justify-between rounded-2xl bg-[#FAFAF7] px-4 py-3"><span className="text-sm font-bold text-[#12355B]">Idioma</span><LanguageSwitcher /></div>
 
             {/* Secondary/Settings */}
             <div className="flex flex-col gap-6">
