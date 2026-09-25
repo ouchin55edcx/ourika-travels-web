@@ -163,8 +163,8 @@ export default async function Home() {
           <Suspense fallback={sectionFallback}>
             <HomeExperiencesSection />
           </Suspense>
-          <SocialProof />
           <FAQ />
+          <SocialProof />
           <Newsletter />
         </div>
       </main>

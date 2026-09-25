@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Moon, Heart, ClipboardList, Menu, X, Search, SearchIcon, Compass } from "lucide-react";
+import { Moon, Menu, X, Search, SearchIcon, Compass, ChevronDown } from "lucide-react";
 import { useState, useEffect, useRef, useTransition } from "react";
 import Image from "next/image";
 // signOut is now from useAuth context instead of server action
@@ -153,29 +153,18 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
 
         {/* Desktop Actions Section - Hidden on smaller screens */}
         <div className={`hidden items-center gap-2 transition-all duration-500 lg:flex`}>
-          {/* Account Actions: Favoritos, Reservas, Iniciar sesión */}
-          <div className={`flex items-center gap-1`}>
+          <div className="flex items-center gap-5">
+            <div className="hidden items-center gap-5 xl:flex">
+              <div className="group relative">
+                <button type="button" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-1.5 text-sm font-medium text-[#12355B] transition-colors hover:text-[#F26B21]">Destinos <ChevronDown className="h-4 w-4" /></button>
+                <div className="invisible absolute right-0 top-8 z-50 grid w-64 translate-y-1 grid-cols-2 gap-1 rounded-2xl border border-[#12355B]/10 bg-white p-3 opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  {["Marrakech", "Fez", "Essaouira", "Agadir", "Chefchaouen", "Merzouga (Desierto)"].map((city) => <Link key={city} href={`/search?destination=${encodeURIComponent(city)}`} className="rounded-lg px-2 py-2 text-sm font-medium text-[#12355B] hover:bg-[#F26B21]/10 hover:text-[#F26B21]">{city}</Link>)}
+                </div>
+              </div>
+              {[['Circuitos', '/experiences'], ['Ofertas', '/offers']].map(([label, href]) => <Link key={label} href={href} className="group relative text-sm font-medium text-[#12355B] transition-colors hover:text-[#F26B21]">{label}<span className="absolute -bottom-1 left-0 h-px w-0 bg-[#F26B21] transition-all group-hover:w-full" /></Link>)}
+              <a href="#faq-section" className="group relative text-sm font-medium text-[#12355B] transition-colors hover:text-[#F26B21]">Ayuda<span className="absolute -bottom-1 left-0 h-px w-0 bg-[#F26B21] transition-all group-hover:w-full" /></a>
+            </div>
             <LanguageSwitcher />
-            <Link
-              href="/wishlist"
-              className="group flex min-w-[64px] flex-col items-center justify-center gap-1.5 rounded-2xl px-4 py-2 transition-all hover:bg-gray-50"
-            >
-              <Heart className="h-6 w-6 stroke-[2.5px] text-[#12355B] transition-all group-hover:fill-[#0a2e1a]" />
-              {!showSearchBar && (
-                <span className="text-[11px] font-bold text-[#12355B]">Favoritos</span>
-              )}
-            </Link>
-
-            <Link
-              href="/reservation-historic"
-              className="group flex min-w-[64px] flex-col items-center justify-center gap-1.5 rounded-2xl px-4 py-2 transition-all hover:bg-gray-50"
-            >
-              <ClipboardList className="h-6 w-6 stroke-[2.5px] text-[#12355B] transition-transform group-hover:scale-110" />
-              {!showSearchBar && (
-                <span className="text-[11px] font-bold text-[#12355B]">Reservas</span>
-              )}
-            </Link>
-
             {user ? (
               <div className="relative ml-2" ref={userMenuRef}>
                 <button
@@ -321,24 +310,10 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               </button>
             </div>
 
-            {/* Primary Links */}
-            <div className="flex flex-col gap-6">
-              <Link
-                href="/reservation-historic"
-                className="flex items-center gap-4 text-2xl font-bold text-[#12355B]"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <ClipboardList className="h-8 w-8 stroke-[2.5px]" />
-                Reservas
-              </Link>
-              <Link
-                href="/wishlist"
-                className="flex items-center gap-4 text-2xl font-bold text-[#12355B]"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Heart className="h-8 w-8 stroke-[2.5px]" />
-                Favoritos
-              </Link>
+            <div className="flex flex-col gap-5">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0E8FA3]">Navegación</p>
+              {[['Destinos', '/search'], ['Circuitos', '/experiences'], ['Ofertas', '/offers']].map(([label, href]) => <Link key={label} href={href} className="text-2xl font-bold text-[#12355B]" onClick={() => setIsMenuOpen(false)}>{label}</Link>)}
+              <a href="#faq-section" className="text-2xl font-bold text-[#12355B]" onClick={() => setIsMenuOpen(false)}>Ayuda</a>
             </div>
 
             <div className="h-[1px] w-full bg-gray-100" />
