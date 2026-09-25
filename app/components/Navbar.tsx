@@ -10,6 +10,8 @@ import { useSearchTreks, type TrekResult } from "@/hooks/useSearchTreks";
 import { useAuth } from "@/lib/context/AuthContext";
 import LoginModal from "./LoginModal";
 import SearchResultCard from "@/components/SearchResultCard";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { TrustStrip } from "@/hooks/components/HomeAdditions";
 
 type NavbarProps = {
   hidden?: boolean;
@@ -27,6 +29,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isSigningOut, startSignOut] = useTransition();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -80,6 +83,13 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
   }, [hidden]);
 
   useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 100);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
     if (!isMenuOpen) return;
 
     const previousOverflow = document.body.style.overflow;
@@ -94,9 +104,12 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
 
   return (
     <>
+      <div className={`sticky top-0 z-[110] overflow-hidden bg-[#12355B] transition-[max-height,opacity] duration-300 ${isScrolled ? "max-h-0 opacity-0" : "max-h-12 opacity-100"}`}>
+        <TrustStrip />
+      </div>
       <nav
-        className={`isolate flex items-center justify-between border-b border-[#12355B]/10 bg-[#FAFAF7] px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
-          sticky ? "sticky top-0" : ""
+        className={`isolate flex items-center justify-between bg-[#FAFAF7] px-6 py-2 backdrop-blur-md transition-all duration-300 md:px-16 ${
+          sticky ? `sticky ${isScrolled ? "top-0" : "top-8"}` : ""
         } ${isSearchFocused ? "z-[150]" : "z-[100]"}`}
       >
         {/* Left Section: Logo + Search */}
@@ -123,7 +136,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                   className="group/search flex w-full cursor-pointer items-center rounded-full border border-gray-100 border-gray-200/60 bg-white px-2 py-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
                 >
                   <div className="flex-1 truncate px-4 text-[14px] font-bold text-gray-800">
-                    Start your search
+                    Comienza tu búsqueda
                   </div>
                   <div className="rounded-full bg-[#F26B21] p-2 text-[#12355B] transition-transform duration-300 group-hover/search:scale-105">
                     <Search className="h-3.5 w-3.5 stroke-[4px]" />
@@ -140,15 +153,16 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
 
         {/* Desktop Actions Section - Hidden on smaller screens */}
         <div className={`hidden items-center gap-2 transition-all duration-500 lg:flex`}>
-          {/* Account Actions: Wishlist, Reservations, Sign In */}
+          {/* Account Actions: Favoritos, Reservas, Iniciar sesión */}
           <div className={`flex items-center gap-1`}>
+            <LanguageSwitcher />
             <Link
               href="/wishlist"
               className="group flex min-w-[64px] flex-col items-center justify-center gap-1.5 rounded-2xl px-4 py-2 transition-all hover:bg-gray-50"
             >
               <Heart className="h-6 w-6 stroke-[2.5px] text-[#12355B] transition-all group-hover:fill-[#0a2e1a]" />
               {!showSearchBar && (
-                <span className="text-[11px] font-bold text-[#12355B]">Wishlist</span>
+                <span className="text-[11px] font-bold text-[#12355B]">Favoritos</span>
               )}
             </Link>
 
@@ -158,7 +172,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             >
               <ClipboardList className="h-6 w-6 stroke-[2.5px] text-[#12355B] transition-transform group-hover:scale-110" />
               {!showSearchBar && (
-                <span className="text-[11px] font-bold text-[#12355B]">Reservations</span>
+                <span className="text-[11px] font-bold text-[#12355B]">Reservas</span>
               )}
             </Link>
 
@@ -195,21 +209,21 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                       onClick={() => setIsUserMenuOpen(false)}
                       className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50"
                     >
-                      My Profile
+                      Mi perfil
                     </Link>
                     <Link
                       href="/reservation-historic"
                       onClick={() => setIsUserMenuOpen(false)}
                       className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50"
                     >
-                      My Reservations
+                      My Reservas
                     </Link>
                     <Link
                       href="/wishlist"
                       onClick={() => setIsUserMenuOpen(false)}
                       className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50"
                     >
-                      My Wishlist
+                      My Favoritos
                     </Link>
                     {user.role === "guide" && (
                       <Link
@@ -217,7 +231,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                         onClick={() => setIsUserMenuOpen(false)}
                         className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50"
                       >
-                        Guide Dashboard
+                        Panel de guía
                       </Link>
                     )}
                     {user.role === "admin" && (
@@ -226,7 +240,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                         onClick={() => setIsUserMenuOpen(false)}
                         className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50"
                       >
-                        Admin Dashboard
+                        Panel de administración
                       </Link>
                     )}
                     <div className="my-2 h-px bg-gray-100" />
@@ -252,7 +266,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                   onClick={() => setIsLoginModalOpen(true)}
                   className="ml-2 rounded-full bg-[#12355B] px-8 py-3.5 text-[15px] font-black whitespace-nowrap text-white shadow-sm transition-all hover:bg-[#0e2947] active:scale-95"
                 >
-                  Sign In
+                  Iniciar sesión
                 </button>
               </>
             )}
@@ -315,7 +329,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                 onClick={() => setIsMenuOpen(false)}
               >
                 <ClipboardList className="h-8 w-8 stroke-[2.5px]" />
-                Reservations
+                Reservas
               </Link>
               <Link
                 href="/wishlist"
@@ -323,7 +337,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Heart className="h-8 w-8 stroke-[2.5px]" />
-                Wishlist
+                Favoritos
               </Link>
             </div>
 
@@ -333,7 +347,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
             <div className="flex flex-col gap-6">
               <button className="flex items-center gap-4 text-xl font-medium text-[#12355B]">
                 <Moon className="h-6 w-6 stroke-[2px]" />
-                <span>Dark Mode</span>
+                <span>Modo oscuro</span>
               </button>
             </div>
 
@@ -346,7 +360,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     onClick={() => setIsMenuOpen(false)}
                     className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#12355B]"
                   >
-                    My Profile
+                    Mi perfil
                   </Link>
                   {user.role === "guide" && (
                     <Link
@@ -354,7 +368,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                       onClick={() => setIsMenuOpen(false)}
                       className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#12355B]"
                     >
-                      Guide Dashboard
+                      Panel de guía
                     </Link>
                   )}
                   {user.role === "admin" && (
@@ -363,7 +377,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                       onClick={() => setIsMenuOpen(false)}
                       className="block rounded-full border border-[#0a2e1a] px-6 py-4 text-center text-lg font-bold text-[#12355B]"
                     >
-                      Admin Dashboard
+                      Panel de administración
                     </Link>
                   )}
                   <button
@@ -388,7 +402,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                   }}
                   className="block w-full rounded-full bg-[#0a2e1a] py-5 text-center text-xl font-black text-white shadow-lg transition-all active:scale-95"
                 >
-                  Sign In
+                  Iniciar sesión
                 </button>
               )}
             </div>
@@ -424,7 +438,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Where to?"
+                placeholder="¿Adónde quieres ir?"
                 className="flex-1 border-none bg-transparent text-base font-medium outline-none placeholder:text-gray-400 focus:ring-0 md:text-[15px]"
               />
               <button
@@ -457,9 +471,9 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                     </div>
                     <div className="flex-1">
                       <h4 className="mb-0.5 text-[15px] leading-tight font-semibold text-[#12355B]">
-                        Cultural wonder in Ourika
+                        Maravilla cultural de Marruecos
                       </h4>
-                      <p className="text-[13px] font-medium text-gray-500">Sponsored Tourism</p>
+                      <p className="text-[13px] font-medium text-gray-500">Turismo recomendado</p>
                     </div>
                   </div>
                 </div>
@@ -468,7 +482,7 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
               {/* Content Section */}
               <div className="space-y-4">
                 <h3 className="mb-2 px-3 text-[13px] font-semibold tracking-wider text-gray-400 uppercase">
-                  {query ? `Results for \"${query}\"` : "Popular experiences"}
+                  {query ? `Results for \"${query}\"` : "Experiencias populares"}
                 </h3>
 
                 <div className="grid gap-0.5">
@@ -499,10 +513,10 @@ export default function Navbar({ hidden = false, sticky = true, user: serverUser
                         <SearchIcon className="h-10 w-10 text-gray-300 md:h-8 md:w-8" />
                       </div>
                       <p className="text-lg font-bold text-gray-500 md:text-sm">
-                        No results for \"{query}\"
+                        No hay resultados para \"{query}\"
                       </p>
                       <p className="mt-1 text-sm text-gray-400">
-                        Try \"waterfall\", \"Berber\" or \"hike\"
+                        Prueba \"desierto\", \"cultura\" o \"excursión\"
                       </p>
                     </div>
                   )}

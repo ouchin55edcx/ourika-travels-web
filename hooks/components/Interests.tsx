@@ -13,28 +13,28 @@ const interests = [
     title: "Mountain Peaks",
     image:
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
-    desc: "Scale the heights of the High Atlas",
+    desc: "Escala las alturas del Alto Atlas",
     slug: "outdoors",
   },
   {
     title: "Berber Tables",
     image:
       "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=1200&auto=format&fit=crop",
-    desc: "Authentic culinary journeys",
+    desc: "Auténticos viajes culinarios",
     slug: "food",
   },
   {
     title: "Village Life",
     image:
       "https://images.unsplash.com/photo-1539650116574-8efeb43e2750?q=80&w=1200&auto=format&fit=crop",
-    desc: "Uncover ancient traditions",
+    desc: "Descubre tradiciones ancestrales",
     slug: "culture",
   },
   {
     title: "Desert Sands",
     image:
       "https://images.unsplash.com/photo-1489493585363-d69421e0edd3?q=80&w=1200&auto=format&fit=crop",
-    desc: "Silent dunes and starry nights",
+    desc: "Dunas silenciosas y noches estrelladas",
     slug: "outdoors",
   },
 ];
@@ -52,7 +52,7 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
     image:
       cat.photo ||
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
-    desc: cat.description || "Explore this category",
+    desc: cat.description || "Explora esta categoría",
     slug: getCategorySlug(cat),
   }));
 
@@ -63,7 +63,7 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
     <section ref={elementRef as any} className={`mx-auto mt-16 w-full max-w-7xl bg-[#FAFAF7] px-6`}>
       <div className="mb-12">
         <h2 className="text-4xl leading-[0.9] font-black tracking-tighter text-[#12355B] md:text-5xl">
-          Explore by Interest
+          Explora por interés
         </h2>
       </div>
       <div className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-8">
@@ -77,7 +77,7 @@ export default function Interests({ initialCategories = [] }: InterestsProps) {
             >
               <Image
                 src={interest.image}
-                alt={`${interest.title} experiences in Ourika Valley, Morocco`}
+                alt={`${interest.title} experiences in Marruecos`}
                 fill
                 className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

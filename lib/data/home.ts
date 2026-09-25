@@ -1,10 +1,10 @@
 import { experiencesData } from "@/lib/data/experiences";
 
 export const staticCategories = [
-  { id: "outdoors", slug: "outdoors", name: "Outdoors", description: "Scale the heights of the High Atlas", photo: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop" },
-  { id: "food", slug: "food", name: "Food", description: "Authentic culinary journeys", photo: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=1200&auto=format&fit=crop" },
-  { id: "culture", slug: "culture", name: "Culture", description: "Uncover ancient traditions", photo: "https://images.unsplash.com/photo-1539650116574-8efeb43e2750?q=80&w=1200&auto=format&fit=crop" },
-  { id: "water", slug: "water", name: "Water", description: "Refreshing mountain escapes", photo: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?q=80&w=1200&auto=format&fit=crop" },
+  { id: "outdoors", slug: "outdoors", name: "Aire libre", description: "Escala las alturas del Alto Atlas", photo: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop" },
+  { id: "food", slug: "food", name: "Gastronomía", description: "Auténticos viajes culinarios", photo: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=1200&auto=format&fit=crop" },
+  { id: "culture", slug: "culture", name: "Cultura", description: "Descubre tradiciones ancestrales", photo: "https://images.unsplash.com/photo-1539650116574-8efeb43e2750?q=80&w=1200&auto=format&fit=crop" },
+  { id: "water", slug: "water", name: "Naturaleza", description: "Escapadas refrescantes por todo Marruecos", photo: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?q=80&w=1200&auto=format&fit=crop" },
 ];
 
 export const staticExperiences = experiencesData.slice(0, 8).map((experience) => ({

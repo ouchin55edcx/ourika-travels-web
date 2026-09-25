@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Link from "next/link";
 
 import NavbarWrapper from "@/app/components/NavbarWrapper";
 import { staticCategories, staticExperiences, staticAverageRating, staticReviewCount } from "@/lib/data/home";
 import Footer from "@/components/Footer";
-import Gallery from "@/components/Gallery";
 import Hero from "@/components/Hero";
 import Interests from "@/components/Interests";
 import Experiences from "@/components/Experiences";
-import { TrustStrip, SocialProof, FAQ, Newsletter, WhatsAppButton } from "@/hooks/components/HomeAdditions";
+import { SocialProof, FAQ, Newsletter, WhatsAppButton } from "@/hooks/components/HomeAdditions";
 import { BASE_URL, SITE_NAME } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "Nomadica Sahara — Authentic Local Treks & Experiences in Ourika Valley, Morocco",
+  title: "Nomadica Sahara — Experiencias auténticas por todo Marruecos",
   description:
-    "Book guided treks, Berber village tours, and waterfall hikes in Ourika Valley with certified local guides. Small groups, authentic experiences, unforgettable memories — from Setti Fatma.",
+    "Reserva circuitos, experiencias y escapadas por todo Marruecos con guías locales certificados. Ciudades imperiales, desierto, costa atlántica y montañas del Atlas.",
   keywords: [
     "Ourika Valley tours",
     "Setti Fatma waterfall hike",
@@ -29,25 +27,25 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: BASE_URL,
-    title: "Nomadica Sahara — Authentic Local Treks in Ourika Valley",
+    title: "Nomadica Sahara — Experiencias auténticas en Marruecos",
     description:
-      "Certified local guides. Small groups. Real Berber culture. Book your Ourika Valley experience today.",
+      "Guías locales certificados, grupos pequeños y experiencias auténticas por todo Marruecos.",
     images: [
       {
         url: `${BASE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Ourika Valley trekking experience",
+        alt: "Experiencia de viaje por Marruecos",
       },
     ],
     siteName: SITE_NAME,
-    locale: "en_US",
+    locale: "es_ES",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nomadica Sahara — Authentic Ourika Valley Experiences",
+    title: "Nomadica Sahara — Experiencias auténticas en Marruecos",
     description:
-      "Book with local certified guides. Atlas Mountains, Berber villages, Setti Fatma waterfalls.",
+      "Reserva con guías locales certificados: ciudades, desierto, costa y montañas de Marruecos.",
     images: [`${BASE_URL}/og-image.jpg`],
   },
   alternates: {
@@ -84,7 +82,7 @@ export default async function Home() {
     "@id": `${BASE_URL}#business`,
     name: "Nomadica Sahara",
     description:
-      "Local guide association in Setti Fatma offering certified Berber guides for Atlas Mountains treks, Ourika Valley hikes, and authentic Moroccan experiences.",
+      "Plataforma de experiencias con guías locales certificados en todo Marruecos.",
     url: BASE_URL,
     telephone: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "",
     email: "hello@nomadicasahara.com",
@@ -115,8 +113,8 @@ export default async function Home() {
     hasMap: "https://maps.google.com/?q=Setti+Fatma+Ourika+Valley+Morocco",
     sameAs: [
       "https://www.tripadvisor.com",
-      "https://www.facebook.com/ourikatravels",
-      "https://www.instagram.com/ourikatravels",
+      "https://www.facebook.com/nomadicasahara",
+      "https://www.instagram.com/nomadicasahara",
     ],
     ...(averageRating && approvedReviewCount
       ? {
@@ -155,13 +153,8 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <Hero />
-          <TrustStrip />
           <section className="mx-auto w-full max-w-7xl px-6 py-6 text-sm font-medium text-[#355646] sm:text-base">
-          Based in <strong>Setti Fatma, Ourika Valley</strong>, we offer{" "}
-          <Link href="/experiences" className="font-black text-[#0b3a2c] underline">
-            guided treks and cultural experiences
-          </Link>{" "}
-          in the Atlas Mountains, around 45 minutes from Marrakech.
+          Circuitos, experiencias y escapadas por todo Marruecos: ciudades imperiales, desierto del Sahara, costa atlántica y montañas del Atlas.
         </section>
         <div className="relative mt-2 space-y-0">
           <Suspense fallback={sectionFallback}>
@@ -171,9 +164,6 @@ export default async function Home() {
             <HomeExperiencesSection />
           </Suspense>
           <SocialProof />
-          <Suspense fallback={sectionFallback}>
-            <Gallery />
-          </Suspense>
           <FAQ />
           <Newsletter />
         </div>

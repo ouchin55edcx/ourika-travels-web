@@ -9,46 +9,46 @@ export default function Footer() {
         <div className="mb-16 grid grid-cols-2 gap-8 md:grid-cols-3">
           {/* About Column */}
           <div className="flex flex-col gap-3">
-            <h4 className="mb-1 text-[15px] font-black text-[#12355B]">About Nomadica Sahara</h4>
+            <h4 className="mb-1 text-[15px] font-black text-[#12355B]">Sobre Nomadica Sahara</h4>
             <Link
               href="mailto:hello@nomadicasahara.com"
               className="text-[13px] font-medium text-[#0E8FA3] transition-all hover:text-[#12355B] hover:underline"
             >
-              Contact us
+              Contáctanos
             </Link>
           </div>
 
           {/* Explore Column */}
           <div className="flex flex-col gap-3">
-            <h4 className="mb-1 text-[15px] font-black text-[#12355B]">Explore</h4>
+            <h4 className="mb-1 text-[15px] font-black text-[#12355B]">Explorar</h4>
             <Link
               href="/experiences"
               className="text-[13px] font-medium text-[#0E8FA3] transition-all hover:text-[#12355B] hover:underline"
             >
-              Experiences
+              Experiencias
             </Link>
             <Link
               href="/wishlist"
               className="text-[13px] font-medium text-[#0E8FA3] transition-all hover:text-[#12355B] hover:underline"
             >
-              Wishlist
+              Favoritos
             </Link>
             <Link
               href="/reservation-historic"
               className="text-[13px] font-medium text-[#0E8FA3] transition-all hover:text-[#12355B] hover:underline"
             >
-              My Bookings
+              Mis reservas
             </Link>
           </div>
 
           {/* Do Business With Us Column */}
           <div className="flex flex-col gap-3">
-            <h4 className="mb-1 text-[15px] font-black text-[#12355B]">Do Business With Us</h4>
+            <h4 className="mb-1 text-[15px] font-black text-[#12355B]">Trabaja con nosotros</h4>
             <Link
               href="/register/guide"
               className="text-[13px] font-medium text-[#0E8FA3] transition-all hover:text-[#12355B] hover:underline"
             >
-              Become a Guide
+              Conviértete en guía
             </Link>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function Footer() {
                 Nomadica Sahara
               </Link>
               <span className="mt-1 text-[11px] font-medium text-gray-500">
-                © 2026 Nomadica Sahara LLC All rights reserved.
+                © 2026 Nomadica Sahara LLC Todos los derechos reservados.
               </span>
             </div>
 
@@ -70,39 +70,37 @@ export default function Footer() {
                 href="/about"
                 className="text-[12px] font-bold text-[#12355B] underline-offset-4 hover:underline"
               >
-                Terms of Use
+                Términos de uso
               </Link>
               <Link
                 href="/about"
                 className="text-[12px] font-bold text-[#12355B] underline-offset-4 hover:underline"
               >
-                Privacy Policy
+                Política de privacidad
               </Link>
               <Link
                 href="mailto:hello@nomadicasahara.com"
                 className="text-[12px] font-bold text-[#12355B] underline-offset-4 hover:underline"
               >
-                Contact us
+                Contáctanos
               </Link>
             </div>
 
             <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-              Nomadica Sahara is a local guide association based in Setti Fatma, Ourika Valley,
-              Morocco. We connect travelers with certified local Berber guides for authentic Atlas
-              Mountain experiences.
+              Nomadica Sahara conecta a viajeros con guías locales certificados en todo Marruecos: ciudades imperiales, desierto, costa y montañas del Atlas.
             </p>
           </div>
 
           <div className="flex w-full flex-col items-end gap-6 lg:w-auto">
             <div className="flex gap-4">
               <button className="flex min-w-[120px] items-center justify-between gap-4 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-bold text-[#12355B] transition-colors hover:border-black">
-                <span>MAD</span>
+                <span>EUR</span>
                 <ChevronDown className="h-4 w-4 opacity-60" />
               </button>
               <button className="flex min-w-[160px] items-center justify-between gap-4 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-bold text-[#12355B] transition-colors hover:border-black">
                 <div className="flex items-center gap-2">
                   <Globe className="h-4 w-4" />
-                  <span>Morocco</span>
+                  <span>Marruecos</span>
                 </div>
                 <ChevronDown className="h-4 w-4 opacity-60" />
               </button>

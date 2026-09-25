@@ -40,9 +40,10 @@ export default function Hero() {
         <h1
           className={`relative z-50 text-center text-4xl font-black tracking-tight text-[#12355B] transition-all duration-300 md:pb-12 md:text-7xl ${isFocused ? "opacity-100 translate-y-0" : "opacity-100"}`}
         >
-          Discover the Magic of Ourika Valley
+          Descubre la Magia de Marruecos
         </h1>
 
+        <HomeFilters />
         <div className="relative mx-auto w-full max-w-4xl px-4" ref={searchRef}>
           <div className="relative">
             {/* Unified Search Component */}
@@ -55,10 +56,10 @@ export default function Hero() {
                 >
                   <SearchIcon className="mr-2 h-5 w-5 shrink-0 text-gray-400 md:mr-5 md:h-7 md:w-7" />
                   <div className="flex-1 truncate text-[13px] font-medium text-gray-400 sm:text-base md:text-xl">
-                    Search activities, guided tours, or local experiences...
+                    Busca actividades, tours guiados o experiencias locales...
                   </div>
                   <button className="h-full rounded-full bg-[#F26B21] px-5 text-sm font-black text-white shadow-inner transition-all duration-300 hover:bg-[#00dd8e] active:scale-95 md:px-14 md:text-xl">
-                    Search
+                    Buscar
                   </button>
                 </div>
               ) : (
@@ -72,7 +73,7 @@ export default function Hero() {
                       type="text"
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
-                      placeholder="Search destinations..."
+                      placeholder="Busca destinos..."
                       className="flex-1 border-none bg-transparent text-base font-medium outline-none placeholder:text-gray-400 focus:ring-0 md:text-[18px]"
                     />
                     <button
@@ -98,7 +99,7 @@ export default function Hero() {
                           <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-gray-100 md:h-16 md:w-16">
                             <Image
                               src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=200&auto=format&fit=crop"
-                              alt="Sponsored cultural experience in Ourika Valley, Morocco"
+                              alt="Experiencia cultural en Marruecos"
                               fill
                               className="object-cover"
                               sizes="64px"
@@ -106,10 +107,10 @@ export default function Hero() {
                           </div>
                           <div className="flex-1">
                             <h4 className="mb-1 text-[15px] leading-tight font-semibold text-[#004f32]">
-                              Cultural wonder in Ourika
+                              Maravilla cultural de Marruecos
                             </h4>
                             <p className="text-[13px] font-medium text-gray-500">
-                              Sponsored Tourism
+                              Turismo recomendado
                             </p>
                           </div>
                         </div>
@@ -119,7 +120,7 @@ export default function Hero() {
                     {/* Content Section */}
                     <div className="space-y-4">
                       <h3 className="mb-2 px-3 text-[13px] font-semibold tracking-wider text-gray-400 uppercase">
-                        {query ? `Results for "${query}"` : "Popular experiences"}
+                        {query ? `Resultados para "${query}"` : "Experiencias populares"}
                       </h3>
 
                       <div className="grid gap-0.5">
@@ -150,10 +151,10 @@ export default function Hero() {
                               <SearchIcon className="h-10 w-10 text-gray-300" />
                             </div>
                             <p className="text-lg font-bold text-gray-500">
-                              No results for "{query}"
+                              No hay resultados para "{query}"
                             </p>
                             <p className="mt-1 text-sm text-gray-400">
-                              Try "waterfall", "Berber" or "hike"
+                              Prueba "desierto", "cultura" o "excursión"
                             </p>
                           </div>
                         )}
@@ -165,7 +166,6 @@ export default function Hero() {
             </div>
           </div>
         </div>
-        <HomeFilters />
       </div>
     </>
   );

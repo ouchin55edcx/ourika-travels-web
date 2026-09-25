@@ -65,7 +65,7 @@ export default function Experiences({
       <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
           <h2 className="mb-4 text-4xl leading-[0.9] font-black tracking-tighter text-[#12355B] md:text-5xl">
-            Unmissable Moments in the Atlas Mountains
+            Experiencias más reservadas en Marruecos
           </h2>
         </div>
         <div className="mb-2 hidden gap-3 lg:flex">
@@ -100,8 +100,8 @@ export default function Experiences({
                 {/* Image Container */}
                 <div className="relative aspect-square overflow-hidden bg-gray-100 sm:aspect-[4/3]">
                   <Image
-                    src={exp.cover_image}
-                    alt={`${exp.title} — Ourika Valley, Morocco`}
+                    src={exp.cover_image || "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1000&auto=format&fit=crop"}
+                    alt={`${exp.title} — Marruecos`}
                     fill
                     className="object-cover saturate-[0.8] transition-transform duration-1000 group-hover:scale-110 group-hover:saturate-100"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -138,7 +138,7 @@ export default function Experiences({
 
                   <div className="border-t border-gray-50 pt-2">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-xs font-bold text-gray-500">from</span>
+                      <span className="text-xs font-bold text-gray-500">desde</span>
                       {exp.previous_price && (
                         <span className="mr-1 text-xs text-gray-400 line-through">
                           €{exp.previous_price.toFixed(2)}
@@ -172,7 +172,7 @@ export default function Experiences({
           href="/experiences"
           className="group inline-flex items-center gap-3 rounded-full bg-[#F26B21] px-12 py-5 text-lg font-black text-white shadow-xl transition-all hover:scale-105 hover:bg-[#d95b18]"
         >
-          See all experiences
+          Ver todas las experiencias
           <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>

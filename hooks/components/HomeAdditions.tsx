@@ -13,12 +13,15 @@ const faqs = [
 ];
 
 export function HomeFilters() {
-  return <div className="mx-auto flex w-full max-w-7xl gap-2 overflow-x-auto px-6 pb-4 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{filters.map((filter, index) => <button key={filter} className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition-colors ${index === 0 ? "border-[#F26B21] bg-[#F26B21] text-white" : "border-[#12355B]/20 bg-white text-[#12355B] hover:border-[#F26B21] hover:bg-[#F26B21] hover:text-white"}`}><MapPin className="h-3.5 w-3.5" />{filter}</button>)}</div>;
+  const destinations = filters.slice(0, 6);
+  const types = filters.slice(6);
+  const render = (items: string[], offset = 0) => items.map((filter, index) => <button key={filter} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${offset + index === 0 ? "border-[#F26B21] bg-[#F26B21] text-white" : "border-[#12355B] bg-white text-[#12355B] hover:border-[#F26B21] hover:bg-[#F26B21]/10"}`}><MapPin className="h-3.5 w-3.5" />{filter}</button>);
+  return <div className="relative mx-auto w-full max-w-7xl px-6 pt-1 pb-4"><div className="pointer-events-none absolute right-6 top-0 z-10 h-9 w-10 bg-gradient-to-l from-[#FAFAF7] to-transparent" /><div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{render(destinations)}<span className="mx-1 h-8 w-px shrink-0 bg-[#12355B]/15" aria-hidden="true" />{render(types, 6)}</div></div>;
 }
 
 export function TrustStrip() {
   const items = [[CheckCircle2, "Cancelación gratuita"], [Clock3, "Confirmación inmediata"], [ShieldCheck, "Guías locales certificados"], [Headphones, "Soporte en español 24/7"]] as const;
-  return <section className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-3 px-6 py-5 md:grid-cols-4">{items.map(([Icon, label]) => <div key={label} className="flex items-center gap-2 text-sm font-bold text-[#1F2937]"><Icon className="h-5 w-5 shrink-0 text-[#1E9E6A]" />{label}</div>)}</section>;
+  return <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-[13px] md:grid-cols-4 md:gap-8">{items.map(([Icon, label]) => <div key={label} className="flex items-center justify-center gap-1.5 whitespace-nowrap text-white"><Icon className="h-4 w-4 shrink-0 text-white/80" />{label}</div>)}</div>;
 }
 
 export function SocialProof() {
