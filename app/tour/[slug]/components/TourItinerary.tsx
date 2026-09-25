@@ -10,7 +10,7 @@ function fixUrl(url?: string): string {
   return url.replace(/([^:])\/\/+/g, "$1/");
 }
 
-export type ItineraryStep = {
+export type ItinerarioStep = {
   id: number;
   title: string;
   duration: string;
@@ -24,10 +24,10 @@ export type ItineraryStep = {
 type Props = {
   startLocation: string;
   pickupAvailable: boolean;
-  steps: ItineraryStep[];
+  steps: ItinerarioStep[];
 };
 
-export default function TourItinerary({ startLocation, pickupAvailable, steps }: Props) {
+export default function TourItinerario({ startLocation, pickupAvailable, steps }: Props) {
   const [activeStepId, setActiveStepId] = useState<number>(steps[0]?.id || 1);
 
   const toggleStep = (stepId: number) => {
@@ -38,10 +38,10 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
     return (
       <section id="itinerary" className="border-t border-[#e5e7eb] py-8">
         <h2 className="mb-1 text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
-          Itinerary
+          Itinerario
         </h2>
         <div className="rounded-2xl bg-gray-50 p-8 text-center text-gray-500">
-          Itinerary details coming soon
+          Los detalles del itinerario se mostrarán aquí
         </div>
       </section>
     );
@@ -50,7 +50,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
   return (
     <section id="itinerary" className="border-t border-[#e5e7eb] py-8">
       <h2 className="mb-1 text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
-        Itinerary
+        Itinerario
       </h2>
 
       <div className="grid gap-6 pt-1 lg:grid-cols-[360px_minmax(0,520px)] lg:items-start lg:justify-between">
@@ -69,11 +69,11 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
               <p className="mt-1 text-[16px] text-[#111827] sm:text-[18px]">{startLocation}</p>
               {pickupAvailable && (
                 <p className="mt-1 text-[14px] text-[#666] sm:text-[15px]">
-                  Or, you can also get picked up
+                  También podemos recogerte
                 </p>
               )}
-              <button className="mt-1 text-[14px] font-bold text-[#0f3d24] underline sm:text-[15px]">
-                See departure details
+              <button className="mt-1 text-[14px] font-bold text-[#12355B] underline sm:text-[15px]">
+                Ver detalles de salida
               </button>
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                       type="button"
                       onClick={() => toggleStep(step.id)}
                       className={`flex h-10 w-10 items-center justify-center rounded-full text-[18px] font-extrabold transition ${
-                        isActive ? "bg-[#00ef9d] text-[#0a2e1a]" : "bg-[#081f12] text-white"
+                        isActive ? "bg-[#F26B21] text-[#0a2e1a]" : "bg-[#081f12] text-white"
                       }`}
                     >
                       {step.id}
@@ -107,16 +107,16 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                     >
                       <p
                         className={`text-[18px] font-extrabold transition-colors sm:text-[22px] ${
-                          isActive ? "text-[#00ef9d]" : "text-[#0a2e1a]"
+                          isActive ? "text-[#F26B21]" : "text-[#0a2e1a]"
                         }`}
                       >
                         {step.title}
                       </p>
                       <p className="mt-1 text-[14px] text-[#666] sm:text-[15px]">
-                        Stop: {step.duration}
+                        Parada: {step.duration}
                       </p>
-                      <span className="mt-1 inline-block text-[14px] font-bold text-[#0f3d24] underline sm:text-[15px]">
-                        See details &amp; photo
+                      <span className="mt-1 inline-block text-[14px] font-bold text-[#12355B] underline sm:text-[15px]">
+                        Ver detalles y fotos
                       </span>
                     </button>
 
@@ -132,7 +132,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                           </div>
-                          <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f3d24] shadow-sm">
+                          <button className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#12355B] shadow-sm">
                             <Heart className="h-5 w-5" />
                           </button>
                         </div>
@@ -141,7 +141,7 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
                           {step.description}
                         </p>
 
-                        <button className="mt-4 min-h-11 w-full rounded-full border border-[#0f3d24] px-5 py-3 text-[15px] font-bold text-[#0a2e1a] transition hover:bg-[#f6f8f7]">
+                        <button className="mt-4 min-h-11 w-full rounded-full border border-[#12355B] px-5 py-3 text-[15px] font-bold text-[#0a2e1a] transition hover:bg-[#f6f8f7]">
                           {step.buttonLabel || `More about ${step.title}`}
                         </button>
                       </div>
@@ -175,8 +175,8 @@ export default function TourItinerary({ startLocation, pickupAvailable, steps }:
 
           <div className="pointer-events-none absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-black tracking-widest text-[#0b3a2c] uppercase shadow-xl ring-1 ring-black/5 backdrop-blur-md">
             <span className="inline-flex items-center gap-2">
-              <MapPin className="h-3.5 w-3.5 text-[#00ef9d]" />
-              Live Route View
+              <MapPin className="h-3.5 w-3.5 text-[#F26B21]" />
+              Ruta del día
             </span>
           </div>
         </div>

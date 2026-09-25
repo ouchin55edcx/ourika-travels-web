@@ -24,12 +24,12 @@ export default function TourFacts({
   writtenGuideLanguages,
 }: Props) {
   const facts = [
-    { icon: Users, text: `Ages ${minAge}–${maxAge}, max of ${maxGroupSize} per group` },
-    { icon: Clock3, text: `Duration: ${duration}` },
-    { icon: CircleAlert, text: `Start time: ${startTime || "Check availability"}` },
-    ...(mobileTicket ? [{ icon: Smartphone, text: "Mobile ticket" }] : []),
+    { icon: Users, text: `De ${minAge} a ${maxAge} años, máximo ${maxGroupSize} personas por grupo` },
+    { icon: Clock3, text: `Duración: ${duration}` },
+    { icon: CircleAlert, text: `Hora de inicio: ${startTime || "consulta disponibilidad"}` },
+    ...(mobileTicket ? [{ icon: Smartphone, text: "Entrada digital" }] : []),
     ...(liveGuideLanguages.length > 0
-      ? [{ icon: Globe, text: `Live guide: ${liveGuideLanguages.join(", ")}` }]
+      ? [{ icon: Globe, text: `Guía en directo: español, francés, árabe` }]
       : []),
     ...(audioGuideLanguages.length > 0
       ? [{ icon: Languages, text: `Audio guide: ${audioGuideLanguages.join(", ")}` }]
@@ -47,7 +47,7 @@ export default function TourFacts({
             key={text}
             className="flex items-start gap-3 text-[14px] text-[#1f1f1f] sm:text-[15px]"
           >
-            <Icon className="mt-1 h-4 w-4 shrink-0 text-[#0f3d24]" />
+            <Icon className="mt-1 h-4 w-4 shrink-0 text-[#12355B]" />
             <p className="leading-6 sm:leading-7">{text}</p>
           </div>
         ))}

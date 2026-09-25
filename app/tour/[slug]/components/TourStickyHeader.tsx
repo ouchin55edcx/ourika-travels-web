@@ -37,12 +37,12 @@ export default function TourStickyHeader({ title, navigationItems, rating, price
             className="inline-flex items-center gap-2 text-xs font-medium text-[#3b3b3b] sm:text-sm"
           >
             <span aria-hidden="true">‹</span>
-            <span className="truncate">See all Things to Do in Marrakech-Safi</span>
+            <span className="truncate">Ver todo lo que hacer en Marrakech-Safi</span>
           </Link>
 
           <div className="hidden items-center gap-4 lg:flex">
             <div className="flex items-center gap-3 text-sm text-[#1f1f1f]">
-              <span className="max-w-[420px] truncate font-semibold text-[#0a2e1a]">{title}</span>
+              <span className="max-w-[420px] truncate font-semibold text-[#12355B]">{title}</span>
               <div className="flex items-center gap-1">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#00aa6c]" />
                 <span className="font-semibold">{rating.toFixed(1)}</span>
@@ -52,13 +52,13 @@ export default function TourStickyHeader({ title, navigationItems, rating, price
         </div>
 
         <div className="flex min-h-[44px] items-center justify-between gap-4 overflow-x-auto sm:min-h-[48px]">
-          <nav className="flex min-w-max items-center gap-5 text-[14px] font-semibold whitespace-nowrap text-[#0a2e1a] sm:gap-6 sm:text-[15px]">
+          <nav className="flex min-w-max items-center gap-5 text-[14px] font-semibold whitespace-nowrap text-[#12355B] sm:gap-6 sm:text-[15px]">
             {navigationItems.map((item, index) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
                 className={`py-3 ${
-                  index === 0 ? "border-b-2 border-[#0f3d24]" : "border-b-2 border-transparent"
+                  index === 0 ? "border-b-2 border-[#12355B]" : "border-b-2 border-transparent"
                 }`}
               >
                 {item.label}
@@ -67,9 +67,9 @@ export default function TourStickyHeader({ title, navigationItems, rating, price
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
-            <p className="text-[15px] font-extrabold text-[#0a2e1a]">from ${price.toFixed(2)}</p>
-            <button className="rounded-full bg-[#00e05a] px-5 py-2.5 text-[15px] font-bold text-black">
-              Check availability
+            <p className="text-[15px] font-extrabold text-[#12355B]">desde €{price.toLocaleString("es-ES", { minimumFractionDigits: 2 })}</p>
+            <button className="rounded-full bg-[#F26B21] px-5 py-2.5 text-[15px] font-bold text-white">
+              Comprobar disponibilidad
             </button>
           </div>
         </div>

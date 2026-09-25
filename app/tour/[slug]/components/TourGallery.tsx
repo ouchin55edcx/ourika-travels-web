@@ -17,10 +17,10 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
 
   const safeGallery = (galleryImages || []).filter((img) => img?.src);
   const allImages = [
-    { src: coverImage, alt: `${title} — Ourika Valley, Morocco` },
+    { src: coverImage, alt: `${title} — Marruecos` },
     ...safeGallery.map((img) => ({
       ...img,
-      alt: img.alt || `${title} — Ourika Valley, Morocco`,
+      alt: img.alt || `${title} — Marruecos`,
     })),
   ];
 
@@ -51,7 +51,7 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
         >
           <Image
             src={coverImage}
-            alt={`${title} — Ourika Valley, Morocco`}
+            alt={`${title} — Marruecos`}
             fill
             priority
             fetchPriority="high"
@@ -69,7 +69,7 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
           >
             <Image
               src={safeGallery[0]?.src || coverImage}
-              alt={safeGallery[0]?.alt ?? `${title} — Ourika Valley, Morocco`}
+              alt={safeGallery[0]?.alt ?? `${title} — Marruecos`}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -84,7 +84,7 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
           >
             <Image
               src={safeGallery[1]?.src || coverImage}
-              alt={safeGallery[1]?.alt ?? `${title} — Ourika Valley, Morocco`}
+              alt={safeGallery[1]?.alt ?? `${title} — Marruecos`}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -95,7 +95,7 @@ export default function TourGallery({ coverImage, galleryImages, totalPhotoCount
                 setActiveIndex(allImages.length - 1);
                 setLightboxOpen(true);
               }}
-              className="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-[#0f3d24] px-3 py-2 text-xs font-bold text-white shadow-lg sm:right-4 sm:bottom-4 sm:gap-2 sm:text-sm"
+              className="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-[#12355B] px-3 py-2 text-xs font-bold text-white shadow-lg sm:right-4 sm:bottom-4 sm:gap-2 sm:text-sm"
             >
               <Camera className="h-4 w-4" />
               <span>{totalPhotoCount || safeGallery.length + 1}</span>

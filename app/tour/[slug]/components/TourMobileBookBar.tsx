@@ -41,19 +41,19 @@ export default function TourMobileBookBar({ price, trekSlug, trekTitle }: Props)
     >
       <div className="flex flex-col gap-2">
         <Link
-          href="/reservation"
-          className="block min-h-12 w-full rounded-full bg-[#00e05a] px-5 py-3 text-center text-[16px] font-bold text-black shadow-[0_10px_30px_rgba(0,0,0,0.12)]"
+          href={`/reservation?trek=${trekSlug}`}
+          className="block min-h-12 w-full rounded-full bg-[#F26B21] px-5 py-3 text-center text-[16px] font-bold text-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]"
         >
-          From ${price.toFixed(2)} · Check availability
+          Desde €{price.toLocaleString("es-ES", { minimumFractionDigits: 2 })} · Comprobar disponibilidad
         </Link>
         {whatsappUrl ? (
           <Link
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="block min-h-12 w-full rounded-full border-2 border-[#0b3a2c] px-5 py-3 text-center text-[15px] font-bold text-[#0b3a2c]"
+            className="block min-h-12 w-full rounded-full border-2 border-[#12355B] px-5 py-3 text-center text-[15px] font-bold text-[#12355B]"
           >
-            Reserve on WhatsApp
+            Reservar por WhatsApp
           </Link>
         ) : null}
       </div>

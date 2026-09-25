@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Star } from "lucide-react";
 
 type Props = {
   title: string;
@@ -15,7 +16,7 @@ export default function TourHeroHeader({ title, rating, reviewCount }: Props) {
           className="inline-flex items-start gap-2 text-xs font-medium text-[#2d2d2d] underline decoration-[#7f7f7f] underline-offset-2 sm:items-center sm:text-sm"
         >
           <span aria-hidden="true">‹</span>
-          <span className="leading-5">See all Things to Do in Marrakech-Safi</span>
+          <span className="leading-5">Ver todo lo que hacer en Marrakech-Safi</span>
         </Link>
       </div>
 
@@ -28,16 +29,11 @@ export default function TourHeroHeader({ title, rating, reviewCount }: Props) {
             <span className="text-[18px] leading-none font-extrabold">{rating.toFixed(1)}</span>
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, index) => (
-                <span
-                  key={index}
-                  className={`h-3.5 w-3.5 rounded-full border border-[#00aa6c] ${
-                    index < Math.round(rating) ? "bg-[#00aa6c]" : "bg-white"
-                  }`}
-                />
+                <Star key={index} className={`size-3.5 ${index < Math.round(rating) ? "fill-[#F26B21] text-[#F26B21]" : "text-[#D1D5DB]"}`} />
               ))}
             </div>
-            <Link href="#reviews" className="font-medium text-[#0f3d24] underline">
-              ({reviewCount.toLocaleString()} reviews)
+            <Link href="#reviews" className="font-medium text-[#12355B] underline">
+              ({reviewCount.toLocaleString("es-ES")} opiniones)
             </Link>
           </div>
         </div>

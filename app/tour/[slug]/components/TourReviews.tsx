@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronDown, CircleHelp, Ellipsis, Search, ThumbsUp, Star } from "lucide-react";
+import { ChevronDown, CircleHelp, Search, Star } from "lucide-react";
 
 type Props = {
   rating: number;
@@ -34,24 +34,19 @@ export default function TourReviews({
   return (
     <section id="reviews" className="border-t border-[#e5e7eb] py-10">
       <div className="mb-1 flex items-center gap-5 text-2xl leading-tight font-black text-[#111827] md:text-[28px]">
-        <button className="border-b-2 border-[#0f3d24] pb-2 text-[#0a2e1a]">Reviews</button>
-        <button className="pb-2 text-[#0a2e1a]">Q&amp;A</button>
+        <button className="border-b-2 border-[#12355B] pb-2 text-[#12355B]">Opiniones</button>
+        <button className="pb-2 text-[#12355B]">Preguntas y respuestas</button>
       </div>
 
       <div className="grid gap-8 pt-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-10">
         <div>
-          <div className="mb-5 flex items-center gap-2 text-[#0a2e1a]">
+          <div className="mb-5 flex items-center gap-2 text-[#12355B]">
             <span className="text-[32px] leading-none font-extrabold sm:text-[36px]">
               {rating.toFixed(1)}
             </span>
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, index) => (
-                <span
-                  key={index}
-                  className={`h-4 w-4 rounded-full border border-[#00aa6c] ${
-                    index < Math.round(rating) ? "bg-[#00aa6c]" : "bg-white"
-                  }`}
-                />
+                <Star key={index} className={`size-4 ${index < Math.round(rating) ? "fill-[#F26B21] text-[#F26B21]" : "text-[#D1D5DB]"}`} />
               ))}
             </div>
             <span className="text-[16px] text-[#4b5563]">({reviewCount})</span>
@@ -62,12 +57,12 @@ export default function TourReviews({
               reviewBreakdown.map((item) => (
                 <div
                   key={item.label}
-                  className="grid grid-cols-[52px_minmax(0,1fr)_34px] items-center gap-3 text-[14px] text-[#0a2e1a]"
+                  className="grid grid-cols-[52px_minmax(0,1fr)_34px] items-center gap-3 text-[14px] text-[#12355B]"
                 >
                   <span>{item.label}</span>
                   <div className="h-3 rounded-full bg-[#e6e6e6]">
                     <div
-                      className="h-3 rounded-full bg-[#00873e]"
+                      className="h-3 rounded-full bg-[#1E9E6A]"
                       style={{ width: item.percentage }}
                     />
                   </div>
@@ -75,7 +70,7 @@ export default function TourReviews({
                 </div>
               ))
             ) : (
-              <p className="text-sm text-[#4b5563]">No reviews yet</p>
+              <p className="text-sm text-[#4b5563]">Aún no hay opiniones</p>
             )}
           </div>
         </div>
@@ -85,21 +80,21 @@ export default function TourReviews({
             <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-[#5f6368]" />
             <input
               type="text"
-              placeholder="Search reviews..."
+              placeholder="Buscar opiniones..."
               className="h-12 w-full rounded-full border border-[#8ba18d] bg-white pr-5 pl-12 text-[15px] outline-none placeholder:text-[#5f6368] sm:h-14 sm:text-[16px]"
             />
           </div>
 
           <div className="mb-8 flex flex-wrap items-center gap-3">
-            <button className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#0a2e1a] sm:text-[15px]">
-              Filters
+            <button className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12355B] sm:text-[15px]">
+              Filtros
             </button>
-            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#0a2e1a] sm:text-[15px]">
+            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12355B] sm:text-[15px]">
               <span>English</span>
               <ChevronDown className="h-4 w-4" />
             </button>
-            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#0a2e1a] sm:text-[15px]">
-              <span>Most Insightful</span>
+            <button className="inline-flex items-center gap-2 rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] font-medium text-[#12355B] sm:text-[15px]">
+              <span>Más útiles</span>
               <ChevronDown className="h-4 w-4" />
             </button>
             <CircleHelp className="h-4 w-4 text-[#4b5563]" />
@@ -107,14 +102,14 @@ export default function TourReviews({
 
           {popularMentions.length > 0 && (
             <div className="border-b border-[#e5e7eb] pb-8">
-              <h3 className="mb-4 text-[17px] font-extrabold text-[#0a2e1a] sm:text-[18px]">
+              <h3 className="mb-4 text-[17px] font-extrabold text-[#12355B] sm:text-[18px]">
                 Popular mentions
               </h3>
               <div className="flex flex-wrap gap-3">
                 {popularMentions.map((mention) => (
                   <button
                     key={mention}
-                    className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] text-[#0a2e1a] sm:text-[15px]"
+                    className="rounded-full border border-[#8ba18d] px-4 py-2 text-[14px] text-[#12355B] sm:text-[15px]"
                   >
                     {mention}
                   </button>
@@ -151,13 +146,13 @@ export default function TourReviews({
                               sizes="48px"
                             />
                           ) : (
-                            <div className="flex h-full w-full items-center justify-center bg-[#0b3a2c] text-lg font-black text-[#00ef9d]">
+                            <div className="flex h-full w-full items-center justify-center bg-[#12355B] text-lg font-black text-white">
                               {review.author.charAt(0).toUpperCase()}
                             </div>
                           )}
                         </div>
                         <div>
-                          <p className="text-[17px] font-extrabold text-[#0a2e1a]">
+                          <p className="text-[17px] font-extrabold text-[#12355B]">
                             {review.author}
                           </p>
                           <p className="text-[13px] text-[#6b7280]">{review.contributions}</p>
@@ -173,21 +168,18 @@ export default function TourReviews({
                       <div className="mb-3 flex items-center gap-2">
                         <div className="flex items-center gap-0.5">
                           {[1, 2, 3, 4, 5].map((s) => (
-                            <span
-                              key={s}
-                              className={`h-4 w-4 rounded-full border border-[#00aa6c] ${s <= review.rating! ? "bg-[#00aa6c]" : "bg-white"}`}
-                            />
+                            <Star key={s} className={`size-4 ${s <= review.rating! ? "fill-[#F26B21] text-[#F26B21]" : "text-[#D1D5DB]"}`} />
                           ))}
                         </div>
-                        <span className="text-[13px] font-bold text-[#00873e]">
-                          {["", "Terrible", "Poor", "Average", "Good", "Excellent"][review.rating]}
+                        <span className="text-[13px] font-bold text-[#1E9E6A]">
+                          {["", "Terrible", "Malo", "Regular", "Bueno", "Excelente"][review.rating]}
                         </span>
                       </div>
                     )}
 
                     {/* Title */}
                     {review.title && (
-                      <h4 className="mb-2 text-[20px] font-extrabold text-[#0a2e1a] sm:text-[22px]">
+                      <h4 className="mb-2 text-[20px] font-extrabold text-[#12355B] sm:text-[22px]">
                         {review.title}
                       </h4>
                     )}
@@ -213,10 +205,7 @@ export default function TourReviews({
                             >
                               <div className="flex gap-0.5">
                                 {[1, 2, 3, 4, 5].map((s) => (
-                                  <span
-                                    key={s}
-                                    className={`h-2.5 w-2.5 rounded-full border border-[#00aa6c] ${s <= x.val! ? "bg-[#00aa6c]" : "bg-white"}`}
-                                  />
+                                  <Star key={s} className={`size-3 ${s <= x.val! ? "fill-[#F26B21] text-[#F26B21]" : "text-[#D1D5DB]"}`} />
                                 ))}
                               </div>
                               <span className="text-[12px] font-semibold text-[#6b7280]">
@@ -235,9 +224,9 @@ export default function TourReviews({
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-50">
                 <Star className="h-8 w-8 text-gray-300" />
               </div>
-              <p className="text-[18px] font-bold text-[#6b7280]">No reviews yet</p>
+              <p className="text-[18px] font-bold text-[#6b7280]">Aún no hay opiniones</p>
               <p className="mt-2 text-[14px] text-[#9ca3af]">
-                Be the first to share your experience on this trek.
+                Sé el primero en compartir tu experiencia.
               </p>
             </div>
           )}

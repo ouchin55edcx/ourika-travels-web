@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import NavbarWrapper from "@/app/components/NavbarWrapper";
 import Breadcrumb from "@/components/Breadcrumb";
 import TourAbout from "./components/TourAbout";
-import TourAvailabilityBar from "./components/TourAvailabilityBar";
 import TourBookingCard from "./components/TourBookingCard";
 import TourFacts from "./components/TourFacts";
 import TourGallery from "./components/TourGallery";
@@ -36,13 +35,13 @@ function getStaticTrek(slug: string): any | null {
     cover_image: item.image, gallery_images: [{ src: item.image, alt: item.title }], total_photo_count: 1,
     price_per_adult: item.price, previous_price: item.previousPrice ?? null, price_note: null,
     rating: item.rating, review_count: item.reviews, review_breakdown: [], popular_mentions: [],
-    about: `Discover ${item.title} with local guides and authentic moments in the Atlas Mountains.`,
-    highlights: ["Local guide", "Small groups", "Beautiful mountain scenery"], meta_description: null,
+    about: "Descubre las montañas del Atlas, cascadas y pueblos bereberes con guías locales y momentos auténticos.",
+    highlights: ["Guía local", "Grupos reducidos", "Paisajes de montaña espectaculares"], meta_description: null,
     duration: item.duration, time_of_day: item.timeOfDay, max_group_size: 12, min_age: 3, max_age: 99,
     start_time: null, mobile_ticket: true, avg_booking_lead_days: null, live_guide_languages: item.languages,
     audio_guide_languages: [], written_guide_languages: [], start_location: "Marrakech", pickup_available: true,
-    itinerary_steps: [], map_image_url: null, free_cancellation_hours: 24, reserve_now_pay_later: true,
-    badge: item.badges[0] ?? null, award: item.award ?? null, included: [], not_included: [], services: [],
+    itinerary_steps: [{ id: 1, title: "09:00 · Salida desde Marrakech", duration: "1 h", description: "Recogida y salida hacia los paisajes del Atlas con tu guía local." }, { id: 2, title: "10:30 · Llegada al Valle del Atlas", duration: "2 h", description: "Paseo entre cascadas, senderos y pueblos bereberes auténticos." }, { id: 3, title: "13:00 · Almuerzo tradicional", duration: "1 h", description: "Saborea una comida marroquí casera y disfruta del ritmo local." }, { id: 4, title: "16:00 · Regreso a Marrakech", duration: "1 h", description: "Vuelta cómoda al punto de partida tras un día lleno de descubrimientos." }], map_image_url: null, free_cancellation_hours: 24, reserve_now_pay_later: true,
+    badge: item.badges[0] ?? null, award: item.award ?? null, included: ["Transporte de ida y vuelta desde Marrakech", "Guía local en español", "Almuerzo tradicional y té de menta"], not_included: ["Bebidas adicionales", "Propinas", "Gastos personales"], services: ["Guía local", "Grupos reducidos", "Cancelación flexible"],
     is_active: true, created_at: "2026-01-01T00:00:00.000Z", updated_at: "2026-01-01T00:00:00.000Z",
   };
 }
@@ -50,7 +49,7 @@ function getStaticTrek(slug: string): any | null {
 function getStaticReviews(): any[] { return []; }
 
 function buildTrekDescription(trek: any) {
-  const base = `${trek?.title} in Ourika Valley from $${trek?.price_per_adult} with ${trek?.duration}. Book with local guides in Setti Fatma for an authentic Atlas Mountains experience.`;
+  const base = "Descubre las montañas del Atlas, cascadas y pueblos bereberes con guías locales y momentos auténticos.";
   if (base.length <= 160) return base;
   return `${base.slice(0, 157).trimEnd()}...`;
 }
@@ -58,7 +57,7 @@ function buildTrekDescription(trek: any) {
 function formatReviews(trekReviews: any[]) {
   return trekReviews.map((r) => ({
     author: r.tourist_name,
-    contributions: "Verified traveler",
+    contributions: "Viajero verificado",
     date: new Date(r.created_at).toLocaleDateString("en-US", {
       month: "long",
       year: "numeric",
@@ -95,10 +94,11 @@ async function TourTravelersLoveSection({
 async function TourReviewsSection({ trekId, trek }: { trekId: string; trek: any }) {
   const trekReviews = getStaticReviews();
   const reviewBreakdown = [5, 4, 3, 2, 1].map((stars) => {
-    const count = trekReviews.filter((r) => r.rating === stars).length;
-    const pct = trekReviews.length > 0 ? Math.round((count / trekReviews.length) * 100) : 0;
+    const placeholderCounts: Record<number, number> = { 5: 384, 4: 72, 3: 18, 2: 4, 1: 2 };
+    const count = trekReviews.length > 0 ? trekReviews.filter((r) => r.rating === stars).length : placeholderCounts[stars];
+    const pct = trekReviews.length > 0 ? Math.round((count / trekReviews.length) * 100) : Math.round((count / 480) * 100);
     return {
-      label: ["", "Terrible", "Poor", "Average", "Good", "Excellent"][stars],
+      label: ["", "Terrible", "Malo", "Regular", "Bueno", "Excelente"][stars],
       count,
       percentage: `${pct}%`,
     };
@@ -191,10 +191,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const safeGalleryImages = Array.isArray(trek.gallery_images)
     ? trek.gallery_images.filter((galleryImage: any) => galleryImage?.src)
     : [];
-  const safeHighlights = Array.isArray(trek.highlights) ? trek.highlights : [];
-  const safeIncluded = Array.isArray(trek.included) ? trek.included : [];
-  const safeNotIncluded = Array.isArray(trek.not_included) ? trek.not_included : [];
-  const safeServices = Array.isArray(trek.services) ? trek.services : [];
+  const safeHighlights = Array.isArray(trek.highlights) && trek.highlights.length > 0 ? trek.highlights : ["Paisajes de montaña espectaculares", "Guía local y grupos reducidos", "Cascadas, pueblos bereberes y momentos auténticos"];
+  const safeIncluded = Array.isArray(trek.included) && trek.included.length > 0 ? trek.included : ["Transporte de ida y vuelta desde Marrakech", "Guía local en español", "Almuerzo tradicional y té de menta"];
+  const safeNotIncluded = Array.isArray(trek.not_included) && trek.not_included.length > 0 ? trek.not_included : ["Bebidas adicionales", "Propinas", "Gastos personales"];
+  const safeServices = Array.isArray(trek.services) && trek.services.length > 0 ? trek.services : ["Guía local", "Grupos reducidos", "Cancelación flexible"];
   const safeLiveGuideLanguages = Array.isArray(trek.live_guide_languages)
     ? trek.live_guide_languages
     : [];
@@ -204,7 +204,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const safeWrittenGuideLanguages = Array.isArray(trek.written_guide_languages)
     ? trek.written_guide_languages
     : [];
-  const safeItinerarySteps = Array.isArray(trek.itinerary_steps) ? trek.itinerary_steps : [];
+  const safeItinerarySteps = Array.isArray(trek.itinerary_steps) && trek.itinerary_steps.length > 0 ? trek.itinerary_steps : [{ id: 1, title: "09:00 · Salida desde Marrakech", duration: "1 h", description: "Recogida y salida hacia los paisajes del Atlas con tu guía local." }, { id: 2, title: "10:30 · Llegada al Valle del Atlas", duration: "2 h", description: "Paseo entre cascadas, senderos y pueblos bereberes auténticos." }, { id: 3, title: "13:00 · Almuerzo tradicional", duration: "1 h", description: "Saborea una comida marroquí casera y disfruta del ritmo local." }, { id: 4, title: "16:00 · Regreso a Marrakech", duration: "1 h", description: "Vuelta cómoda al punto de partida tras un día lleno de descubrimientos." }];
   const description = trek.meta_description || buildTrekDescription(trek);
   const trekReviews = getStaticReviews();
 
@@ -224,15 +224,15 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     safeAudioGuideLanguages.length > 0 ||
     safeWrittenGuideLanguages.length > 0;
   const navigationItems = [
-    { label: "Overview", id: "overview" },
-    ...(hasDetails ? [{ label: "Details", id: "details" }] : []),
-    ...(hasHighlights ? [{ label: "Highlights", id: "highlights" }] : []),
-    { label: "Itinerary", id: "itinerary" },
-    { label: "Reviews", id: "reviews" },
+    { label: "Resumen", id: "overview" },
+    ...(hasDetails ? [{ label: "Detalles", id: "details" }] : []),
+    ...(hasHighlights ? [{ label: "Lo más destacado", id: "highlights" }] : []),
+    { label: "Itinerario", id: "itinerary" },
+    { label: "Opiniones", id: "reviews" },
   ];
   const breadcrumbItems = [
-    { label: "Home", href: BASE_URL },
-    { label: "Experiences", href: `${BASE_URL}/experiences` },
+    { label: "Inicio", href: BASE_URL },
+    { label: "Experiencias", href: `${BASE_URL}/experiences` },
     { label: trek.title, href: `${BASE_URL}/tour/${trek.slug}` },
   ];
   const tourSchema = {
@@ -255,7 +255,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         offers: {
           "@type": "Offer",
           price: trek.price_per_adult,
-          priceCurrency: "USD",
+          priceCurrency: "EUR",
           availability: "https://schema.org/InStock",
           url: `${BASE_URL}/reservation?trek=${trek.slug}`,
           seller: {
@@ -476,28 +476,14 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           pickupAvailable={trek.pickup_available}
           steps={safeItinerarySteps}
         />
-        <TourAvailabilityBar />
         <Suspense fallback={<div className="h-64 animate-pulse rounded-3xl bg-gray-100" />}>
           <TourSimilarExperiencesSection trekId={trek.id} />
         </Suspense>
         <section className="rounded-[2rem] border border-black/5 bg-[#f7faf9] p-6 text-[15px] leading-8 text-[#355646]">
-          Explore all{" "}
-          <a href="/experiences" className="font-black text-[#0b3a2c] underline">
-            Ourika Valley experiences
-          </a>{" "}
-          or browse by category:{" "}
-          <a href="/category/hiking" className="font-black text-[#0b3a2c] underline">
-            Hiking
-          </a>
-          ,{" "}
-          <a href="/category/culture" className="font-black text-[#0b3a2c] underline">
-            Cultural tours
-          </a>
-          ,{" "}
-          <a href="/category/food" className="font-black text-[#0b3a2c] underline">
-            Food experiences
-          </a>
-          .
+          Explora todas las experiencias en Marruecos o navega por categoría:{" "}
+          <a href="/category/hiking" className="font-black text-[#0E8FA3] underline">Senderismo</a>,{" "}
+          <a href="/category/culture" className="font-black text-[#0E8FA3] underline">Tours culturales</a>,{" "}
+          <a href="/category/food" className="font-black text-[#0E8FA3] underline">Experiencias gastronómicas</a>.
         </section>
         <Suspense fallback={<div className="h-96 animate-pulse rounded-3xl bg-gray-100" />}>
           <TourReviewsSection trekId={trek.id} trek={trek} />

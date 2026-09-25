@@ -5,13 +5,13 @@ type Props = {
 export default function TourTabs({ items }: Props) {
   return (
     <div className="mt-6 overflow-x-auto border-b border-[#e5e7eb] [-ms-overflow-style:none] [scrollbar-width:none]">
-      <nav className="flex min-w-max items-center gap-5 text-[14px] font-semibold whitespace-nowrap text-[#133728] sm:gap-6 sm:text-[15px]">
+      <nav className="flex min-w-max items-center gap-5 text-[14px] font-semibold whitespace-nowrap text-[#12355B] sm:gap-6 sm:text-[15px]">
         {items.map((item, index) => (
           <a
             key={item.id}
             href={`#${item.id}`}
             className={`pb-3 ${
-              index === 0 ? "border-b-2 border-[#0f3d24]" : "border-b-2 border-transparent"
+              index === 0 ? "border-b-2 border-[#12355B]" : "border-b-2 border-transparent"
             }`}
           >
             {item.label}
