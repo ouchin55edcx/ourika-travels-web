@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/lib/auth";
+import type { AuthUser } from "@/lib/auth";
 import ProfileForm from "./ProfileForm";
 import type { Metadata } from "next";
 
@@ -39,7 +40,7 @@ export default async function AdminProfilePage() {
           </div>
         </div>
 
-        <ProfileForm user={user} />
+        <ProfileForm user={publicAdmin as AuthUser} />
       </div>
     </div>
   );

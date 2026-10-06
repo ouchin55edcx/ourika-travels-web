@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { Clock, Compass, Ticket, TrendingUp } from "lucide-react";
 import RevenueChart from "../components/RevenueChart";
+import { adminMockBookings, adminMockRevenue, adminMockStats, adminMockTasks } from "@/lib/data/adminMock";
 
 export const metadata: Metadata = { title: "Overview | Admin" };
 
@@ -69,26 +70,28 @@ async function OverviewStatsSection() {
       .gte("created_at", monthStart),
   ]);
 
+  const hasLiveStats = totalTreks.count !== null || todayBookings.count !== null || pendingBookings.count !== null;
   const monthRevenue = (revenueRows.data ?? []).reduce((sum, row) => sum + (row.total_price ?? 0), 0);
+  const statsSource = hasLiveStats ? { activeTreks: totalTreks.count ?? 0, bookingsToday: todayBookings.count ?? 0, walkInsToday: walkinToday.count ?? 0, pendingBookings: pendingBookings.count ?? 0, monthlyRevenue: monthRevenue } : adminMockStats;
 
   const stats = [
     {
       label: "Active treks",
-      value: totalTreks.count ?? 0,
+      value: statsSource.activeTreks,
       sub: "Published",
       icon: Compass,
       href: "/admin/dashboard/treks",
     },
     {
       label: "Bookings today",
-      value: todayBookings.count ?? 0,
-      sub: `${walkinToday.count ?? 0} walk-ins`,
+      value: statsSource.bookingsToday,
+      sub: `${statsSource.walkInsToday} walk-ins`,
       icon: Ticket,
       href: "/admin/dashboard/booking",
     },
     {
       label: "Pending bookings",
-      value: pendingBookings.count ?? 0,
+      value: statsSource.pendingBookings,
       sub: "Need confirmation",
       icon: Clock,
       href: "/admin/dashboard/booking",
@@ -96,7 +99,7 @@ async function OverviewStatsSection() {
     },
     {
       label: "Revenue this month",
-      value: `$${monthRevenue.toFixed(0)}`,
+      value: `$${statsSource.monthlyRevenue.toLocaleString()}`,
       sub: "Paid bookings only",
       icon: TrendingUp,
       href: "/admin/dashboard/booking",
@@ -146,14 +149,14 @@ async function OverviewRevenueSection() {
     .in("trek_date", last7Days)
     .order("trek_date", { ascending: true });
 
-  const chartData = last7Days.map((date) => {
+  const chartData = data?.length ? last7Days.map((date) => {
     const dayBookings = (data ?? []).filter((booking) => booking.trek_date === date);
     const dayRevenue = dayBookings.reduce((sum, booking) => sum + (booking.total_price ?? 0), 0);
     return {
       label: new Date(date).toLocaleDateString("en-US", { weekday: "short" }),
       value: dayRevenue,
     };
-  });
+  }) : adminMockRevenue;
 
   return (
     <section className="rounded-[2rem] border border-black/5 bg-white p-4 shadow-sm sm:p-6 lg:p-8">
@@ -176,7 +179,7 @@ async function OverviewRevenueSection() {
 
 async function OverviewRecentBookingsSection() {
   const supabase = await createSupabaseServerClient();
-  const { data: recentBookings } = await supabase
+  const { data: liveRecentBookings } = await supabase
     .from("bookings")
     .select("id, tourist_name, booking_ref, trek_date, status, payment_status, source, treks(title)")
     .order("created_at", { ascending: false })
@@ -197,7 +200,7 @@ async function OverviewRecentBookingsSection() {
         </Link>
       </div>
       <div className="space-y-2 sm:space-y-3">
-        {(recentBookings ?? []).map((booking) => (
+        {(liveRecentBookings?.length ? liveRecentBookings : adminMockBookings).map((booking) => (
           <div
             key={booking.id}
             className="flex flex-col gap-2 rounded-2xl border border-black/5 bg-[#f7f9f8] p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"
@@ -238,7 +241,7 @@ async function OverviewRecentBookingsSection() {
             </div>
           </div>
         ))}
-        {(recentBookings ?? []).length === 0 && (
+        {!liveRecentBookings?.length && !adminMockBookings.length && (
           <p className="py-8 text-center text-sm text-gray-400">No bookings yet</p>
         )}
       </div>
@@ -266,7 +269,7 @@ async function OverviewTasksSection() {
       .eq("is_active", true),
   ]);
 
-  const tasks = [
+  const tasks = pendingReviews.count === null ? adminMockTasks : [
     (pendingReviews.count ?? 0) > 0
       ? {
           title: "Reviews to moderate",
