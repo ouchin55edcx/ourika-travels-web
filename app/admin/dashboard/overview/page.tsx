@@ -330,7 +330,7 @@ export default async function AdminOverviewPage() {
         <div>
           <p className="text-sm font-semibold text-gray-500">Dashboard</p>
           <h1 className="text-2xl font-black text-[#0b3a2c] sm:text-[1.9rem] lg:text-[2.1rem]">
-            Welcome back, {publicAdmin.full_name?.split(" ")[0] || "Admin"}
+            Welcome back, {(publicAdmin?.full_name ?? "Admin").split(" ")[0] || "Admin"}
           </h1>
           <p className="mt-1 max-w-2xl text-sm font-medium text-gray-500">
             {new Date().toLocaleDateString("en-US", {
