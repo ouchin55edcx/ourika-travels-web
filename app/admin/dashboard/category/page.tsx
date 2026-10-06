@@ -1,5 +1,4 @@
 import { getCurrentUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { getCategories } from "@/app/actions/categories";
 import CategoryManagement from "./CategoryManagement";
 import type { Metadata } from "next";
@@ -13,9 +12,6 @@ export const metadata: Metadata = {
 export default async function AdminCategoryPage() {
   const admin = await getCurrentUser();
 
-  if (!admin || admin.role !== "admin") {
-    redirect("/auth/login");
-  }
 
   const categories = await getCategories();
 

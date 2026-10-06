@@ -1,6 +1,5 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { AuthUser } from "@/lib/auth";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
@@ -31,9 +30,6 @@ export const metadata: Metadata = {
 export default async function AdminUsersPage() {
   const admin = await getCurrentUser();
 
-  if (!admin || admin.role !== "admin") {
-    redirect("/auth/login");
-  }
 
   const supabase = await createSupabaseServerClient();
   const [users, touristCount, activeGuidesCount, pendingGuidesCount, blockedCount] =

@@ -1,7 +1,6 @@
 import { getAllReviews } from "@/app/actions/reviews";
 import { getAdminTrekOptions } from "@/app/actions/treks";
 import { getCurrentUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -23,7 +22,6 @@ export const metadata: Metadata = { title: "Reviews | Admin" };
 
 export default async function AdminReviewsPage() {
   const [admin, supabase] = await Promise.all([getCurrentUser(), createSupabaseServerClient()]);
-  if (!admin || admin.role !== "admin") redirect("/auth/login");
 
   const [reviews, treks, pendingResult, approvedResult, rejectedResult, approvedRatings] =
     await Promise.all([

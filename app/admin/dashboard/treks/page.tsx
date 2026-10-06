@@ -1,6 +1,5 @@
 import { getTreks } from "@/app/actions/treks";
 import { getCurrentUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import TreksList from "./TreksList";
 import Link from "next/link";
 import { Compass, Plus } from "lucide-react";
@@ -11,7 +10,6 @@ export const metadata = { title: "Treks | Admin Dashboard" };
 
 export default async function AdminTreksPage() {
   const [user, supabase] = await Promise.all([getCurrentUser(), createSupabaseServerClient()]);
-  if (!user || user.role !== "admin") redirect("/auth/login");
 
   const [treks, totalCount, publishedCount] = await Promise.all([
     getTreks(),

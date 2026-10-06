@@ -1,6 +1,5 @@
 import { getAllBookings } from "@/app/actions/bookings";
 import { getCurrentUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import QRCode from "qrcode";
 import dynamic from "next/dynamic";
@@ -27,7 +26,6 @@ export const metadata: Metadata = { title: "Bookings | Admin Dashboard" };
 
 export default async function AdminBookingPage() {
   const [admin, supabase] = await Promise.all([getCurrentUser(), createSupabaseServerClient()]);
-  if (!admin || admin.role !== "admin") redirect("/auth/login");
 
   const qrUrl = `${process.env.NEXT_PUBLIC_APP_URL || "https://www.ourikatravels.com"}/quick-book`;
   const [bookings, totalResult, pendingResult, unpaidResult, revenueRows, qrDataUrl] =

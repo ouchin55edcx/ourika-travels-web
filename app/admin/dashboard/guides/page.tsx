@@ -1,13 +1,11 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import GuideOrderManagement from "./GuideOrderManagement";
 
 export const metadata = { title: "Guide Order | Admin" };
 
 export default async function GuidesPage() {
   const [admin, supabase] = await Promise.all([getCurrentUser(), createSupabaseServerClient()]);
-  if (!admin || admin.role !== "admin") redirect("/auth/login");
 
   const { data: guides, error } = await supabase
     .from("users")

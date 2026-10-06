@@ -1,6 +1,5 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 import SettingsForm from "./SettingsForm";
@@ -18,9 +17,6 @@ export default async function GeneralSettingsPage({
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const activeTab = resolvedSearchParams?.tab === "gallery" ? "gallery" : "general";
 
-  if (!user || user.role !== "admin") {
-    redirect("/auth/login");
-  }
 
   const [{ data: settings }, galleryImages] = await Promise.all([
     supabase
